@@ -1,7 +1,7 @@
 <?php
 class MailCatcherLog
 {
-    protected $id = null; // Primary key for database?
+    protected $id = null;
 
     public function phpMailerInit(PHPMailer $mailer)
     {
@@ -38,7 +38,7 @@ class MailCatcherLog
                 'subject' => $mailer->Subject,
                 'message' => $mailer->Body,
                 'backtrace_segment' => serialize($backtrace_segment),
-                'success' => 1
+                'status' => 1
             )
         );
 
@@ -54,7 +54,7 @@ class MailCatcherLog
         $wpdb->update(
             $wpdb->prefix . MailCatcher::$table_name,
             array(
-                'success' => 0,
+                'status' => 0,
                 'error' => $error->errors['wp_mail_failed'][0]
             ),
             array('id' => $this->id)

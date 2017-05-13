@@ -13,7 +13,7 @@
  * @since 3.1.0
  * @access private
  */
-class WP_List_Table {
+class _WP_List_Table {
 
 	/**
 	 * The current list of items.
@@ -947,7 +947,7 @@ class WP_List_Table {
 		// If the primary column doesn't exist fall back to the
 		// first non-checkbox column.
 		if ( ! isset( $columns[ $default ] ) ) {
-			$default = WP_List_Table::get_default_primary_column_name();
+			$default = _WP_List_Table::get_default_primary_column_name();
 		}
 
 		/**
