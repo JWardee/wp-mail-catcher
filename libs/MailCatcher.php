@@ -17,7 +17,7 @@ class MailCatcher
     {
         add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', 'mail-catcher', function() {
             require __DIR__ . '/../views/logs.php';
-        });
+        }, 'dashicons-email-alt');
     }
 
     public function install()
