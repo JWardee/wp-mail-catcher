@@ -52,7 +52,7 @@ class MailAdminTable extends WP_List_Table {
     }
 
     function column_more_info($item) {
-        return '<a href="#" class="button button-secondary">More Info</a>';
+        return '<a href="#" class="button button-secondary" data-modal-id="' . $item['id'] . '">More Info</a>';
     }
 
     function get_columns(){
@@ -128,24 +128,8 @@ class MailAdminTable extends WP_List_Table {
          */
         $this->_column_headers = array($columns, $hidden, $sortable);
         $this->process_bulk_action();
-
-        $sql = "SELECT id, emailto, subject, message, status, error
-                FROM " . $wpdb->prefix . MailCatcher::$table_name;
-
-        // TODO: Sanitise $_REQUEST
-        if (!empty($_REQUEST['orderby'])) {
-            $sql .= " ORDER BY " . $_REQUEST['orderby'];
-        }
-
-        if (!empty($_REQUEST['order'])) {
-            $sql .= " " . $_REQUEST['order'];
-        }
-
-        $sql .= " LIMIT " . $per_page . "
-                OFFSET " . ($per_page * ($this->get_pagenum() - 1));
-
-        $this->items = $wpdb->get_results($sql, ARRAY_A);
-        $total_items = $wpdb->get_var("SELECT COUNT(*) FROM " . $wpdb->prefix . MailCatcher::$table_name);
+        $this->items = Logs::get($this->get_pagenum());
+        $total_items = Logs::getTotalAmount();
         
         /**
          * REQUIRED. We also have to register our pagination options & calculations.
@@ -153,7 +137,7 @@ class MailAdminTable extends WP_List_Table {
         $this->set_pagination_args( array(
             'total_items' => $total_items,                  //WE have to calculate the total number of items
             'per_page'    => $per_page,                     //WE have to determine how many items to show on a page
-            'total_pages' => ceil($total_items/$per_page)   //WE have to calculate the total number of pages
+            'total_pages' => Logs::getTotalPages()//ceil($total_items/$per_page)   //WE have to calculate the total number of pages
         ) );
     }
 

@@ -16,6 +16,7 @@ class MailCatcherLog
 
         $to = '';
 
+        // TODO: Change to use GeneralHelper to format to's
         foreach ($mailer->getToAddresses() as $emails) {
             $to .= implode(', ', $emails);
         }

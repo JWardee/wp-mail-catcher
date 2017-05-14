@@ -1,7 +1,7 @@
 <?php
 class GeneralHelper
 {
-    public arrayToString($array, $delimiter = ' ', $recursive = true)
+    public function arrayToString($array, $delimiter = ' ', $recursive = true)
     {
         $result = '';
 
