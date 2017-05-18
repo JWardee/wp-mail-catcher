@@ -33,6 +33,14 @@ class MailAdminTable extends _WP_List_Table {
                 'mail-catcher',
                 'delete',
                 $item['id']),
+            'resend' => sprintf('<a href="?page=%s&action=%s&id=%s">Resend</a>',
+                'mail-catcher',
+                'resend',
+                $item['id']),
+            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">Delete</a>',
+                'mail-catcher',
+                'export',
+                $item['id']),
         );
 
         $tmp = date_create_from_format('Y-m-d H:i:s', $item['time']);
@@ -89,7 +97,9 @@ class MailAdminTable extends _WP_List_Table {
 
     function get_bulk_actions() {
         $actions = array(
-            'delete'    => 'Delete'
+            'delete'    => 'Delete',
+            'resend' => 'Resend',
+            'export' => 'Export'
         );
         return $actions;
     }
@@ -98,15 +108,23 @@ class MailAdminTable extends _WP_List_Table {
         global $wpdb;
 
         //Detect when a bulk action is being triggered...
-        if($this->current_action() == 'delete') {
-            // TODO: Need to sanitise user input
-            $ids = $_REQUEST['id'];
+        switch ($this->current_action()) {
+            case 'delete' :
+                // TODO: Need to sanitise user input
+                $ids = $_REQUEST['id'];
 
-            if (is_array($ids)) {
-                $ids = implode(',', $ids);
-            }
+                if (is_array($ids)) {
+                    $ids = implode(',', $ids);
+                }
 
-            $wpdb->query("DELETE FROM " . $wpdb->prefix . MailCatcher::$table_name . " WHERE id IN($ids)");
+                $wpdb->query("DELETE FROM " . $wpdb->prefix . MailCatcher::$table_name . " WHERE id IN($ids)");
+            break;
+            case 'export' :
+                // Bulk export code here
+            break;
+            case 'resend' :
+                // Bulk resend code here
+            break;
         }
     }
 
