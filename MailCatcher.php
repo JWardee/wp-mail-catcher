@@ -14,12 +14,14 @@ $plugin_path = __DIR__;
 
 spl_autoload_register(function ($class_name) {
     global $plugin_path;
-    include $plugin_path . '/libs/' . $class_name . '.php';
+    $dir = $plugin_path . '/libs/' . $class_name . '.php';
+
+    if (file_exists($dir)) {
+        include $dir;
+    }
 });
 
 new MailCatcher();
-
-
 
 
 

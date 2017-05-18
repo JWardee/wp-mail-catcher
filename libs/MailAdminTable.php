@@ -1,5 +1,5 @@
 <?php
-class MailAdminTable extends WP_List_Table {
+class MailAdminTable extends _WP_List_Table {
 
     function __construct(){
         global $status, $page;
@@ -15,9 +15,9 @@ class MailAdminTable extends WP_List_Table {
 
     function column_default($item, $column_name){
         switch($column_name){
+            case 'time':
             case 'emailto':
             case 'subject':
-            case 'message':
             case 'status':
             case 'error':
                 return $item[$column_name];
@@ -26,7 +26,7 @@ class MailAdminTable extends WP_List_Table {
         }
     }
 
-    function column_emailto($item){
+    function column_time($item){
         //Build row actions
         $actions = array(
             'delete' => sprintf('<a href="?page=%s&action=%s&id=%s">Delete</a>',
@@ -34,10 +34,12 @@ class MailAdminTable extends WP_List_Table {
                 'delete',
                 $item['id']),
         );
-        
+
+        $tmp = date_create_from_format('Y-m-d H:i:s', $item['time']);
+
         //Return the title contents
         return sprintf('%1$s %2$s',
-            /*$1%s*/ $item['emailto'],
+            /*$1%s*/ human_time_diff(date_timestamp_get($tmp)) . ' ago',
             /*$2%s*/ $this->row_actions($actions)
         );
     }
@@ -52,26 +54,34 @@ class MailAdminTable extends WP_List_Table {
     }
 
     function column_more_info($item) {
-        return '<a href="#" class="button button-secondary" data-modal-id="' . $item['id'] . '">More Info</a>';
+        return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">More Info</a>';
     }
 
     function get_columns(){
         $columns = array(
             'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
+            'time'  => 'Sent',
             'emailto'  => 'To',
             'subject'  => 'Subject',
-            'message'  => 'Message',
             'status'  => 'Status',
             'more_info' => ''
         );
         return $columns;
     }
 
+    function column_status($item) {
+        if ($item['status'] == true) {
+            return 'Success';
+        }
+
+        return 'Failed';
+    }
+
     function get_sortable_columns() {
         $sortable_columns = array(
+            'time'  => array('time',false),
             'emailto'  => array('emailto',false),     //true means it's already sorted
             'subject'  => array('subject',false),
-            'message'  => array('message',false),
             'status'  => array('status',false),
         );
         return $sortable_columns;

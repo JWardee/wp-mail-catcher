@@ -17,7 +17,7 @@ class Logs
 
         global $wpdb;
 
-        $sql = "SELECT id, emailto, subject, message, status, error
+        $sql = "SELECT id, time, emailto, subject, message, status, error
                 FROM " . $wpdb->prefix . MailCatcher::$table_name;
 
         // TODO: Sanitise $_REQUEST

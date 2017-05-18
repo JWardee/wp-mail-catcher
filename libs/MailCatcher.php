@@ -5,12 +5,21 @@ class MailCatcher
 
     public function __construct()
     {
-        register_activation_hook( __FILE__, array($this, 'install'));
-        register_deactivation_hook( __FILE__, array($this, 'uninstall'));
-        //register_uninstall_hook( __FILE__, array($this, 'uninstall'));
+        global $plugin_path;
+
+        register_activation_hook($plugin_path . '/MailCatcher.php', array($this, 'install'));
+        register_deactivation_hook($plugin_path . '/MailCatcher.php', array($this, 'uninstall'));
+        //register_uninstall_hook( $plugin_path, array($this, 'uninstall'));
 
         add_filter('wp_mail', array($this, 'logWpMail'));
         add_action('admin_menu', array($this, 'route'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+    }
+
+    public function enqueue()
+    {
+        wp_enqueue_style('admin_css', plugins_url('/assets/admin.css', __DIR__));
+        wp_enqueue_script('admin_js', plugins_url('/assets/admin.js', __DIR__), array('jquery'));
     }
 
     public function route()
