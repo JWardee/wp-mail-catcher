@@ -37,7 +37,7 @@ class MailAdminTable extends _WP_List_Table {
                 'mail-catcher',
                 'resend',
                 $item['id']),
-            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">Delete</a>',
+            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">Export</a>',
                 'mail-catcher',
                 'export',
                 $item['id']),
@@ -110,20 +110,13 @@ class MailAdminTable extends _WP_List_Table {
         //Detect when a bulk action is being triggered...
         switch ($this->current_action()) {
             case 'delete' :
-                // TODO: Need to sanitise user input
-                $ids = $_REQUEST['id'];
-
-                if (is_array($ids)) {
-                    $ids = implode(',', $ids);
-                }
-
-                $wpdb->query("DELETE FROM " . $wpdb->prefix . MailCatcher::$table_name . " WHERE id IN($ids)");
+                Logs::delete($_REQUEST['id']);
             break;
             case 'export' :
-                // Bulk export code here
+//                Mail::export($_REQUEST['id']);
             break;
             case 'resend' :
-                // Bulk resend code here
+                Mail::resend($_REQUEST['id']);
             break;
         }
     }

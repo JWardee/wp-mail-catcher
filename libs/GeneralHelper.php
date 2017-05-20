@@ -1,19 +1,14 @@
 <?php
 class GeneralHelper
 {
-    public function arrayToString($array, $delimiter = ' ', $recursive = true)
+    public static function arrayToSqlString($array)
     {
-        $result = '';
-
-        foreach ($array as $array_element) {
-            if (is_array($array_element) && $recursive == true) {
-                $result .= $delimiter . GeneralHelper::arrayToString($array_element);
-            } elseif (!empty($array_element)) {
-                $result .= $delimiter . $array_element;
-            }
+        // TODO: Need to sanitise $ids
+        if (is_array($array)) {
+            return implode(',', $array);
         }
 
-		return $result;
+        return $array;
 	}
 }
 

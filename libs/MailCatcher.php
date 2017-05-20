@@ -14,6 +14,12 @@ class MailCatcher
         add_filter('wp_mail', array($this, 'logWpMail'));
         add_action('admin_menu', array($this, 'route'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+
+        add_action('admin_init', function() {
+            if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
+                Mail::export($_REQUEST['id']);
+            }
+        });
     }
 
     public function enqueue()
@@ -25,6 +31,13 @@ class MailCatcher
     public function route()
     {
         add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', 'mail-catcher', function() {
+//            $args = array(
+//                'label' => __('Members per page', 'pippin'),
+//                'default' => 10,
+//                'option' => 'pippin_per_page'
+//            );
+//            add_screen_option( 'per_page', $args );
+
             require __DIR__ . '/../views/logs.php';
         }, 'dashicons-email-alt');
     }
