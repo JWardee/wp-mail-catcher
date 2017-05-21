@@ -360,5 +360,16 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 jQuery(function($) {
-   console.log('test');
+    $('.modal-body .nav-tab').on('click', function() {
+        var modal_id = $(this).closest('.modal').attr('id');
+        var active_index = $(this).index();
+
+        $('#' + modal_id + ' .nav-tab.nav-tab-active').removeClass('nav-tab-active');
+        $('#' + modal_id + ' .content-container .content.-active').removeClass('-active');
+
+        $('#' + modal_id + ' .nav-tab').eq(active_index).addClass('nav-tab-active');
+        $('#' + modal_id + ' .content-container .content').eq(active_index).addClass('-active');
+
+        return false;
+    });
 });

@@ -14,12 +14,7 @@ class MailCatcherLog
             }
         }
 
-        $to = '';
-
-        // TODO: Change to use GeneralHelper to format to's
-        foreach ($mailer->getToAddresses() as $emails) {
-            $to .= implode(', ', $emails);
-        }
+        $to = GeneralHelper::arrayToSqlString($mailer->getToAddresses());
 
 //        DEBUG
 //        var_dump($mailer->getAllRecipientAddresses());
@@ -31,6 +26,10 @@ class MailCatcherLog
 
         global $wpdb;
 
+        // TODO: Change 'time' to be timestamp and change human diff functions
+        // TODO: Add additional headers column and ensure htmlspecialchars
+        // TODO: Test to addresses accepts and processes all to formats in WP docs
+        // TODO: Add email attachment functionality
         $wpdb->insert(
             $wpdb->prefix . MailCatcher::$table_name,
             array(

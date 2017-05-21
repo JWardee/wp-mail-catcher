@@ -16,6 +16,7 @@ class MailCatcher
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
 
         add_action('admin_init', function() {
+            // TODO: Refactor export, export2 $_REQUEST
             if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
                 Mail::export($_REQUEST['id']);
             }

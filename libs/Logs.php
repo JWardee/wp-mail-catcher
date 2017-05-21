@@ -17,7 +17,7 @@ class Logs
 
         global $wpdb;
 
-        $sql = "SELECT id, time, emailto, subject, message, status, error
+        $sql = "SELECT id, time, emailto, subject, message, status, error, backtrace_segment
                 FROM " . $wpdb->prefix . MailCatcher::$table_name;
 
         // TODO: Sanitise $_REQUEST
@@ -50,7 +50,7 @@ class Logs
     {
         global $wpdb;
 
-        $sql = "SELECT id, time, emailto, subject, message, status, error
+        $sql = "SELECT id, time, emailto, subject, message, status, error, backtrace_segment
                 FROM " . $wpdb->prefix . MailCatcher::$table_name . "
                 WHERE id IN(" . GeneralHelper::arrayToSqlString($ids) . ")";
 

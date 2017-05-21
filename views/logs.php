@@ -18,11 +18,21 @@ $testListTable->prepare_items();
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <?php echo $log['message']; ?>
+                    <h2 class="nav-tab-wrapper">
+                        <a href="#" class="nav-tab nav-tab-active">Message</a>
+                        <a href="#" class="nav-tab">Debug</a>
+                    </h2>
+                    <div class="content-container">
+                        <div class="content -active">
+                            <?php echo $log['message']; ?>
+                        </div>
+                        <div class="content">
+                            <?php var_dump(unserialize($log['backtrace_segment'])); ?>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="button-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
