@@ -28,8 +28,10 @@ class MailCatcherLog
 
         // TODO: Change 'time' to be timestamp and change human diff functions
         // TODO: Add additional headers column and ensure htmlspecialchars
-        // TODO: Test to addresses accepts and processes all to formats in WP docs
+        // TODO: Test "to" addresses accepts and processes all to formats in WP docs
         // TODO: Add email attachment functionality
+        // TODO: Test plugin works with Mailgun, Sparkpost etc
+        // TODO: Add actual error message as tooltip (or similar to the "failed" bit of the table)
         $wpdb->insert(
             $wpdb->prefix . MailCatcher::$table_name,
             array(
