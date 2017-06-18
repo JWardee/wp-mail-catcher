@@ -14,7 +14,9 @@ class MailCatcherLog
             }
         }
 
-        $to = GeneralHelper::arrayToSqlString($mailer->getToAddresses());
+        $to = GeneralHelper::arrayToString($mailer->getToAddresses());
+        $attachments = $this->getAttachmentLocations($mailer->getAttachments());
+        $additional_headers = $this->getAdditionalHeaders($mailer);
 
 //        DEBUG
 //        var_dump($mailer->getAllRecipientAddresses());
@@ -22,6 +24,10 @@ class MailCatcherLog
 //        var_dump($mailer->Body);
 //        var_dump($mailer->Subject);
 //        var_dump($backtrace_segment);
+//        var_dump($attachments);
+//        var_dump($mailer->);
+//        var_dump($additional_headers);
+//        var_dump($mailer);
 //        exit;
 
         global $wpdb;
@@ -32,6 +38,8 @@ class MailCatcherLog
         // TODO: Add email attachment functionality
         // TODO: Test plugin works with Mailgun, Sparkpost etc
         // TODO: Add actual error message as tooltip (or similar to the "failed" bit of the table)
+        // TODO: Check all errors are logged by phpMailerFailed
+        // TODO: Redo db schema to just seralize a modified version of the $mailer object like getAdditionalHeaders()
         $wpdb->insert(
             $wpdb->prefix . MailCatcher::$table_name,
             array(
@@ -40,7 +48,9 @@ class MailCatcherLog
                 'subject' => $mailer->Subject,
                 'message' => $mailer->Body,
                 'backtrace_segment' => serialize($backtrace_segment),
-                'status' => 1
+                'status' => 1,
+                'attachments' => serialize($attachments),
+                'additional_headers' => serialize($additional_headers)
             )
         );
 
@@ -57,11 +67,37 @@ class MailCatcherLog
             $wpdb->prefix . MailCatcher::$table_name,
             array(
                 'status' => 0,
-                'error' => $error->errors['wp_mail_failed'][0]
+                'error' => $error->errors['wp_mail_failed'][0],
             ),
             array('id' => $this->id)
         );
 
         remove_action('wp_mail_failed', array($this, 'phpMailerFailed'));
+    }
+
+    public function getAttachmentLocations($attachments)
+    {
+        $result = array();
+
+        foreach ($attachments as $attachment) {
+            $result[] = $attachment[0];
+        }
+
+        return $result;
+    }
+
+    public function getAdditionalHeaders(PHPMailer $mailer)
+    {
+        return array(
+            'from' => GeneralHelper::arrayToString($mailer->From),
+            'from_name' => GeneralHelper::arrayToString($mailer->FromName),
+            'charset' => GeneralHelper::arrayToString($mailer->CharSet),
+            'content_type' => GeneralHelper::arrayToString($mailer->ContentType),
+            'host' => GeneralHelper::arrayToString($mailer->Host),
+            'port' => GeneralHelper::arrayToString($mailer->Port),
+            'reply_to' => GeneralHelper::arrayToString($mailer->getReplyToAddresses()),
+            'cc' => GeneralHelper::arrayToString($mailer->getCcAddresses()),
+            'bcc' => GeneralHelper::arrayToString($mailer->getBccAddresses())
+        );
     }
 }

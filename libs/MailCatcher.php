@@ -56,6 +56,8 @@ class MailCatcher
                   backtrace_segment text NOT NULL,
                   status bool DEFAULT 1 NOT NULL,
                   error text DEFAULT NULL,
+                  attachments text DEFAULT NULL,
+                  additional_headers text DEFAULT NULL,
                   PRIMARY KEY  (id)
                 ) " . $wpdb->get_charset_collate() . ";";
 

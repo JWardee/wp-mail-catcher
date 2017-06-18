@@ -176,3 +176,7 @@
 .content.-active {
     display: block;
 }
+
+.content ul:not(:last-of-type) {
+    margin-bottom: 50px;
+}

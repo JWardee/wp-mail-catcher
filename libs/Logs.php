@@ -17,7 +17,9 @@ class Logs
 
         global $wpdb;
 
-        $sql = "SELECT id, time, emailto, subject, message, status, error, backtrace_segment
+        $sql = "SELECT id, time, emailto, subject, message,
+                status, error, backtrace_segment, attachments,
+                additional_headers
                 FROM " . $wpdb->prefix . MailCatcher::$table_name;
 
         // TODO: Sanitise $_REQUEST
@@ -52,7 +54,7 @@ class Logs
 
         $sql = "SELECT id, time, emailto, subject, message, status, error, backtrace_segment
                 FROM " . $wpdb->prefix . MailCatcher::$table_name . "
-                WHERE id IN(" . GeneralHelper::arrayToSqlString($ids) . ")";
+                WHERE id IN(" . GeneralHelper::arrayToString($ids) . ")";
 
         return $wpdb->get_results($sql, ARRAY_A);
     }
@@ -62,6 +64,6 @@ class Logs
         global $wpdb;
 
         $wpdb->query("DELETE FROM " . $wpdb->prefix . MailCatcher::$table_name . "
-                      WHERE id IN(" . GeneralHelper::arrayToSqlString($ids) . ")");
+                      WHERE id IN(" . GeneralHelper::arrayToString($ids) . ")");
     }
 }
