@@ -19,7 +19,6 @@ class MailAdminTable extends _WP_List_Table {
             case 'emailto':
             case 'subject':
             case 'status':
-            case 'error':
                 return $item[$column_name];
             default:
                 return print_r($item,true); //Show the whole array for troubleshooting purposes
@@ -79,10 +78,10 @@ class MailAdminTable extends _WP_List_Table {
 
     function column_status($item) {
         if ($item['status'] == true) {
-            return 'Success';
+            return '<span class="status">Success</span>';
         }
 
-        return 'Failed';
+        return '<span class="status" data-error="' . $item['error'] . '">Failed</span>';
     }
 
     function get_sortable_columns() {

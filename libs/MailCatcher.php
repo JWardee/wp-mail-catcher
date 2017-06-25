@@ -25,8 +25,13 @@ class MailCatcher
 
     public function enqueue()
     {
+//        wp_enqueue_media();
         wp_enqueue_style('admin_css', plugins_url('/assets/admin.css', __DIR__));
-        wp_enqueue_script('admin_js', plugins_url('/assets/admin.js', __DIR__), array('jquery'));
+        wp_enqueue_script('admin_js', plugins_url('/assets/admin.js', __DIR__), array('jquery'), '?');
+
+        wp_localize_script('admin_js', MailCatcher::$table_name, array(
+            'plugin_url' => $GLOBALS['plugin_path'],
+        ));
     }
 
     public function route()

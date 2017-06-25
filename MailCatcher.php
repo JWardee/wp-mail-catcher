@@ -10,11 +10,10 @@ Author URI: http://jamesward.io
 
 // TODO: Refactor away from global namespace
 global $plugin_path;
-$plugin_path = __DIR__;
+$plugin_path = plugin_dir_url(__FILE__);
 
 spl_autoload_register(function ($class_name) {
-    global $plugin_path;
-    $dir = $plugin_path . '/libs/' . $class_name . '.php';
+    $dir = __DIR__ . '/libs/' . $class_name . '.php';
 
     if (file_exists($dir)) {
         include $dir;

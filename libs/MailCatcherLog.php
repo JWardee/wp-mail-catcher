@@ -27,32 +27,51 @@ class MailCatcherLog
 //        var_dump($attachments);
 //        var_dump($mailer->);
 //        var_dump($additional_headers);
+//        var_dump($to);
 //        var_dump($mailer);
 //        exit;
-
-        global $wpdb;
 
         // TODO: Change 'time' to be timestamp and change human diff functions
         // TODO: Add additional headers column and ensure htmlspecialchars
         // TODO: Test "to" addresses accepts and processes all to formats in WP docs
-        // TODO: Add email attachment functionality
         // TODO: Test plugin works with Mailgun, Sparkpost etc
-        // TODO: Add actual error message as tooltip (or similar to the "failed" bit of the table)
         // TODO: Check all errors are logged by phpMailerFailed
         // TODO: Redo db schema to just seralize a modified version of the $mailer object like getAdditionalHeaders()
-        $wpdb->insert(
-            $wpdb->prefix . MailCatcher::$table_name,
-            array(
-                'time' => current_time('mysql'),
-                'emailto' => $to,
-                'subject' => $mailer->Subject,
-                'message' => $mailer->Body,
-                'backtrace_segment' => serialize($backtrace_segment),
-                'status' => 1,
-                'attachments' => serialize($attachments),
-                'additional_headers' => serialize($additional_headers)
-            )
-        );
+
+        global $wpdb;
+
+        if (!empty($mailer->ErrorInfo)) {
+            $wpdb->insert(
+                $wpdb->prefix . MailCatcher::$table_name,
+                array(
+                    'time' => current_time('mysql'),
+                    'emailto' => $to,
+                    'subject' => $mailer->Subject,
+                    'message' => $mailer->Body,
+                    'backtrace_segment' => serialize($backtrace_segment),
+                    'status' => 0,
+                    'error' => $mailer->ErrorInfo,
+                    'attachments' => serialize($attachments),
+                    'additional_headers' => serialize($additional_headers)
+                )
+            );
+
+            remove_action('wp_mail_failed', array($this, 'phpMailerFailed'));
+        } else {
+            $wpdb->insert(
+                $wpdb->prefix . MailCatcher::$table_name,
+                array(
+                    'time' => current_time('mysql'),
+                    'emailto' => $to,
+                    'subject' => $mailer->Subject,
+                    'message' => $mailer->Body,
+                    'backtrace_segment' => serialize($backtrace_segment),
+                    'status' => 1,
+                    'attachments' => serialize($attachments),
+                    'additional_headers' => serialize($additional_headers)
+                )
+            );
+        }
 
         $this->id = $wpdb->insert_id;
 
