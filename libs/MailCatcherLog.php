@@ -14,20 +14,20 @@ class MailCatcherLog
             }
         }
 
-        $to = GeneralHelper::arrayToString($mailer->getToAddresses());
+        $to = GeneralHelper::arrayToString($mailer->getToAddresses()[0]);
         $attachments = $this->getAttachmentLocations($mailer->getAttachments());
         $additional_headers = $this->getAdditionalHeaders($mailer);
 
 //        DEBUG
+//        var_dump($additional_headers);
 //        var_dump($mailer->getAllRecipientAddresses());
 //        var_dump($mailer->getToAddresses());
+//        var_dump($mailer->getCcAddresses());
+//        var_dump($mailer->getBccAddresses());
+//        var_dump($mailer->getCustomHeaders());
+//        var_dump($mailer->ContentType);
 //        var_dump($mailer->Body);
 //        var_dump($mailer->Subject);
-//        var_dump($backtrace_segment);
-//        var_dump($attachments);
-//        var_dump($mailer->);
-//        var_dump($additional_headers);
-//        var_dump($to);
 //        var_dump($mailer);
 //        exit;
 
@@ -99,7 +99,8 @@ class MailCatcherLog
         $result = array();
 
         foreach ($attachments as $attachment) {
-            $result[] = $attachment[0];
+            $key = str_replace(get_home_path(), get_site_url() . '/', $attachment[0]);
+            $result[$key] = basename($attachment[0]);
         }
 
         return $result;
@@ -114,9 +115,9 @@ class MailCatcherLog
             'content_type' => GeneralHelper::arrayToString($mailer->ContentType),
             'host' => GeneralHelper::arrayToString($mailer->Host),
             'port' => GeneralHelper::arrayToString($mailer->Port),
-            'reply_to' => GeneralHelper::arrayToString($mailer->getReplyToAddresses()),
-            'cc' => GeneralHelper::arrayToString($mailer->getCcAddresses()),
-            'bcc' => GeneralHelper::arrayToString($mailer->getBccAddresses())
+            'reply_to' => GeneralHelper::arrayToString($mailer->getReplyToAddresses()[0]),
+            'cc' => GeneralHelper::arrayToString($mailer->getCcAddresses()[0]),
+            'bcc' => GeneralHelper::arrayToString($mailer->getBccAddresses()[0])
         );
     }
 }

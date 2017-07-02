@@ -5,6 +5,8 @@ class MailCatcher
 
     public function __construct()
     {
+		$this->install();
+
         global $plugin_path;
 
         register_activation_hook($plugin_path . '/MailCatcher.php', array($this, 'install'));
@@ -19,6 +21,15 @@ class MailCatcher
             // TODO: Refactor export, export2 $_REQUEST
             if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
                 Mail::export($_REQUEST['id']);
+            }
+
+            if (isset($_GET['action']) && $_GET['action'] == 'new_mail') {
+                Mail::add($_POST['header_keys'],
+                        $_POST['header_values'],
+                        $_POST['attachment_ids'],
+                        $_POST['subject'],
+                        $_POST['message']
+                );
             }
         });
     }
@@ -52,7 +63,7 @@ class MailCatcher
     {
         global $wpdb;
 
-        $sql = "CREATE TABLE " . $wpdb->prefix . MailCatcher::$table_name . " (
+        $sql = "CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . MailCatcher::$table_name . " (
                   id mediumint(9) NOT NULL AUTO_INCREMENT,
                   time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
                   emailto text DEFAULT NULL,

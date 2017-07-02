@@ -37,8 +37,10 @@ $testListTable->prepare_items();
                             <h3>Attachments</h3>
                             <hr />
                             <ul>
-                                <?php foreach ($attachments as $attachment) : ?>
-                                    <li><?php echo $attachment; ?></li>
+                                <?php foreach ($attachments as $attachment_url => $attachment_name) : ?>
+                                    <li>
+                                        <a href="<?php echo $attachment_url ?>" target="_blank"><?php echo $attachment_name; ?></a>
+                                    </li>
                                 <?php endforeach; ?>
                             </ul>
                         <?php endif; ?>
@@ -51,7 +53,7 @@ $testListTable->prepare_items();
                             <hr />
                             <ul>
                                 <?php foreach ($additional_headers as $additional_header => $value) : ?>
-                                    <li><strong><?php echo $additional_header; ?>:</strong> <?php echo $value; ?></li>
+                                    <li><strong><?php echo GeneralHelper::slug_to_label($additional_header); ?>:</strong> <?php echo $value; ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         <?php endif; ?>
@@ -88,16 +90,12 @@ $testListTable->prepare_items();
 
 <div id="new-message" class="modal">
     <div class="modal-content">
-        <form class="form-horizontal">
+        <form class="form-horizontal" action="?page=mail-catcher&action=new_mail" method="POST">
             <div class="modal-body">
                 <div class="content-container">
-                    <h2 class="nav-tab-wrapper">
-                        <a href="#" class="nav-tab nav-tab-active">Message</a>
-                        <a href="#" class="nav-tab">Advanced</a>
-                    </h2>
                     <div class="content -active">
                         <div>
-                            <h2>Address</h2>
+                            <h2>Headers</h2>
                             <hr />
 
                             <div class="cloneable">
@@ -110,15 +108,22 @@ $testListTable->prepare_items();
                                         <span class="dashicons dashicons-dismiss -icon"></span>
                                     </a>
 
-                                    <select name="heading_key[]" class="field -select">
-                                        <option value="to">to</option>
-                                        <option value="cc">cc</option>
-                                        <option value="bcc">bcc</option>
+                                    <select name="header_keys[]" class="field -select">
+                                        <option value="to">To</option>
+                                        <option value="cc">Cc</option>
+                                        <option value="bcc">Bcc</option>
+                                        <option value="other">Other</option>
                                     </select>
 
-                                    <input name="heading_value[]" type="text" class="field -input" />
+                                    <input name="header_values[]" type="text" class="field -input" />
                                 </div>
                             </div>
+                        </div>
+                        <div>
+                            <h2>Subject</h2>
+                            <hr />
+
+                            <input name="subject" type="text" class="field -input" />
                         </div>
                         <div>
                             <h2>Attachments</h2>
@@ -127,13 +132,13 @@ $testListTable->prepare_items();
                             <div class="attachments-container">
                                 <div class="attachment-clones">
                                     <span class="attachment-item -original">
-                                        <span class="remove">X</span>
+                                        <span class="dashicons dashicons-dismiss remove"></span>
                                         <input type="hidden" name="attachment_ids[]" value="" class="attachment-input" />
                                     </span>
                                 </div>
 
                                 <div class="attachment-button-container">
-                                    <a href="#" class="button-primary" id="myprefix_media_manager">Add attachments</a>
+                                    <a href="#" class="button-primary" id="add_attachments">Add attachments</a>
                                 </div>
                             </div>
                         </div>
@@ -141,25 +146,7 @@ $testListTable->prepare_items();
                             <h2>Message</h2>
                             <hr />
 
-                            <?php wp_editor('test', 'editor', $settings = array()); ?>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <h2>Additional Headers</h2>
-                        <hr />
-
-                        <div class="cloneable">
-                            <div class="field-block">
-                                <a href="#" class="add-field">
-                                    <span class="dashicons dashicons-plus-alt -icon"></span>
-                                </a>
-
-                                <a href="#" class="remove-field -disabled">
-                                    <span class="dashicons dashicons-dismiss -icon"></span>
-                                </a>
-
-                                <input name="additional_headers[]" type="text" class="field -input" />
-                            </div>
+                            <?php wp_editor('My Message', 'message', $settings = array()); ?>
                         </div>
                     </div>
                 </div>

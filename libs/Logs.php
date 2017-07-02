@@ -9,8 +9,12 @@ class Logs
         return ceil(Logs::getTotalAmount() / Logs::$posts_per_page);
     }
 
-    public static function get($current_page)
+    public static function get($current_page = 1, $number = null)
     {
+		if ($number === null) {
+			$number = Logs::$posts_per_page;
+		}
+
         if (empty($current_page)) {
             $current_page = 1;
         }
@@ -35,8 +39,8 @@ class Logs
             $sql .= " DESC";
         }
 
-        $sql .= " LIMIT " . Logs::$posts_per_page . "
-                  OFFSET " . (Logs::$posts_per_page * ($current_page - 1));
+        $sql .= " LIMIT " . $number . "
+                  OFFSET " . ($number * ($current_page - 1));
 
         return $wpdb->get_results($sql, ARRAY_A);
     }

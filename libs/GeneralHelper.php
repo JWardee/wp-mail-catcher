@@ -16,11 +16,22 @@ class GeneralHelper
                 }
             }
 
-            return implode($glue, $retVal);
+            // Remove empty strings from array
+            $tmp = array_filter($retVal, function($value) {
+                return !empty($value);
+            });
+
+            return implode($glue, $tmp);
         }
 
         return $pieces;
 	}
+
+    public static function slug_to_label($slug)
+    {
+        return ucfirst(str_replace('_', ' ', $slug));
+
+    }
 }
 
 

@@ -1,5 +1,5 @@
 jQuery(function($) {
-    $('#myprefix_media_manager').click(function(e) {
+    $('#add_attachments').click(function(e) {
         e.preventDefault();
         var image_frame;
 
@@ -48,6 +48,11 @@ jQuery(function($) {
     $(document).on('click', '.attachment-item .remove', function() {
         $(this).closest('.attachment-item').remove();
         return false;
+    });
+
+    $(document).on('click', '.attachments-container .attachment-item', function() {
+        $('#add_attachments').trigger('click');
+       return false;
     });
 
     $('.modal-body .nav-tab').on('click', function() {

@@ -71,7 +71,7 @@
     content: attr(data-error);
     top: 50%;
     left: -10px;
-    padding: 10px;
+    padding: 7px 10px 12px 10px;
     transform: translate(-100%, -50%);
     width: 250px;
     border-radius: 3px;
@@ -198,6 +198,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .attachment-button-container {
@@ -208,15 +209,15 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: 10px;
-    background: grey;
-    color: black;
+    background-color: white;
     transform: translate(50%, -50%) scale(.5);
     cursor: pointer;
     pointer-events: none;
     transition: all .35s;
     opacity: 0;
-    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    font-size: 30px;
 }
 
 .attachment-item:hover .remove {
