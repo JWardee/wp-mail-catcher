@@ -14,7 +14,7 @@ class MailCatcherLog
             }
         }
 
-        $to = GeneralHelper::arrayToString($mailer->getToAddresses()[0]);
+        $to = GeneralHelper::arrayToString($mailer->getToAddresses());
         $attachments = $this->getAttachmentLocations($mailer->getAttachments());
         $additional_headers = $this->getAdditionalHeaders($mailer);
 
@@ -31,6 +31,8 @@ class MailCatcherLog
 //        var_dump($mailer);
 //        exit;
 
+		// TODO: Add grunt support
+		// TODO: Add ability for translations
         // TODO: Change 'time' to be timestamp and change human diff functions
         // TODO: Add additional headers column and ensure htmlspecialchars
         // TODO: Test "to" addresses accepts and processes all to formats in WP docs
@@ -115,9 +117,9 @@ class MailCatcherLog
             'content_type' => GeneralHelper::arrayToString($mailer->ContentType),
             'host' => GeneralHelper::arrayToString($mailer->Host),
             'port' => GeneralHelper::arrayToString($mailer->Port),
-            'reply_to' => GeneralHelper::arrayToString($mailer->getReplyToAddresses()[0]),
-            'cc' => GeneralHelper::arrayToString($mailer->getCcAddresses()[0]),
-            'bcc' => GeneralHelper::arrayToString($mailer->getBccAddresses()[0])
+            'reply_to' => GeneralHelper::arrayToString($mailer->getReplyToAddresses()),
+            'cc' => GeneralHelper::arrayToString($mailer->getCcAddresses()),
+            'bcc' => GeneralHelper::arrayToString($mailer->getBccAddresses())
         );
     }
 }

@@ -9,38 +9,49 @@ class Logs
         return ceil(Logs::getTotalAmount() / Logs::$posts_per_page);
     }
 
-    public static function get($current_page = 1, $number = null)
+	/**
+	 * @param array $args
+	 * @return array|null|object
+     */
+	public static function get($args = array())
     {
-		if ($number === null) {
-			$number = Logs::$posts_per_page;
+		// TODO: Need to add caching?
+		global $wpdb;
+
+		if (empty($args['posts_per_page'])) {
+			$args['posts_per_page'] = Logs::$posts_per_page;
 		}
 
-        if (empty($current_page)) {
-            $current_page = 1;
+        if (empty($args['paged'])) {
+			$args['paged'] = 1;
         }
 
-        global $wpdb;
+        if (empty($args['orderby'])) {
+			$args['orderby'] = 'time';
+		}
 
-        $sql = "SELECT id, time, emailto, subject, message,
+        if (empty($args['order'])) {
+			$args['order'] = 'DESC';
+        }
+
+		if (empty($args['paged'])) {
+			$args['paged'] = 1;
+		}
+
+		$sql = "SELECT id, time, emailto, subject, message,
                 status, error, backtrace_segment, attachments,
                 additional_headers
-                FROM " . $wpdb->prefix . MailCatcher::$table_name;
+                FROM " . $wpdb->prefix . MailCatcher::$table_name . " ";
 
-        // TODO: Sanitise $_REQUEST
-        if (!empty($_REQUEST['orderby'])) {
-            $sql .= " ORDER BY " . $_REQUEST['orderby'];
-        } else {
-            $sql .= " ORDER BY time";
-        }
+	   	if (!empty($args['post__in'])) {
+			$sql .= "WHERE id IN(" . GeneralHelper::arrayToString($args['post__in']) . ") ";
+		} elseif (!empty($args['subject'])) {
+			$sql .= "WHERE subject LIKE '%" . $args['subject'] . "%'";
+		}
 
-        if (!empty($_REQUEST['order'])) {
-            $sql .= " " . $_REQUEST['order'];
-        } else {
-            $sql .= " DESC";
-        }
-
-        $sql .= " LIMIT " . $number . "
-                  OFFSET " . ($number * ($current_page - 1));
+		$sql .=	"ORDER BY " . $args['orderby'] . " " . $args['order'] . "
+				 LIMIT " . $args['posts_per_page'] . "
+                 OFFSET " . ($args['posts_per_page'] * ($args['paged'] - 1));
 
         return $wpdb->get_results($sql, ARRAY_A);
     }
@@ -50,17 +61,6 @@ class Logs
         global $wpdb;
 
         return $wpdb->get_var("SELECT COUNT(*) FROM " . $wpdb->prefix . MailCatcher::$table_name);
-    }
-
-    public static function getFromIds($ids)
-    {
-        global $wpdb;
-
-        $sql = "SELECT id, time, emailto, subject, message, status, error, backtrace_segment
-                FROM " . $wpdb->prefix . MailCatcher::$table_name . "
-                WHERE id IN(" . GeneralHelper::arrayToString($ids) . ")";
-
-        return $wpdb->get_results($sql, ARRAY_A);
     }
 
     public static function delete($ids)

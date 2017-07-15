@@ -3,7 +3,9 @@ class Mail
 {
     public static function resend($ids)
     {
-        $logs = Logs::getFromIds($ids);
+        $logs = Logs::get(array(
+			'post__in' => $ids
+		));
 
         foreach ($logs as $log) {
             wp_mail($log['emailto'], $log['subject'], $log['message']);
@@ -12,22 +14,39 @@ class Mail
 
     public static function export($ids)
     {
-        $logs = Logs::getFromIds($ids);
+		$logs = Logs::get(array(
+			'post__in' => $ids
+		));
         $filename = 'MailCatcher_Export_' . date('His') . '.csv';
 
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
+		if (!isset($GLOBALS['phpunit_test'])) {
+			header('Content-Type: text/csv; charset=utf-8');
+			header('Content-Disposition: attachment; filename="' . $filename . '"');
+		}
 
         $out = fopen('php://output', 'w');
 
         fputcsv($out, array_keys($logs[0]));
 
+		// TODO: don't use seralize for security - use json_encode instead
         foreach ($logs as $k => $v) {
+//			if (is_serialized($v) !== false) {
+////				$v = unserialize($v);
+//				continue;
+//			}
+
             fputcsv($out, $v);
         }
 
-        fclose($out);
-        exit;
+
+		fclose($out);
+
+		if (!empty($GLOBALS['phpunit_test'])) {
+//			return $out;
+		}
+
+
+		exit;
     }
 
     public static function add($header_keys, $header_values, $attachment_ids, $subject, $message)

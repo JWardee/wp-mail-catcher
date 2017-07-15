@@ -1,6 +1,8 @@
 <?php
 $logs_controller = new Logs();
-$logs = $logs_controller->get($_REQUEST['paged']);
+$logs = $logs_controller->get(array(
+	'paged' => $_REQUEST['paged']
+));
 
 $testListTable = new MailAdminTable();
 $testListTable->prepare_items();

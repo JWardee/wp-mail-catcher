@@ -3,14 +3,14 @@ class MailAdminTable extends _WP_List_Table {
 
     function __construct(){
         global $status, $page;
-                
+
         //Set parent defaults
         parent::__construct( array(
             'singular'  => 'log',     //singular name of the listed records
             'plural'    => 'logs',    //plural name of the listed records
             'ajax'      => false        //does this table support ajax?
         ) );
-        
+
     }
 
     function column_default($item, $column_name){
@@ -138,19 +138,21 @@ class MailAdminTable extends _WP_List_Table {
         $columns = $this->get_columns();
         $hidden = array();
         $sortable = $this->get_sortable_columns();
-        
-        
+
+
         /**
-         * REQUIRED. Finally, we build an array to be used by the class for column 
+         * REQUIRED. Finally, we build an array to be used by the class for column
          * headers. The $this->_column_headers property takes an array which contains
          * 3 other arrays. One for all columns, one for hidden columns, and one
          * for sortable columns.
          */
         $this->_column_headers = array($columns, $hidden, $sortable);
         $this->process_bulk_action();
-        $this->items = Logs::get($this->get_pagenum());
+        $this->items = Logs::get(array(
+			'paged' => $this->get_pagenum()
+		));
         $total_items = Logs::getTotalAmount();
-        
+
         /**
          * REQUIRED. We also have to register our pagination options & calculations.
          */
