@@ -28,15 +28,15 @@ class MailAdminTable extends _WP_List_Table {
     function column_time($item){
         //Build row actions
         $actions = array(
-            'delete' => sprintf('<a href="?page=%s&action=%s&id=%s">Delete</a>',
+            'delete' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Delete', MailCatcher::$language_domain) . '</a>',
                 'mail-catcher',
                 'delete',
                 $item['id']),
-            'resend' => sprintf('<a href="?page=%s&action=%s&id=%s">Resend</a>',
+            'resend' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Resend', MailCatcher::$language_domain) . '</a>',
                 'mail-catcher',
                 'resend',
                 $item['id']),
-            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">Export</a>',
+            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Export', MailCatcher::$language_domain) . '</a>',
                 'mail-catcher',
                 'export',
                 $item['id']),
@@ -67,10 +67,10 @@ class MailAdminTable extends _WP_List_Table {
     function get_columns(){
         $columns = array(
             'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
-            'time'  => 'Sent',
-            'emailto'  => 'To',
-            'subject'  => 'Subject',
-            'status'  => 'Status',
+            'time'  => __('Sent', MailCatcher::$language_domain),
+            'emailto'  => __('To', MailCatcher::$language_domain),
+            'subject'  => __('Subject', MailCatcher::$language_domain),
+            'status'  => __('Status', MailCatcher::$language_domain),
             'more_info' => ''
         );
         return $columns;
@@ -78,10 +78,10 @@ class MailAdminTable extends _WP_List_Table {
 
     function column_status($item) {
         if ($item['status'] == true) {
-            return '<span class="status">Success</span>';
+            return '<span class="status">' . __('Success', MailCatcher::$language_domain) . '</span>';
         }
 
-        return '<span class="status" data-error="' . $item['error'] . '">Failed</span>';
+        return '<span class="status" data-error="' . $item['error'] . '">' . __('Failed', MailCatcher::$language_domain) . '</span>';
     }
 
     function get_sortable_columns() {
@@ -96,9 +96,9 @@ class MailAdminTable extends _WP_List_Table {
 
     function get_bulk_actions() {
         $actions = array(
-            'delete'    => 'Delete',
-            'resend' => 'Resend',
-            'export' => 'Export'
+            'delete'    => __('Delete', MailCatcher::$language_domain),
+            'resend' => __('Resend', MailCatcher::$language_domain),
+            'export' => __('Export', MailCatcher::$language_domain)
         );
         return $actions;
     }

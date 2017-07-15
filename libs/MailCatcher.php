@@ -1,6 +1,7 @@
 <?php
 class MailCatcher
 {
+	public static $language_domain = 'mail-catcher-text';
     public static $table_name = 'mail_catcher_logs';
 
     public function __construct()
@@ -16,6 +17,10 @@ class MailCatcher
         add_filter('wp_mail', array($this, 'logWpMail'));
         add_action('admin_menu', array($this, 'route'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+
+		add_action('plugins_loaded', function() {
+			load_plugin_textdomain(MailCatcher::$language_domain, $GLOBALS['$plugin_path'] . '/languages');
+		});
 
         add_action('admin_init', function() {
             // TODO: Refactor export, export2 $_REQUEST

@@ -32,7 +32,6 @@ class MailCatcherLog
 //        exit;
 
 		// TODO: Add grunt support
-		// TODO: Add ability for translations
         // TODO: Change 'time' to be timestamp and change human diff functions
         // TODO: Add additional headers column and ensure htmlspecialchars
         // TODO: Test "to" addresses accepts and processes all to formats in WP docs
