@@ -1,7 +1,7 @@
 <?php
 class DefaultWpMailCest
 {
-	public function __before(FunctionalTester $I)
+	public function _before(FunctionalTester $I)
 	{
 		// TODO: Should use composer namespacing
 		require_once __DIR__ . '/EmailBatch.php';
@@ -9,6 +9,6 @@ class DefaultWpMailCest
 
 	public function tryDefaultWpMail(FunctionalTester $I)
 	{
-		//new EmailBatch($I);
+		new EmailBatch($I);
 	}
 }
