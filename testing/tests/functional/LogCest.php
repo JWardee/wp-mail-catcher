@@ -1,14 +1,14 @@
 <?php
 class LogCest
 {
-	public function try_to_delete_single_log(FunctionalTester $I)
+	public function __before(FunctionalTester $I)
 	{
-//		var_dump(env('MAILGUN_API_KEY'));
-//		exit;
-
 		$GLOBALS['mail_catcher']->uninstall();
 		$GLOBALS['mail_catcher']->install();
+	}
 
+	public function try_to_delete_single_log(FunctionalTester $I)
+	{
 		wp_mail('test@test.com', 'subject', 'message');
 
 		$mail = Logs::get(array(
