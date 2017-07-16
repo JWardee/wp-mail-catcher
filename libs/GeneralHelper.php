@@ -17,9 +17,7 @@ class GeneralHelper
             }
 
             // Remove empty strings from array
-            $tmp = array_filter($retVal, function($value) {
-                return !empty($value);
-            });
+            $tmp = array_filter($retVal, 'GeneralHelper::filter');
 
             return implode($glue, $tmp);
         }
@@ -27,10 +25,14 @@ class GeneralHelper
         return $pieces;
 	}
 
+	private static function filter($value)
+	{
+		return !empty($value);
+	}
+
     public static function slug_to_label($slug)
     {
         return ucfirst(str_replace('_', ' ', $slug));
-
     }
 }
 

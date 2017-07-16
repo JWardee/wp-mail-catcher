@@ -148,9 +148,22 @@ class MailAdminTable extends _WP_List_Table {
          */
         $this->_column_headers = array($columns, $hidden, $sortable);
         $this->process_bulk_action();
-        $this->items = Logs::get(array(
+
+		$args = array(
 			'paged' => $this->get_pagenum()
-		));
+		);
+
+		// TODO: Sanitize
+		if (!empty($_REQUEST['order'])) {
+			$args['order'] = $_REQUEST['order'];
+		}
+
+		// TODO: Sanitize
+		if (!empty($_REQUEST['orderby'])) {
+			$args['orderby'] = $_REQUEST['orderby'];
+		}
+
+        $this->items = Logs::get($args);
         $total_items = Logs::getTotalAmount();
 
         /**

@@ -1,0 +1,9 @@
+{
+    "require-dev": {
+        "opis/closure": "^3.0.1",
+        "lucatume/wp-browser": "^1.21"
+    },
+    "require": {
+        "vlucas/phpdotenv": "^2.4"
+    }
+}

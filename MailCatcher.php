@@ -12,6 +12,7 @@ Author URI: http://jamesward.io
 global $plugin_path;
 $plugin_path = plugin_dir_url(__FILE__);
 
+// TODO: Replace with composer auto include
 spl_autoload_register(function ($class_name) {
     $dir = __DIR__ . '/libs/' . $class_name . '.php';
 
@@ -20,4 +21,5 @@ spl_autoload_register(function ($class_name) {
     }
 });
 
-new MailCatcher();
+// TODO: Refactor into singleton
+$GLOBALS['mail_catcher'] = new MailCatcher();

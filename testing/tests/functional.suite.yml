@@ -1,0 +1,33 @@
+# Codeception Test Suite Configuration
+#
+# Suite for functional tests
+# Emulate web requests and make application process them
+# Include one of framework modules (Symfony2, Yii2, Laravel5) to use it
+# Remove this suite if you don't use frameworks
+
+actor: FunctionalTester
+modules:
+    enabled:
+        - Asserts
+        - \Helper\Unit
+        - WPLoader
+        - WPCLI
+    config:
+        WPLoader:
+            wpRootFolder: %WP_ROOT%
+            dbName: %DB_NAME%
+            dbHost: %DB_HOST%
+            dbUser: %DB_USER%
+            dbPassword: %DB_PASS%
+            wpDebug: true
+            tablePrefix: wptests_
+            domain: %DB_HOST%
+            loadOnly: false
+            isolatedInstall: true
+            plugins:
+                - MailCatcher/MailCatcher.php
+            activatePlugins:
+                - MailCatcher/MailCatcher.php
+        WPCLI:
+            path: %WP_ROOT%
+            throw: true
