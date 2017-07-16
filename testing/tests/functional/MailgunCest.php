@@ -1,12 +1,13 @@
 <?php
 class MailgunCest
 {
-	public function _before(\FunctionalTester $I)
-	{
-		// TODO: Should use composer namespacing
-		require_once __DIR__ . '/EmailBatch.php';
+	private $already_installed = true;
 
+	public function _before(FunctionalTester $I)
+	{
 		if ($I->cli('plugin is-installed mailgun') == 1) {
+			$this->already_installed = false;
+
 			// Download and install Mailgun
 			$I->cli('plugin install mailgun --force --activate');
 		}
@@ -19,14 +20,25 @@ class MailgunCest
 		update_option('mailgun', serialize($mailgun_obj));
 	}
 
-	public function tryMailgun(FunctionalTester $I)
+	public function tryMailgun(\Step\Functional\MailBatch $I)
 	{
-		// Run new email batch
-		 new EmailBatch($I);
+		$I->can_send_single_to();
 	}
 
-	public function _after(\FunctionalTester $I)
+	private function uninstall_mailgun(FunctionalTester $I)
 	{
-		$I->cli('plugin uninstall mailgun --deactivate');
+		if ($this->already_installed == false) {
+			$I->cli('plugin uninstall mailgun --deactivate');
+		}
+	}
+
+	public function _after(FunctionalTester $I)
+	{
+		$this->uninstall_mailgun($I);
+	}
+
+	public function _failed(FunctionalTester $I)
+	{
+		$this->uninstall_mailgun($I);
 	}
 }
