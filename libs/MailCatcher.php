@@ -17,7 +17,6 @@ class MailCatcher
         add_filter('wp_mail', array($this, 'logWpMail'), 999999);
         add_action('admin_menu', array($this, 'route'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
-
 		add_action('plugins_loaded', function() {
 			load_plugin_textdomain(MailCatcher::$language_domain, false, $GLOBALS['plugin_path'] . '/languages');
 		});
