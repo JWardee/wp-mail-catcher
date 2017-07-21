@@ -2,7 +2,7 @@
 class Logs
 {
     // TODO: Make singleton and cache results so db query isn't run everytime
-    public static $posts_per_page = 5;
+    public static $posts_per_page = 10;
 
     public static function getTotalPages()
     {

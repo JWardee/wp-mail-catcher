@@ -3,7 +3,7 @@ class MailCatcherLog
 {
     protected $id = null;
 
-    public function phpMailerInit(PHPMailer $mailer)
+    public function phpMailerInit($mailer)
     {
         $backtrace_segment = null;
         $backtrace = debug_backtrace();
@@ -14,9 +14,9 @@ class MailCatcherLog
             }
         }
 
-        $to = GeneralHelper::arrayToString($mailer->getToAddresses());
-        $attachments = $this->getAttachmentLocations($mailer->getAttachments());
-        $additional_headers = $this->getAdditionalHeaders($mailer);
+        $to = $mailer['to'];//GeneralHelper::arrayToString($mailer->getToAddresses()[0]);
+        $attachments = $mailer['attachments'];//$this->getAttachmentLocations($mailer->getAttachments());
+        $additional_headers = $mailer['headers'];//$this->getAdditionalHeaders($mailer);
 
 //        DEBUG
 //        var_dump($additional_headers);
@@ -32,7 +32,6 @@ class MailCatcherLog
 //        exit;
 
 		// TODO: Add grunt support
-		// TODO: Add ability for translations
         // TODO: Change 'time' to be timestamp and change human diff functions
         // TODO: Add additional headers column and ensure htmlspecialchars
         // TODO: Test "to" addresses accepts and processes all to formats in WP docs
@@ -42,42 +41,48 @@ class MailCatcherLog
 
         global $wpdb;
 
-        if (!empty($mailer->ErrorInfo)) {
-            $wpdb->insert(
-                $wpdb->prefix . MailCatcher::$table_name,
-                array(
-                    'time' => current_time('mysql'),
-                    'emailto' => $to,
-                    'subject' => $mailer->Subject,
-                    'message' => $mailer->Body,
-                    'backtrace_segment' => serialize($backtrace_segment),
-                    'status' => 0,
-                    'error' => $mailer->ErrorInfo,
-                    'attachments' => serialize($attachments),
-                    'additional_headers' => serialize($additional_headers)
-                )
-            );
+//		var_dump($mailer);
+//		exit;
 
-            remove_action('wp_mail_failed', array($this, 'phpMailerFailed'));
-        } else {
+//        if (!empty($mailer->ErrorInfo)) {
+//            $wpdb->insert(
+//                $wpdb->prefix . MailCatcher::$table_name,
+//                array(
+//                    'time' => current_time('mysql'),
+//                    'emailto' => $to,
+//                    'subject' => $mailer['subject'],
+//                    'message' => $mailer['message'],
+//                    'backtrace_segment' => serialize($backtrace_segment),
+//                    'status' => 0,
+//                    'error' => 'derp',//$mailer->ErrorInfo,
+//                    'attachments' => serialize($attachments),
+//                    'additional_headers' => serialize($additional_headers)
+//                )
+//            );
+//
+//            remove_action('wp_mail_failed', array($this, 'phpMailerFailed'));
+//        } else {
+//		var_dump(serialize($additional_headers));
+//		exit;
             $wpdb->insert(
                 $wpdb->prefix . MailCatcher::$table_name,
                 array(
                     'time' => current_time('mysql'),
-                    'emailto' => $to,
-                    'subject' => $mailer->Subject,
-                    'message' => $mailer->Body,
+                    'emailto' => GeneralHelper::arrayToString($to),
+                    'subject' => $mailer['subject'],
+                    'message' => $mailer['message'],
                     'backtrace_segment' => serialize($backtrace_segment),
                     'status' => 1,
                     'attachments' => serialize($attachments),
                     'additional_headers' => serialize($additional_headers)
                 )
             );
-        }
+//        }
 
         $this->id = $wpdb->insert_id;
 
-        remove_action('phpmailer_init', array($this, 'phpMailerInit'));
+		//remove_filter('wp_mail', array($GLOBALS['mail_catcher'], 'logWpMail'));
+        //remove_action('phpmailer_init', array($this, 'phpMailerInit'));
     }
 
     public function phpMailerFailed(WP_Error $error)
