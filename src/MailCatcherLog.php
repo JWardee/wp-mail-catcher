@@ -2,6 +2,7 @@
 
 namespace MailCatcher;
 
+use PHPMailer;
 use WP_Error;
 
 class MailCatcherLog

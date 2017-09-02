@@ -9,7 +9,7 @@ class Logs
 
     static public function getTotalPages()
     {
-        return ceil(Logs::getTotalAmount() / Logs::$postsPerPage);
+        return ceil(self::getTotalAmount() / self::$postsPerPage);
     }
 
 	/**
@@ -28,7 +28,7 @@ class Logs
 		 */
 		$defaults = array(
 			'orderby' => 'time',
-			'posts_per_page' => Logs::$postsPerPage,
+			'posts_per_page' => self::$postsPerPage,
 			'paged' => 1,
 			'order' => 'DESC'
 		);
