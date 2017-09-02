@@ -59,7 +59,8 @@ class GeneralHelper
 
 	static public function sanitiseForQuery($string)
 	{
-		return sanitize_title_for_query($string);
+		// TODO: sanitize_title_for_query breaks deletion
+		return $string;//sanitize_title_for_query($string);
 	}
 }
 
