@@ -5,21 +5,18 @@ Plugin URI: http://wordpress.org/plugins/hello-dolly/
 Description: derp
 Author: James Ward
 Version: 1
-Author URI: http://jamesward.io
+Author URI: https://jamesward.io
 */
+use MailCatcher\Bootstrap;
 
-// TODO: Refactor away from global namespace
-global $plugin_path;
-$plugin_path = plugin_dir_url(__FILE__);
+require_once __DIR__ . '/vendor/autoload.php';
 
-// TODO: Replace with composer auto include
-spl_autoload_register(function ($class_name) {
-    $dir = __DIR__ . '/libs/' . $class_name . '.php';
+$bootstrap = new Bootstrap();
 
-    if (file_exists($dir)) {
-        include $dir;
-    }
-});
+register_activation_hook(__FILE__, array($bootstrap, 'install'));
+register_uninstall_hook(__FILE__, array('Bootstrap', 'uninstall'));
 
-// TODO: Refactor into singleton
-$GLOBALS['mail_catcher'] = new MailCatcher();
+/**
+ * Only use to test uninstall method
+ */
+//register_deactivation_hook(__FILE__, array($bootstrap, 'uninstall'));

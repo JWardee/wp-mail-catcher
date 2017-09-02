@@ -13,7 +13,10 @@
  * @since 3.1.0
  * @access private
  */
-class _WP_List_Table {
+
+namespace MailCatcher;
+
+class WP_List_Table {
 
 	/**
 	 * The current list of items.
@@ -947,7 +950,7 @@ class _WP_List_Table {
 		// If the primary column doesn't exist fall back to the
 		// first non-checkbox column.
 		if ( ! isset( $columns[ $default ] ) ) {
-			$default = _WP_List_Table::get_default_primary_column_name();
+			$default = WP_List_Table::get_default_primary_column_name();
 		}
 
 		/**

@@ -1,19 +1,21 @@
 <?php
-class MailAdminTable extends _WP_List_Table {
 
-    function __construct(){
-        global $status, $page;
+namespace MailCatcher;
 
+class MailAdminTable extends WP_List_Table
+{
+    function __construct()
+	{
         //Set parent defaults
         parent::__construct( array(
             'singular'  => 'log',     //singular name of the listed records
             'plural'    => 'logs',    //plural name of the listed records
             'ajax'      => false        //does this table support ajax?
-        ) );
-
+        ));
     }
 
-    function column_default($item, $column_name){
+    function column_default($item, $column_name)
+	{
         switch($column_name){
             case 'time':
             case 'emailto':
@@ -21,22 +23,23 @@ class MailAdminTable extends _WP_List_Table {
             case 'status':
                 return $item[$column_name];
             default:
-                return print_r($item,true); //Show the whole array for troubleshooting purposes
+                return print_r($item, true); //Show the whole array for troubleshooting purposes
         }
     }
 
-    function column_time($item){
+    function column_time($item)
+	{
         //Build row actions
         $actions = array(
-            'delete' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Delete', MailCatcher::$language_domain) . '</a>',
+            'delete' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Delete', GeneralHelper::$languageDomain) . '</a>',
                 'mail-catcher',
                 'delete',
                 $item['id']),
-            'resend' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Resend', MailCatcher::$language_domain) . '</a>',
+            'resend' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Resend', GeneralHelper::$languageDomain) . '</a>',
                 'mail-catcher',
                 'resend',
                 $item['id']),
-            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Export', MailCatcher::$language_domain) . '</a>',
+            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Export', GeneralHelper::$languageDomain) . '</a>',
                 'mail-catcher',
                 'export',
                 $item['id']),
@@ -52,7 +55,8 @@ class MailAdminTable extends _WP_List_Table {
     }
 
 
-    function column_cb($item){
+    function column_cb($item)
+	{
         return sprintf(
             '<input type="checkbox" name="%1$s[]" value="%2$s" />',
             /*$1%s*/ 'id',  //Let's simply repurpose the table's singular label ("movie")
@@ -60,52 +64,59 @@ class MailAdminTable extends _WP_List_Table {
         );
     }
 
-    function column_more_info($item) {
+    function column_more_info($item)
+	{
         return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">More Info</a>';
     }
 
-    function get_columns(){
+    function get_columns()
+	{
         $columns = array(
             'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
-            'time'  => __('Sent', MailCatcher::$language_domain),
-            'emailto'  => __('To', MailCatcher::$language_domain),
-            'subject'  => __('Subject', MailCatcher::$language_domain),
-            'status'  => __('Status', MailCatcher::$language_domain),
+            'time'  => __('Sent', GeneralHelper::$languageDomain),
+            'emailto'  => __('To', GeneralHelper::$languageDomain),
+            'subject'  => __('Subject', GeneralHelper::$languageDomain),
+            'status'  => __('Status', GeneralHelper::$languageDomain),
             'more_info' => ''
         );
+
         return $columns;
     }
 
-    function column_status($item) {
+    function column_status($item)
+	{
         if ($item['status'] == true) {
-            return '<span class="status">' . __('Success', MailCatcher::$language_domain) . '</span>';
+            return '<span class="status">' . __('Success', GeneralHelper::$languageDomain) . '</span>';
         }
 
-        return '<span class="status" data-error="' . $item['error'] . '">' . __('Failed', MailCatcher::$language_domain) . '</span>';
+        return '<span class="status" data-error="' . $item['error'] . '">' . __('Failed', GeneralHelper::$languageDomain) . '</span>';
     }
 
-    function get_sortable_columns() {
+    function get_sortable_columns()
+	{
         $sortable_columns = array(
             'time'  => array('time',false),
             'emailto'  => array('emailto',false),     //true means it's already sorted
             'subject'  => array('subject',false),
             'status'  => array('status',false),
         );
+
         return $sortable_columns;
     }
 
-    function get_bulk_actions() {
+    function get_bulk_actions()
+	{
         $actions = array(
-            'delete'    => __('Delete', MailCatcher::$language_domain),
-            'resend' => __('Resend', MailCatcher::$language_domain),
-            'export' => __('Export', MailCatcher::$language_domain)
+            'delete'    => __('Delete', GeneralHelper::$languageDomain),
+            'resend' => __('Resend', GeneralHelper::$languageDomain),
+            'export' => __('Export', GeneralHelper::$languageDomain)
         );
+
         return $actions;
     }
 
-    function process_bulk_action() {
-        global $wpdb;
-
+    function process_bulk_action()
+	{
         //Detect when a bulk action is being triggered...
         switch ($this->current_action()) {
             case 'delete' :
@@ -120,7 +131,8 @@ class MailAdminTable extends _WP_List_Table {
         }
     }
 
-    function prepare_items() {
+    function prepare_items()
+	{
         global $wpdb; //This is used only if making any database queries
 
         /**
@@ -139,7 +151,6 @@ class MailAdminTable extends _WP_List_Table {
         $hidden = array();
         $sortable = $this->get_sortable_columns();
 
-
         /**
          * REQUIRED. Finally, we build an array to be used by the class for column
          * headers. The $this->_column_headers property takes an array which contains
@@ -149,32 +160,18 @@ class MailAdminTable extends _WP_List_Table {
         $this->_column_headers = array($columns, $hidden, $sortable);
         $this->process_bulk_action();
 
-		$args = array(
+        $this->items = Logs::get(array(
 			'paged' => $this->get_pagenum()
-		);
-
-		// TODO: Sanitize
-		if (!empty($_REQUEST['order'])) {
-			$args['order'] = $_REQUEST['order'];
-		}
-
-		// TODO: Sanitize
-		if (!empty($_REQUEST['orderby'])) {
-			$args['orderby'] = $_REQUEST['orderby'];
-		}
-
-        $this->items = Logs::get($args);
+		));
         $total_items = Logs::getTotalAmount();
 
         /**
          * REQUIRED. We also have to register our pagination options & calculations.
          */
-        $this->set_pagination_args( array(
+        $this->set_pagination_args(array(
             'total_items' => $total_items,                  //WE have to calculate the total number of items
             'per_page'    => $per_page,                     //WE have to determine how many items to show on a page
             'total_pages' => Logs::getTotalPages()//ceil($total_items/$per_page)   //WE have to calculate the total number of pages
-        ) );
+        ));
     }
-
-
 }

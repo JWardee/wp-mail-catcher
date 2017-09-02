@@ -1,4 +1,7 @@
 <?php
+
+namespace MailCatcher;
+
 class Mail
 {
     public static function resend($ids)
@@ -17,6 +20,7 @@ class Mail
 		$logs = Logs::get(array(
 			'post__in' => $ids
 		));
+
         $filename = 'MailCatcher_Export_' . date('His') . '.csv';
 
 		if (!isset($GLOBALS['phpunit_test'])) {
@@ -40,36 +44,29 @@ class Mail
 
 
 		fclose($out);
-
-		if (!empty($GLOBALS['phpunit_test'])) {
-//			return $out;
-		}
-
-
-		exit;
     }
 
-    public static function add($header_keys, $header_values, $attachment_ids, $subject, $message)
+    public static function add($headerKeys, $headerValues, $attachmentIds, $subject, $message)
     {
         $tos = array();
         $headers = array();
         $attachments = array();
 
-        for ($i = 0; $i < count($header_keys); $i++) {
-            switch ($header_keys[$i]) {
+        for ($i = 0; $i < count($headerKeys); $i++) {
+            switch ($headerKeys[$i]) {
                 case ('to') :
-                    $tos[] = $header_values[$i];
+                    $tos[] = $headerValues[$i];
                 break;
                 case ('other') :
-                    $headers[] = $header_values[$i];
+                    $headers[] = $headerValues[$i];
                 break;
                 default:
-                    $headers[] = $header_keys[$i] . ': ' . $header_values[$i];
+                    $headers[] = $headerKeys[$i] . ': ' . $headerValues[$i];
                 break;
             }
         }
 
-        foreach ($attachment_ids as $attachment_id) {
+        foreach ($attachmentIds as $attachment_id) {
             if (empty($attachment_id)) {
                 continue;
             }

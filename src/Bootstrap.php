@@ -1,24 +1,19 @@
 <?php
-class MailCatcher
-{
-	public static $language_domain = 'mail-catcher-text';
-    public static $table_name = 'mail_catcher_logs';
 
+namespace MailCatcher;
+
+class Bootstrap
+{
     public function __construct()
     {
-		$this->install();
-
-        global $plugin_path;
-
-        register_activation_hook($plugin_path . '/MailCatcher.php', array($this, 'install'));
-//        register_deactivation_hook($plugin_path . '/MailCatcher.php', array($this, 'uninstall'));
-        //register_uninstall_hook( $plugin_path, array($this, 'uninstall'));
+		GeneralHelper::$pluginPath = __DIR__ . '/..';
+		GeneralHelper::$pluginUrl = plugins_url('..', GeneralHelper::$pluginPath);
 
         add_filter('wp_mail', array($this, 'logWpMail'), 999999);
         add_action('admin_menu', array($this, 'route'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
 		add_action('plugins_loaded', function() {
-			load_plugin_textdomain(MailCatcher::$language_domain, false, $GLOBALS['plugin_path'] . '/languages');
+			load_plugin_textdomain(GeneralHelper::$languageDomain, false, GeneralHelper::$pluginPath . '/languages');
 		});
 
         add_action('admin_init', function() {
@@ -40,28 +35,26 @@ class MailCatcher
 
     public function enqueue()
     {
-        wp_enqueue_style('admin_css', plugins_url('/assets/admin.css', __DIR__));
-        wp_enqueue_script('admin_js', plugins_url('/assets/admin.js', __DIR__), array('jquery'), '?');
+        wp_enqueue_style('admin_css', GeneralHelper::$pluginUrl . '/assets/admin.css');
+        wp_enqueue_script('admin_js', GeneralHelper::$pluginUrl . '/assets/admin.js', array('jquery'), '?');
 
-        wp_localize_script('admin_js', MailCatcher::$table_name, array(
-            'plugin_url' => $GLOBALS['plugin_path'],
+        wp_localize_script('admin_js', GeneralHelper::$tableName, array(
+            'plugin_url' => GeneralHelper::$pluginPath,
         ));
     }
 
     public function route()
     {
-        add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', 'mail-catcher', array($this, function() {
-			require __DIR__ . '/../views/logs.php';
-		}), 'dashicons-email-alt');
+        add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', 'mail-catcher', function() {
+			require GeneralHelper::$pluginPath . '/views/logs.php';
+		}, 'dashicons-email-alt');
     }
 
     public function install()
     {
         global $wpdb;
 
-//		$this->uninstall();
-
-        $sql = "CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . MailCatcher::$table_name . " (
+        $sql = "CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . GeneralHelper::$tableName . " (
                   id mediumint(9) NOT NULL AUTO_INCREMENT,
                   time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
                   emailto text DEFAULT NULL,
@@ -79,19 +72,19 @@ class MailCatcher
         dbDelta($sql);
     }
 
-    public function uninstall()
+    static public function uninstall()
     {
         global $wpdb;
-        $sql = "DROP TABLE IF EXISTS " . $wpdb->prefix . MailCatcher::$table_name . ";";
+        $sql = "DROP TABLE IF EXISTS " . $wpdb->prefix . GeneralHelper::$tableName . ";";
         $wpdb->query($sql);
     }
 
     public function logWpMail($args)
     {
-        $mail_catcher = new MailCatcherLog();
-		$mail_catcher->phpMailerInit($args);
+        $mailCatcher = new MailCatcherLog();
+		$mailCatcher->phpMailerInit($args);
 //		add_filter('wp_mail', array($mail_catcher, 'phpMailerInit'));
-        add_action('wp_mail_failed', array($mail_catcher, 'phpMailerFailed'), 999999);
+        add_action('wp_mail_failed', array($mailCatcher, 'phpMailerFailed'), 999999);
 
 		return $args;
     }

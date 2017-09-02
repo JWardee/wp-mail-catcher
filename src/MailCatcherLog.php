@@ -1,4 +1,9 @@
 <?php
+
+namespace MailCatcher;
+
+use WP_Error;
+
 class MailCatcherLog
 {
     protected $id = null;
@@ -46,7 +51,7 @@ class MailCatcherLog
 
 //        if (!empty($mailer->ErrorInfo)) {
 //            $wpdb->insert(
-//                $wpdb->prefix . MailCatcher::$table_name,
+//                $wpdb->prefix . GeneralHelper::$table_name,
 //                array(
 //                    'time' => current_time('mysql'),
 //                    'emailto' => $to,
@@ -65,7 +70,7 @@ class MailCatcherLog
 //		var_dump(serialize($additional_headers));
 //		exit;
             $wpdb->insert(
-                $wpdb->prefix . MailCatcher::$table_name,
+                $wpdb->prefix . GeneralHelper::$tableName,
                 array(
                     'time' => current_time('mysql'),
                     'emailto' => GeneralHelper::arrayToString($to),
@@ -90,7 +95,7 @@ class MailCatcherLog
         global $wpdb;
 
         $wpdb->update(
-            $wpdb->prefix . MailCatcher::$table_name,
+            $wpdb->prefix . GeneralHelper::$tableName,
             array(
                 'status' => 0,
                 'error' => $error->errors['wp_mail_failed'][0],

@@ -1,21 +1,23 @@
 <?php
-$logs_controller = new Logs();
-$logs = $logs_controller->get(array(
-	'paged' => $_REQUEST['paged']
+use MailCatcher\GeneralHelper;
+use MailCatcher\Logs;
+use MailCatcher\MailAdminTable;
+
+$logs = Logs::get(array(
+	'paged' => isset($_REQUEST['paged']) ? $_REQUEST['paged'] : 1
 ));
 
 $testListTable = new MailAdminTable();
 $testListTable->prepare_items();
-//wp_editor('teste', 'editor', array('tinymce' => false));
 ?>
 <div class="wrap">
-    <h2><?php _e('Mail Catcher', MailCatcher::$language_domain); ?></h2>
+    <h2><?php _e('Mail Catcher', GeneralHelper::$languageDomain); ?></h2>
 
     <a href="#" class="button button-primary" data-toggle="modal" data-target="#new-message">
-		<?php _e('New Message', MailCatcher::$language_domain); ?>
+		<?php _e('New Message', GeneralHelper::$languageDomain); ?>
 	</a>
 
-    <form id="movies-filter" method="post" action="?page=<?php echo $_REQUEST['page'] ?>">
+    <form id="movies-filter" method="post" action="?page=<?php if (isset($_REQUEST['page'])) : echo $_REQUEST['page']; endif; ?>">
         <?php $testListTable->display() ?>
     </form>
 </div>
@@ -25,9 +27,9 @@ $testListTable->prepare_items();
         <div class="modal-content">
             <div class="modal-body">
                 <h2 class="nav-tab-wrapper">
-                    <a href="#" class="nav-tab nav-tab-active"><?php _e('Message', MailCatcher::$language_domain); ?></a>
-                    <a href="#" class="nav-tab"><?php _e('Detail', MailCatcher::$language_domain); ?></a>
-                    <a href="#" class="nav-tab"><?php _e('Debug', MailCatcher::$language_domain); ?></a>
+                    <a href="#" class="nav-tab nav-tab-active"><?php _e('Message', GeneralHelper::$languageDomain); ?></a>
+                    <a href="#" class="nav-tab"><?php _e('Detail', GeneralHelper::$languageDomain); ?></a>
+                    <a href="#" class="nav-tab"><?php _e('Debug', GeneralHelper::$languageDomain); ?></a>
                 </h2>
                 <div class="content-container">
                     <div class="content -active">
@@ -38,7 +40,7 @@ $testListTable->prepare_items();
                         $attachments = unserialize($log['attachments']);
                         if (!empty($attachments)) :
                             ?>
-                            <h3><?php _e('Attachments', MailCatcher::$language_domain); ?></h3>
+                            <h3><?php _e('Attachments', GeneralHelper::$languageDomain); ?></h3>
                             <hr />
                             <ul>
                                 <?php foreach ($attachments as $attachment_url => $attachment_name) : ?>
@@ -55,11 +57,11 @@ $testListTable->prepare_items();
                         $additional_headers = unserialize($log['additional_headers']);
                         if (!empty($additional_headers)) :
                             ?>
-                            <h3><?php _e('Additional Headers', MailCatcher::$language_domain); ?></h3>
+                            <h3><?php _e('Additional Headers', GeneralHelper::$languageDomain); ?></h3>
                             <hr />
                             <ul>
                                 <?php foreach ($additional_headers as $additional_header => $value) : ?>
-                                    <li><strong><?php echo GeneralHelper::slug_to_label($additional_header); ?>:</strong> <?php echo $value; ?></li>
+                                    <li><strong><?php echo GeneralHelper::slugToLabel($additional_header); ?>:</strong> <?php echo $value; ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         <?php endif; ?>
@@ -67,12 +69,12 @@ $testListTable->prepare_items();
                     <div class="content">
                         <?php $debug = unserialize($log['backtrace_segment']); ?>
                         <ul>
-                            <li><?php _e('Triggered from:', MailCatcher::$language_domain); ?> <strong style="white-space: pre;"><?php echo $debug['file']; ?></strong></li>
-                            <li><?php _e('On line:', MailCatcher::$language_domain); ?> <strong><?php echo $debug['line']; ?></strong></li>
+                            <li><?php _e('Triggered from:', GeneralHelper::$languageDomain); ?> <strong style="white-space: pre;"><?php echo $debug['file']; ?></strong></li>
+                            <li><?php _e('On line:', GeneralHelper::$languageDomain); ?> <strong><?php echo $debug['line']; ?></strong></li>
                         </ul>
 
                         <?php if (!empty($log['error'])) : ?>
-                            <h3><?php _e('Errors:', MailCatcher::$language_domain); ?></h3>
+                            <h3><?php _e('Errors:', GeneralHelper::$languageDomain); ?></h3>
                             <hr />
                             <ul>
                                 <li><?php echo $log['error']; ?></li>
@@ -82,7 +84,7 @@ $testListTable->prepare_items();
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="button-primary dismiss-modal"><?php _e('Close', MailCatcher::$language_domain); ?></button>
+                <button type="button" class="button-primary dismiss-modal"><?php _e('Close', GeneralHelper::$languageDomain); ?></button>
             </div>
         </div>
         <div class="backdrop dismiss-modal"></div>
@@ -98,7 +100,7 @@ $testListTable->prepare_items();
                 <div class="content-container">
                     <div class="content -active">
                         <div>
-                            <h2><?php _e('Headers', MailCatcher::$language_domain); ?></h2>
+                            <h2><?php _e('Headers', GeneralHelper::$languageDomain); ?></h2>
                             <hr />
 
                             <div class="cloneable">
@@ -112,10 +114,10 @@ $testListTable->prepare_items();
                                     </a>
 
                                     <select name="header_keys[]" class="field -select">
-                                        <option value="to"><?php _e('To', MailCatcher::$language_domain); ?></option>
-                                        <option value="cc"><?php _e('Cc', MailCatcher::$language_domain); ?></option>
-                                        <option value="bcc"><?php _e('Bcc', MailCatcher::$language_domain); ?></option>
-                                        <option value="other"><?php _e('Other', MailCatcher::$language_domain); ?></option>
+                                        <option value="to"><?php _e('To', GeneralHelper::$languageDomain); ?></option>
+                                        <option value="cc"><?php _e('Cc', GeneralHelper::$languageDomain); ?></option>
+                                        <option value="bcc"><?php _e('Bcc', GeneralHelper::$languageDomain); ?></option>
+                                        <option value="other"><?php _e('Other', GeneralHelper::$languageDomain); ?></option>
                                     </select>
 
                                     <input name="header_values[]" type="text" class="field -input" />
@@ -123,13 +125,13 @@ $testListTable->prepare_items();
                             </div>
                         </div>
                         <div>
-                            <h2><?php _e('Subject', MailCatcher::$language_domain); ?></h2>
+                            <h2><?php _e('Subject', GeneralHelper::$languageDomain); ?></h2>
                             <hr />
 
                             <input name="subject" type="text" class="field -input" />
                         </div>
                         <div>
-                            <h2><?php _e('Attachments', MailCatcher::$language_domain); ?></h2>
+                            <h2><?php _e('Attachments', GeneralHelper::$languageDomain); ?></h2>
                             <hr />
 
                             <div class="attachments-container">
@@ -142,13 +144,13 @@ $testListTable->prepare_items();
 
                                 <div class="attachment-button-container">
                                     <a href="#" class="button-primary" id="add_attachments">
-										<?php _e('Add Attachments', MailCatcher::$language_domain); ?>
+										<?php _e('Add Attachments', GeneralHelper::$languageDomain); ?>
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <h2><?php _e('Message', MailCatcher::$language_domain); ?></h2>
+                            <h2><?php _e('Message', GeneralHelper::$languageDomain); ?></h2>
                             <hr />
 
                             <?php wp_editor('My Message', 'message', $settings = array()); ?>
@@ -158,10 +160,10 @@ $testListTable->prepare_items();
             </div>
             <div class="modal-footer">
                 <button type="submit" class="button-primary">
-					<?php _e('Send Message', MailCatcher::$language_domain); ?>
+					<?php _e('Send Message', GeneralHelper::$languageDomain); ?>
                 </button>
                 <button type="button" class="button-secondary dismiss-modal">
-					<?php _e('Close', MailCatcher::$language_domain); ?>
+					<?php _e('Close', GeneralHelper::$languageDomain); ?>
                 </button>
             </div>
         </form>
