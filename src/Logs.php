@@ -5,9 +5,9 @@ namespace MailCatcher;
 class Logs
 {
     // TODO: Cache results so db query isn't run everytime
-    public static $postsPerPage = 10;
+    static public $postsPerPage = 10;
 
-    public static function getTotalPages()
+    static public function getTotalPages()
     {
         return ceil(Logs::getTotalAmount() / Logs::$postsPerPage);
     }
@@ -16,7 +16,7 @@ class Logs
 	 * @param array $args
 	 * @return array|null|object
      */
-	public static function get($args = array())
+	static public function get($args = array())
     {
 		// TODO: Need to add caching?
 		global $wpdb;
@@ -58,14 +58,14 @@ class Logs
         return $wpdb->get_results($sql, ARRAY_A);
     }
 
-    public static function getTotalAmount()
+    static public function getTotalAmount()
     {
         global $wpdb;
 
         return $wpdb->get_var("SELECT COUNT(*) FROM " . $wpdb->prefix . GeneralHelper::$tableName);
     }
 
-    public static function delete($ids)
+    static public function delete($ids)
     {
         global $wpdb;
 

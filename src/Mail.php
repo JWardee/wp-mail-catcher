@@ -4,7 +4,7 @@ namespace MailCatcher;
 
 class Mail
 {
-    public static function resend($ids)
+    static public function resend($ids)
     {
         $logs = Logs::get(array(
 			'post__in' => $ids
@@ -15,38 +15,37 @@ class Mail
         }
     }
 
-    public static function export($ids)
+    static public function export($ids)
     {
 		$logs = Logs::get(array(
 			'post__in' => $ids
 		));
 
-        $filename = 'MailCatcher_Export_' . date('His') . '.csv';
-
-		if (!isset($GLOBALS['phpunit_test'])) {
-			header('Content-Type: text/csv; charset=utf-8');
-			header('Content-Disposition: attachment; filename="' . $filename . '"');
+		/**
+		 * Only export the "legal columns"
+		 * so no seralised objects are exported etc
+		 */
+		foreach ($logs as &$log) {
+			$log = array_filter($log, function($key) {
+				return in_array($key, GeneralHelper::$csvExportLegalColumns);
+			}, ARRAY_FILTER_USE_KEY);
 		}
 
-        $out = fopen('php://output', 'w');
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename="' . GeneralHelper::$csvExportFileName . '"');
 
+        $out = fopen('php://output', 'w');
         fputcsv($out, array_keys($logs[0]));
 
-		// TODO: don't use seralize for security - use json_encode instead
         foreach ($logs as $k => $v) {
-//			if (is_serialized($v) !== false) {
-////				$v = unserialize($v);
-//				continue;
-//			}
-
             fputcsv($out, $v);
         }
 
-
 		fclose($out);
+		exit;
     }
 
-    public static function add($headerKeys, $headerValues, $attachmentIds, $subject, $message)
+    static public function add($headerKeys, $headerValues, $attachmentIds, $subject, $message)
     {
         $tos = array();
         $headers = array();
@@ -75,9 +74,9 @@ class Mail
         }
 
         wp_mail($tos, $subject, $message, $headers, $attachments);
-        //TODO: change url
+
         //TODO: add wp nonce
-        header('Location: http://wordpress.local/wp-admin/admin.php?page=mail-catcher');
+        header('Location: ' . GeneralHelper::$adminUrl . '/admin.php?page=' . GeneralHelper::$adminPageSlug);
         exit;
     }
 }

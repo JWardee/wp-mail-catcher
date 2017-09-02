@@ -7,12 +7,28 @@ use Underscore\Types\Strings;
 
 class GeneralHelper
 {
-	public static $pluginPath;
-	public static $pluginUrl;
-	public static $languageDomain = 'mail-catcher-text';
-	public static $tableName = 'mail_catcher_logs';
+	static public $pluginPath;
+	static public $pluginUrl;
+	static public $languageDomain;
+	static public $tableName;
+	static public $csvExportLegalColumns;
+	static public $csvExportFileName;
+	static public $adminUrl;
+	static public $adminPageSlug;
 
-    public static function arrayToString($pieces, $glue = ', ')
+	static public function setSettings()
+	{
+		self::$csvExportFileName = 'MailCatcherExport_' . date('d-m-Y_H-i-s') . '.csv';
+		self::$csvExportLegalColumns = array('time', 'subject', 'emailto', 'message', 'status', 'error');
+		self::$tableName = 'mail_catcher_logs';
+		self::$languageDomain = 'mail-catcher-text';
+		self::$adminUrl = admin_url();
+		self::$pluginPath = __DIR__ . '/..';
+		self::$pluginUrl = plugins_url('..', self::$pluginPath);
+		self::$adminPageSlug = 'mail-catcher';
+	}
+
+    static public function arrayToString($pieces, $glue = ', ')
     {
 		$result = Arrays::flatten($pieces);
 
@@ -23,7 +39,7 @@ class GeneralHelper
 		return $result;
 	}
 
-    public static function slugToLabel($slug)
+    static public function slugToLabel($slug)
     {
 		$illegalChars = array(
 			'-', '_'
@@ -36,12 +52,12 @@ class GeneralHelper
 		return Strings::title($slug);
     }
 
-	public static function labelToSlug($label)
+	static public function labelToSlug($label)
 	{
 		return Strings::slugify($label);
 	}
 
-	public static function sanitiseForQuery($string)
+	static public function sanitiseForQuery($string)
 	{
 		return sanitize_title_for_query($string);
 	}

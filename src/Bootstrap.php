@@ -6,8 +6,7 @@ class Bootstrap
 {
     public function __construct()
     {
-		GeneralHelper::$pluginPath = __DIR__ . '/..';
-		GeneralHelper::$pluginUrl = plugins_url('..', GeneralHelper::$pluginPath);
+		GeneralHelper::setSettings();
 
         add_filter('wp_mail', array($this, 'logWpMail'), 999999);
         add_action('admin_menu', array($this, 'route'));
@@ -45,7 +44,7 @@ class Bootstrap
 
     public function route()
     {
-        add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', 'mail-catcher', function() {
+        add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', GeneralHelper::$adminPageSlug, function() {
 			require GeneralHelper::$pluginPath . '/views/logs.php';
 		}, 'dashicons-email-alt');
     }
