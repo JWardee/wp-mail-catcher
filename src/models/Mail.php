@@ -32,8 +32,8 @@ class Mail
 				return in_array($key, GeneralHelper::$csvExportLegalColumns);
 			}, ARRAY_FILTER_USE_KEY);
 
-			$log['attachments'] = unserialize($log['attachments']);
-			$log['additional_headers'] = unserialize($log['additional_headers']);
+			$log['attachments'] = json_decode($log['attachments']);
+			$log['additional_headers'] = json_decode($log['additional_headers']);
 
 			$log['attachments'] = array_column($log['attachments'], 'url');
 			$log['attachments'] = GeneralHelper::arrayToString($log['attachments']);
@@ -90,7 +90,7 @@ class Mail
         wp_mail($tos, $subject, $message, $headers, $attachments);
 
         //TODO: add wp nonce
-        header('Location: ' . GeneralHelper::$adminUrl . '/admin.php?page=' . GeneralHelper::$adminPageSlug);
+        header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
         exit;
     }
 }

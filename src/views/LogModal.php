@@ -16,8 +16,8 @@ use MailCatcher\GeneralHelper;
 				</div>
 				<div class="content">
 					<?php
-					$attachments = unserialize($log['attachments']);
-					$additional_headers = unserialize($log['additional_headers']);
+					$attachments = json_decode($log['attachments']);
+					$additional_headers = json_decode($log['additional_headers']);
 
 					if (empty($attachments) && empty($additional_headers)) : ?>
 						<p>There aren't any details to show!</p>
@@ -29,18 +29,16 @@ use MailCatcher\GeneralHelper;
 							<hr />
 							<ul>
 								<?php foreach ($attachments as $attachment) : ?>
-									<li>
-										<a href="<?php echo $attachment['url'] ?>" target="_blank">
-											<?php
-											if (strpos(get_post_mime_type($attachment['id']), 'image') !== false) :
-												$src = $attachment['url'];
-											else :
-												$src = GeneralHelper::$pluginAssetsUrl . '/file-icon.png';
-											endif;
-											?>
+									<li class="attachment-container">
+										<?php
+										if (strpos(get_post_mime_type($attachment->id), 'image') !== false) :
+											$src = $attachment->url;
+										else :
+											$src = GeneralHelper::$pluginAssetsUrl . '/file-icon.png';
+										endif;
+										?>
 
-											<span class="attachment-item" style="background-image: url(<?php echo $src; ?>);"></span>
-										</a>
+										<a href="<?php echo $attachment->url ?>" target="_blank" class="attachment-item" style="background-image: url(<?php echo $src; ?>);"></a>
 									</li>
 								<?php endforeach; ?>
 							</ul>
@@ -61,10 +59,10 @@ use MailCatcher\GeneralHelper;
 					<?php endif; ?>
 				</div>
 				<div class="content">
-					<?php $debug = unserialize($log['backtrace_segment']); ?>
+					<?php $debug = json_decode($log['backtrace_segment']); ?>
 					<ul>
-						<li><?php _e('Triggered from:', GeneralHelper::$languageDomain); ?> <strong style="white-space: pre;"><?php echo $debug['file']; ?></strong></li>
-						<li><?php _e('On line:', GeneralHelper::$languageDomain); ?> <strong><?php echo $debug['line']; ?></strong></li>
+						<li><?php _e('Triggered from:', GeneralHelper::$languageDomain); ?> <strong style="white-space: pre;"><?php echo $debug->file; ?></strong></li>
+						<li><?php _e('On line:', GeneralHelper::$languageDomain); ?> <strong><?php echo $debug->line; ?></strong></li>
 					</ul>
 
 					<?php if (!empty($log['error'])) : ?>

@@ -229,3 +229,7 @@
 .attachment-item.-original {
     display: none;
 }
+
+.attachment-container {
+	display: inline-block;
+}

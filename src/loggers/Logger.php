@@ -3,7 +3,6 @@
 namespace MailCatcher\Loggers;
 
 use MailCatcher\GeneralHelper;
-use Underscore\Types\Arrays;
 use WP_Error;
 
 // TODO: Add grunt support
@@ -60,10 +59,10 @@ class Logger
 			'email_to' => GeneralHelper::arrayToString($args['to']),
 			'subject' => $args['subject'],
 			'message' => $args['message'],
-			'backtrace_segment' => serialize($this->getBacktrace()),
+			'backtrace_segment' => json_encode($this->getBacktrace()),
 			'status' => 1,
-			'attachments' => serialize($this->getAttachmentLocations($args['attachments'])),
-			'additional_headers' => serialize($args['headers'])
+			'attachments' => json_encode($this->getAttachmentLocations($args['attachments'])),
+			'additional_headers' => json_encode($args['headers'])
 		);
 	}
 
