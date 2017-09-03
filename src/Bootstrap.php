@@ -2,13 +2,17 @@
 
 namespace MailCatcher;
 
+use MailCatcher\Loggers\Logger;
+use MailCatcher\Models\Mail;
+
 class Bootstrap
 {
     public function __construct()
     {
 		GeneralHelper::setSettings();
 
-        add_filter('wp_mail', array($this, 'logWpMail'), 999999);
+		new Logger();
+
         add_action('admin_menu', array($this, 'route'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
 		add_action('plugins_loaded', function() {
@@ -34,18 +38,18 @@ class Bootstrap
 
     public function enqueue()
     {
-        wp_enqueue_style('admin_css', GeneralHelper::$pluginUrl . '/assets/admin.css');
-        wp_enqueue_script('admin_js', GeneralHelper::$pluginUrl . '/assets/admin.js', array('jquery'), '?');
+        wp_enqueue_style('admin_css', GeneralHelper::$pluginAssetsUrl . '/admin.css');
+        wp_enqueue_script('admin_js', GeneralHelper::$pluginAssetsUrl . '/admin.js', array('jquery'), '?');
 
         wp_localize_script('admin_js', GeneralHelper::$tableName, array(
-            'plugin_url' => GeneralHelper::$pluginPath,
+            'plugin_url' => GeneralHelper::$pluginUrl,
         ));
     }
 
     public function route()
     {
         add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', GeneralHelper::$adminPageSlug, function() {
-			require GeneralHelper::$pluginPath . '/views/logs.php';
+			require __DIR__ . '/views/logs.php';
 		}, 'dashicons-email-alt');
     }
 
@@ -56,7 +60,7 @@ class Bootstrap
         $sql = "CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . GeneralHelper::$tableName . " (
                   id mediumint(9) NOT NULL AUTO_INCREMENT,
                   time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-                  emailto text DEFAULT NULL,
+                  email_to text DEFAULT NULL,
                   subject text DEFAULT NULL,
                   message text DEFAULT NULL,
                   backtrace_segment text NOT NULL,
@@ -76,15 +80,5 @@ class Bootstrap
         global $wpdb;
         $sql = "DROP TABLE IF EXISTS " . $wpdb->prefix . GeneralHelper::$tableName . ";";
         $wpdb->query($sql);
-    }
-
-    public function logWpMail($args)
-    {
-        $mailCatcher = new MailCatcherLog();
-		$mailCatcher->phpMailerInit($args);
-//		add_filter('wp_mail', array($mail_catcher, 'phpMailerInit'));
-        add_action('wp_mail_failed', array($mailCatcher, 'phpMailerFailed'), 999999);
-
-		return $args;
     }
 }

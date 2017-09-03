@@ -2,6 +2,9 @@
 
 namespace MailCatcher;
 
+use MailCatcher\Models\Logs;
+use MailCatcher\Models\Mail;
+
 class MailAdminTable extends WP_List_Table
 {
     function __construct()
@@ -18,7 +21,7 @@ class MailAdminTable extends WP_List_Table
 	{
         switch($column_name){
             case 'time':
-            case 'emailto':
+            case 'email_to':
             case 'subject':
             case 'status':
                 return $item[$column_name];
@@ -74,7 +77,7 @@ class MailAdminTable extends WP_List_Table
         $columns = array(
             'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
             'time'  => __('Sent', GeneralHelper::$languageDomain),
-            'emailto'  => __('To', GeneralHelper::$languageDomain),
+            'email_to'  => __('To', GeneralHelper::$languageDomain),
             'subject'  => __('Subject', GeneralHelper::$languageDomain),
             'status'  => __('Status', GeneralHelper::$languageDomain),
             'more_info' => ''
@@ -96,7 +99,7 @@ class MailAdminTable extends WP_List_Table
 	{
         $sortable_columns = array(
             'time'  => array('time',false),
-            'emailto'  => array('emailto',false),     //true means it's already sorted
+            'email_to'  => array('email_to',false),     //true means it's already sorted
             'subject'  => array('subject',false),
             'status'  => array('status',false),
         );

@@ -1,6 +1,8 @@
 <?php
 
-namespace MailCatcher;
+namespace MailCatcher\Models;
+
+use MailCatcher\GeneralHelper;
 
 class Logs
 {
@@ -40,7 +42,7 @@ class Logs
 		 */
 		array_walk_recursive($args, 'MailCatcher\GeneralHelper::sanitiseForQuery');
 
-		$sql = "SELECT id, time, emailto, subject, message,
+		$sql = "SELECT id, time, email_to, subject, message,
                 status, error, backtrace_segment, attachments,
                 additional_headers
                 FROM " . $wpdb->prefix . GeneralHelper::$tableName . " ";

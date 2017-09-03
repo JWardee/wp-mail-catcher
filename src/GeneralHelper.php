@@ -15,17 +15,21 @@ class GeneralHelper
 	static public $csvExportFileName;
 	static public $adminUrl;
 	static public $adminPageSlug;
+	static public $uploadsFolderInfo;
+	static public $pluginAssetsUrl;
 
 	static public function setSettings()
 	{
 		self::$csvExportFileName = 'MailCatcherExport_' . date('d-m-Y_H-i-s') . '.csv';
-		self::$csvExportLegalColumns = array('time', 'subject', 'emailto', 'message', 'status', 'error');
+		self::$csvExportLegalColumns = array('time', 'subject', 'email_to', 'message', 'attachments', 'additional_headers', 'status', 'error');
 		self::$tableName = 'mail_catcher_logs';
 		self::$languageDomain = 'mail-catcher-text';
 		self::$adminUrl = admin_url();
 		self::$pluginPath = __DIR__ . '/..';
 		self::$pluginUrl = plugins_url('..', self::$pluginPath);
 		self::$adminPageSlug = 'mail-catcher';
+		self::$uploadsFolderInfo = wp_upload_dir();
+		self::$pluginAssetsUrl = self::$pluginUrl . '/assets';
 	}
 
     static public function arrayToString($pieces, $glue = ', ')
@@ -57,10 +61,44 @@ class GeneralHelper
 		return Strings::slugify($label);
 	}
 
-	static public function sanitiseForQuery($string)
+	static public function sanitiseForQuery($value)
 	{
 		// TODO: sanitize_title_for_query breaks deletion
-		return $string;//sanitize_title_for_query($string);
+		switch (gettype($value))
+		{
+			case ('array') :
+				array_walk_recursive($value, function(&$value) {
+//					$value = sanitize_title_for_query($value);
+				});
+				break;
+			default :
+//				$value = sanitize_title_for_query($value);
+				break;
+
+		}
+
+		return $value;
+	}
+
+	static public function getAttachmentIdsFromUrl($urls)
+	{
+		global $wpdb;
+
+		$urls = self::sanitiseForQuery($urls);
+
+		$sql = "SELECT post_id
+                FROM " . $wpdb->prefix . "postmeta
+				WHERE meta_value LIKE '%" . $urls[0] . "%'";
+
+		if (count($urls) > 1) {
+			foreach (Arrays::removeFirst($urls) as $url) {
+				$sql .= " OR meta_value LIKE '%" . $url . "%'";
+			}
+		}
+
+		$sql .= " AND meta_key = '_wp_attachment_metadata'";
+
+		return $wpdb->get_results($sql, ARRAY_N)[0];
 	}
 }
 

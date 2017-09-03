@@ -1,6 +1,8 @@
 <?php
 
-namespace MailCatcher;
+namespace MailCatcher\Models;
+
+use MailCatcher\GeneralHelper;
 
 class Mail
 {
@@ -11,7 +13,7 @@ class Mail
 		));
 
         foreach ($logs as $log) {
-            wp_mail($log['emailto'], $log['subject'], $log['message']);
+            wp_mail($log['email_to'], $log['subject'], $log['message']);
         }
     }
 
@@ -29,13 +31,25 @@ class Mail
 			$log = array_filter($log, function($key) {
 				return in_array($key, GeneralHelper::$csvExportLegalColumns);
 			}, ARRAY_FILTER_USE_KEY);
+
+			$log['attachments'] = unserialize($log['attachments']);
+			$log['additional_headers'] = unserialize($log['additional_headers']);
+
+			$log['attachments'] = array_column($log['attachments'], 'url');
+			$log['attachments'] = GeneralHelper::arrayToString($log['attachments']);
+			$log['additional_headers'] = GeneralHelper::arrayToString($log['additional_headers']);
 		}
+
+		$headings = array_keys($logs[0]);
+		array_walk($headings, function(&$heading) {
+			$heading = GeneralHelper::slugToLabel($heading);
+		});
 
 		header('Content-Type: text/csv; charset=utf-8');
 		header('Content-Disposition: attachment; filename="' . GeneralHelper::$csvExportFileName . '"');
 
         $out = fopen('php://output', 'w');
-        fputcsv($out, array_keys($logs[0]));
+        fputcsv($out, $headings);
 
         foreach ($logs as $k => $v) {
             fputcsv($out, $v);

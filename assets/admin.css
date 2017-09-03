@@ -188,7 +188,7 @@
     pointer-events: initial;
 }
 
-.attachments-container .attachment-item {
+.attachment-item {
     position: relative;
     display: inline-block;
     width: 75px;
