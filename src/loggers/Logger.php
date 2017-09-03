@@ -18,12 +18,12 @@ class Logger
 {
 	protected $id = null;
 
-	public function __construct()
+	public function __construct($args)
 	{
 		/**
 		 * Add code here to choose which logger to instansiate
 		 */
-		new WpMail();
+		new WpMail($args);
 	}
 
 	public function recordMail($args)
@@ -68,6 +68,10 @@ class Logger
 
 	protected function getAttachmentLocations($attachments)
 	{
+		if (empty($attachments)) {
+			return array();
+		}
+
 		$result = array();
 
 		array_walk($attachments, function(&$value) {

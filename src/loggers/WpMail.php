@@ -6,10 +6,10 @@ use WP_Error;
 
 class WpMail extends Logger
 {
-	public function __construct()
+	public function __construct($args)
 	{
-		add_filter('wp_mail', array($this, 'recordMail'));
 		add_action('wp_mail_failed', array($this, 'recordError'), 999999);
+		$this->recordMail($args);
 	}
 
 	public function recordMail($args)

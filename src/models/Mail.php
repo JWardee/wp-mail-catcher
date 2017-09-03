@@ -6,14 +6,19 @@ use MailCatcher\GeneralHelper;
 
 class Mail
 {
-    static public function resend($ids)
+	/**
+	 * TODO: Likely a bug whereby attachments and additional
+	 * headers aren't resent because they're an array with ['url']
+	 * and ['id'] in them
+    */
+	static public function resend($ids)
     {
         $logs = Logs::get(array(
 			'post__in' => $ids
 		));
 
         foreach ($logs as $log) {
-            wp_mail($log['email_to'], $log['subject'], $log['message']);
+            wp_mail($log['email_to'], $log['subject'], $log['message'], json_decode($log['additional_headers']), json_decode($log['attachments']));
         }
     }
 

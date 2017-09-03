@@ -17,6 +17,7 @@ class GeneralHelper
 	static public $adminPageSlug;
 	static public $uploadsFolderInfo;
 	static public $pluginAssetsUrl;
+	static public $pluginViewDirectory;
 
 	static public function setSettings()
 	{
@@ -30,6 +31,7 @@ class GeneralHelper
 		self::$adminPageSlug = 'mail-catcher';
 		self::$uploadsFolderInfo = wp_upload_dir();
 		self::$pluginAssetsUrl = self::$pluginUrl . '/assets';
+		self::$pluginViewDirectory = __DIR__ . '/views';
 	}
 
     static public function arrayToString($pieces, $glue = ', ')
@@ -82,6 +84,10 @@ class GeneralHelper
 
 	static public function getAttachmentIdsFromUrl($urls)
 	{
+		if (empty($urls)) {
+			return array();
+		}
+
 		global $wpdb;
 
 		$urls = self::sanitiseForQuery($urls);
@@ -90,7 +96,7 @@ class GeneralHelper
                 FROM " . $wpdb->prefix . "postmeta
 				WHERE meta_value LIKE '%" . $urls[0] . "%'";
 
-		if (count($urls) > 1) {
+		if (is_array($urls) && count($urls) > 1) {
 			foreach (Arrays::removeFirst($urls) as $url) {
 				$sql .= " OR meta_value LIKE '%" . $url . "%'";
 			}

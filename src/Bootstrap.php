@@ -11,28 +11,15 @@ class Bootstrap
     {
 		GeneralHelper::setSettings();
 
-		new Logger();
+		add_filter('wp_mail', function($args) {
+			new Logger($args);
+			return $args;
+		});
 
         add_action('admin_menu', array($this, 'route'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
 		add_action('plugins_loaded', function() {
 			load_plugin_textdomain(GeneralHelper::$languageDomain, false, GeneralHelper::$pluginPath . '/languages');
-		});
-
-        add_action('admin_init', function() {
-			// TODO: Refactor export, export2 $_REQUEST
-			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
-				Mail::export($_REQUEST['id']);
-			}
-
-			if (isset($_GET['action']) && $_GET['action'] == 'new_mail') {
-				Mail::add($_POST['header_keys'],
-					$_POST['header_values'],
-					$_POST['attachment_ids'],
-					$_POST['subject'],
-					$_POST['message']
-				);
-			}
 		});
     }
 
@@ -48,8 +35,22 @@ class Bootstrap
 
     public function route()
     {
+		// TODO: Refactor export, export2 $_REQUEST
+		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
+			Mail::export($_REQUEST['id']);
+		}
+
+		if (isset($_GET['action']) && $_GET['action'] == 'new_mail') {
+			Mail::add($_POST['header_keys'],
+				$_POST['header_values'],
+				$_POST['attachment_ids'],
+				$_POST['subject'],
+				$_POST['message']
+			);
+		}
+
         add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', GeneralHelper::$adminPageSlug, function() {
-			require __DIR__ . '/views/logs.php';
+			require GeneralHelper::$pluginViewDirectory . '/logs.php';
 		}, 'dashicons-email-alt');
     }
 
