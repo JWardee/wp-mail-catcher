@@ -7,10 +7,13 @@
 
 //require __DIR__ . '/../vendor/autoload.php';
 
-$_tests_dir = getenv( 'WP_TESTS_DIR' );
-if ( ! $_tests_dir ) {
-	$_tests_dir = __DIR__ . '/../tmp/wordpress-tests-lib';
-}
+//print_r(dirname(__DIR__));
+//exit;
+
+//$_tests_dir = getenv( 'WP_TESTS_DIR' );
+//if ( ! $_tests_dir ) {
+	$_tests_dir = dirname(__DIR__) . '/tmp/wordpress-tests-lib';
+//}
 
 // Give access to tests_add_filter() function.
 require_once $_tests_dir . '/includes/functions.php';
