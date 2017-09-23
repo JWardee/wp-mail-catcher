@@ -9,5 +9,8 @@ engines:
 ratings:
   paths:
   - "src/**/*"
+  - "MailCatcher.php"
 exclude_paths:
 - "src/WP_List_Table.php"
+- "assets/*"
+- "build/**/*"
