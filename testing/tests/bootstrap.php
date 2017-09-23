@@ -5,7 +5,7 @@
  * @package Sample_Plugin
  */
 
-//require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 //print_r(dirname(__DIR__));
 //exit;
