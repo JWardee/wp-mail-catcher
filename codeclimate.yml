@@ -1,6 +1,4 @@
-exclude_paths:
-- "assets/*"
-- "languages/*"
-- "vendor/*"
-- "build/*"
-- "WP_List_Table.php"
+ratings:
+   paths:
+   - "src/**/*"
+   - "!src/WP_List_Table.php"
