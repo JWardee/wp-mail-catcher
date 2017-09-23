@@ -1,6 +1,0 @@
-{
-    "name": "james/testing",
-    "require": {
-        "vlucas/phpdotenv": "^2.4"
-    }
-}
