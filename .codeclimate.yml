@@ -1,4 +1,13 @@
+engines:
+  phpmd:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - php:
 ratings:
-   paths:
-   - "src/**/*"
-   - "!src/WP_List_Table.php"
+  paths:
+  - "src/**/*"
+exclude_paths:
+- "src/WP_List_Table.php"
