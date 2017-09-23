@@ -53,6 +53,7 @@ before_script:
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
+      composer update
       cd testing
       phpunit
     fi
