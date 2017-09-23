@@ -7,11 +7,9 @@
 
 //require __DIR__ . '/../vendor/autoload.php';
 
-$GLOBALS['wp_plugins_dir'] = __DIR__ . '/../tmp/wordpress/wp-content/plugins/';
-
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 if ( ! $_tests_dir ) {
-	$_tests_dir = './tmp/wordpress-tests-lib';
+	$_tests_dir = __DIR__ . '/tmp/wordpress-tests-lib';
 }
 
 // Give access to tests_add_filter() function.
