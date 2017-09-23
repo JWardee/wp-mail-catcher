@@ -53,6 +53,7 @@ before_script:
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
+      cd testing
       phpunit
       WP_MULTISITE=1 phpunit
     fi
