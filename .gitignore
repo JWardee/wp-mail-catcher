@@ -1,11 +1,13 @@
-/testing/vendor
+vendor
 .DS_Store
 Thumbs.db
 wp-cli.local.yml
-node_modules/
+node_modules
 *.sql
 *.tar.gz
 *.zip
-/composer.lock
+/testing/tmp
+composer.lock
 /testing/wp-config.env
-/testing/composer.lock
+/testing/tests/TestMailgun.php
+.idea

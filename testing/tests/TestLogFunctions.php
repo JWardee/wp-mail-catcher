@@ -1,8 +1,11 @@
 <?php
 
-class LogFunctionsTest extends WP_UnitTestCase
+use MailCatcher\Models\Logs;
+use MailCatcher\Models\Mail;
+
+class TestLogFunctions extends WP_UnitTestCase
 {
-	function test_can_delete_single_log()
+	function testCanDeleteSingleLog()
 	{
 		wp_mail('test@test.com', 'subject', 'message');
 
@@ -23,7 +26,7 @@ class LogFunctionsTest extends WP_UnitTestCase
 		$this->assertEquals(count($mail), 0);
 	}
 
-	function test_can_delete_multiple_logs()
+	function testCanDeleteMultipleLogs()
 	{
 		wp_mail('test@test.com', 'subject', 'message');
 		wp_mail('test@test.com', 'subject', 'message');
@@ -49,7 +52,7 @@ class LogFunctionsTest extends WP_UnitTestCase
 		$this->assertEquals(count($mail), 0);
 	}
 
-	function test_can_resend_single_mail()
+	function testCanResendSingleMail()
 	{
 		wp_mail('test@test.com', 'RESEND ME', 'message');
 
@@ -70,7 +73,7 @@ class LogFunctionsTest extends WP_UnitTestCase
 		$this->assertEquals(count($mail), 2);
 	}
 
-	function test_can_resend_multiple_mail()
+	function testCanResendMultipleMail()
 	{
 		wp_mail('test@test.com', 'RESEND ME 1', 'message');
 		wp_mail('test@test.com', 'RESEND ME 2', 'message');

@@ -83,6 +83,7 @@ class Logger
 		} else {
 			$attachmentIds = GeneralHelper::getAttachmentIdsFromUrl($attachments);
 		}
+
 		for ($i = 0; $i < count($attachments); $i++) {
 			$result[] = array(
 				'id' => $attachmentIds[$i],

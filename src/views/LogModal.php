@@ -1,7 +1,9 @@
 <?php
-use MailCatcher\GeneralHelper;
-?>
 
+use MailCatcher\GeneralHelper;
+
+if (isset($log)) :
+?>
 <div id="<?php echo $log['id']; ?>" class="modal">
 	<div class="modal-content">
 		<div class="modal-body">
@@ -81,3 +83,4 @@ use MailCatcher\GeneralHelper;
 	</div>
 	<div class="backdrop dismiss-modal"></div>
 </div>
+<?php endif; ?>
