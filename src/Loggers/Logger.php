@@ -14,16 +14,14 @@ use WP_Error;
 // TODO: Redo db schema to just seralize a modified version of the $mailer object like getAdditionalHeaders()
 // TODO: Add doc blocks
 
-class Logger
+abstract class Logger
 {
 	protected $id = null;
 
-	public function __construct($args)
+	public function __construct()
 	{
-		/**
-		 * Add code here to choose which logger to instansiate
-		 */
-		new WpMail($args);
+		add_action('wp_mail', array($this, 'recordMail'), 999999);
+		add_action('wp_mail_failed', array($this, 'recordError'), 999999);
 	}
 
 	public function recordMail($args)

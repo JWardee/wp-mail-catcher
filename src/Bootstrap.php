@@ -10,11 +10,7 @@ class Bootstrap
     public function __construct()
     {
 		GeneralHelper::setSettings();
-
-		add_filter('wp_mail', function($args) {
-			new Logger($args);
-			return $args;
-		});
+		LoggerFactory::Set();
 
         add_action('admin_menu', array($this, 'route'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
@@ -40,6 +36,10 @@ class Bootstrap
 			Mail::export($_REQUEST['id']);
 		}
 
+		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+			Mail::resend($_REQUEST['id']);
+		}
+
 		if (isset($_GET['action']) && $_GET['action'] == 'new_mail') {
 			Mail::add($_POST['header_keys'],
 				$_POST['header_values'],
@@ -50,7 +50,7 @@ class Bootstrap
 		}
 
         add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', GeneralHelper::$adminPageSlug, function() {
-			require GeneralHelper::$pluginViewDirectory . '/logs.php';
+			require GeneralHelper::$pluginViewDirectory . '/Log.php';
 		}, 'dashicons-email-alt');
     }
 

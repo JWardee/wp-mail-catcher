@@ -14,7 +14,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 $bootstrap = new Bootstrap();
 
 register_activation_hook(__FILE__, array($bootstrap, 'install'));
-//register_uninstall_hook(__FILE__, array('Bootstrap', 'uninstall'));
+register_uninstall_hook(__FILE__, array('Bootstrap', 'uninstall'));
 
 /**
  * Only use to test uninstall method

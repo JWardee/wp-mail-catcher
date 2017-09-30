@@ -20,6 +20,9 @@ class Mail
         foreach ($logs as $log) {
             wp_mail($log['email_to'], $log['subject'], $log['message'], json_decode($log['additional_headers']), json_decode($log['attachments']));
         }
+
+		header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
+		exit;
     }
 
     static public function export($ids)
