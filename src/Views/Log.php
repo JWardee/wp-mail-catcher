@@ -12,7 +12,9 @@ require __DIR__ . '/NewMessageModal.php';
 	<h2>Mail Catcher</h2>
 	<button class="button-primary" data-toggle="modal" data-target="#new-message">New Message</button>
 
-	<?php $logs->display(); ?>
+	<form action="?page=<?php GeneralHelper::$adminPageSlug; ?>" method="post">
+		<?php $logs->display(); ?>
+	</form>
 </div>
 
 <?php
