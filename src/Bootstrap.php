@@ -38,6 +38,10 @@ class Bootstrap
 
 		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
 			Mail::resend($_REQUEST['id']);
+
+			//TODO: add wp nonce
+			header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
+			exit;
 		}
 
 		if (isset($_GET['action']) && $_GET['action'] == 'new_mail') {
@@ -47,6 +51,10 @@ class Bootstrap
 				$_POST['subject'],
 				$_POST['message']
 			);
+
+			//TODO: add wp nonce
+			header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
+			exit;
 		}
 
         add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', GeneralHelper::$adminPageSlug, function() {

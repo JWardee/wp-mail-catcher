@@ -20,9 +20,6 @@ class Mail
         foreach ($logs as $log) {
             wp_mail($log['email_to'], $log['subject'], $log['message'], json_decode($log['additional_headers']), json_decode($log['attachments']));
         }
-
-		header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
-		exit;
     }
 
     static public function export($ids)
@@ -96,9 +93,5 @@ class Mail
         }
 
         wp_mail($tos, $subject, $message, $headers, $attachments);
-
-        //TODO: add wp nonce
-        header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
-        exit;
     }
 }
