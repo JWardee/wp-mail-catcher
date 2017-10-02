@@ -57,8 +57,40 @@ class Logs
 				 LIMIT " . $args['posts_per_page'] . "
                  OFFSET " . ($args['posts_per_page'] * ($args['paged'] - 1));
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return self::dbResultTransform($wpdb->get_results($sql, ARRAY_A));
     }
+
+	static private function dbResultTransform($results)
+	{
+		return array_map(function($result) {
+			$result['attachments'] = json_decode($result['attachments']);
+			$result['additional_headers'] = json_decode($result['additional_headers']);
+
+			if (is_string($result['additional_headers'])) {
+				$result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);
+			}
+
+			if (!empty($result['attachments'])) {
+				foreach ($result['attachments'] as $attachment) {
+					if ($attachment->id == -1) {
+						$attachment->note = GeneralHelper::$attachmentNotInMediaLib;
+						continue;
+					}
+
+					$attachment->src = GeneralHelper::$attachmentNotImageThumbnail;
+					$attachment->url = wp_get_attachment_url($attachment->id);
+
+					$isImage = strpos(get_post_mime_type($attachment->id), 'image') !== false ? true : false;
+
+					if ($isImage == true) {
+						$attachment->src = $attachment->url;
+					}
+				}
+			}
+
+			return $result;
+		}, $results);
+	}
 
     static public function getTotalAmount()
     {

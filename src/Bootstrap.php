@@ -3,6 +3,7 @@
 namespace MailCatcher;
 
 use MailCatcher\Loggers\Logger;
+use MailCatcher\Models\Logs;
 use MailCatcher\Models\Mail;
 
 class Bootstrap
@@ -38,6 +39,14 @@ class Bootstrap
 
 		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
 			Mail::resend($_REQUEST['id']);
+
+			//TODO: add wp nonce
+			header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
+			exit;
+		}
+
+		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+			Logs::delete($_REQUEST['id']);
 
 			//TODO: add wp nonce
 			header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);

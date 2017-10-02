@@ -67,10 +67,10 @@ abstract class Logger
 	protected function getAttachmentLocations($attachments)
 	{
 		if (empty($attachments)) {
-			return array();
+			return [];
 		}
 
-		$result = array();
+		$result = [];
 
 		array_walk($attachments, function(&$value) {
 			$value = str_replace(GeneralHelper::$uploadsFolderInfo['path'], '', $value);
@@ -80,13 +80,25 @@ abstract class Logger
 			$attachmentIds = array_values(array_filter($_POST['attachment_ids']));
 		} else {
 			$attachmentIds = GeneralHelper::getAttachmentIdsFromUrl($attachments);
+
+			if (empty($attachmentIds)) {
+				return [
+					[
+						'id' => -1,
+					]
+				];
+			}
+		}
+
+		if (empty($attachmentIds)) {
+			return [];
 		}
 
 		for ($i = 0; $i < count($attachments); $i++) {
-			$result[] = array(
+			$result[] = [
 				'id' => $attachmentIds[$i],
 				'url' => GeneralHelper::$uploadsFolderInfo['url'] . $attachments[$i]
-			);
+			];
 		}
 
 		return $result;

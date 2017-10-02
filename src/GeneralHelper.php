@@ -18,6 +18,8 @@ class GeneralHelper
 	static public $uploadsFolderInfo;
 	static public $pluginAssetsUrl;
 	static public $pluginViewDirectory;
+	static public $attachmentNotInMediaLib;
+	public static $attachmentNotImageThumbnail;
 
 	static public function setSettings()
 	{
@@ -32,6 +34,8 @@ class GeneralHelper
 		self::$uploadsFolderInfo = wp_upload_dir();
 		self::$pluginAssetsUrl = self::$pluginUrl . '/assets';
 		self::$pluginViewDirectory = __DIR__ . '/views';
+		self::$attachmentNotInMediaLib = 'An attachment was sent but it was not in the media library';
+		self::$attachmentNotImageThumbnail = self::$pluginAssetsUrl . '/file-icon.png';
 	}
 
     static public function arrayToString($pieces, $glue = ', ')
@@ -85,7 +89,7 @@ class GeneralHelper
 	static public function getAttachmentIdsFromUrl($urls)
 	{
 		if (empty($urls)) {
-			return array();
+			return [];
 		}
 
 		global $wpdb;
@@ -104,7 +108,13 @@ class GeneralHelper
 
 		$sql .= " AND meta_key = '_wp_attachment_metadata'";
 
-		return $wpdb->get_results($sql, ARRAY_N)[0];
+		$results = $wpdb->get_results($sql, ARRAY_N);
+
+		if (isset($results[0])) {
+			return $results[0];
+		}
+
+		return [];
 	}
 }
 
