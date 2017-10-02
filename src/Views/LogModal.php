@@ -17,7 +17,7 @@ if (isset($log)) :
 						<?php echo wpautop($log['message']); ?>
 					</div>
 					<div class="content">
-						<?php if (empty($log['attachments']) && empty($additional_headers)) : ?>
+						<?php if (empty($log['attachments']) && empty($log['additional_headers'])) : ?>
 							<p>There aren't any details to show!</p>
 						<?php else : ?>
 							<?php if (!empty($log['attachments'])) : ?>

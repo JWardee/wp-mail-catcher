@@ -18,7 +18,7 @@ class Mail
 		));
 
         foreach ($logs as $log) {
-            wp_mail($log['email_to'], $log['subject'], $log['message'], json_decode($log['additional_headers']), json_decode($log['attachments']));
+            wp_mail($log['email_to'], $log['subject'], $log['message'], $log['additional_headers'], $log['attachment_file_paths']);
         }
     }
 

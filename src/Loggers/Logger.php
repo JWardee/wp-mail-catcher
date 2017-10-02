@@ -73,7 +73,7 @@ abstract class Logger
 		$result = [];
 
 		array_walk($attachments, function(&$value) {
-			$value = str_replace(GeneralHelper::$uploadsFolderInfo['path'], '', $value);
+			$value = str_replace(GeneralHelper::$uploadsFolderInfo['basedir'] . '/', '', $value);
 		});
 
 		if (isset($_POST['attachment_ids'])) {

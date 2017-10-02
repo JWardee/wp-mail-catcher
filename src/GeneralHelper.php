@@ -96,7 +96,7 @@ class GeneralHelper
 
 		$urls = self::sanitiseForQuery($urls);
 
-		$sql = "SELECT post_id
+		$sql = "SELECT DISTINCT post_id
                 FROM " . $wpdb->prefix . "postmeta
 				WHERE meta_value LIKE '%" . $urls[0] . "%'";
 
@@ -106,12 +106,12 @@ class GeneralHelper
 			}
 		}
 
-		$sql .= " AND meta_key = '_wp_attachment_metadata'";
+		$sql .= " AND meta_key = '_wp_attached_file'";
 
 		$results = $wpdb->get_results($sql, ARRAY_N);
 
 		if (isset($results[0])) {
-			return $results[0];
+			return array_column($results, 0);
 		}
 
 		return [];

@@ -65,6 +65,7 @@ class Logs
 		return array_map(function($result) {
 			$result['attachments'] = json_decode($result['attachments']);
 			$result['additional_headers'] = json_decode($result['additional_headers']);
+			$result['attachment_file_paths'] = [];
 
 			if (is_string($result['additional_headers'])) {
 				$result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);
@@ -79,6 +80,7 @@ class Logs
 
 					$attachment->src = GeneralHelper::$attachmentNotImageThumbnail;
 					$attachment->url = wp_get_attachment_url($attachment->id);
+					$result['attachment_file_paths'][] = get_attached_file($attachment->id);
 
 					$isImage = strpos(get_post_mime_type($attachment->id), 'image') !== false ? true : false;
 
