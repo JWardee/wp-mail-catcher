@@ -17,13 +17,10 @@ if (isset($log)) :
 						<?php echo wpautop($log['message']); ?>
 					</div>
 					<div class="content">
-						<?php
-						if (empty($log['attachments']) && empty($additional_headers)) : ?>
+						<?php if (empty($log['attachments']) && empty($additional_headers)) : ?>
 							<p>There aren't any details to show!</p>
 						<?php else : ?>
-							<?php
-							if (!empty($log['attachments'])) :
-								?>
+							<?php if (!empty($log['attachments'])) : ?>
 								<h3><?php _e('Attachments', GeneralHelper::$languageDomain); ?></h3>
 								<hr />
 								<ul>
@@ -42,9 +39,7 @@ if (isset($log)) :
 								</ul>
 							<?php endif; ?>
 
-							<?php
-							if (!empty($log['additional_headers'])) :
-								?>
+							<?php if (!empty($log['additional_headers'])) : ?>
 								<h3><?php _e('Additional Headers', GeneralHelper::$languageDomain); ?></h3>
 								<hr />
 								<ul>

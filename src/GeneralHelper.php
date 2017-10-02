@@ -116,6 +116,13 @@ class GeneralHelper
 
 		return [];
 	}
+
+	public static function redirectToThisHomeScreen()
+	{
+		//TODO: add wp nonce
+		header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
+		exit;
+	}
 }
 
 

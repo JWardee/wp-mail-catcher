@@ -39,31 +39,17 @@ class Bootstrap
 
 		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
 			Mail::resend($_REQUEST['id']);
-
-			//TODO: add wp nonce
-			header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
-			exit;
+			GeneralHelper::redirectToThisHomeScreen();
 		}
 
 		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
 			Logs::delete($_REQUEST['id']);
-
-			//TODO: add wp nonce
-			header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
-			exit;
+			GeneralHelper::redirectToThisHomeScreen();
 		}
 
 		if (isset($_GET['action']) && $_GET['action'] == 'new_mail') {
-			Mail::add($_POST['header_keys'],
-				$_POST['header_values'],
-				$_POST['attachment_ids'],
-				$_POST['subject'],
-				$_POST['message']
-			);
-
-			//TODO: add wp nonce
-			header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
-			exit;
+			Mail::add($_POST['header_keys'], $_POST['header_values'], $_POST['attachment_ids'], $_POST['subject'], $_POST['message']);
+			GeneralHelper::redirectToThisHomeScreen();
 		}
 
         add_menu_page('Mail Catcher', 'Mail Catcher', 'manage_options', GeneralHelper::$adminPageSlug, function() {
