@@ -2,6 +2,7 @@
 
 namespace MailCatcher\Models;
 
+use Carbon\Carbon;
 use MailCatcher\GeneralHelper;
 
 class Logs
@@ -63,6 +64,7 @@ class Logs
 	static private function dbResultTransform($results)
 	{
 		return array_map(function($result) {
+			$result['time'] = Carbon::createFromTimestamp($result['time'])->diffForHumans();
 			$result['attachments'] = json_decode($result['attachments']);
 			$result['additional_headers'] = json_decode($result['additional_headers']);
 			$result['attachment_file_paths'] = [];
@@ -111,4 +113,10 @@ class Logs
         $wpdb->query("DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . "
                       WHERE id IN(" . $ids . ")");
     }
+
+	static public function truncate()
+	{
+		global $wpdb;
+		$wpdb->query("TRUNCATE TABLE " . $wpdb->prefix . GeneralHelper::$tableName);
+	}
 }

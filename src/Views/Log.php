@@ -9,8 +9,10 @@ require __DIR__ . '/NewMessageModal.php';
 ?>
 
 <div class="wrap">
-	<h2>Mail Catcher</h2>
-	<button class="button-primary" data-toggle="modal" data-target="#new-message">New Message</button>
+	<h2>Mail Catcher - <?php _e('logs', GeneralHelper::$languageDomain); ?></h2>
+	<button class="button-primary" data-toggle="modal" data-target="#new-message">
+		<?php _e('New Message', GeneralHelper::$languageDomain); ?>
+	</button>
 
 	<form action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>" method="post">
 		<?php $logs->display(); ?>

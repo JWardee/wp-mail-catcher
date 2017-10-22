@@ -13,10 +13,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $bootstrap = new Bootstrap();
 
-register_activation_hook(__FILE__, array($bootstrap, 'install'));
-register_uninstall_hook(__FILE__, array('Bootstrap', 'uninstall'));
-
-/**
- * Only use to test uninstall method
- */
-register_deactivation_hook(__FILE__, array($bootstrap, 'uninstall'));
+register_activation_hook(__FILE__, [$bootstrap, 'install']);
+register_deactivation_hook(__FILE__, ['MailCatcher\Bootstrap', 'deactivate']);
+register_uninstall_hook(__FILE__, ['MailCatcher\Bootstrap', 'uninstall']);

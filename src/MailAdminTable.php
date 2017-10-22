@@ -48,12 +48,9 @@ class MailAdminTable extends WP_List_Table
                 $item['id']),
         );
 
-        $tmp = date_create_from_format('Y-m-d H:i:s', $item['time']);
-
-        //Return the title contents
-        return sprintf('%1$s %2$s',
-            /*$1%s*/ human_time_diff(date_timestamp_get($tmp)) . ' ago',
-            /*$2%s*/ $this->row_actions($actions)
+		return sprintf('%1$s %2$s',
+			$item['time'],
+            $this->row_actions($actions)
         );
     }
 
@@ -62,8 +59,8 @@ class MailAdminTable extends WP_List_Table
 	{
         return sprintf(
             '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-            /*$1%s*/ 'id',  //Let's simply repurpose the table's singular label ("movie")
-            /*$2%s*/ $item['id']                //The value of the checkbox should be the record's id
+            'id',
+            $item['id']
         );
     }
 
@@ -98,10 +95,10 @@ class MailAdminTable extends WP_List_Table
     function get_sortable_columns()
 	{
         $sortable_columns = array(
-            'time'  => array('time',false),
-            'email_to'  => array('email_to',false),     //true means it's already sorted
-            'subject'  => array('subject',false),
-            'status'  => array('status',false),
+            'time'  => array('time', false),
+            'email_to'  => array('email_to', false),
+            'subject'  => array('subject', false),
+            'status'  => array('status', false),
         );
 
         return $sortable_columns;

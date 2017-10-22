@@ -6,7 +6,6 @@ use MailCatcher\GeneralHelper;
 use WP_Error;
 
 // TODO: Add grunt support
-// TODO: Change 'time' to be timestamp and change human diff functions
 // TODO: Add additional headers column and ensure htmlspecialchars
 // TODO: Test "to" addresses accepts and processes all to formats in WP docs
 // TODO: Test plugin works with Mailgun, Sparkpost etc
@@ -53,7 +52,7 @@ abstract class Logger
 	protected function getMailArgs($args)
 	{
 		return array(
-			'time' => current_time('mysql'),
+			'time' => time(),
 			'email_to' => GeneralHelper::arrayToString($args['to']),
 			'subject' => $args['subject'],
 			'message' => $args['message'],

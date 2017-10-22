@@ -5,6 +5,7 @@
     }
   },
   "require": {
-    "anahkiasen/underscore-php": "^2.0"
+    "anahkiasen/underscore-php": "^2.0",
+    "nesbot/carbon": "^1.22"
   }
 }

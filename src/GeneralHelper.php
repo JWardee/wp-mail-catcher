@@ -117,10 +117,14 @@ class GeneralHelper
 		return [];
 	}
 
-	public static function redirectToThisHomeScreen()
+	public static function redirectToThisHomeScreen($params = [])
 	{
+		if (!isset($params['page'])) {
+			$params['page'] = GeneralHelper::$adminPageSlug;
+		}
+
 		//TODO: add wp nonce
-		header('Location: ' . GeneralHelper::$adminUrl . '?page=' . GeneralHelper::$adminPageSlug);
+		header('Location: ' . GeneralHelper::$adminUrl . 'admin.php?' . http_build_query($params));
 		exit;
 	}
 }

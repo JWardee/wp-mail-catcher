@@ -18,7 +18,9 @@ if (isset($log)) :
 					</div>
 					<div class="content">
 						<?php if (empty($log['attachments']) && empty($log['additional_headers'])) : ?>
-							<p>There aren't any details to show!</p>
+							<p>
+								<?php _e('There aren\'t any details to show!', GeneralHelper::$languageDomain); ?>
+							</p>
 						<?php else : ?>
 							<?php if (!empty($log['attachments'])) : ?>
 								<h3><?php _e('Attachments', GeneralHelper::$languageDomain); ?></h3>
