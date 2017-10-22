@@ -23,16 +23,8 @@ class Bootstrap
 
 	public function registerCronTasks()
 	{
-		$cronManager = CronManager::getInstance();
-
-//		if (Settings::get('auto_delete') == false) {
-//			var_dump('clear tasks');
-////			$cronManager->clearTasks();
-//		} else {
-//			$cronManager->addTask('MailCatcher\Models\Logs::truncate', Settings::get('timescale'));
-//		}
-
 		if (Settings::get('auto_delete') == true) {
+			$cronManager = CronManager::getInstance();
 			$cronManager->addTask('MailCatcher\Models\Logs::truncate', Settings::get('timescale'), 'Truncate');
 		}
 	}
