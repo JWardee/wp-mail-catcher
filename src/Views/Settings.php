@@ -7,7 +7,6 @@ use MailCatcher\Models\Settings;
 $settings = Settings::get();
 $capabilities = $GLOBALS['wp_roles']->roles['administrator']['capabilities'];
 $cronJobs = CronManager::getInstance()->getTasks();
-var_dump($settings);
 ?>
 
 <div class="wrap">
@@ -15,19 +14,19 @@ var_dump($settings);
 		<?php if ($_GET['update_success'] == 1) : ?>
 			<div class="notice notice-success">
 				<p>
-					<?php _e('Settings were successfully updated!', GeneralHelper::$languageDomain); ?>
+					<?php _e('Settings were successfully updated!', 'MailCatcher'); ?>
 				</p>
 			</div>
 		<?php else : ?>
 			<div class="notice notice-error">
 				<p>
-					<?php _e('You didn\'t change any settings', GeneralHelper::$languageDomain); ?>
+					<?php _e('You didn\'t change any settings', 'MailCatcher'); ?>
 				</p>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<h2>Mail Catcher - <?php _e('settings', GeneralHelper::$languageDomain); ?></h2>
+	<h2 class="heading">Mail Catcher - <?php _e('settings', 'MailCatcher'); ?></h2>
 
 	<form action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&action=update_settings" method="post">
 		<table class="form-table">
@@ -35,7 +34,7 @@ var_dump($settings);
 				<tr>
 					<th scope="row">
 						<label>
-							<?php _e('User role needed to see logs', GeneralHelper::$languageDomain); ?>
+							<?php _e('User capability needed to see logs', 'MailCatcher'); ?>
 						</label>
 					</th>
 					<td>
@@ -51,7 +50,7 @@ var_dump($settings);
 				<tr>
 					<th scope="row">
 						<label>
-							<?php _e('User role needed to edit settings', GeneralHelper::$languageDomain); ?>
+							<?php _e('User capability needed to edit settings', 'MailCatcher'); ?>
 						</label>
 					</th>
 					<td>
@@ -67,21 +66,21 @@ var_dump($settings);
 				<tr>
 					<th scope="row">
 						<label for="blogname">
-							<?php _e('Auto delete logs?', GeneralHelper::$languageDomain); ?>
+							<?php _e('Auto delete logs?', 'MailCatcher'); ?>
 						</label>
 					</th>
 					<td>
 						<label>
 							<input type="radio" name="auto_delete" value="false"<?php if ($settings['auto_delete'] == false) : ?> checked<?php endif; ?>>
 							<span class="date-time-text date-time-custom-text">
-								<?php _e('No', GeneralHelper::$languageDomain); ?>
+								<?php _e('No', 'MailCatcher'); ?>
 							</span>
 						</label>
 						<fieldset>
 							<label>
 								<input type="radio" name="auto_delete" value="true"<?php if ($settings['auto_delete'] == true) : ?> checked<?php endif; ?>>
 								<span class="date-time-text date-time-custom-text">
-									<?php _e('Yes', GeneralHelper::$languageDomain); ?>
+									<?php _e('Yes', 'MailCatcher'); ?>
 								</span>
 							</label>
 							<span class="example">
@@ -95,7 +94,7 @@ var_dump($settings);
 							</span>
 							<?php if (isset($cronJobs[0])) : ?>
 								<p class="description">
-									<?php _e('Will next run in: ', GeneralHelper::$languageDomain); echo $cronJobs[0]['nextRun']; ?>
+									<?php printf(__('Will next run in: %s.', 'MailCatcher'), $cronJobs[0]['nextRun']); ?>
 								</p>
 							<?php endif; ?>
 						</fieldset>
@@ -106,8 +105,10 @@ var_dump($settings);
 
 		<p class="submit">
 			<button type="submit" class="button button-primary">
-				<?php _e('Save Changes', GeneralHelper::$languageDomain); ?>
+				<?php _e('Save Changes', 'MailCatcher'); ?>
 			</button>
 		</p>
 	</form>
+
+	<?php require GeneralHelper::$pluginViewDirectory . '/Footer.php'; ?>
 </div>

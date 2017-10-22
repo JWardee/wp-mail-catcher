@@ -34,15 +34,15 @@ class MailAdminTable extends WP_List_Table
 	{
         //Build row actions
         $actions = array(
-            'delete' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Delete', GeneralHelper::$languageDomain) . '</a>',
+            'delete' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Delete', 'MailCatcher') . '</a>',
                 'mail-catcher',
                 'delete',
                 $item['id']),
-            'resend' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Resend', GeneralHelper::$languageDomain) . '</a>',
+            'resend' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Resend', 'MailCatcher') . '</a>',
                 'mail-catcher',
                 'resend',
                 $item['id']),
-            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Export', GeneralHelper::$languageDomain) . '</a>',
+            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Export', 'MailCatcher') . '</a>',
                 'mail-catcher',
                 'export',
                 $item['id']),
@@ -73,10 +73,10 @@ class MailAdminTable extends WP_List_Table
 	{
         $columns = array(
             'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
-            'time'  => __('Sent', GeneralHelper::$languageDomain),
-            'email_to'  => __('To', GeneralHelper::$languageDomain),
-            'subject'  => __('Subject', GeneralHelper::$languageDomain),
-            'status'  => __('Status', GeneralHelper::$languageDomain),
+            'time'  => __('Sent', 'MailCatcher'),
+            'email_to'  => __('To', 'MailCatcher'),
+            'subject'  => __('Subject', 'MailCatcher'),
+            'status'  => __('Status', 'MailCatcher'),
             'more_info' => ''
         );
 
@@ -86,10 +86,10 @@ class MailAdminTable extends WP_List_Table
     function column_status($item)
 	{
         if ($item['status'] == true) {
-            return '<span class="status">' . __('Success', GeneralHelper::$languageDomain) . '</span>';
+            return '<span class="status">' . __('Success', 'MailCatcher') . '</span>';
         }
 
-        return '<span class="status" data-error="' . $item['error'] . '">' . __('Failed', GeneralHelper::$languageDomain) . '</span>';
+        return '<span class="status" data-error="' . $item['error'] . '">' . __('Failed', 'MailCatcher') . '</span>';
     }
 
     function get_sortable_columns()
@@ -107,9 +107,9 @@ class MailAdminTable extends WP_List_Table
     function get_bulk_actions()
 	{
         $actions = array(
-            'delete'    => __('Delete', GeneralHelper::$languageDomain),
-            'resend' => __('Resend', GeneralHelper::$languageDomain),
-            'export' => __('Export', GeneralHelper::$languageDomain)
+            'delete'    => __('Delete', 'MailCatcher'),
+            'resend' => __('Resend', 'MailCatcher'),
+            'export' => __('Export', 'MailCatcher')
         );
 
         return $actions;

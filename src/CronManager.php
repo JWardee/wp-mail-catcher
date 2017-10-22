@@ -90,12 +90,12 @@ class CronManager
 	{
 		$schedules['weekly'] = array(
 			'interval' => 604800,
-			'display' => __('Once Weekly', GeneralHelper::$languageDomain)
+			'display' => __('Once Weekly', 'MailCatcher')
 		);
 
 		$schedules['monthly'] = array(
 			'interval' => 2635200,
-			'display' => __('Once a month', GeneralHelper::$languageDomain)
+			'display' => __('Once a month', 'MailCatcher')
 		);
 
 		return $schedules;

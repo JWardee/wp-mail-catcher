@@ -9,7 +9,6 @@ class GeneralHelper
 {
 	static public $pluginPath;
 	static public $pluginUrl;
-	static public $languageDomain;
 	static public $tableName;
 	static public $csvExportLegalColumns;
 	static public $csvExportFileName;
@@ -26,7 +25,6 @@ class GeneralHelper
 		self::$csvExportFileName = 'MailCatcherExport_' . date('d-m-Y_H-i-s') . '.csv';
 		self::$csvExportLegalColumns = array('time', 'subject', 'email_to', 'message', 'attachments', 'additional_headers', 'status', 'error');
 		self::$tableName = 'mail_catcher_logs';
-		self::$languageDomain = 'mail-catcher-text';
 		self::$adminUrl = admin_url();
 		self::$pluginPath = __DIR__ . '/..';
 		self::$pluginUrl = plugins_url('..', self::$pluginPath);

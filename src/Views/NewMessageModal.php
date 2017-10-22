@@ -13,7 +13,7 @@ use MailCatcher\GeneralHelper;
 				<div class="content-container">
 					<div class="content -active">
 						<div>
-							<h2><?php _e('Headers', GeneralHelper::$languageDomain); ?></h2>
+							<h2><?php _e('Headers', 'MailCatcher'); ?></h2>
 							<hr />
 
 							<div class="cloneable">
@@ -27,10 +27,10 @@ use MailCatcher\GeneralHelper;
 									</a>
 
 									<select name="header_keys[]" class="field -select">
-										<option value="to"><?php _e('To', GeneralHelper::$languageDomain); ?></option>
-										<option value="cc"><?php _e('Cc', GeneralHelper::$languageDomain); ?></option>
-										<option value="bcc"><?php _e('Bcc', GeneralHelper::$languageDomain); ?></option>
-										<option value="other"><?php _e('Other', GeneralHelper::$languageDomain); ?></option>
+										<option value="to"><?php _e('To', 'MailCatcher'); ?></option>
+										<option value="cc"><?php _e('Cc', 'MailCatcher'); ?></option>
+										<option value="bcc"><?php _e('Bcc', 'MailCatcher'); ?></option>
+										<option value="other"><?php _e('Other', 'MailCatcher'); ?></option>
 									</select>
 
 									<input name="header_values[]" type="text" class="field -input" />
@@ -38,13 +38,13 @@ use MailCatcher\GeneralHelper;
 							</div>
 						</div>
 						<div>
-							<h2><?php _e('Subject', GeneralHelper::$languageDomain); ?></h2>
+							<h2><?php _e('Subject', 'MailCatcher'); ?></h2>
 							<hr />
 
 							<input name="subject" type="text" class="field -input" />
 						</div>
 						<div>
-							<h2><?php _e('Attachments', GeneralHelper::$languageDomain); ?></h2>
+							<h2><?php _e('Attachments', 'MailCatcher'); ?></h2>
 							<hr />
 
 							<div class="attachments-container">
@@ -57,13 +57,13 @@ use MailCatcher\GeneralHelper;
 
 								<div class="attachment-button-container">
 									<a href="#" class="button-primary" id="add_attachments">
-										<?php _e('Add Attachments', GeneralHelper::$languageDomain); ?>
+										<?php _e('Add Attachments', 'MailCatcher'); ?>
 									</a>
 								</div>
 							</div>
 						</div>
 						<div>
-							<h2><?php _e('Message', GeneralHelper::$languageDomain); ?></h2>
+							<h2><?php _e('Message', 'MailCatcher'); ?></h2>
 							<hr />
 
 							<?php wp_editor('My Message', 'message', $settings = array()); ?>
@@ -73,10 +73,10 @@ use MailCatcher\GeneralHelper;
 			</div>
 			<div class="modal-footer">
 				<button type="submit" class="button-primary">
-					<?php _e('Send Message', GeneralHelper::$languageDomain); ?>
+					<?php _e('Send Message', 'MailCatcher'); ?>
 				</button>
 				<button type="button" class="button-secondary dismiss-modal">
-					<?php _e('Close', GeneralHelper::$languageDomain); ?>
+					<?php _e('Close', 'MailCatcher'); ?>
 				</button>
 			</div>
 		</form>

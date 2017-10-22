@@ -17,7 +17,7 @@ class Bootstrap
         add_action('admin_menu', array($this, 'route'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
 		add_action('plugins_loaded', function() {
-			load_plugin_textdomain(GeneralHelper::$languageDomain, false, GeneralHelper::$pluginPath . '/languages');
+			load_plugin_textdomain('MailCatcher', false, GeneralHelper::$pluginPath . '/languages');
 		});
     }
 

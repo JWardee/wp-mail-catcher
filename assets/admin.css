@@ -234,3 +234,14 @@
 .attachment-container {
 	display: inline-block;
 }
+
+.leave-a-review {
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.heading {
+	display: inline-block;
+}

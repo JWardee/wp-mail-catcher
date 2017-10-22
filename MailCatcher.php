@@ -2,9 +2,11 @@
 /*
 Plugin Name: Mail Catcher
 Plugin URI: http://wordpress.org/plugins/hello-dolly/
+Text Domain: MailCatcher
+Domain Path: /languages
 Description: derp
 Author: James Ward
-Version: 1
+Version: 1.00
 Author URI: https://jamesward.io
 */
 use MailCatcher\Bootstrap;
