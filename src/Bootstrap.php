@@ -48,44 +48,48 @@ class Bootstrap
 			require GeneralHelper::$pluginViewDirectory . '/Settings.php';
 		});
 
-		// TODO: Refactor export, export2 $_REQUEST
-		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
-			Mail::export($_REQUEST['id']);
+		if (current_user_can(Settings::get('default_view_role'))) {
+			// TODO: Refactor export, export2 $_REQUEST
+			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
+				Mail::export($_REQUEST['id']);
+			}
+
+			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+				Mail::resend($_REQUEST['id']);
+				GeneralHelper::redirectToThisHomeScreen();
+			}
+
+			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+				Logs::delete($_REQUEST['id']);
+				GeneralHelper::redirectToThisHomeScreen();
+			}
+
+			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_mail') {
+				Mail::add($_POST['header_keys'], $_POST['header_values'], $_POST['attachment_ids'], $_POST['subject'], $_POST['message']);
+				GeneralHelper::redirectToThisHomeScreen();
+			}
 		}
 
-		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
-			Mail::resend($_REQUEST['id']);
-			GeneralHelper::redirectToThisHomeScreen();
-		}
+		if (current_user_can(Settings::get('default_settings_role'))) {
+			// TODO: Sanitise
+			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'update_settings') {
+				$_POST['auto_delete'] = $_POST['auto_delete'] === 'true';
 
-		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
-			Logs::delete($_REQUEST['id']);
-			GeneralHelper::redirectToThisHomeScreen();
-		}
+				$cronManager = CronManager::getInstance();
+				$cronManager->clearTasks();
 
-		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_mail') {
-			Mail::add($_POST['header_keys'], $_POST['header_values'], $_POST['attachment_ids'], $_POST['subject'], $_POST['message']);
-			GeneralHelper::redirectToThisHomeScreen();
-		}
+				$updateSuccess = Settings::update([
+					'default_view_role' => $_POST['default_view_role'],
+					'default_settings_role' => $_POST['default_settings_role'],
+					'auto_delete' => $_POST['auto_delete'],
+					'timescale' => $_POST['auto_delete'] == true ? $_POST['timescale'] : null,
+				]);
 
-		// TODO: Sanitise
-		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'update_settings') {
-			$_POST['auto_delete'] = $_POST['auto_delete'] === 'true';
-
-			$cronManager = CronManager::getInstance();
-			$cronManager->clearTasks();
-
-			$updateSuccess = Settings::update([
-				'default_view_role' => $_POST['default_view_role'],
-				'default_settings_role' => $_POST['default_settings_role'],
-				'auto_delete' => $_POST['auto_delete'],
-				'timescale' => $_POST['auto_delete'] == true ? $_POST['timescale'] : null,
-			]);
-
-			GeneralHelper::redirectToThisHomeScreen([
-				'update_success' => $updateSuccess,
-				'page' => 'settings'
-			]);
+				GeneralHelper::redirectToThisHomeScreen([
+					'update_success' => $updateSuccess,
+					'page' => 'settings'
+				]);
+			}
 		}
     }
 
@@ -117,12 +121,11 @@ class Bootstrap
 	{
 		$cronManager = CronManager::getInstance();
 		$cronManager->clearTasks();
-		self::uninstall();
 	}
 
     static public function uninstall()
     {
-//		self::deactivate();
+		self::deactivate();
 
         global $wpdb;
         $sql = "DROP TABLE IF EXISTS " . $wpdb->prefix . GeneralHelper::$tableName . ";";

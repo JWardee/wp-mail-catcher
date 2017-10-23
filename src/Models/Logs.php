@@ -7,7 +7,6 @@ use MailCatcher\GeneralHelper;
 
 class Logs
 {
-    // TODO: Cache results so db query isn't run everytime
     static public $postsPerPage = 10;
 
     static public function getTotalPages()

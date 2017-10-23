@@ -6,11 +6,7 @@ use MailCatcher\GeneralHelper;
 use WP_Error;
 
 // TODO: Add grunt support
-// TODO: Add additional headers column and ensure htmlspecialchars
-// TODO: Test "to" addresses accepts and processes all to formats in WP docs
 // TODO: Test plugin works with Mailgun, Sparkpost etc
-// TODO: Check all errors are logged by phpMailerFailed
-// TODO: Redo db schema to just seralize a modified version of the $mailer object like getAdditionalHeaders()
 // TODO: Add doc blocks
 
 abstract class Logger

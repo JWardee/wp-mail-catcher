@@ -242,6 +242,23 @@
 	transform: translateX(-50%);
 }
 
+.leave-a-review .dashicons {
+	font-size: 15px;
+	height: 15px;
+	width: 10px;
+	line-height: 20px;
+}
+
 .heading {
 	display: inline-block;
+}
+
+.button-primary[data-target="#new-message"] {
+	position: absolute;
+	top: 61px;
+	left: 175px;
+}
+
+.wrapper {
+	position: relative;
 }
