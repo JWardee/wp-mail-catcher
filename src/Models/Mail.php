@@ -3,6 +3,7 @@
 namespace MailCatcher\Models;
 
 use MailCatcher\GeneralHelper;
+use Underscore\Types\Arrays;
 
 class Mail
 {
@@ -25,7 +26,8 @@ class Mail
     static public function export($ids)
     {
 		$logs = Logs::get(array(
-			'post__in' => $ids
+			'post__in' => $ids,
+			'date_time_format' => 'd-M-Y @ H:s'
 		));
 
 		/**
@@ -37,12 +39,16 @@ class Mail
 				return in_array($key, GeneralHelper::$csvExportLegalColumns);
 			}, ARRAY_FILTER_USE_KEY);
 
-			$log['attachments'] = json_decode($log['attachments']);
-			$log['additional_headers'] = json_decode($log['additional_headers']);
+			if (isset($log['attachments']) && !empty($log['attachments']) && !is_array($log['attachments'])) {
+				$log['attachments'] = json_decode($log['attachments']);
+				$log['attachments'] = array_column($log['attachments'], 'url');
+				$log['attachments'] = GeneralHelper::arrayToString($log['attachments']);
+			}
 
-			$log['attachments'] = array_column($log['attachments'], 'url');
-			$log['attachments'] = GeneralHelper::arrayToString($log['attachments']);
-			$log['additional_headers'] = GeneralHelper::arrayToString($log['additional_headers']);
+			if (isset($log['additional_headers']) && !empty($log['additional_headers']) && !is_array($log['additional_headers'])) {
+				$log['additional_headers'] = json_decode($log['additional_headers']);
+				$log['additional_headers'] = GeneralHelper::arrayToString($log['additional_headers']);
+			}
 		}
 
 		$headings = array_keys($logs[0]);
@@ -57,6 +63,10 @@ class Mail
         fputcsv($out, $headings);
 
         foreach ($logs as $k => $v) {
+			if (is_array($v)) {
+				$v = Arrays::flatten($v, ', ');
+			}
+
             fputcsv($out, $v);
         }
 

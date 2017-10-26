@@ -32,7 +32,8 @@ class Logs
 			'orderby' => 'time',
 			'posts_per_page' => self::$postsPerPage,
 			'paged' => 1,
-			'order' => 'DESC'
+			'order' => 'DESC',
+			'date_time_format' => 'human'
 		);
 
 		$args = array_merge($defaults, $_REQUEST, $args);
@@ -57,13 +58,18 @@ class Logs
 				 LIMIT " . $args['posts_per_page'] . "
                  OFFSET " . ($args['posts_per_page'] * ($args['paged'] - 1));
 
-        return self::dbResultTransform($wpdb->get_results($sql, ARRAY_A));
+        return self::dbResultTransform($wpdb->get_results($sql, ARRAY_A), $args);
     }
 
-	static private function dbResultTransform($results)
+	static private function dbResultTransform($results, $args = [])
 	{
-		return array_map(function($result) {
-			$result['time'] = Carbon::createFromTimestamp($result['time'])->diffForHumans();
+		foreach ($results as &$result) {
+			if ($args['date_time_format'] == 'human') {
+				$result['time'] = Carbon::createFromTimestamp($result['time'])->diffForHumans();
+			} else {
+				$result['time'] = date($args['date_time_format']);
+			}
+
 			$result['attachments'] = json_decode($result['attachments']);
 			$result['additional_headers'] = json_decode($result['additional_headers']);
 			$result['attachment_file_paths'] = [];
@@ -90,9 +96,9 @@ class Logs
 					}
 				}
 			}
+		}
 
-			return $result;
-		}, $results);
+		return $results;
 	}
 
     static public function getTotalAmount()
