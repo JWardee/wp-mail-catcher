@@ -11,7 +11,7 @@ A fast, lightweight plugin that saves emails sent by your WordPress website.
 * Bulk export emails to CSV for easy inclusion into Excel or any other program
 * Compose new emails with the WordPress controls you're already familiar with
 * Resend your emails in bulk
-* Debugging - having an issue? See exactly which file and code line was responsible for sending the email, along with any errors encountered
+* Debugging - see exactly which file and code line was responsible for sending the email, along with any errors encountered
 * Manage what user permissions can see the logs
 * Routinely have your logs cleared out at a specified time - or keep them forever
 * Completely free
@@ -37,10 +37,10 @@ Let us know in our [GitHub tracker!](https://github.com/JWardee/mail-catcher/iss
 
 ## Contributing
 Contributions are always welcome, to get started do the following:
-1.Pull the repo and run `composer install`
-2.cd into `build/grunt` and run `npm install`
-3.While inside of `build/grunt` run `grunt` this will watch your scss and js and compile any changes
-4.Submit your pull request!
+1. Pull the repo and run `composer install`
+2. cd into `build/grunt` and run `npm install`
+3. While inside of `build/grunt` run `grunt` this will watch your scss and js and compile any changes
+4. Submit your pull request!
 
 ## Additional resources
 * [PSR-2 coding standards](http://www.php-fig.org/psr/psr-2/)

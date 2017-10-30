@@ -4,7 +4,7 @@ Plugin Name: Mail Catcher
 Plugin URI: http://wordpress.org/plugins/hello-dolly/
 Text Domain: MailCatcher
 Domain Path: /languages
-Description: derp
+Description: A fast, lightweight plugin that saves emails sent by your WordPress website.
 Author: James Ward
 Version: 1.00
 Author URI: https://jamesward.io
