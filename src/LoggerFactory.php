@@ -2,6 +2,7 @@
 
 namespace MailCatcher;
 
+use MailCatcher\Loggers\BuddyPress;
 use MailCatcher\Loggers\Smtp;
 use MailCatcher\Loggers\WpMail;
 use MailCatcher\Models\Logs;
@@ -12,5 +13,6 @@ class LoggerFactory
 	{
 //		new Smtp();
 		new WpMail();
+//		new BuddyPress();
 	}
 }
