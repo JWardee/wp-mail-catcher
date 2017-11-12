@@ -46,51 +46,55 @@
 
 .status {
     color: green;
+
+	&[data-error] {
+		position: relative;
+		color: red;
+	}
 }
 
-.status[data-error] {
-    position: relative;
-    color: red;
-}
+[data-error] {
+	&:after, &:before {
+		transition: opacity .35s;
+		opacity: 0;
+		pointer-events: none;
 
-[data-error]:after, [data-error]:before {
-    transition: opacity .35s;
-    opacity: 0;
-    pointer-events: none;
+		display: block;
+		position: absolute;
+		background: black;
+		color: white;
+	}
 
-    display: block;
-    position: absolute;
-    background: black;
-    color: white;
+	&:hover {
+		&:after, &:before {
+			opacity: 1;
+		}
+	}
+
+	&:after {
+		content: attr(data-error);
+		top: 50%;
+		left: -10px;
+		padding: 7px 10px 12px 10px;
+		transform: translate(-100%, -50%);
+		width: 250px;
+		border-radius: 3px;
+	}
+
+	&:before {
+		height: 10px;
+		width: 10px;
+		top: 50%;
+		left: -12px;
+		transform: translate(-50%, -50%) rotate(45deg);
+
+		content: '';
+	}
 }
 
 /*[data-error]:before {*/
     /*transition: opacity .2s;*/
 /*}*/
-
-[data-error]:after {
-    content: attr(data-error);
-    top: 50%;
-    left: -10px;
-    padding: 7px 10px 12px 10px;
-    transform: translate(-100%, -50%);
-    width: 250px;
-    border-radius: 3px;
-}
-
-[data-error]:hover:after, [data-error]:hover:before {
-    opacity: 1;
-}
-
-[data-error]:before {
-    height: 10px;
-    width: 10px;
-    top: 50%;
-    left: -12px;
-    transform: translate(-50%, -50%) rotate(45deg);
-
-    content: '';
-}
 
 .field-block {
     /*height: 50px;*/
@@ -147,46 +151,46 @@
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
-}
 
-.modal .modal-content {
-    padding: 15px;
-    background: white;
-    z-index: 2;
-    position: relative;
+	.modal-content {
+		padding: 15px;
+		background: white;
+		z-index: 2;
+		position: relative;
 
-    width: 600px;
-    margin: 10% auto 5% auto;
-    border-radius: 5px;
+		width: 600px;
+		margin: 10% auto 5% auto;
+		border-radius: 5px;
 
-    transition: all .5s;
-    transform: translateY(100px);
-}
+		transition: all .5s;
+		transform: translateY(100px);
+	}
 
-.modal.-active .modal-content {
-    transform: translateY(0);
+	&.-active .modal-content {
+		transform: translateY(0);
+	}
+
+	.backdrop {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 100%;
+
+		background: black;
+		opacity: .5;
+		z-index: 1;
+	}
+
+	&.-active {
+		opacity: 1;
+		pointer-events: initial;
+	}
 }
 
 .modal-footer {
     text-align: right;
-}
-
-.modal .backdrop {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-
-    background: black;
-    opacity: .5;
-    z-index: 1;
-}
-
-.modal.-active {
-    opacity: 1;
-    pointer-events: initial;
 }
 
 .attachment-item {
@@ -200,35 +204,35 @@
     background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
+
+	&:hover .remove {
+		opacity: 1;
+		pointer-events: initial;
+		transform: translate(50%, -50%) scale(1);
+	}
+
+	.remove {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background-color: white;
+		transform: translate(50%, -50%) scale(.5);
+		cursor: pointer;
+		pointer-events: none;
+		transition: all .35s;
+		opacity: 0;
+		height: 30px;
+		width: 30px;
+		font-size: 30px;
+	}
+
+	&.-original {
+		display: none;
+	}
 }
 
 .attachment-button-container {
     text-align: right;
-}
-
-.attachment-item .remove {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: white;
-    transform: translate(50%, -50%) scale(.5);
-    cursor: pointer;
-    pointer-events: none;
-    transition: all .35s;
-    opacity: 0;
-    height: 30px;
-    width: 30px;
-    font-size: 30px;
-}
-
-.attachment-item:hover .remove {
-    opacity: 1;
-    pointer-events: initial;
-    transform: translate(50%, -50%) scale(1);
-}
-
-.attachment-item.-original {
-    display: none;
 }
 
 .attachment-container {
@@ -240,13 +244,13 @@
 	bottom: 0;
 	left: 50%;
 	transform: translateX(-50%);
-}
 
-.leave-a-review .dashicons {
-	font-size: 15px;
-	height: 15px;
-	width: 10px;
-	line-height: 20px;
+	.dashicons {
+		font-size: 15px;
+		height: 15px;
+		width: 10px;
+		line-height: 20px;
+	}
 }
 
 .heading {

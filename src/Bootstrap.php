@@ -31,8 +31,8 @@ class Bootstrap
 
     public function enqueue()
     {
-        wp_enqueue_style('admin_css', GeneralHelper::$pluginAssetsUrl . '/admin.css');
-        wp_enqueue_script('admin_js', GeneralHelper::$pluginAssetsUrl . '/admin.js', array('jquery'), '?');
+        wp_enqueue_style('admin_css', GeneralHelper::$pluginAssetsUrl . '/global.min.css');
+        wp_enqueue_script('admin_js', GeneralHelper::$pluginAssetsUrl . '/global.min.js', array('jquery'), '?');
         wp_localize_script('admin_js', GeneralHelper::$tableName, array(
             'plugin_url' => GeneralHelper::$pluginUrl,
         ));

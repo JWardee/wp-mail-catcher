@@ -30,7 +30,7 @@ use MailCatcher\GeneralHelper;
 										<option value="to"><?php _e('To', 'MailCatcher'); ?></option>
 										<option value="cc"><?php _e('Cc', 'MailCatcher'); ?></option>
 										<option value="bcc"><?php _e('Bcc', 'MailCatcher'); ?></option>
-										<option value="other"><?php _e('Other', 'MailCatcher'); ?></option>
+										<option value="custom"><?php _e('Custom', 'MailCatcher'); ?></option>
 									</select>
 
 									<input name="header_values[]" type="text" class="field -input" />

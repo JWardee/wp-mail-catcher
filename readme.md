@@ -24,6 +24,7 @@ A fast, lightweight plugin that saves emails sent by your WordPress website.
 * [SparkPost](https://wordpress.org/plugins/sparkpost/)
 * [Easy WP SMTP](https://wordpress.org/plugins/easy-wp-smtp/) (excluding their test email function)
 * [SendGrid](https://en-gb.wordpress.org/plugins/sendgrid-email-delivery-simplified)
+* Anything that uses wp_mail!
 
 ## Not currently supported
 * [WP Mail Bank](https://wordpress.org/plugins/wp-mail-bank/) (unhooks wp_mail filters)

@@ -1,7 +1,5 @@
 <?php
 
-use MailCatcher\GeneralHelper;
-
 if (isset($log)) :
 ?>
 	<div id="<?php echo $log['id']; ?>" class="modal">
@@ -29,13 +27,13 @@ if (isset($log)) :
 									<?php foreach ($log['attachments'] as $attachment) : ?>
 										<li class="attachment-container">
 											<?php
-											if (isset($attachment->note)) :
-												echo $attachment->note;
+											if (isset($attachment['note'])) :
+												echo $attachment['note'];
 												continue;
 											endif;
 											?>
 
-											<a href="<?php echo $attachment->url ?>" target="_blank" class="attachment-item" style="background-image: url(<?php echo $attachment->src; ?>);"></a>
+											<a href="<?php echo $attachment['url'] ?>" target="_blank" class="attachment-item" style="background-image: url(<?php echo $attachment['src']; ?>);"></a>
 										</li>
 									<?php endforeach; ?>
 								</ul>

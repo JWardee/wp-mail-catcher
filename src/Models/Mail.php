@@ -39,15 +39,20 @@ class Mail
 				return in_array($key, GeneralHelper::$csvExportLegalColumns);
 			}, ARRAY_FILTER_USE_KEY);
 
-			if (isset($log['attachments']) && !empty($log['attachments']) && !is_array($log['attachments'])) {
-				$log['attachments'] = json_decode($log['attachments']);
+			if (isset($log['attachments']) && !empty($log['attachments']) && is_array($log['attachments'])) {
 				$log['attachments'] = array_column($log['attachments'], 'url');
-				$log['attachments'] = GeneralHelper::arrayToString($log['attachments']);
+				$log['attachments'] = GeneralHelper::arrayToString($log['attachments'], ' | ');
 			}
 
-			if (isset($log['additional_headers']) && !empty($log['additional_headers']) && !is_array($log['additional_headers'])) {
-				$log['additional_headers'] = json_decode($log['additional_headers']);
-				$log['additional_headers'] = GeneralHelper::arrayToString($log['additional_headers']);
+			if (isset($log['additional_headers']) && !empty($log['additional_headers']) && is_array($log['additional_headers'])) {
+				$log['additional_headers'] = GeneralHelper::arrayToString($log['additional_headers'], ' | ');
+			}
+
+			if ($log['status'] == true) {
+				$log['error'] = 'None';
+				$log['status'] = 'Successful';
+			} else {
+				$log['status'] = 'Failed';
 			}
 		}
 
@@ -59,7 +64,7 @@ class Mail
 		header('Content-Type: text/csv; charset=utf-8');
 		header('Content-Disposition: attachment; filename="' . GeneralHelper::$csvExportFileName . '"');
 
-        $out = fopen('php://output', 'w');
+		$out = fopen('php://output', 'w');
         fputcsv($out, $headings);
 
         foreach ($logs as $k => $v) {

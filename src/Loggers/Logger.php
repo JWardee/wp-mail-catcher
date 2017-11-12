@@ -5,9 +5,8 @@ namespace MailCatcher\Loggers;
 use MailCatcher\GeneralHelper;
 use WP_Error;
 
-// TODO: Add grunt support
-// TODO: Test plugin works with Mailgun, Sparkpost etc
 // TODO: Add doc blocks
+// TODO: Refactor Logs.php and Mail.php dbTransform and export to their own fractals
 
 abstract class Logger
 {
@@ -29,6 +28,12 @@ abstract class Logger
 		);
 
 		$this->id = $wpdb->insert_id;
+
+		if (!isset($args['to']) || $args['to'] == null) {
+			$args['to'] = [];
+		}
+
+		return $args;
 	}
 
 	public function recordError(WP_Error $error)

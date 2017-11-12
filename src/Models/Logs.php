@@ -70,8 +70,8 @@ class Logs
 				$result['time'] = date($args['date_time_format']);
 			}
 
-			$result['attachments'] = json_decode($result['attachments']);
-			$result['additional_headers'] = json_decode($result['additional_headers']);
+			$result['attachments'] = json_decode($result['attachments'], true);
+			$result['additional_headers'] = json_decode($result['additional_headers'], true);
 			$result['attachment_file_paths'] = [];
 
 			if (is_string($result['additional_headers'])) {
@@ -79,20 +79,20 @@ class Logs
 			}
 
 			if (!empty($result['attachments'])) {
-				foreach ($result['attachments'] as $attachment) {
-					if ($attachment->id == -1) {
-						$attachment->note = GeneralHelper::$attachmentNotInMediaLib;
+				foreach ($result['attachments'] as &$attachment) {
+					if ($attachment['id'] == -1) {
+						$attachment['note'] = GeneralHelper::$attachmentNotInMediaLib;
 						continue;
 					}
 
-					$attachment->src = GeneralHelper::$attachmentNotImageThumbnail;
-					$attachment->url = wp_get_attachment_url($attachment->id);
-					$result['attachment_file_paths'][] = get_attached_file($attachment->id);
+					$attachment['src'] = GeneralHelper::$attachmentNotImageThumbnail;
+					$attachment['url'] = wp_get_attachment_url($attachment['id']);
+					$result['attachment_file_paths'][] = get_attached_file($attachment['id']);
 
-					$isImage = strpos(get_post_mime_type($attachment->id), 'image') !== false ? true : false;
+					$isImage = strpos(get_post_mime_type($attachment['id']), 'image') !== false ? true : false;
 
 					if ($isImage == true) {
-						$attachment->src = $attachment->url;
+						$attachment['src'] = $attachment['url'];
 					}
 				}
 			}
