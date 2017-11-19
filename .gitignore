@@ -10,3 +10,5 @@ node_modules
 composer.lock
 /testing/wp-config.env
 .idea
+.sass-cache
+global.min.*
