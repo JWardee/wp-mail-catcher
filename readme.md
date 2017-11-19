@@ -17,8 +17,12 @@ A fast, lightweight plugin that saves emails sent by your WordPress website.
 * Completely free
 
 ![alt text](https://raw.githubusercontent.com/JWardee/mail-catcher/master/build/images/wp-mail-catcher-screenshot-1.png)
-![alt text](https://raw.githubusercontent.com/JWardee/mail-catcher/master/build/images/wp-mail-catcher-screenshot-2.png)
+
+
 ![alt text](https://raw.githubusercontent.com/JWardee/mail-catcher/master/build/images/wp-mail-catcher-screenshot-3.png)
+
+
+![alt text](https://raw.githubusercontent.com/JWardee/mail-catcher/master/build/images/wp-mail-catcher-screenshot-2.png)
 
 ## Confirmed support
 * [wp_mail](https://developer.wordpress.org/reference/functions/wp_mail/)
