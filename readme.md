@@ -16,13 +16,13 @@ A fast, lightweight plugin that saves emails sent by your WordPress website.
 * Routinely have your logs cleared out at a specified time - or keep them forever
 * Completely free
 
-![alt text](https://raw.githubusercontent.com/JWardee/mail-catcher/master/build/images/wp-mail-catcher-screenshot-1.png)
+![alt text](https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/build/images/wp-mail-catcher-screenshot-1.png)
 
 
-![alt text](https://raw.githubusercontent.com/JWardee/mail-catcher/master/build/images/wp-mail-catcher-screenshot-3.png)
+![alt text](https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/build/images/wp-mail-catcher-screenshot-3.png)
 
 
-![alt text](https://raw.githubusercontent.com/JWardee/mail-catcher/master/build/images/wp-mail-catcher-screenshot-2.png)
+![alt text](https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/build/images/wp-mail-catcher-screenshot-2.png)
 
 ## Confirmed support
 * [wp_mail](https://developer.wordpress.org/reference/functions/wp_mail/)
@@ -44,7 +44,7 @@ A fast, lightweight plugin that saves emails sent by your WordPress website.
 3. Run `phpunit` within the `testing` directory
 
 ## Found an issue, or have an idea on how we can improve?
-Let us know in our [GitHub tracker!](https://github.com/JWardee/mail-catcher/issues)
+Let us know in our [GitHub tracker!](https://github.com/JWardee/wp-mail-catcher/issues)
 
 ## Contributing
 Contributions are always welcome, to get started do the following:
