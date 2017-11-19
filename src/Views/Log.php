@@ -1,6 +1,6 @@
 <?php
 
-namespace MailCatcher;
+namespace WpMailCatcher;
 
 $logs = new MailAdminTable();
 $logs->prepare_items();
@@ -9,9 +9,9 @@ require GeneralHelper::$pluginViewDirectory . '/NewMessageModal.php';
 ?>
 
 <div class="wrap">
-	<h2 class="heading">Mail Catcher - <?php _e('logs', 'MailCatcher'); ?></h2>
+	<h2 class="heading">WP Mail Catcher - <?php _e('logs', 'WpMailCatcher'); ?></h2>
 	<button class="button-primary" data-toggle="modal" data-target="#new-message">
-		<?php _e('New Message', 'MailCatcher'); ?>
+		<?php _e('New Message', 'WpMailCatcher'); ?>
 	</button>
 
 	<form action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>" method="post">

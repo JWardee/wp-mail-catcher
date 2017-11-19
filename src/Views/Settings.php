@@ -1,8 +1,8 @@
 <?php
 
-namespace MailCatcher;
+namespace WpMailCatcher;
 
-use MailCatcher\Models\Settings;
+use WpMailCatcher\Models\Settings;
 
 $settings = Settings::get();
 $capabilities = $GLOBALS['wp_roles']->roles['administrator']['capabilities'];
@@ -14,19 +14,19 @@ $cronJobs = CronManager::getInstance()->getTasks();
 		<?php if ($_GET['update_success'] == 1) : ?>
 			<div class="notice notice-success">
 				<p>
-					<?php _e('Settings were successfully updated!', 'MailCatcher'); ?>
+					<?php _e('Settings were successfully updated!', 'WpMailCatcher'); ?>
 				</p>
 			</div>
 		<?php else : ?>
 			<div class="notice notice-error">
 				<p>
-					<?php _e('You didn\'t change any settings', 'MailCatcher'); ?>
+					<?php _e('You didn\'t change any settings', 'WpMailCatcher'); ?>
 				</p>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<h2 class="heading">Mail Catcher - <?php _e('settings', 'MailCatcher'); ?></h2>
+	<h2 class="heading">WP Mail Catcher - <?php _e('settings', 'WpMailCatcher'); ?></h2>
 
 	<form action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&action=update_settings" method="post">
 		<table class="form-table">
@@ -34,7 +34,7 @@ $cronJobs = CronManager::getInstance()->getTasks();
 				<tr>
 					<th scope="row">
 						<label>
-							<?php _e('User capability needed to see logs', 'MailCatcher'); ?>
+							<?php _e('User capability needed to see logs', 'WpMailCatcher'); ?>
 						</label>
 					</th>
 					<td>
@@ -50,7 +50,7 @@ $cronJobs = CronManager::getInstance()->getTasks();
 				<tr>
 					<th scope="row">
 						<label>
-							<?php _e('User capability needed to edit settings', 'MailCatcher'); ?>
+							<?php _e('User capability needed to edit settings', 'WpMailCatcher'); ?>
 						</label>
 					</th>
 					<td>
@@ -66,21 +66,21 @@ $cronJobs = CronManager::getInstance()->getTasks();
 				<tr>
 					<th scope="row">
 						<label for="blogname">
-							<?php _e('Auto delete logs?', 'MailCatcher'); ?>
+							<?php _e('Auto delete logs?', 'WpMailCatcher'); ?>
 						</label>
 					</th>
 					<td>
 						<label>
 							<input type="radio" name="auto_delete" value="false"<?php if ($settings['auto_delete'] == false) : ?> checked<?php endif; ?>>
 							<span class="date-time-text date-time-custom-text">
-								<?php _e('No', 'MailCatcher'); ?>
+								<?php _e('No', 'WpMailCatcher'); ?>
 							</span>
 						</label>
 						<fieldset>
 							<label>
 								<input type="radio" name="auto_delete" value="true"<?php if ($settings['auto_delete'] == true) : ?> checked<?php endif; ?>>
 								<span class="date-time-text date-time-custom-text">
-									<?php _e('Yes', 'MailCatcher'); ?>
+									<?php _e('Yes', 'WpMailCatcher'); ?>
 								</span>
 							</label>
 							<span class="example">
@@ -94,7 +94,7 @@ $cronJobs = CronManager::getInstance()->getTasks();
 							</span>
 							<?php if (isset($cronJobs[0])) : ?>
 								<p class="description">
-									<?php printf(__('Will next run in: %s.', 'MailCatcher'), $cronJobs[0]['nextRun']); ?>
+									<?php printf(__('Will next run in: %s.', 'WpMailCatcher'), $cronJobs[0]['nextRun']); ?>
 								</p>
 							<?php endif; ?>
 						</fieldset>
@@ -105,7 +105,7 @@ $cronJobs = CronManager::getInstance()->getTasks();
 
 		<p class="submit">
 			<button type="submit" class="button button-primary">
-				<?php _e('Save Changes', 'MailCatcher'); ?>
+				<?php _e('Save Changes', 'WpMailCatcher'); ?>
 			</button>
 		</p>
 	</form>

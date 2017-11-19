@@ -1,10 +1,10 @@
 <?php
 
-namespace MailCatcher;
+namespace WpMailCatcher;
 
-use MailCatcher\Models\Logs;
-use MailCatcher\Models\Mail;
-use MailCatcher\Models\Settings;
+use WpMailCatcher\Models\Logs;
+use WpMailCatcher\Models\Mail;
+use WpMailCatcher\Models\Settings;
 
 class Bootstrap
 {
@@ -17,7 +17,7 @@ class Bootstrap
         add_action('admin_menu', [$this, 'route']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
 		add_action('plugins_loaded', function() {
-			load_plugin_textdomain('MailCatcher', false, GeneralHelper::$pluginPath . '/languages');
+			load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$pluginPath . '/languages');
 		});
     }
 
@@ -25,7 +25,7 @@ class Bootstrap
 	{
 		if (Settings::get('auto_delete') == true) {
 			$cronManager = CronManager::getInstance();
-			$cronManager->addTask('MailCatcher\Models\Logs::truncate', Settings::get('timescale'), 'Truncate');
+			$cronManager->addTask('WpMailCatcher\Models\Logs::truncate', Settings::get('timescale'), 'Truncate');
 		}
 	}
 
@@ -40,7 +40,7 @@ class Bootstrap
 
     public function route()
     {
-		add_menu_page('Mail Catcher', 'Mail Catcher', Settings::get('default_view_role'), GeneralHelper::$adminPageSlug, function() {
+		add_menu_page('WP Mail Catcher', 'WP Mail Catcher', Settings::get('default_view_role'), GeneralHelper::$adminPageSlug, function() {
 			require GeneralHelper::$pluginViewDirectory . '/Log.php';
 		}, 'dashicons-email-alt');
 

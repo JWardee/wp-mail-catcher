@@ -1,9 +1,9 @@
 <?php
 
-namespace MailCatcher;
+namespace WpMailCatcher;
 
-use MailCatcher\Models\Logs;
-use MailCatcher\Models\Mail;
+use WpMailCatcher\Models\Logs;
+use WpMailCatcher\Models\Mail;
 
 class MailAdminTable extends WP_List_Table
 {
@@ -35,15 +35,15 @@ class MailAdminTable extends WP_List_Table
     function column_time($item)
 	{
         $actions = [
-            'delete' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Delete', 'MailCatcher') . '</a>',
+            'delete' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Delete', 'WpMailCatcher') . '</a>',
                 'mail-catcher',
                 'delete',
                 $item['id']),
-            'resend' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Resend', 'MailCatcher') . '</a>',
+            'resend' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Resend', 'WpMailCatcher') . '</a>',
                 'mail-catcher',
                 'resend',
                 $item['id']),
-            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Export', 'MailCatcher') . '</a>',
+            'export' => sprintf('<a href="?page=%s&action=%s&id=%s">' . __('Export', 'WpMailCatcher') . '</a>',
                 'mail-catcher',
                 'export',
                 $item['id']),
@@ -74,10 +74,10 @@ class MailAdminTable extends WP_List_Table
 	{
         $columns = [
             'cb'       => '<input type="checkbox" />',
-            'time'  => __('Sent', 'MailCatcher'),
-            'email_to'  => __('To', 'MailCatcher'),
-            'subject'  => __('Subject', 'MailCatcher'),
-            'status'  => __('Status', 'MailCatcher'),
+            'time'  => __('Sent', 'WpMailCatcher'),
+            'email_to'  => __('To', 'WpMailCatcher'),
+            'subject'  => __('Subject', 'WpMailCatcher'),
+            'status'  => __('Status', 'WpMailCatcher'),
             'more_info' => ''
         ];
 
@@ -87,10 +87,10 @@ class MailAdminTable extends WP_List_Table
     function column_status($item)
 	{
         if ($item['status'] == true) {
-            return '<span class="status">' . __('Success', 'MailCatcher') . '</span>';
+            return '<span class="status">' . __('Success', 'WpMailCatcher') . '</span>';
         }
 
-        return '<span class="status" data-error="' . $item['error'] . '">' . __('Failed', 'MailCatcher') . '</span>';
+        return '<span class="status" data-error="' . $item['error'] . '">' . __('Failed', 'WpMailCatcher') . '</span>';
     }
 
     function get_sortable_columns()
@@ -108,9 +108,9 @@ class MailAdminTable extends WP_List_Table
     function get_bulk_actions()
 	{
         $actions = [
-            'delete'    => __('Delete', 'MailCatcher'),
-            'resend' => __('Resend', 'MailCatcher'),
-            'export' => __('Export', 'MailCatcher')
+            'delete'    => __('Delete', 'WpMailCatcher'),
+            'resend' => __('Resend', 'WpMailCatcher'),
+            'export' => __('Export', 'WpMailCatcher')
         ];
 
         return $actions;

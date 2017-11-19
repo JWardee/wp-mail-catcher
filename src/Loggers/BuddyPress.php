@@ -1,6 +1,6 @@
 <?php
 
-namespace MailCatcher\Loggers;
+namespace WpMailCatcher\Loggers;
 
 use BP_Email;
 

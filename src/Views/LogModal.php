@@ -6,9 +6,9 @@ if (isset($log)) :
 		<div class="modal-content">
 			<div class="modal-body">
 				<h2 class="nav-tab-wrapper">
-					<a href="#" class="nav-tab nav-tab-active"><?php _e('Message', 'MailCatcher'); ?></a>
-					<a href="#" class="nav-tab"><?php _e('Detail', 'MailCatcher'); ?></a>
-					<a href="#" class="nav-tab"><?php _e('Debug', 'MailCatcher'); ?></a>
+					<a href="#" class="nav-tab nav-tab-active"><?php _e('Message', 'WpMailCatcher'); ?></a>
+					<a href="#" class="nav-tab"><?php _e('Detail', 'WpMailCatcher'); ?></a>
+					<a href="#" class="nav-tab"><?php _e('Debug', 'WpMailCatcher'); ?></a>
 				</h2>
 				<div class="content-container">
 					<div class="content -active">
@@ -17,11 +17,11 @@ if (isset($log)) :
 					<div class="content">
 						<?php if (empty($log['attachments']) && empty($log['additional_headers'])) : ?>
 							<p>
-								<?php _e('There aren\'t any details to show!', 'MailCatcher'); ?>
+								<?php _e('There aren\'t any details to show!', 'WpMailCatcher'); ?>
 							</p>
 						<?php else : ?>
 							<?php if (!empty($log['attachments'])) : ?>
-								<h3><?php _e('Attachments', 'MailCatcher'); ?></h3>
+								<h3><?php _e('Attachments', 'WpMailCatcher'); ?></h3>
 								<hr />
 								<ul>
 									<?php foreach ($log['attachments'] as $attachment) : ?>
@@ -40,7 +40,7 @@ if (isset($log)) :
 							<?php endif; ?>
 
 							<?php if (!empty($log['additional_headers'])) : ?>
-								<h3><?php _e('Additional Headers', 'MailCatcher'); ?></h3>
+								<h3><?php _e('Additional Headers', 'WpMailCatcher'); ?></h3>
 								<hr />
 								<ul>
 									<?php foreach ($log['additional_headers'] as $additionalHeader) : ?>
@@ -53,12 +53,12 @@ if (isset($log)) :
 					<div class="content">
 						<?php $debug = json_decode($log['backtrace_segment']); ?>
 						<ul>
-							<li><?php _e('Triggered from:', 'MailCatcher'); ?> <strong style="white-space: pre;"><?php echo $debug->file; ?></strong></li>
-							<li><?php _e('On line:', 'MailCatcher'); ?> <strong><?php echo $debug->line; ?></strong></li>
+							<li><?php _e('Triggered from:', 'WpMailCatcher'); ?> <strong style="white-space: pre;"><?php echo $debug->file; ?></strong></li>
+							<li><?php _e('On line:', 'WpMailCatcher'); ?> <strong><?php echo $debug->line; ?></strong></li>
 						</ul>
 
 						<?php if (!empty($log['error'])) : ?>
-							<h3><?php _e('Errors:', 'MailCatcher'); ?></h3>
+							<h3><?php _e('Errors:', 'WpMailCatcher'); ?></h3>
 							<hr />
 							<ul>
 								<li><?php echo $log['error']; ?></li>
@@ -68,7 +68,7 @@ if (isset($log)) :
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="button-primary dismiss-modal"><?php _e('Close', 'MailCatcher'); ?></button>
+				<button type="button" class="button-primary dismiss-modal"><?php _e('Close', 'WpMailCatcher'); ?></button>
 			</div>
 		</div>
 		<div class="backdrop dismiss-modal"></div>

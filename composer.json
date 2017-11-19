@@ -1,7 +1,7 @@
 {
   "autoload": {
     "psr-4": {
-      "MailCatcher\\": "src/"
+      "WpMailCatcher\\": "src/"
     }
   },
   "require": {

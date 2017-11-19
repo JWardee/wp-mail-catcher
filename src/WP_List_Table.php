@@ -14,7 +14,7 @@
  * @access private
  */
 
-namespace MailCatcher;
+namespace WpMailCatcher;
 
 class WP_List_Table {
 

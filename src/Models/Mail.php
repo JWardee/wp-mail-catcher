@@ -1,8 +1,8 @@
 <?php
 
-namespace MailCatcher\Models;
+namespace WpMailCatcher\Models;
 
-use MailCatcher\GeneralHelper;
+use WpMailCatcher\GeneralHelper;
 use Underscore\Types\Arrays;
 
 class Mail

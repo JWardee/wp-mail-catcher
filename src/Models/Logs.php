@@ -1,9 +1,9 @@
 <?php
 
-namespace MailCatcher\Models;
+namespace WpMailCatcher\Models;
 
 use Carbon\Carbon;
-use MailCatcher\GeneralHelper;
+use WpMailCatcher\GeneralHelper;
 
 class Logs
 {
@@ -41,7 +41,7 @@ class Logs
 		/**
 		 * Sanitise each value in the array
 		 */
-		array_walk_recursive($args, 'MailCatcher\GeneralHelper::sanitiseForQuery');
+		array_walk_recursive($args, 'WpMailCatcher\GeneralHelper::sanitiseForQuery');
 
 		$sql = "SELECT id, time, email_to, subject, message,
                 status, error, backtrace_segment, attachments,

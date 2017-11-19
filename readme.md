@@ -16,6 +16,10 @@ A fast, lightweight plugin that saves emails sent by your WordPress website.
 * Routinely have your logs cleared out at a specified time - or keep them forever
 * Completely free
 
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+
+
 ## Confirmed support
 * [wp_mail](https://developer.wordpress.org/reference/functions/wp_mail/)
 * [WooCommerce](https://wordpress.org/plugins/woocommerce/)
@@ -43,7 +47,7 @@ Contributions are always welcome, to get started do the following:
 1. Pull the repo and run `composer install`
 2. cd into `build/grunt` and run `npm install`
 3. While inside of `build/grunt` run `grunt` this will watch your scss and js and compile any changes
-4. Ensure your code conforms to [PSR-2 standards](http://www.php-fig.org/psr/psr-2/)
+4. Make sure your code conforms to [PSR-2 standards](http://www.php-fig.org/psr/psr-2/)
 5. Ensure your changes pass all the unit tests
 6. Submit your pull request!
 

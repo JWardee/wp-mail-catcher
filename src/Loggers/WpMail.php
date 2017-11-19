@@ -1,6 +1,6 @@
 <?php
 
-namespace MailCatcher\Loggers;
+namespace WpMailCatcher\Loggers;
 
 class WpMail extends Logger
 {

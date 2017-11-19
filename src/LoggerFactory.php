@@ -1,11 +1,11 @@
 <?php
 
-namespace MailCatcher;
+namespace WpMailCatcher;
 
-use MailCatcher\Loggers\BuddyPress;
-use MailCatcher\Loggers\Smtp;
-use MailCatcher\Loggers\WpMail;
-use MailCatcher\Models\Logs;
+use WpMailCatcher\Loggers\BuddyPress;
+use WpMailCatcher\Loggers\Smtp;
+use WpMailCatcher\Loggers\WpMail;
+use WpMailCatcher\Models\Logs;
 
 class LoggerFactory
 {

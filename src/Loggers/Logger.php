@@ -1,8 +1,8 @@
 <?php
 
-namespace MailCatcher\Loggers;
+namespace WpMailCatcher\Loggers;
 
-use MailCatcher\GeneralHelper;
+use WpMailCatcher\GeneralHelper;
 use WP_Error;
 
 // TODO: Add doc blocks

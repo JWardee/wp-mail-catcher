@@ -1,6 +1,6 @@
 <?php
 
-namespace MailCatcher\Models;
+namespace WpMailCatcher\Models;
 
 class Settings
 {

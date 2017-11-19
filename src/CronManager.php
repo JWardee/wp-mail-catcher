@@ -1,6 +1,6 @@
 <?php
 
-namespace MailCatcher;
+namespace WpMailCatcher;
 
 use Carbon\Carbon;
 
@@ -90,12 +90,12 @@ class CronManager
 	{
 		$schedules['weekly'] = [
 			'interval' => 604800,
-			'display' => __('Once Weekly', 'MailCatcher')
+			'display' => __('Once Weekly', 'WpMailCatcher')
 		];
 
 		$schedules['monthly'] = [
 			'interval' => 2635200,
-			'display' => __('Once a month', 'MailCatcher')
+			'display' => __('Once a month', 'WpMailCatcher')
 		];
 
 		return $schedules;

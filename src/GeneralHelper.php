@@ -1,6 +1,6 @@
 <?php
 
-namespace MailCatcher;
+namespace WpMailCatcher;
 
 use Underscore\Types\Arrays;
 use Underscore\Types\Strings;
@@ -23,13 +23,13 @@ class GeneralHelper
 
 	static public function setSettings()
 	{
-		self::$csvExportFileName = 'MailCatcherExport_' . date('d-m-Y_H-i-s') . '.csv';
+		self::$csvExportFileName = 'WpMailCatcherExport_' . date('d-m-Y_H-i-s') . '.csv';
 		self::$csvExportLegalColumns = ['time', 'subject', 'email_to', 'message', 'attachments', 'additional_headers', 'status', 'error'];
 		self::$tableName = 'mail_catcher_logs';
 		self::$adminUrl = admin_url();
 		self::$pluginPath = __DIR__ . '/..';
 		self::$pluginUrl = plugins_url('..', self::$pluginPath);
-		self::$adminPageSlug = 'mail-catcher';
+		self::$adminPageSlug = 'wp-mail-catcher';
 		self::$uploadsFolderInfo = wp_upload_dir();
 		self::$pluginAssetsUrl = self::$pluginUrl . '/assets';
 		self::$pluginViewDirectory = __DIR__ . '/views';

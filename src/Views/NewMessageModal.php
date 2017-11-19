@@ -1,5 +1,5 @@
 <?php
-use MailCatcher\GeneralHelper;
+use WpMailCatcher\GeneralHelper;
 
 // TODO: Enqueue dashicons.css
 ?>
@@ -13,7 +13,7 @@ use MailCatcher\GeneralHelper;
 				<div class="content-container">
 					<div class="content -active">
 						<div>
-							<h2><?php _e('Headers', 'MailCatcher'); ?></h2>
+							<h2><?php _e('Headers', 'WpMailCatcher'); ?></h2>
 							<hr />
 
 							<div class="cloneable">
@@ -27,10 +27,10 @@ use MailCatcher\GeneralHelper;
 									</a>
 
 									<select name="header_keys[]" class="field -select">
-										<option value="to"><?php _e('To', 'MailCatcher'); ?></option>
-										<option value="cc"><?php _e('Cc', 'MailCatcher'); ?></option>
-										<option value="bcc"><?php _e('Bcc', 'MailCatcher'); ?></option>
-										<option value="custom"><?php _e('Custom', 'MailCatcher'); ?></option>
+										<option value="to"><?php _e('To', 'WpMailCatcher'); ?></option>
+										<option value="cc"><?php _e('Cc', 'WpMailCatcher'); ?></option>
+										<option value="bcc"><?php _e('Bcc', 'WpMailCatcher'); ?></option>
+										<option value="custom"><?php _e('Custom', 'WpMailCatcher'); ?></option>
 									</select>
 
 									<input name="header_values[]" type="text" class="field -input" />
@@ -38,13 +38,13 @@ use MailCatcher\GeneralHelper;
 							</div>
 						</div>
 						<div>
-							<h2><?php _e('Subject', 'MailCatcher'); ?></h2>
+							<h2><?php _e('Subject', 'WpMailCatcher'); ?></h2>
 							<hr />
 
 							<input name="subject" type="text" class="field -input" />
 						</div>
 						<div>
-							<h2><?php _e('Attachments', 'MailCatcher'); ?></h2>
+							<h2><?php _e('Attachments', 'WpMailCatcher'); ?></h2>
 							<hr />
 
 							<div class="attachments-container">
@@ -57,13 +57,13 @@ use MailCatcher\GeneralHelper;
 
 								<div class="attachment-button-container">
 									<a href="#" class="button-primary" id="add_attachments">
-										<?php _e('Add Attachments', 'MailCatcher'); ?>
+										<?php _e('Add Attachments', 'WpMailCatcher'); ?>
 									</a>
 								</div>
 							</div>
 						</div>
 						<div>
-							<h2><?php _e('Message', 'MailCatcher'); ?></h2>
+							<h2><?php _e('Message', 'WpMailCatcher'); ?></h2>
 							<hr />
 
 							<?php wp_editor('My Message', 'message', $settings = []); ?>
@@ -73,10 +73,10 @@ use MailCatcher\GeneralHelper;
 			</div>
 			<div class="modal-footer">
 				<button type="submit" class="button-primary">
-					<?php _e('Send Message', 'MailCatcher'); ?>
+					<?php _e('Send Message', 'WpMailCatcher'); ?>
 				</button>
 				<button type="button" class="button-secondary dismiss-modal">
-					<?php _e('Close', 'MailCatcher'); ?>
+					<?php _e('Close', 'WpMailCatcher'); ?>
 				</button>
 			</div>
 		</form>
