@@ -14,8 +14,8 @@ abstract class Logger
 
 	public function __construct()
 	{
-		add_action('wp_mail', array($this, 'recordMail'), 999999);
-		add_action('wp_mail_failed', array($this, 'recordError'), 999999);
+		add_action('wp_mail', [$this, 'recordMail'], 999999);
+		add_action('wp_mail_failed', [$this, 'recordError'], 999999);
 	}
 
 	public function recordMail($args)
@@ -42,17 +42,17 @@ abstract class Logger
 
 		$wpdb->update(
 			$wpdb->prefix . GeneralHelper::$tableName,
-			array(
+			[
 				'status' => 0,
 				'error' => $error->errors['wp_mail_failed'][0],
-			),
-			array('id' => $this->id)
+			],
+			['id' => $this->id]
 		);
 	}
 
 	protected function getMailArgs($args)
 	{
-		return array(
+		return [
 			'time' => time(),
 			'email_to' => GeneralHelper::arrayToString($args['to']),
 			'subject' => $args['subject'],
@@ -61,7 +61,7 @@ abstract class Logger
 			'status' => 1,
 			'attachments' => json_encode($this->getAttachmentLocations($args['attachments'])),
 			'additional_headers' => json_encode($args['headers'])
-		);
+		];
 	}
 
 	protected function getAttachmentLocations($attachments)

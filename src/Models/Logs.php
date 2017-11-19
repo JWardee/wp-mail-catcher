@@ -18,7 +18,7 @@ class Logs
 	 * @param array $args
 	 * @return array|null|object
      */
-	static public function get($args = array())
+	static public function get($args = [])
     {
 		// TODO: Need to add caching?
 		global $wpdb;
@@ -28,13 +28,13 @@ class Logs
 		 * those passed in get/post and passed directly
 		 * to the function
 		 */
-		$defaults = array(
+		$defaults = [
 			'orderby' => 'time',
 			'posts_per_page' => self::$postsPerPage,
 			'paged' => 1,
 			'order' => 'DESC',
 			'date_time_format' => 'human'
-		);
+		];
 
 		$args = array_merge($defaults, $_REQUEST, $args);
 

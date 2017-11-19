@@ -14,21 +14,21 @@ class Mail
     */
 	static public function resend($ids)
     {
-        $logs = Logs::get(array(
+        $logs = Logs::get([
 			'post__in' => $ids
-		));
+		]);
 
         foreach ($logs as $log) {
             wp_mail($log['email_to'], $log['subject'], $log['message'], $log['additional_headers'], $log['attachment_file_paths']);
         }
     }
 
-    static public function export($ids)
+    static public function export($ids, $forceBrowserDownload = true)
     {
-		$logs = Logs::get(array(
+		$logs = Logs::get([
 			'post__in' => $ids,
 			'date_time_format' => 'd-M-Y @ H:s'
-		));
+		]);
 
 		/**
 		 * Only export the "legal columns"
@@ -41,11 +41,11 @@ class Mail
 
 			if (isset($log['attachments']) && !empty($log['attachments']) && is_array($log['attachments'])) {
 				$log['attachments'] = array_column($log['attachments'], 'url');
-				$log['attachments'] = GeneralHelper::arrayToString($log['attachments'], ' | ');
+				$log['attachments'] = GeneralHelper::arrayToString($log['attachments'], GeneralHelper::$csvItemDelimiter);
 			}
 
 			if (isset($log['additional_headers']) && !empty($log['additional_headers']) && is_array($log['additional_headers'])) {
-				$log['additional_headers'] = GeneralHelper::arrayToString($log['additional_headers'], ' | ');
+				$log['additional_headers'] = GeneralHelper::arrayToString($log['additional_headers'], GeneralHelper::$csvItemDelimiter);
 			}
 
 			if ($log['status'] == true) {
@@ -61,29 +61,39 @@ class Mail
 			$heading = GeneralHelper::slugToLabel($heading);
 		});
 
-		header('Content-Type: text/csv; charset=utf-8');
-		header('Content-Disposition: attachment; filename="' . GeneralHelper::$csvExportFileName . '"');
+		if ($forceBrowserDownload == true) {
+			header('Content-Type: text/csv; charset=utf-8');
+			header('Content-Disposition: attachment; filename="' . GeneralHelper::$csvExportFileName . '"');
+			self::processLogToCsv($headings, $logs);
+			exit;
+		} else {
+			ob_start();
+			self::processLogToCsv($headings, $logs);
+			return ob_get_clean();
+		}
+    }
 
+	static private function processLogToCsv($headings, $logs)
+	{
 		$out = fopen('php://output', 'w');
-        fputcsv($out, $headings);
+		fputcsv($out, $headings);
 
-        foreach ($logs as $k => $v) {
+		foreach ($logs as $k => $v) {
 			if (is_array($v)) {
 				$v = Arrays::flatten($v, ', ');
 			}
 
-            fputcsv($out, $v);
-        }
+			fputcsv($out, $v);
+		}
 
 		fclose($out);
-		exit;
-    }
+	}
 
     static public function add($headerKeys, $headerValues, $attachmentIds, $subject, $message)
     {
-        $tos = array();
-        $headers = array();
-        $attachments = array();
+        $tos = [];
+        $headers = [];
+        $attachments = [];
 
         for ($i = 0; $i < count($headerKeys); $i++) {
             switch ($headerKeys[$i]) {

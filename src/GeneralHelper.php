@@ -7,6 +7,7 @@ use Underscore\Types\Strings;
 
 class GeneralHelper
 {
+	static public $csvItemDelimiter = ' | ';
 	static public $pluginPath;
 	static public $pluginUrl;
 	static public $tableName;
@@ -23,7 +24,7 @@ class GeneralHelper
 	static public function setSettings()
 	{
 		self::$csvExportFileName = 'MailCatcherExport_' . date('d-m-Y_H-i-s') . '.csv';
-		self::$csvExportLegalColumns = array('time', 'subject', 'email_to', 'message', 'attachments', 'additional_headers', 'status', 'error');
+		self::$csvExportLegalColumns = ['time', 'subject', 'email_to', 'message', 'attachments', 'additional_headers', 'status', 'error'];
 		self::$tableName = 'mail_catcher_logs';
 		self::$adminUrl = admin_url();
 		self::$pluginPath = __DIR__ . '/..';
@@ -49,9 +50,9 @@ class GeneralHelper
 
     static public function slugToLabel($slug)
     {
-		$illegalChars = array(
+		$illegalChars = [
 			'-', '_'
-		);
+		];
 
 		foreach ($illegalChars as $illegalChar) {
 			$slug = str_replace($illegalChar, ' ', $slug);

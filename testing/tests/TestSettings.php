@@ -2,37 +2,37 @@
 
 class TestSettings extends WP_UnitTestCase
 {
-	function testCronEnable()
+	public function testCronEnable()
 	{
 		/** TODO: Write test */
 		$this->markTestSkipped();
 	}
 
-	function testCronDisable()
+	public function testCronDisable()
 	{
 		/** TODO: Write test */
 		$this->markTestSkipped();
 	}
 
-	function testCanViewLogs()
+	public function testCanViewLogs()
 	{
 		/** TODO: Write test */
 		$this->markTestSkipped();
 	}
 
-	function testCannotViewLogs()
+	public function testCannotViewLogs()
 	{
 		/** TODO: Write test */
 		$this->markTestSkipped();
 	}
 
-	function testCanViewSettings()
+	public function testCanViewSettings()
 	{
 		/** TODO: Write test */
 		$this->markTestSkipped();
 	}
 
-	function testCannotViewSettings()
+	public function testCannotViewSettings()
 	{
 		/** TODO: Write test */
 		$this->markTestSkipped();

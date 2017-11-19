@@ -88,15 +88,15 @@ class CronManager
 
 	public function addIntervals($schedules)
 	{
-		$schedules['weekly'] = array(
+		$schedules['weekly'] = [
 			'interval' => 604800,
 			'display' => __('Once Weekly', 'MailCatcher')
-		);
+		];
 
-		$schedules['monthly'] = array(
+		$schedules['monthly'] = [
 			'interval' => 2635200,
 			'display' => __('Once a month', 'MailCatcher')
-		);
+		];
 
 		return $schedules;
 	}

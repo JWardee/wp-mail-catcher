@@ -1,154 +1,203 @@
 <?php
 
+use MailCatcher\GeneralHelper;
 use MailCatcher\Models\Logs;
 use MailCatcher\Models\Mail;
 
 class TestLogFunctions extends WP_UnitTestCase
 {
-	function testCanDeleteSingleLog()
+	public function testCanDeleteSingleLog()
 	{
 		Logs::truncate();
 
 		wp_mail('test@test.com', 'subject', 'message');
 
-		$mail = Logs::get(array(
+		$mail = Logs::get([
 			'posts_per_page' => 1
-		));
+		]);
 
 		$this->assertEquals(count($mail), 1);
 
-		Logs::delete(array(
+		Logs::delete([
 			$mail[0]['id']
-		));
+		]);
 
-		$mail = Logs::get(array(
+		$mail = Logs::get([
 			'post__in' => $mail[0]['id']
-		));
+		]);
 
 		$this->assertEquals(count($mail), 0);
 	}
 
-	function testCanDeleteMultipleLogs()
+	public function testCanDeleteMultipleLogs()
 	{
 		Logs::truncate();
 
 		wp_mail('test@test.com', 'subject', 'message');
 		wp_mail('test@test.com', 'subject', 'message');
 
-		$mail = Logs::get(array(
+		$mail = Logs::get([
 			'posts_per_page' => 2
-		));
+		]);
 
 		$this->assertEquals(count($mail), 2);
 
-		Logs::delete(array(
+		Logs::delete([
 			$mail[0]['id'],
 			$mail[1]['id']
-		));
+		]);
 
-		$mail = Logs::get(array(
-			'post__in' => array(
+		$mail = Logs::get([
+			'post__in' => [
 				$mail[0]['id'],
 				$mail[1]['id']
-			)
-		));
+			]
+		]);
 
 		$this->assertEquals(count($mail), 0);
 	}
 
-	function testCanResendSingleMail()
+	public function testCanResendSingleMail()
 	{
 		Logs::truncate();
 
 		wp_mail('test@test.com', 'RESEND ME', 'message');
 
-		$mail = Logs::get(array(
+		$mail = Logs::get([
 			'subject' => 'RESEND ME'
-		));
+		]);
 
 		$this->assertEquals(count($mail), 1);
 
-		Mail::resend(array(
+		Mail::resend([
 			$mail[0]['id']
-		));
+		]);
 
-		$mail = Logs::get(array(
+		$mail = Logs::get([
 			'subject' => 'RESEND ME'
-		));
+		]);
 
 		$this->assertEquals(count($mail), 2);
 	}
 
-	function testCanResendMultipleMail()
+	public function testCanResendMultipleMail()
 	{
 		Logs::truncate();
 
 		wp_mail('test@test.com', 'RESEND ME 1', 'message');
 		wp_mail('test@test.com', 'RESEND ME 2', 'message');
 
-		$mail = Logs::get(array(
+		$mail = Logs::get([
 			'subject' => 'RESEND ME'
-		));
+		]);
 
 		$this->assertEquals(count($mail), 2);
 
-		Mail::resend(array(
+		Mail::resend([
 			$mail[0]['id'],
 			$mail[1]['id']
-		));
+		]);
 
-		$mail = Logs::get(array(
+		$mail = Logs::get([
 			'subject' => 'RESEND ME'
-		));
+		]);
 
 		$this->assertEquals(count($mail), 4);
 	}
 
-	function testCanExportSingleLog() {
-		/** TODO: Write test */
-		$this->markTestSkipped();
+	public function testCanExportSingleLog()
+	{
+		Logs::truncate();
 
-//		Logs::truncate();
-//
-//		wp_mail('test@test.com', 'EXPORT SINGLE', 'message');
-//
-//		$lastEmail = Logs::get(array(
-//			'posts_per_page' => 1
-//		));
-//
-//		$export = Mail::export(array(
-//			$lastEmail[0]['id'],
-//		));
-//
-//		$this->assertContains($export, array(
-//			$lastEmail[0]['subject'],
-//		));
+		$to = 'test@test.com';
+		$subject = 'subject';
+		$message = 'message';
+
+		$additionalHeaders = ['Content-type: text/html', 'cc: test1@test.com'];
+		$imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/img-attachment.png');
+		$pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/pdf-attachment.pdf');
+
+		wp_mail($to, $subject, $message, $additionalHeaders, [
+			get_attached_file($imgAttachmentId),
+			get_attached_file($pdfAttachmentId)
+		]);
+
+		$lastEmail = Logs::get([
+			'posts_per_page' => 1
+		]);
+
+		$csvString = $export = Mail::export([
+			$lastEmail[0]['id'],
+		], false);
+
+		$csvArray = explode(',', $csvString);
+
+		array_walk($csvArray, function (&$element) {
+			$element = str_replace('"', '', $element);
+			$element = str_replace(["\r", "\n", '"'], '', $element);
+		});
+
+		$this->assertContains($to, $csvArray);
+		$this->assertContains($subject, $csvArray);
+		$this->assertContains($additionalHeaders[0] . GeneralHelper::$csvItemDelimiter . $additionalHeaders[1], $csvArray);
+		$this->assertContains(wp_get_attachment_url($imgAttachmentId) . GeneralHelper::$csvItemDelimiter . wp_get_attachment_url($pdfAttachmentId), $csvArray);
+
+		wp_delete_attachment($imgAttachmentId);
+		wp_delete_attachment($pdfAttachmentId);
 	}
 
-	function testCanExportMultipleLogs() {
-		/** TODO: Write test */
-		$this->markTestSkipped();
+	public function testCanExportMultipleLogs()
+	{
+		Logs::truncate();
 
-//		Logs::truncate();
-//
-//		wp_mail('test@test.com', 'EXPORT 1', 'message');
-//		wp_mail('test@test.com', 'EXPORT 2', 'message');
-//		wp_mail('test@test.com', 'EXPORT 3', 'message');
-//
-//		$last3Emails = Logs::get(array(
-//			'posts_per_page' => 3
-//		));
-//
-//		$export = Mail::export(array(
-//			$last3Emails[0]['id'],
-//			$last3Emails[1]['id'],
-//			$last3Emails[2]['id']
-//		));
-//
-//		$this->assertContains($export, array(
-//			$last3Emails[0]['subject'],
-//			$last3Emails[1]['subject'],
-//			$last3Emails[2]['subject']
-//		));
+		$to1 = 'test@test.com';
+		$subject1 = 'subject';
+		$message1 = 'message';
+
+		$to2 = 'test2@test.com';
+		$subject2 = 'subject 2';
+		$message2 = 'message 2';
+
+		$additionalHeaders = ['Content-type: text/html', 'cc: test1@test.com'];
+		$imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/img-attachment.png');
+		$pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/pdf-attachment.pdf');
+
+		wp_mail($to1, $subject1, $message1, $additionalHeaders, [
+			get_attached_file($imgAttachmentId),
+			get_attached_file($pdfAttachmentId)
+		]);
+
+		wp_mail($to2, $subject2, $message2, $additionalHeaders, [
+			get_attached_file($imgAttachmentId),
+			get_attached_file($pdfAttachmentId)
+		]);
+
+		$lastEmail = Logs::get([
+			'posts_per_page' => 2
+		]);
+
+		$csvString = $export = Mail::export([
+			$lastEmail[0]['id'],
+			$lastEmail[1]['id']
+		], false);
+
+		$csvArray = explode(',', $csvString);
+
+		array_walk($csvArray, function (&$element) {
+			$element = str_replace('"', '', $element);
+			$element = str_replace(["\r", "\n", '"'], '', $element);
+		});
+
+		$this->assertContains($to1, $csvArray);
+		$this->assertContains($subject1, $csvArray);
+		$this->assertContains($message1, $csvArray);
+		$this->assertContains($to2, $csvArray);
+		$this->assertContains($subject2, $csvArray);
+		$this->assertContains($message2, $csvArray);
+		$this->assertContains($additionalHeaders[0] . GeneralHelper::$csvItemDelimiter . $additionalHeaders[1], $csvArray);
+		$this->assertContains(wp_get_attachment_url($imgAttachmentId) . GeneralHelper::$csvItemDelimiter . wp_get_attachment_url($pdfAttachmentId), $csvArray);
+
+		wp_delete_attachment($imgAttachmentId);
+		wp_delete_attachment($pdfAttachmentId);
 	}
 }

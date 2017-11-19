@@ -14,8 +14,8 @@ class Bootstrap
 		LoggerFactory::Set();
 		$this->registerCronTasks();
 
-        add_action('admin_menu', array($this, 'route'));
-        add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+        add_action('admin_menu', [$this, 'route']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue']);
 		add_action('plugins_loaded', function() {
 			load_plugin_textdomain('MailCatcher', false, GeneralHelper::$pluginPath . '/languages');
 		});
@@ -32,10 +32,10 @@ class Bootstrap
     public function enqueue()
     {
         wp_enqueue_style('admin_css', GeneralHelper::$pluginAssetsUrl . '/global.min.css');
-        wp_enqueue_script('admin_js', GeneralHelper::$pluginAssetsUrl . '/global.min.js', array('jquery'), '?');
-        wp_localize_script('admin_js', GeneralHelper::$tableName, array(
+        wp_enqueue_script('admin_js', GeneralHelper::$pluginAssetsUrl . '/global.min.js', ['jquery'], '?');
+        wp_localize_script('admin_js', GeneralHelper::$tableName, [
             'plugin_url' => GeneralHelper::$pluginUrl,
-        ));
+        ]);
     }
 
     public function route()

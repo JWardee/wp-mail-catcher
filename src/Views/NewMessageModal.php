@@ -66,7 +66,7 @@ use MailCatcher\GeneralHelper;
 							<h2><?php _e('Message', 'MailCatcher'); ?></h2>
 							<hr />
 
-							<?php wp_editor('My Message', 'message', $settings = array()); ?>
+							<?php wp_editor('My Message', 'message', $settings = []); ?>
 						</div>
 					</div>
 				</div>
