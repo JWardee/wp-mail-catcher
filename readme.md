@@ -1,7 +1,6 @@
 # WP Mail Catcher
 
-[![Build Status](https://travis-ci.org/JWardee/mail-catcher.svg?branch=master)](https://travis-ci.org/JWardee/mail-catcher)
-[![Code Climate](https://codeclimate.com/github/JWardee/mail-catcher/badges/gpa.svg)](https://codeclimate.com/github/JWardee/mail-catcher)
+[![Build Status](https://travis-ci.org/JWardee/wp-mail-catcher.svg?branch=master)](https://travis-ci.org/JWardee/mail-catcher)
 
 A fast, lightweight plugin that saves emails sent by your WordPress website.
 
