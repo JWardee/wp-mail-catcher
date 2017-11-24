@@ -20,7 +20,6 @@ class Logs
      */
 	static public function get($args = [])
     {
-		// TODO: Need to add caching?
 		global $wpdb;
 
 		/**
@@ -122,6 +121,7 @@ class Logs
 	static public function truncate()
 	{
 		global $wpdb;
+
 		$wpdb->query("TRUNCATE TABLE " . $wpdb->prefix . GeneralHelper::$tableName);
 	}
 }

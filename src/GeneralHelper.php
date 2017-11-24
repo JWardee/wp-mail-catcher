@@ -20,6 +20,7 @@ class GeneralHelper
 	static public $pluginViewDirectory;
 	static public $attachmentNotInMediaLib;
 	public static $attachmentNotImageThumbnail;
+	public static $failedNonceMessage;
 
 	static public function setSettings()
 	{
@@ -35,6 +36,7 @@ class GeneralHelper
 		self::$pluginViewDirectory = __DIR__ . '/views';
 		self::$attachmentNotInMediaLib = 'An attachment was sent but it was not in the media library';
 		self::$attachmentNotImageThumbnail = self::$pluginAssetsUrl . '/file-icon.png';
+		self::$failedNonceMessage = 'Failed security check';
 	}
 
     static public function arrayToString($pieces, $glue = ', ')
@@ -122,7 +124,6 @@ class GeneralHelper
 			$params['page'] = GeneralHelper::$adminPageSlug;
 		}
 
-		//TODO: add wp nonce
 		header('Location: ' . GeneralHelper::$adminUrl . 'admin.php?' . http_build_query($params));
 		exit;
 	}

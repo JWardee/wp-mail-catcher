@@ -31,6 +31,7 @@ class Bootstrap
 
     public function enqueue()
     {
+		wp_enqueue_style('dashicons');
         wp_enqueue_style('admin_css', GeneralHelper::$pluginAssetsUrl . '/global.min.css');
         wp_enqueue_script('admin_js', GeneralHelper::$pluginAssetsUrl . '/global.min.js', ['jquery'], '?');
         wp_localize_script('admin_js', GeneralHelper::$tableName, [
@@ -51,28 +52,47 @@ class Bootstrap
 		if (current_user_can(Settings::get('default_view_role'))) {
 			// TODO: Refactor export, export2 $_REQUEST
 			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
+				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'export_log')) {
+					wp_die(GeneralHelper::$failedNonceMessage);
+				}
+
 				Mail::export($_REQUEST['id']);
 			}
 
 			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'resend_log')) {
+					wp_die(GeneralHelper::$failedNonceMessage);
+				}
+
 				Mail::resend($_REQUEST['id']);
 				GeneralHelper::redirectToThisHomeScreen();
 			}
 
 			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'delete_log')) {
+					wp_die(GeneralHelper::$failedNonceMessage);
+				}
+
 				Logs::delete($_REQUEST['id']);
 				GeneralHelper::redirectToThisHomeScreen();
 			}
 
 			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_mail') {
+				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'new_mail')) {
+					wp_die(GeneralHelper::$failedNonceMessage);
+				}
+
 				Mail::add($_POST['header_keys'], $_POST['header_values'], $_POST['attachment_ids'], $_POST['subject'], $_POST['message']);
 				GeneralHelper::redirectToThisHomeScreen();
 			}
 		}
 
 		if (current_user_can(Settings::get('default_settings_role'))) {
-			// TODO: Sanitise
 			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'update_settings') {
+				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'update_settings')) {
+					wp_die(GeneralHelper::$failedNonceMessage);
+				}
+
 				$_POST['auto_delete'] = $_POST['auto_delete'] === 'true';
 
 				$cronManager = CronManager::getInstance();

@@ -1,10 +1,4 @@
-<?php
-use WpMailCatcher\GeneralHelper;
-
-// TODO: Enqueue dashicons.css
-?>
-
-<link rel="stylesheet" href="/wp-includes/css/dashicons.css">
+<?php use WpMailCatcher\GeneralHelper; ?>
 
 <div id="new-message" class="modal">
 	<div class="modal-content">
@@ -71,6 +65,9 @@ use WpMailCatcher\GeneralHelper;
 					</div>
 				</div>
 			</div>
+
+			<?php wp_nonce_field('new_mail'); ?>
+
 			<div class="modal-footer">
 				<button type="submit" class="button-primary">
 					<?php _e('Send Message', 'WpMailCatcher'); ?>

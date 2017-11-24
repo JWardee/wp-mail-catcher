@@ -7,11 +7,6 @@ use Underscore\Types\Arrays;
 
 class Mail
 {
-	/**
-	 * TODO: Likely a bug whereby attachments and additional
-	 * headers aren't resent because they're an array with ['url']
-	 * and ['id'] in them
-    */
 	static public function resend($ids)
     {
         $logs = Logs::get([

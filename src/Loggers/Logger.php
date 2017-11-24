@@ -6,7 +6,6 @@ use WpMailCatcher\GeneralHelper;
 use WP_Error;
 
 // TODO: Add doc blocks
-// TODO: Refactor Logs.php and Mail.php dbTransform and export to their own fractals
 
 abstract class Logger
 {

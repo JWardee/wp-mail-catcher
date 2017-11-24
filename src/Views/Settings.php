@@ -29,6 +29,8 @@ $cronJobs = CronManager::getInstance()->getTasks();
 	<h2 class="heading">WP Mail Catcher - <?php _e('settings', 'WpMailCatcher'); ?></h2>
 
 	<form action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&action=update_settings" method="post">
+		<?php wp_nonce_field('update_settings'); ?>
+
 		<table class="form-table">
 			<tbody>
 				<tr>
