@@ -51,6 +51,6 @@ class TestEmailBatch extends WP_UnitTestCase
 	public function testIncorrectTos()
 	{
 		wp_mail('testtest.com', 'subject', 'message');
-		$this->assertEquals(1, Logs::get()[0]['status']);
+		$this->assertEquals(0, Logs::get()[0]['status']);
 	}
 }
