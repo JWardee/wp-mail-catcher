@@ -2,17 +2,16 @@
 
 namespace WpMailCatcher;
 
-use WpMailCatcher\Loggers\BuddyPress;
-use WpMailCatcher\Loggers\Smtp;
 use WpMailCatcher\Loggers\WpMail;
-use WpMailCatcher\Models\Logs;
 
 class LoggerFactory
 {
 	static public function Set()
 	{
-//		new Smtp();
+		/**
+		 *  When more loggers are added the logic
+		 *  that determines which one to use will go here
+		 */
 		new WpMail();
-//		new BuddyPress();
 	}
 }
