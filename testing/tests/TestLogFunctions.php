@@ -6,10 +6,13 @@ use WpMailCatcher\Models\Mail;
 
 class TestLogFunctions extends WP_UnitTestCase
 {
-	public function testCanDeleteSingleLog()
+	public function setUp()
 	{
 		Logs::truncate();
+	}
 
+	public function testCanDeleteSingleLog()
+	{
 		wp_mail('test@test.com', 'subject', 'message');
 
 		$mail = Logs::get([
@@ -31,8 +34,6 @@ class TestLogFunctions extends WP_UnitTestCase
 
 	public function testCanDeleteMultipleLogs()
 	{
-		Logs::truncate();
-
 		wp_mail('test@test.com', 'subject', 'message');
 		wp_mail('test@test.com', 'subject', 'message');
 
@@ -59,8 +60,6 @@ class TestLogFunctions extends WP_UnitTestCase
 
 	public function testCanResendSingleMail()
 	{
-		Logs::truncate();
-
 		wp_mail('test@test.com', 'RESEND ME', 'message');
 
 		$mail = Logs::get([
@@ -82,8 +81,6 @@ class TestLogFunctions extends WP_UnitTestCase
 
 	public function testCanResendMultipleMail()
 	{
-		Logs::truncate();
-
 		wp_mail('test@test.com', 'RESEND ME 1', 'message');
 		wp_mail('test@test.com', 'RESEND ME 2', 'message');
 
@@ -107,8 +104,6 @@ class TestLogFunctions extends WP_UnitTestCase
 
 	public function testCanExportSingleLog()
 	{
-		Logs::truncate();
-
 		$to = 'test@test.com';
 		$subject = 'subject';
 		$message = 'message';
@@ -148,8 +143,6 @@ class TestLogFunctions extends WP_UnitTestCase
 
 	public function testCanExportMultipleLogs()
 	{
-		Logs::truncate();
-
 		$to1 = 'test@test.com';
 		$subject1 = 'subject';
 		$message1 = 'message';

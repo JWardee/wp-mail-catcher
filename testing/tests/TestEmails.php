@@ -4,6 +4,11 @@ use WpMailCatcher\Models\Logs;
 
 class TestEmailBatch extends WP_UnitTestCase
 {
+	public function setUp()
+	{
+		Logs::truncate();
+	}
+
 	public function testMail()
 	{
 		$to = 'test@test.com';
@@ -20,36 +25,32 @@ class TestEmailBatch extends WP_UnitTestCase
 
 		$emailLog = Logs::get()[0];
 
-		$this->assertEquals($emailLog['email_to'], $to);
-		$this->assertEquals($emailLog['subject'], $subject);
-		$this->assertEquals($emailLog['message'], $message);
+		$this->assertEquals($to, $emailLog['email_to']);
+		$this->assertEquals($subject, $emailLog['subject']);
+		$this->assertEquals($message, $emailLog['message']);
 
-		$this->assertEquals($emailLog['additional_headers'][0], $additionalHeaders[0]);
-		$this->assertEquals($emailLog['additional_headers'][1], $additionalHeaders[1]);
+		$this->assertEquals($additionalHeaders[0], $emailLog['additional_headers'][0]);
+		$this->assertEquals($additionalHeaders[1], $emailLog['additional_headers'][1]);
 
-		$this->assertEquals($emailLog['attachments'][0]['id'], $imgAttachmentId);
-		$this->assertEquals($emailLog['attachments'][0]['url'], wp_get_attachment_url($imgAttachmentId));
+		$this->assertEquals($imgAttachmentId, $emailLog['attachments'][0]['id']);
+		$this->assertEquals(wp_get_attachment_url($imgAttachmentId), $emailLog['attachments'][0]['url']);
 
-		$this->assertEquals($emailLog['attachments'][1]['id'], $pdfAttachmentId);
-		$this->assertEquals($emailLog['attachments'][1]['url'], wp_get_attachment_url($pdfAttachmentId));
+		$this->assertEquals($pdfAttachmentId, $emailLog['attachments'][1]['id']);
+		$this->assertEquals(wp_get_attachment_url($pdfAttachmentId), $emailLog['attachments'][1]['url']);
 
 		wp_delete_attachment($imgAttachmentId);
 		wp_delete_attachment($pdfAttachmentId);
-
-		Logs::truncate();
 	}
 
 	public function testCorrectTos()
 	{
 		wp_mail('test@test.com', 'subject', 'message');
-		$this->assertEquals(Logs::get()[0]['status'], 1);
-		Logs::truncate();
+		$this->assertEquals(1, Logs::get()[0]['status']);
 	}
 
 	public function testIncorrectTos()
 	{
 		wp_mail('testtest.com', 'subject', 'message');
-		$this->assertEquals(Logs::get()[0]['status'], 0);
-		Logs::truncate();
+		$this->assertEquals(1, Logs::get()[0]['status']);
 	}
 }
