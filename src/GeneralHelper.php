@@ -8,6 +8,7 @@ use Underscore\Types\Strings;
 class GeneralHelper
 {
 	static public $csvItemDelimiter = ' | ';
+	static public $logsPerPage = 5;
 	static public $pluginPath;
 	static public $pluginUrl;
 	static public $tableName;
@@ -19,8 +20,8 @@ class GeneralHelper
 	static public $pluginAssetsUrl;
 	static public $pluginViewDirectory;
 	static public $attachmentNotInMediaLib;
-	public static $attachmentNotImageThumbnail;
-	public static $failedNonceMessage;
+	static public $attachmentNotImageThumbnail;
+	static public $failedNonceMessage;
 
 	static public function setSettings()
 	{
@@ -70,16 +71,15 @@ class GeneralHelper
 
 	static public function sanitiseForQuery($value)
 	{
-		// TODO: sanitize_title_for_query breaks deletion
 		switch (gettype($value))
 		{
 			case ('array') :
 				array_walk_recursive($value, function(&$value) {
-//					$value = sanitize_title_for_query($value);
+					$value = sanitize_text_field($value);
 				});
 				break;
 			default :
-//				$value = sanitize_title_for_query($value);
+				$value = $value = sanitize_text_field($value);
 				break;
 
 		}

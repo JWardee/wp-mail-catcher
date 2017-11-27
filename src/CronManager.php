@@ -7,8 +7,8 @@ use Carbon\Carbon;
 class CronManager
 {
 	public $currentIntervals = null;
+	public $prefix;
 	private $cronTasks = [];
-	private $prefix;
 	static private $instance = false;
 
 	private function __construct()

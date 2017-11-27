@@ -121,7 +121,7 @@ class MailAdminTable extends WP_List_Table
 
     function prepare_items()
 	{
-        $per_page = 5;
+        $per_page = GeneralHelper::$logsPerPage;
 
         $columns = $this->get_columns();
         $hidden = [];

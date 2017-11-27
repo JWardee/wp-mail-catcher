@@ -258,6 +258,13 @@
   left: 175px;
 }
 
+.-empty {
+  .button-primary[data-target="#new-message"] {
+    top: 54px;
+    left: 5px;
+  }
+}
+
 .wrapper {
   position: relative;
 }

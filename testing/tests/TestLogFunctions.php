@@ -1,8 +1,8 @@
 <?php
 
-use MailCatcher\GeneralHelper;
-use MailCatcher\Models\Logs;
-use MailCatcher\Models\Mail;
+use WpMailCatcher\GeneralHelper;
+use WpMailCatcher\Models\Logs;
+use WpMailCatcher\Models\Mail;
 
 class TestLogFunctions extends WP_UnitTestCase
 {

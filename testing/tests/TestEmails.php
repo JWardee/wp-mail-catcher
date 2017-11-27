@@ -1,6 +1,6 @@
 <?php
 
-use MailCatcher\Models\Logs;
+use WpMailCatcher\Models\Logs;
 
 class TestEmailBatch extends WP_UnitTestCase
 {

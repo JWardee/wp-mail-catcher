@@ -16,7 +16,7 @@ require_once $_tests_dir . '/includes/functions.php';
  */
 function _manually_load_plugin() {
 	$bootstrap = null;
-	require dirname( dirname( __FILE__ ) ) . '/../MailCatcher.php';
+	require dirname( dirname( __FILE__ ) ) . '/../WpMailCatcher.php';
 	$bootstrap->install();
 }
 

@@ -8,7 +8,7 @@ $logs->prepare_items();
 require GeneralHelper::$pluginViewDirectory . '/NewMessageModal.php';
 ?>
 
-<div class="wrap">
+<div class="wrap<?php if (count($logs->items) == 0) : ?> -empty<?php endif ; ?>">
 	<h2 class="heading">WP Mail Catcher - <?php _e('logs', 'WpMailCatcher'); ?></h2>
 	<button class="button-primary" data-toggle="modal" data-target="#new-message">
 		<?php _e('New Message', 'WpMailCatcher'); ?>
