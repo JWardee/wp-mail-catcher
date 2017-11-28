@@ -50,7 +50,6 @@ class Bootstrap
 		});
 
 		if (current_user_can(Settings::get('default_view_role'))) {
-			// TODO: Refactor export, export2 $_REQUEST
 			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
 				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'export_log')) {
 					wp_die(GeneralHelper::$failedNonceMessage);
@@ -95,8 +94,7 @@ class Bootstrap
 
 				$_POST['auto_delete'] = $_POST['auto_delete'] === 'true';
 
-				$cronManager = CronManager::getInstance();
-				$cronManager->clearTasks();
+				CronManager::getInstance()->clearTasks();
 
 				$updateSuccess = Settings::update([
 					'default_view_role' => $_POST['default_view_role'],

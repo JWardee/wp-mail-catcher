@@ -41,28 +41,4 @@ class TestSettings extends WP_UnitTestCase
 		$cronTasks = $this->cronManager->getTasks();
 		$this->assertEquals('0', count($cronTasks));
 	}
-
-	public function testCanViewLogs()
-	{
-		/** TODO: Write test */
-		$this->markTestSkipped();
-	}
-
-	public function testCannotViewLogs()
-	{
-		/** TODO: Write test */
-		$this->markTestSkipped();
-	}
-
-	public function testCanViewSettings()
-	{
-		/** TODO: Write test */
-		$this->markTestSkipped();
-	}
-
-	public function testCannotViewSettings()
-	{
-		/** TODO: Write test */
-		$this->markTestSkipped();
-	}
 }
