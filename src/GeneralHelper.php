@@ -2,9 +2,6 @@
 
 namespace WpMailCatcher;
 
-//use Underscore\Types\Arrays;
-use Underscore\Types\Strings;
-
 class GeneralHelper
 {
 	static public $csvItemDelimiter = ' | ';
@@ -141,7 +138,8 @@ class GeneralHelper
 				WHERE meta_value LIKE '%" . $urls[0] . "%'";
 
 		if (is_array($urls) && count($urls) > 1) {
-			foreach (Arrays::removeFirst($urls) as $url) {
+			array_shift($urls);
+			foreach ($urls as $url) {
 				$sql .= " OR meta_value LIKE '%" . $url . "%'";
 			}
 		}
