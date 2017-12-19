@@ -3,7 +3,6 @@
 namespace WpMailCatcher\Models;
 
 use WpMailCatcher\GeneralHelper;
-use Underscore\Types\Arrays;
 
 class Mail
 {
@@ -75,7 +74,7 @@ class Mail
 
 		foreach ($logs as $k => $v) {
 			if (is_array($v)) {
-				$v = Arrays::flatten($v, ', ');
+				$v = GeneralHelper::flatten($v, ', ');
 			}
 
 			fputcsv($out, $v);

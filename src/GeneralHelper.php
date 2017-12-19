@@ -2,7 +2,7 @@
 
 namespace WpMailCatcher;
 
-use Underscore\Types\Arrays;
+//use Underscore\Types\Arrays;
 use Underscore\Types\Strings;
 
 class GeneralHelper
@@ -40,9 +40,47 @@ class GeneralHelper
 		self::$failedNonceMessage = 'Failed security check';
 	}
 
+	/**
+	 * Flattens an array to dot notation.
+	 *
+	 * @param array  $array     An array
+	 * @param string $separator The characater to flatten with
+	 * @param string $parent    The parent passed to the child (private)
+	 *
+	 * @return array Flattened array to one level
+	 */
+	public static function flatten($array, $separator = '.', $parent = null)
+	{
+		if (!is_array($array)) {
+			return $array;
+		}
+
+		$_flattened = [];
+
+		// Rewrite keys
+		foreach ($array as $key => $value) {
+			if ($parent) {
+				$key = $parent.$separator.$key;
+			}
+			$_flattened[$key] = self::flatten($value, $separator, $key);
+		}
+
+		// Flatten
+		$flattened = [];
+		foreach ($_flattened as $key => $value) {
+			if (is_array($value)) {
+				$flattened = array_merge($flattened, $value);
+			} else {
+				$flattened[$key] = $value;
+			}
+		}
+
+		return $flattened;
+	}
+
     static public function arrayToString($pieces, $glue = ', ')
     {
-		$result = Arrays::flatten($pieces);
+		$result = self::flatten($pieces);
 
 		if (is_array($result)) {
 			$result = implode($glue, $pieces);
@@ -61,12 +99,13 @@ class GeneralHelper
 			$slug = str_replace($illegalChar, ' ', $slug);
 		}
 
-		return Strings::title($slug);
+		return mb_convert_case($slug, MB_CASE_TITLE, 'UTF-8');
     }
 
 	static public function labelToSlug($label)
 	{
-		return Strings::slugify($label);
+		$label = str_replace(' ', '-', $label);
+		return strtolower($label);
 	}
 
 	static public function sanitiseForQuery($value)
