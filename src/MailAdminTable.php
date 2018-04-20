@@ -109,21 +109,6 @@ class MailAdminTable extends WP_List_Table
 
     function process_bulk_action()
 	{
-//        switch ($this->current_action()) {
-//            case 'delete' :
-//                Logs::delete($_REQUEST['id']);
-//            break;
-//            case 'resend' :
-//                var_dump($_REQUEST);
-//                exit;
-//                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
-//                    wp_die(GeneralHelper::$failedNonceMessage);
-//                }
-//
-//                Mail::resend($_REQUEST['id']);
-//                GeneralHelper::redirectToThisHomeScreen();
-//            break;
-//        }
     }
 
     function prepare_items()
