@@ -35,9 +35,9 @@ class MailAdminTable extends WP_List_Table
     function column_time($item)
 	{
         $actions = [
-            'delete' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=delete&id=' . $item['id'], 'delete_log') . '">' . __('Delete', 'WpMailCatcher') . '</a>',
-            'resend' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=resend&id=' . $item['id'], 'resend_log') . '">' . __('Resend', 'WpMailCatcher') . '</a>',
-            'export' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=export&id=' . $item['id'], 'export_log') . '">' . __('Export', 'WpMailCatcher') . '</a>',
+            'delete' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=delete&id=' . $item['id'], 'bulk-logs') . '">' . __('Delete', 'WpMailCatcher') . '</a>',
+            'resend' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=resend&id=' . $item['id'], 'bulk-logs') . '">' . __('Resend', 'WpMailCatcher') . '</a>',
+            'export' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=export&id=' . $item['id'], 'bulk-logs') . '">' . __('Export', 'WpMailCatcher') . '</a>',
         ];
 
 		return sprintf('%1$s %2$s',
@@ -109,14 +109,21 @@ class MailAdminTable extends WP_List_Table
 
     function process_bulk_action()
 	{
-        switch ($this->current_action()) {
-            case 'delete' :
-                Logs::delete($_REQUEST['id']);
-            break;
-            case 'resend' :
-                Mail::resend($_REQUEST['id']);
-            break;
-        }
+//        switch ($this->current_action()) {
+//            case 'delete' :
+//                Logs::delete($_REQUEST['id']);
+//            break;
+//            case 'resend' :
+//                var_dump($_REQUEST);
+//                exit;
+//                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
+//                    wp_die(GeneralHelper::$failedNonceMessage);
+//                }
+//
+//                Mail::resend($_REQUEST['id']);
+//                GeneralHelper::redirectToThisHomeScreen();
+//            break;
+//        }
     }
 
     function prepare_items()

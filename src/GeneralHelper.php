@@ -31,7 +31,7 @@ class GeneralHelper
 		self::$adminPageSlug = 'wp-mail-catcher';
 		self::$uploadsFolderInfo = wp_upload_dir();
 		self::$pluginAssetsUrl = self::$pluginUrl . '/assets';
-		self::$pluginViewDirectory = __DIR__ . '/views';
+		self::$pluginViewDirectory = __DIR__ . '/Views';
 		self::$attachmentNotInMediaLib = 'An attachment was sent but it was not in the media library';
 		self::$attachmentNotImageThumbnail = self::$pluginAssetsUrl . '/file-icon.png';
 		self::$failedNonceMessage = 'Failed security check';

@@ -51,7 +51,7 @@ class Bootstrap
 
 		if (current_user_can(Settings::get('default_view_role'))) {
 			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
-				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'export_log')) {
+				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
 					wp_die(GeneralHelper::$failedNonceMessage);
 				}
 
@@ -59,7 +59,7 @@ class Bootstrap
 			}
 
 			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
-				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'resend_log')) {
+				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
 					wp_die(GeneralHelper::$failedNonceMessage);
 				}
 
@@ -68,7 +68,7 @@ class Bootstrap
 			}
 
 			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
-				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'delete_log')) {
+				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
 					wp_die(GeneralHelper::$failedNonceMessage);
 				}
 
