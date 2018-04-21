@@ -7,7 +7,6 @@ node_modules
 *.tar.gz
 *.zip
 /testing/tmp
-composer.lock
 /testing/wp-config.env
 .idea
 .sass-cache
