@@ -162,6 +162,10 @@
 
     &.is-html {
       width: 800px;
+
+      .html-preview {
+        height: 60vh;
+      }
     }
   }
 

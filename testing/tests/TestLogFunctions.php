@@ -183,10 +183,10 @@ class TestLogFunctions extends WP_UnitTestCase
 
 		$this->assertContains($to1, $csvArray);
 		$this->assertContains($subject1, $csvArray);
-		$this->assertContains(base64_encode($message1), $csvArray);
+		$this->assertContains($message1, $csvArray);
 		$this->assertContains($to2, $csvArray);
 		$this->assertContains($subject2, $csvArray);
-		$this->assertContains(base64_encode($message2), $csvArray);
+		$this->assertContains($message2, $csvArray);
 		$this->assertContains($additionalHeaders[0] . GeneralHelper::$csvItemDelimiter . $additionalHeaders[1], $csvArray);
 		$this->assertContains(wp_get_attachment_url($imgAttachmentId) . GeneralHelper::$csvItemDelimiter . wp_get_attachment_url($pdfAttachmentId), $csvArray);
 

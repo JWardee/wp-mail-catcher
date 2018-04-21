@@ -80,7 +80,6 @@ class Logs
 			$result['attachments'] = json_decode($result['attachments'], true);
 			$result['additional_headers'] = json_decode($result['additional_headers'], true);
             $result['attachment_file_paths'] = [];
-            $result['message'] = base64_encode($result['message']);
 
             if (is_string($result['additional_headers'])) {
 				$result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);

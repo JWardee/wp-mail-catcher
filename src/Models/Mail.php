@@ -36,11 +36,15 @@ class Mail
 			if (isset($log['attachments']) && !empty($log['attachments']) && is_array($log['attachments'])) {
 				$log['attachments'] = array_column($log['attachments'], 'url');
 				$log['attachments'] = GeneralHelper::arrayToString($log['attachments'], GeneralHelper::$csvItemDelimiter);
-			}
+			} else {
+                $log['attachments'] = '-';
+            }
 
 			if (isset($log['additional_headers']) && !empty($log['additional_headers']) && is_array($log['additional_headers'])) {
 				$log['additional_headers'] = GeneralHelper::arrayToString($log['additional_headers'], GeneralHelper::$csvItemDelimiter);
-			}
+			} else {
+                $log['additional_headers'] = '-';
+            }
 
 			if ($log['status'] == true) {
 				$log['error'] = 'None';
