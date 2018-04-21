@@ -152,12 +152,17 @@
 	z-index: 2;
 	position: relative;
 
-	width: 600px;
 	margin: 10% auto 5% auto;
 	border-radius: 5px;
 
 	transition: all .5s;
 	transform: translateY(100px);
+
+    width: 600px;
+
+    &.is-html {
+      width: 800px;
+    }
   }
 
   &.-active .modal-content {
@@ -265,4 +270,8 @@
 
 .wrapper {
   position: relative;
+}
+
+.html-preview {
+  width: 100%;
 }
