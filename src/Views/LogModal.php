@@ -53,7 +53,7 @@ if (isset($log)) :
 					<div class="content">
 						<?php $debug = json_decode($log['backtrace_segment']); ?>
 						<ul>
-							<li><?php _e('Triggered from:', 'WpMailCatcher'); ?> <strong style="white-space: pre;"><?php echo $debug->file; ?></strong></li>
+							<li><?php _e('Triggered from:', 'WpMailCatcher'); ?> <br /> <strong><?php echo $debug->file; ?></strong></li>
 							<li><?php _e('On line:', 'WpMailCatcher'); ?> <strong><?php echo $debug->line; ?></strong></li>
 						</ul>
 
