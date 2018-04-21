@@ -39,8 +39,9 @@ A fast, lightweight plugin that saves emails sent by your WordPress website.
 
 ## Testing locally
 1. Download the repo
-2. cd into the `testing` and run `./bin/install-wp-test.sh`
-3. Run `phpunit` within the `testing` directory
+2. cd into `testing` and run `composer install`
+3. Run `bash ./bin/install-wp-test.sh` from the `testing` directory
+4. Run `phpunit` within the `testing` directory
 
 ## Found an issue, or have an idea on how we can improve?
 Let us know in our [GitHub tracker!](https://github.com/JWardee/wp-mail-catcher/issues)
