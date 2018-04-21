@@ -12,7 +12,7 @@ if (isset($log)) :
 				</h2>
 				<div class="content-container">
 					<div class="content -active">
-						<iframe class="html-preview" data-html-preview="<?php echo $log['message']; ?>"></iframe>
+						<iframe class="html-preview" data-html-preview="<?php echo base64_encode($log['message']); ?>"></iframe>
 					</div>
 					<div class="content">
 						<?php if (empty($log['attachments']) && empty($log['additional_headers'])) : ?>
