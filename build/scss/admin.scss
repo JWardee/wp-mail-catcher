@@ -253,9 +253,7 @@
 }
 
 .button-primary[data-target="#new-message"] {
-  position: absolute;
-  top: 61px;
-  left: 175px;
+  display: block;
 }
 
 .-empty {
