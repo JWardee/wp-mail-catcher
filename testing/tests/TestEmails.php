@@ -27,7 +27,7 @@ class TestEmailBatch extends WP_UnitTestCase
 
 		$this->assertEquals($to, $emailLog['email_to']);
 		$this->assertEquals($subject, $emailLog['subject']);
-		$this->assertEquals($message, $emailLog['message']);
+		$this->assertEquals(base64_encode($message), $emailLog['message']);
 
 		$this->assertEquals($additionalHeaders[0], $emailLog['additional_headers'][0]);
 		$this->assertEquals($additionalHeaders[1], $emailLog['additional_headers'][1]);
