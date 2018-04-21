@@ -3,7 +3,7 @@
 if (isset($log)) :
 ?>
 	<div id="<?php echo $log['id']; ?>" class="modal">
-		<div class="modal-content">
+		<div class="modal-content <?php echo $log['is_html'] ? 'is-html' : 'is-not-html'; ?>">
 			<div class="modal-body">
 				<h2 class="nav-tab-wrapper">
 					<a href="#" class="nav-tab nav-tab-active"><?php _e('Message', 'WpMailCatcher'); ?></a>
@@ -12,7 +12,7 @@ if (isset($log)) :
 				</h2>
 				<div class="content-container">
 					<div class="content -active">
-						<?php echo wpautop($log['message']); ?>
+						<iframe class="html-preview" data-html-preview="<?php echo $log['message']; ?>"></iframe>
 					</div>
 					<div class="content">
 						<?php if (empty($log['attachments']) && empty($log['additional_headers'])) : ?>
@@ -53,7 +53,7 @@ if (isset($log)) :
 					<div class="content">
 						<?php $debug = json_decode($log['backtrace_segment']); ?>
 						<ul>
-							<li><?php _e('Triggered from:', 'WpMailCatcher'); ?> <br /> <strong><?php echo $debug->file; ?></strong></li>
+							<li><?php _e('Triggered from:', 'WpMailCatcher'); ?> <strong><?php echo $debug->file; ?></strong></li>
 							<li><?php _e('On line:', 'WpMailCatcher'); ?> <strong><?php echo $debug->line; ?></strong></li>
 						</ul>
 

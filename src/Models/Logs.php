@@ -69,11 +69,20 @@ class Logs
 				$result['time'] = date($args['date_time_format']);
 			}
 
+            if ($result['message'] != strip_tags($result['message'])) {
+			    $result['is_html'] = true;
+                $result['message'] = str_replace('\\', '', $result['message']);
+            } else {
+                $result['is_html'] = false;
+                $result['message'] = nl2br($result['message']);
+            }
+
 			$result['attachments'] = json_decode($result['attachments'], true);
 			$result['additional_headers'] = json_decode($result['additional_headers'], true);
-			$result['attachment_file_paths'] = [];
+            $result['attachment_file_paths'] = [];
+            $result['message'] = base64_encode($result['message']);
 
-			if (is_string($result['additional_headers'])) {
+            if (is_string($result['additional_headers'])) {
 				$result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);
 			}
 
