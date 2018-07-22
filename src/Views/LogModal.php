@@ -1,7 +1,4 @@
-<?php
-
-if (isset($log)) :
-?>
+<?php if (isset($log)) : ?>
 	<div id="<?php echo $log['id']; ?>" class="modal">
 		<div class="modal-content <?php echo $log['is_html'] ? 'is-html' : 'is-not-html'; ?>">
 			<div class="modal-body">
