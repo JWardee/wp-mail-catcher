@@ -63,27 +63,28 @@ class Logs
 	static private function dbResultTransform($results, $args = [])
 	{
 		foreach ($results as &$result) {
+		    $result['status'] = (bool)$result['status'];
+            $result['attachments'] = json_decode($result['attachments'], true);
+            $result['additional_headers'] = json_decode($result['additional_headers'], true);
+            $result['attachment_file_paths'] = [];
+
+            if (is_string($result['additional_headers'])) {
+                $result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);
+            }
+
 			if ($args['date_time_format'] == 'human') {
 				$result['time'] = Carbon::createFromTimestamp($result['time'])->diffForHumans();
 			} else {
 				$result['time'] = date($args['date_time_format']);
 			}
 
-            if ($result['message'] != strip_tags($result['message'])) {
+            if (GeneralHelper::doesArrayContainSubString($result['additional_headers'], 'text/html')) {
 			    $result['is_html'] = true;
                 $result['message'] = str_replace('\\', '', $result['message']);
             } else {
                 $result['is_html'] = false;
-                $result['message'] = nl2br($result['message']);
+                $result['message'] = nl2br(htmlspecialchars($result['message']));
             }
-
-			$result['attachments'] = json_decode($result['attachments'], true);
-			$result['additional_headers'] = json_decode($result['additional_headers'], true);
-            $result['attachment_file_paths'] = [];
-
-            if (is_string($result['additional_headers'])) {
-				$result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);
-			}
 
 			if (!empty($result['attachments'])) {
 				foreach ($result['attachments'] as &$attachment) {
@@ -132,4 +133,11 @@ class Logs
 
 		$wpdb->query("TRUNCATE TABLE " . $wpdb->prefix . GeneralHelper::$tableName);
 	}
+
+	static private function hasHtmlHeader($additionalHeaders)
+    {
+        foreach ($additionalHeaders as $additionalHeader) {
+
+        }
+    }
 }

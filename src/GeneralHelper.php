@@ -46,7 +46,7 @@ class GeneralHelper
 	 *
 	 * @return array Flattened array to one level
 	 */
-	public static function flatten($array, $separator = '.', $parent = null)
+	static public function flatten($array, $separator = '.', $parent = null)
 	{
 		if (!is_array($array)) {
 			return $array;
@@ -155,7 +155,7 @@ class GeneralHelper
 		return [];
 	}
 
-	public static function redirectToThisHomeScreen($params = [])
+	static public function redirectToThisHomeScreen($params = [])
 	{
 		if (!isset($params['page'])) {
 			$params['page'] = GeneralHelper::$adminPageSlug;
@@ -164,6 +164,17 @@ class GeneralHelper
 		header('Location: ' . GeneralHelper::$adminUrl . 'admin.php?' . http_build_query($params));
 		exit;
 	}
+
+	static public function doesArrayContainSubString($array, $subString)
+    {
+        foreach ($array as $element) {
+            if (stripos($element, $subString) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 

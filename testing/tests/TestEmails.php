@@ -45,12 +45,24 @@ class TestEmailBatch extends WP_UnitTestCase
 	public function testCorrectTos()
 	{
 		wp_mail('test@test.com', 'subject', 'message');
-		$this->assertEquals(1, Logs::get()[0]['status']);
+		$this->assertTrue(Logs::get()[0]['status']);
 	}
 
 	public function testIncorrectTos()
 	{
 		wp_mail('testtest.com', 'subject', 'message');
-		$this->assertEquals(0, Logs::get()[0]['status']);
+		$this->assertFalse(Logs::get()[0]['status']);
 	}
+
+    public function testHtmlEmail()
+    {
+        wp_mail('test@test.com', 'subject', 'message', ['Content-Type: text/html']);
+        $this->assertTrue(Logs::get()[0]['is_html']);
+    }
+
+    public function testNonHtmlEmail()
+    {
+        wp_mail('test@test.com', 'subject', 'message');
+        $this->assertFalse(Logs::get()[0]['is_html']);
+    }
 }
