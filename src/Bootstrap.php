@@ -14,11 +14,18 @@ class Bootstrap
 		LoggerFactory::Set();
 		$this->registerCronTasks();
 
+		add_filter('plugin_action_links_wp-mail-catcher/WpMailCatcher.php', [$this, 'extraPluginLinks']);
         add_action('admin_menu', [$this, 'route']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
 		add_action('plugins_loaded', function() {
 			load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$pluginPath . '/languages');
 		});
+    }
+
+    public function extraPluginLinks($links)
+    {
+        array_unshift($links, '<a href="admin.php?page=' . GeneralHelper::$adminPageSlug . '-settings">Settings</a>');
+        return $links;
     }
 
 	public function registerCronTasks()
@@ -45,70 +52,80 @@ class Bootstrap
 			require GeneralHelper::$pluginViewDirectory . '/Log.php';
 		}, 'dashicons-email-alt');
 
-		add_submenu_page(GeneralHelper::$adminPageSlug, 'Settings', 'Settings', Settings::get('default_settings_role'), 'settings', function() {
+		add_submenu_page(GeneralHelper::$adminPageSlug, 'Settings', 'Settings', Settings::get('default_settings_role'), GeneralHelper::$adminPageSlug . '-settings', function() {
 			require GeneralHelper::$pluginViewDirectory . '/Settings.php';
 		});
 
-		if (current_user_can(Settings::get('default_view_role'))) {
-			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' || isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
-				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
-					wp_die(GeneralHelper::$failedNonceMessage);
-				}
+		if (isset($_GET['page'])) {
+		    if ($_GET['page'] == GeneralHelper::$adminPageSlug) {
+                if (current_user_can(Settings::get('default_view_role'))) {
+                    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' ||
+                        isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
+                        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
+                            wp_die(GeneralHelper::$failedNonceMessage);
+                        }
 
-				Mail::export($_REQUEST['id']);
-			}
+                        Mail::export($_REQUEST['id']);
+                    }
 
-			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
-				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
-					wp_die(GeneralHelper::$failedNonceMessage);
-				}
+                    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' &&
+                        isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+                        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
+                            wp_die(GeneralHelper::$failedNonceMessage);
+                        }
 
-				Mail::resend($_REQUEST['id']);
-				GeneralHelper::redirectToThisHomeScreen();
-			}
+                        Mail::resend($_REQUEST['id']);
+                        GeneralHelper::redirectToThisHomeScreen();
+                    }
 
-			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' && isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
-				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
-					wp_die(GeneralHelper::$failedNonceMessage);
-				}
+                    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' &&
+                        isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+                        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
+                            wp_die(GeneralHelper::$failedNonceMessage);
+                        }
 
-				Logs::delete($_REQUEST['id']);
-				GeneralHelper::redirectToThisHomeScreen();
-			}
+                        Logs::delete($_REQUEST['id']);
+                        GeneralHelper::redirectToThisHomeScreen();
+                    }
 
-			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_mail') {
-				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'new_mail')) {
-					wp_die(GeneralHelper::$failedNonceMessage);
-				}
+                    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_mail') {
+                        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'new_mail')) {
+                            wp_die(GeneralHelper::$failedNonceMessage);
+                        }
 
-				Mail::add($_POST['header_keys'], $_POST['header_values'], $_POST['attachment_ids'], $_POST['subject'], $_POST['message']);
-				GeneralHelper::redirectToThisHomeScreen();
-			}
-		}
+                        Mail::add($_POST['header_keys'], $_POST['header_values'], $_POST['attachment_ids'],
+                            $_POST['subject'], $_POST['message']);
+                        GeneralHelper::redirectToThisHomeScreen();
+                    }
+                }
 
-		if (current_user_can(Settings::get('default_settings_role'))) {
-			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'update_settings') {
-				if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'update_settings')) {
-					wp_die(GeneralHelper::$failedNonceMessage);
-				}
 
-				$_POST['auto_delete'] = $_POST['auto_delete'] === 'true';
+                if (current_user_can(Settings::get('default_settings_role'))) {
+                    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'update_settings') {
+                        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'update_settings')) {
+                            wp_die(GeneralHelper::$failedNonceMessage);
+                        }
 
-				CronManager::getInstance()->clearTasks();
+                        $_POST['auto_delete'] = $_POST['auto_delete'] === 'true';
 
-				$updateSuccess = Settings::update([
-					'default_view_role' => $_POST['default_view_role'],
-					'default_settings_role' => $_POST['default_settings_role'],
-					'auto_delete' => $_POST['auto_delete'],
-					'timescale' => $_POST['auto_delete'] == true ? $_POST['timescale'] : null,
-				]);
+                        CronManager::getInstance()->clearTasks();
 
-				GeneralHelper::redirectToThisHomeScreen([
-					'update_success' => $updateSuccess,
-					'page' => 'settings'
-				]);
-			}
-		}
+                        $updateSuccess = Settings::update([
+                            'default_view_role' => $_POST['default_view_role'],
+                            'default_settings_role' => $_POST['default_settings_role'],
+                            'auto_delete' => $_POST['auto_delete'],
+                            'timescale' => $_POST['auto_delete'] == true ? $_POST['timescale'] : null,
+                        ]);
+
+                        GeneralHelper::redirectToThisHomeScreen([
+                            'update_success' => $updateSuccess,
+                            'page' => GeneralHelper::$adminPageSlug . '-settings'
+                        ]);
+                    }
+                }
+            }
+
+        }
     }
 
     public function install()
