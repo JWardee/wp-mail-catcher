@@ -41,7 +41,7 @@ class GeneralHelper
 	 * Flattens an array to dot notation.
 	 *
 	 * @param array  $array     An array
-	 * @param string $separator The characater to flatten with
+	 * @param string $separator The character to flatten with
 	 * @param string $parent    The parent passed to the child (private)
 	 *
 	 * @return array Flattened array to one level

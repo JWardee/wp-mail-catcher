@@ -1,4 +1,8 @@
-<?php if (isset($log)) : ?>
+<?php
+use WpMailCatcher\GeneralHelper;
+
+if (isset($log)) :
+?>
 	<div id="<?php echo $log['id']; ?>" class="modal">
 		<div class="modal-content <?php echo $log['is_html'] ? 'is-html' : 'is-not-html'; ?>">
 			<div class="modal-body">
@@ -9,7 +13,7 @@
 				</h2>
 				<div class="content-container">
 					<div class="content -active">
-						<iframe class="html-preview" data-html-preview="<?php echo base64_encode($log['message']); ?>"></iframe>
+						<iframe class="html-preview" src="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&action=single_mail&id=<?php echo $log['id']; ?>"></iframe>
 					</div>
 					<div class="content">
 						<?php if (empty($log['attachments']) && empty($log['additional_headers'])) : ?>

@@ -77,7 +77,7 @@ abstract class Logger
 			'time' => time(),
 			'email_to' => GeneralHelper::arrayToString($args['to']),
 			'subject' => $args['subject'],
-			'message' => $args['message'],
+			'message' => strip_tags($args['message']),
 			'backtrace_segment' => json_encode($this->getBacktrace()),
 			'status' => 1,
 			'attachments' => json_encode($this->getAttachmentLocations($args['attachments'])),
