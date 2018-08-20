@@ -77,7 +77,7 @@ abstract class Logger
 			'time' => time(),
 			'email_to' => GeneralHelper::arrayToString($args['to']),
 			'subject' => $args['subject'],
-			'message' => strip_tags($args['message']),
+			'message' => $this->sanitiseInput($args['message']),
 			'backtrace_segment' => json_encode($this->getBacktrace()),
 			'status' => 1,
 			'attachments' => json_encode($this->getAttachmentLocations($args['attachments'])),
@@ -132,6 +132,13 @@ abstract class Logger
 
 		return $result;
 	}
+
+	protected function sanitiseInput($input)
+    {
+        return htmlspecialchars(
+            preg_replace('#<script(.*?)>(.*?)</script>#is', '', $input)
+        );
+    }
 
 	/**
 	 * Get the details of the method that originally triggered wp_mail

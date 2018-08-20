@@ -80,11 +80,12 @@ class Logs
 
             if (GeneralHelper::doesArrayContainSubString($result['additional_headers'], 'text/html')) {
 			    $result['is_html'] = true;
-                $result['message'] = str_replace('\\', '', $result['message']);
             } else {
                 $result['is_html'] = false;
-                $result['message'] = nl2br(htmlspecialchars($result['message']));
+                $result['message'] = htmlspecialchars_decode($result['message']);
             }
+
+            $result['message'] = stripslashes($result['message']);
 
 			if (!empty($result['attachments'])) {
 				foreach ($result['attachments'] as &$attachment) {
