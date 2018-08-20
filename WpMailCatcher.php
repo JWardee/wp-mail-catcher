@@ -6,7 +6,7 @@ Text Domain: WpMailCatcher
 Domain Path: /languages
 Description: A fast, lightweight plugin that saves emails sent by your WordPress website.
 Author: James Ward
-Version: 1.1.0
+Version: 1.2.0
 Author URI: https://jamesward.io
 */
 
