@@ -133,11 +133,4 @@ class Logs
 
 		$wpdb->query("TRUNCATE TABLE " . $wpdb->prefix . GeneralHelper::$tableName);
 	}
-
-	static private function hasHtmlHeader($additionalHeaders)
-    {
-        foreach ($additionalHeaders as $additionalHeader) {
-
-        }
-    }
 }

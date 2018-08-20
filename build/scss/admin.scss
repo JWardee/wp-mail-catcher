@@ -95,6 +95,16 @@
   margin: 10px 0;
 }
 
+.is-html-email {
+  display: block;
+  margin: 30px 0;
+  font-weight: bold;
+
+  input {
+    margin-right: 30px;
+  }
+}
+
 .-icon {
   position: relative;
   top: 50%;

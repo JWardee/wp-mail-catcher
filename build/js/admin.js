@@ -99,11 +99,4 @@ jQuery(function($) {
         $(this).closest('.field-block').remove();
         return false;
     });
-
-    $('[data-html-preview]').each(function() {
-        var html = window.atob($(this).data('html-preview'));
-        console.log(html);
-        $(this)[0].src = 'data:text/html, ' + encodeURIComponent(html);
-        $(this).removeAttr('data-html-preview');
-    });
 });

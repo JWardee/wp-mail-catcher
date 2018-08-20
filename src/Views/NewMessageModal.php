@@ -24,12 +24,14 @@
 										<option value="to"><?php _e('To', 'WpMailCatcher'); ?></option>
 										<option value="cc"><?php _e('Cc', 'WpMailCatcher'); ?></option>
 										<option value="bcc"><?php _e('Bcc', 'WpMailCatcher'); ?></option>
-										<option value="custom"><?php _e('Custom', 'WpMailCatcher'); ?></option>
+                                        <option value="custom"><?php _e('Custom', 'WpMailCatcher'); ?></option>
 									</select>
 
 									<input name="header_values[]" type="text" class="field -input" />
 								</div>
 							</div>
+
+                            <label class="is-html-email"><input type="checkbox" value="Content-Type: text/html" name="header_keys[]" /> Is HTML email? </label>
 						</div>
 						<div>
 							<h2><?php _e('Subject', 'WpMailCatcher'); ?></h2>

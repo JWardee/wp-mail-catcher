@@ -59,6 +59,8 @@ class Bootstrap
 		if (isset($_GET['page'])) {
 		    if ($_GET['page'] == GeneralHelper::$adminPageSlug) {
                 if (current_user_can(Settings::get('default_view_role'))) {
+
+                    /** Export message(s) */
                     if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' ||
                         isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
                         if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
@@ -68,6 +70,7 @@ class Bootstrap
                         Mail::export($_REQUEST['id']);
                     }
 
+                    /** Resend message(s) */
                     if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' &&
                         isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
                         if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
@@ -78,6 +81,7 @@ class Bootstrap
                         GeneralHelper::redirectToThisHomeScreen();
                     }
 
+                    /** Delete message(s) */
                     if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' &&
                         isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
                         if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
@@ -88,6 +92,7 @@ class Bootstrap
                         GeneralHelper::redirectToThisHomeScreen();
                     }
 
+                    /** Send mail */
                     if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_mail') {
                         if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'new_mail')) {
                             wp_die(GeneralHelper::$failedNonceMessage);
@@ -96,6 +101,13 @@ class Bootstrap
                         Mail::add($_POST['header_keys'], $_POST['header_values'], $_POST['attachment_ids'],
                             $_POST['subject'], $_POST['message']);
                         GeneralHelper::redirectToThisHomeScreen();
+                    }
+
+                    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'single_mail' &&
+                        isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+                        $log = Logs::get(['post__in' => [$_REQUEST['id']]]);
+                        echo $log[0]['message'];
+                        exit;
                     }
                 }
 
