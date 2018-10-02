@@ -72,20 +72,9 @@ class Logs
                 $result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);
             }
 
-			if ($args['date_time_format'] == 'human') {
-				$result['time'] = Carbon::createFromTimestamp($result['time'])->diffForHumans();
-			} else {
-				$result['time'] = date($args['date_time_format']);
-			}
-
-            if (GeneralHelper::doesArrayContainSubString($result['additional_headers'], 'text/html')) {
-			    $result['is_html'] = true;
-            } else {
-                $result['is_html'] = false;
-                $result['message'] = htmlspecialchars_decode($result['message']);
-            }
-
-            $result['message'] = stripslashes($result['message']);
+            $result['time'] = $args['date_time_format'] == 'human' ? Carbon::createFromTimestamp($result['time'])->diffForHumans() : date($args['date_time_format']);
+            $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], 'text/html');
+            $result['message'] = stripslashes(htmlspecialchars_decode($result['message']));
 
 			if (!empty($result['attachments'])) {
 				foreach ($result['attachments'] as &$attachment) {
