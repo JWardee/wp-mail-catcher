@@ -30,7 +30,12 @@ class TestSettings extends WP_UnitTestCase
 
 		$this->assertEquals('1', count($cronTasks));
 		$this->assertEquals($this->timescale, $cronTasks[0]['schedule']);
-		$this->assertEquals($this->cronManager->prefix . '0', $cronTasks[0]['hook']);
+
+		/**
+         * Assert 1 instead of 0 because the new default setting for
+         * auto_delete is true so the next hook will start at 1 not 0
+         */
+		$this->assertEquals($this->cronManager->prefix . '1', $cronTasks[0]['hook']);
 	}
 
 	public function testCronDisable()

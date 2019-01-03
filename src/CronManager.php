@@ -2,8 +2,6 @@
 
 namespace WpMailCatcher;
 
-use Carbon\Carbon;
-
 class CronManager
 {
 	public $currentIntervals = null;
@@ -51,9 +49,9 @@ class CronManager
 		$cronTasks = _get_cron_array();
 		$events = [];
 
-		foreach ( $cronTasks as $time => $cron ) {
-			foreach ( $cron as $hook => $dings ) {
-				foreach ( $dings as $sig => $data ) {
+		foreach ($cronTasks as $time => $cron) {
+			foreach ($cron as $hook => $dings) {
+				foreach ($dings as $sig => $data) {
 					if (strpos($hook, $this->prefix) === false) {
 						continue;
 					}
@@ -65,7 +63,7 @@ class CronManager
 						'args'     => $data['args'],
 						'schedule' => $data['schedule'],
 						'interval' => isset($data['interval']) ? $data['interval'] : null,
-						'nextRun' => Carbon::createFromTimestamp($time)->diffForHumans()
+						'nextRun' => GeneralHelper::getHumanReadableTimeFromNow($time)
 					];
 				}
 			}

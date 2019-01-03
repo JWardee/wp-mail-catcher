@@ -9,7 +9,8 @@ class Settings
 	static private $defaultSettings = [
 		'default_view_role' => 'manage_options',
 		'default_settings_role' => 'manage_options',
-		'auto_delete' => false
+		'auto_delete' => true,
+        'timescale' => 'monthly'
 	];
 
 	static public function get($key = null)
