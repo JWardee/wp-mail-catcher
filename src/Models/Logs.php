@@ -2,7 +2,6 @@
 
 namespace WpMailCatcher\Models;
 
-use Carbon\Carbon;
 use WpMailCatcher\GeneralHelper;
 
 class Logs
@@ -72,7 +71,7 @@ class Logs
                 $result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);
             }
 
-            $result['time'] = $args['date_time_format'] == 'human' ? Carbon::createFromTimestamp($result['time'])->diffForHumans() : date($args['date_time_format']);
+            $result['time'] = $args['date_time_format'] == 'human' ? GeneralHelper::getHumanReadableTimeFromNow($result['time']) : date($args['date_time_format']);
             $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], 'text/html');
             $result['message'] = stripslashes(htmlspecialchars_decode($result['message']));
 

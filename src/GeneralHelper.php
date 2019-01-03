@@ -175,6 +175,19 @@ class GeneralHelper
 
         return false;
     }
+
+    /**
+     * Retrieves current timestamp using WPs native functions and translation
+     * @param $from @type timestamp
+     * @return string
+     */
+    static public function getHumanReadableTimeFromNow($from)
+    {
+        return sprintf(
+            _x('%s ago', '%s = human-readable time difference', 'WpMailCatcher'),
+            human_time_diff($from, current_time('timestamp'))
+        );
+    }
 }
 
 

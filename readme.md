@@ -56,6 +56,7 @@ Contributions are always welcome, to get started do the following:
 6. Submit your pull request!
 
 ## Additional resources
+* [WordPress repository](https://wordpress.org/plugins/wp-mail-catcher/)
 * [PSR-2 coding standards](http://www.php-fig.org/psr/psr-2/)
 * [Installing composer](https://getcomposer.org/download/)
 * [Installing grunt](https://gruntjs.com/getting-started/)
