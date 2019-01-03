@@ -60,6 +60,18 @@ class Bootstrap
 		    if ($_GET['page'] == GeneralHelper::$adminPageSlug) {
                 if (current_user_can(Settings::get('default_view_role'))) {
 
+                    /** Export all messages */
+                    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export-all') {
+                        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
+                            wp_die(GeneralHelper::$failedNonceMessage);
+                        }
+
+                        Mail::export(wp_list_pluck(
+                            Logs::get(['posts_per_page' => -1]),
+                            'id'
+                        ));
+                    }
+
                     /** Export message(s) */
                     if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' ||
                         isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
@@ -136,7 +148,6 @@ class Bootstrap
                     }
                 }
             }
-
         }
     }
 
