@@ -52,9 +52,12 @@ class Logs
 			$sql .= "WHERE subject LIKE '%" . $args['subject'] . "%'";
 		}
 
-		$sql .=	"ORDER BY " . $args['orderby'] . " " . $args['order'] . "
-				 LIMIT " . $args['posts_per_page'] . "
-                 OFFSET " . ($args['posts_per_page'] * ($args['paged'] - 1));
+		$sql .=	"ORDER BY " . $args['orderby'] . " " . $args['order'] . " ";
+
+	   	if ($args['posts_per_page'] != -1) {
+            $sql .= "LIMIT " . $args['posts_per_page'] . "
+                     OFFSET " . ($args['posts_per_page'] * ($args['paged'] - 1));
+        }
 
         return self::dbResultTransform($wpdb->get_results($sql, ARRAY_A), $args);
     }
