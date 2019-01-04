@@ -21,6 +21,27 @@ require GeneralHelper::$pluginViewDirectory . '/NewMessageModal.php';
         </a>
     </div>
 
+    <ul class="subsubsub">
+        <li>
+            <a href="?page=<?php echo GeneralHelper::$adminPageSlug; ?>"
+                <?php if (!isset($_GET['post_status']) || $_GET['post_status'] == 'any') : ?> class="current"<?php endif; ?>>
+                All <span class="count">(<?php echo $logs->totalItems; ?>)</span>
+            </a> |
+        </li>
+        <li>
+            <a href="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&post_status=successful"
+                <?php if (isset($_GET['post_status']) && $_GET['post_status'] == 'successful') : ?> class="current"<?php endif; ?>>
+                Successful
+            </a> |
+        </li>
+        <li>
+            <a href="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&post_status=failed"
+                <?php if (isset($_GET['post_status']) && $_GET['post_status'] == 'failed') : ?> class="current"<?php endif; ?>>
+                Failed
+            </a>
+        </li>
+    </ul>
+
 	<form action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>" method="post">
 		<?php $logs->display(); ?>
 	</form>
