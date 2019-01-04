@@ -7,6 +7,8 @@ use WpMailCatcher\Models\Mail;
 
 class MailAdminTable extends WP_List_Table
 {
+    public $totalItems;
+
     function __construct()
 	{
         parent::__construct([
@@ -123,13 +125,14 @@ class MailAdminTable extends WP_List_Table
         $this->process_bulk_action();
 
         $this->items = Logs::get([
-			'paged' => $this->get_pagenum()
-		]);
+            'paged' => $this->get_pagenum(),
+            'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any'
+        ]);
 
-        $total_items = Logs::getTotalAmount();
+        $this->totalItems = Logs::getTotalAmount();
 
         $this->set_pagination_args([
-            'total_items' => $total_items,
+            'total_items' => $this->totalItems,
             'per_page'    => $per_page,
             'total_pages' => Logs::getTotalPages()
         ]);

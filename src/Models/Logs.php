@@ -21,6 +21,12 @@ class Logs
     {
 		global $wpdb;
 
+		$cachedValue = Cache::get($args);
+
+		if ($cachedValue != null) {
+		    return $cachedValue;
+        }
+
 		/**
 		 * Set default arguments and combine with
 		 * those passed in get/post and passed directly
@@ -31,7 +37,10 @@ class Logs
 			'posts_per_page' => self::$postsPerPage,
 			'paged' => 1,
 			'order' => 'DESC',
-			'date_time_format' => 'human'
+			'date_time_format' => 'human',
+            'post_status' => 'any',
+            'subject' => null,
+            'post__in' => []
 		];
 
 		$args = array_merge($defaults, $_REQUEST, $args);
@@ -46,11 +55,42 @@ class Logs
                 additional_headers
                 FROM " . $wpdb->prefix . GeneralHelper::$tableName . " ";
 
-	   	if (!empty($args['post__in'])) {
+        $whereClause = false;
+
+        if (!empty($args['post__in'])) {
+	   	    $whereClause = true;
 			$sql .= "WHERE id IN(" . GeneralHelper::arrayToString($args['post__in']) . ") ";
-		} elseif (!empty($args['subject'])) {
-			$sql .= "WHERE subject LIKE '%" . $args['subject'] . "%'";
 		}
+
+		if ($args['subject'] != null) {
+	   	    if ($whereClause == true) {
+	   	        $sql .= "AND ";
+            } else {
+                $sql .= "WHERE ";
+                $whereClause = true;
+            }
+
+			$sql .= "subject LIKE '%" . $args['subject'] . "%' ";
+		}
+
+        if ($args['post_status'] != 'any') {
+            if ($whereClause == true) {
+                $sql .= "AND ";
+            } else {
+                $sql .= "WHERE ";
+                $whereClause = true;
+            }
+
+            switch ($args['post_status'])
+            {
+                case ('successful') :
+                    $sql .= "status = 1 ";
+                break;
+                case ('failed') :
+                    $sql .= "status = 0 ";
+                break;
+            }
+        }
 
 		$sql .=	"ORDER BY " . $args['orderby'] . " " . $args['order'] . " ";
 
@@ -59,7 +99,7 @@ class Logs
                      OFFSET " . ($args['posts_per_page'] * ($args['paged'] - 1));
         }
 
-        return self::dbResultTransform($wpdb->get_results($sql, ARRAY_A), $args);
+        return Cache::set($args, self::dbResultTransform($wpdb->get_results($sql, ARRAY_A), $args));
     }
 
 	static private function dbResultTransform($results, $args = [])
