@@ -4,6 +4,7 @@ namespace WpMailCatcher\Loggers;
 
 use WpMailCatcher\GeneralHelper;
 use WP_Error;
+use WpMailCatcher\Models\Cache;
 
 abstract class Logger
 {
@@ -35,6 +36,8 @@ abstract class Logger
 			$this->getMailArgs($args)
 		);
 
+		Cache::flush();
+
 		$this->id = $wpdb->insert_id;
 
 		if (!isset($args['to']) || $args['to'] == null) {
@@ -62,7 +65,9 @@ abstract class Logger
 				'id' => $this->id
 			]
 		);
-	}
+
+        Cache::flush();
+    }
 
 	/**
 	 * Transform the incoming details of the mail into the
