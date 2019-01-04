@@ -19,6 +19,11 @@ class Cache
         return $value;
     }
 
+    static public function flush()
+    {
+        self::$cache = [];
+    }
+
     static private function getHashedKey($entry)
     {
         return md5(serialize($entry));
