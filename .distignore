@@ -19,6 +19,7 @@ multisite.xml
 multisite.xml.dist
 phpcs.ruleset.xml
 README.md
+readme.md
 wp-cli.local.yml
 tests
 node_modules
