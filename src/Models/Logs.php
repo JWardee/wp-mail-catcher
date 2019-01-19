@@ -43,7 +43,7 @@ class Logs
             'post__in' => []
 		];
 
-		$args = array_merge($defaults, $_REQUEST, $args);
+		$args = array_merge($defaults, $args);
 
 		/**
 		 * Sanitise each value in the array
