@@ -8,6 +8,7 @@ class GeneralHelper
 	static public $logsPerPage = 5;
 	static public $pluginPath;
 	static public $pluginUrl;
+	static public $pluginVersion;
 	static public $tableName;
 	static public $csvExportLegalColumns;
 	static public $csvExportFileName;
@@ -19,14 +20,16 @@ class GeneralHelper
 	static public $attachmentNotInMediaLib;
 	static public $attachmentNotImageThumbnail;
 	static public $failedNonceMessage;
+    static public $pluginMainPhpFile;
 
-	static public function setSettings()
+    static public function setSettings()
 	{
 		self::$csvExportFileName = 'WpMailCatcherExport_' . date('d-m-Y_H-i-s') . '.csv';
 		self::$csvExportLegalColumns = ['time', 'subject', 'email_to', 'message', 'attachments', 'additional_headers', 'status', 'error'];
 		self::$tableName = 'mail_catcher_logs';
 		self::$adminUrl = admin_url();
 		self::$pluginPath = __DIR__ . '/..';
+		self::$pluginMainPhpFile = self::$pluginPath . '/WpMailCatcher.php';
 		self::$pluginUrl = plugins_url('..', self::$pluginPath);
 		self::$adminPageSlug = 'wp-mail-catcher';
 		self::$uploadsFolderInfo = wp_upload_dir();
@@ -35,6 +38,7 @@ class GeneralHelper
 		self::$attachmentNotInMediaLib = 'An attachment was sent but it was not in the media library';
 		self::$attachmentNotImageThumbnail = self::$pluginAssetsUrl . '/file-icon.png';
 		self::$failedNonceMessage = 'Failed security check';
+		self::$pluginVersion = get_file_data(self::$pluginMainPhpFile, ['Version'], 'plugin')[0];
 	}
 
 	/**

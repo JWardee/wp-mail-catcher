@@ -39,8 +39,8 @@ class Bootstrap
     public function enqueue()
     {
 		wp_enqueue_style('dashicons');
-        wp_enqueue_style('admin_css', GeneralHelper::$pluginAssetsUrl . '/global.min.css');
-        wp_enqueue_script('admin_js', GeneralHelper::$pluginAssetsUrl . '/global.min.js', ['jquery'], '?');
+        wp_enqueue_style('admin_css', GeneralHelper::$pluginAssetsUrl . '/global.min.css?v=' . GeneralHelper::$pluginVersion);
+        wp_enqueue_script('admin_js', GeneralHelper::$pluginAssetsUrl . '/global.min.js?v=' . GeneralHelper::$pluginVersion, ['jquery']);
         wp_localize_script('admin_js', GeneralHelper::$tableName, [
             'plugin_url' => GeneralHelper::$pluginUrl,
         ]);
@@ -56,8 +56,8 @@ class Bootstrap
 			require GeneralHelper::$pluginViewDirectory . '/Settings.php';
 		});
 
-		if (isset($_GET['page'])) {
-		    if ($_GET['page'] == GeneralHelper::$adminPageSlug) {
+        if (isset($_GET['page'])) {
+            if ($_GET['page'] == GeneralHelper::$adminPageSlug) {
                 if (current_user_can(Settings::get('default_view_role'))) {
 
                     /** Export all messages */
@@ -83,8 +83,9 @@ class Bootstrap
                     }
 
                     /** Resend message(s) */
-                    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend' &&
-                        isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+                    if (((isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend') || (isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'resend')) &&
+                        isset($_REQUEST['id']) && !empty($_REQUEST['id']))
+                    {
                         if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
                             wp_die(GeneralHelper::$failedNonceMessage);
                         }
@@ -110,8 +111,7 @@ class Bootstrap
                             wp_die(GeneralHelper::$failedNonceMessage);
                         }
 
-                        Mail::add($_POST['header_keys'], $_POST['header_values'], $_POST['attachment_ids'],
-                            $_POST['subject'], $_POST['message']);
+                        Mail::add($_POST['header_keys'], $_POST['header_values'], $_POST['attachment_ids'], $_POST['subject'], $_POST['message']);
                         GeneralHelper::redirectToThisHomeScreen();
                     }
 
@@ -122,7 +122,6 @@ class Bootstrap
                         exit;
                     }
                 }
-
 
                 if (current_user_can(Settings::get('default_settings_role'))) {
                     if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'update_settings') {
