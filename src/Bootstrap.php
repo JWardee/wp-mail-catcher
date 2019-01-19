@@ -117,8 +117,11 @@ class Bootstrap
 
                     if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'single_mail' &&
                         isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
-                        $log = Logs::get(['post__in' => [$_REQUEST['id']]]);
-                        echo $log[0]['message'];
+                        $log = Logs::get(['post__in' => [$_REQUEST['id']]])[0];
+                        $view = GeneralHelper::$pluginViewDirectory;
+                        $view .= $log['is_html'] == true ? '/HtmlMessage.php' : '/TextMessage.php';
+
+                        require $view;
                         exit;
                     }
                 }
