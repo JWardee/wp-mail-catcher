@@ -4,7 +4,7 @@ Tags: wp_mail, mail, logging, catcher, export, resend
 Requires at least: 4.7
 Tested up to: 5.0.2
 Requires PHP: 5.6
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 
@@ -17,7 +17,7 @@ A fast, lightweight plugin that saves emails sent by your WordPress website (und
 * Zero setup required - just install and away you go
 * Minimalistic - no overbloated features you never use weighing your site down - under 140kb in size!
 * Bulk export emails to CSV for easy inclusion into Excel or any other program
-* Compose new emails with the WordPress controls you\'re already familiar with
+* Compose new emails with the WordPress controls you're already familiar with
 * Resend your emails in bulk
 * Debugging - see exactly which file and code line was responsible for sending the email, along with any errors encountered
 * Manage what user permissions can see the logs

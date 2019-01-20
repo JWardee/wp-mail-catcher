@@ -52,7 +52,7 @@ class Bootstrap
 			require GeneralHelper::$pluginViewDirectory . '/Log.php';
 		}, 'dashicons-email-alt');
 
-		add_submenu_page(GeneralHelper::$adminPageSlug, 'Settings', 'Settings', Settings::get('default_settings_role'), GeneralHelper::$adminPageSlug . '-settings', function() {
+		add_submenu_page(GeneralHelper::$adminPageSlug, 'Settings', 'Settings', Settings::get('default_settings_role'), GeneralHelper::$settingsPageSlug, function() {
 			require GeneralHelper::$pluginViewDirectory . '/Settings.php';
 		});
 
@@ -66,8 +66,15 @@ class Bootstrap
                             wp_die(GeneralHelper::$failedNonceMessage);
                         }
 
+                        $args = Logs::getTotalAmount() > GeneralHelper::$logLimitBeforeWarning ? [
+                            'posts_per_page' => $_REQUEST['posts_per_page'],
+                            'paged' => $_REQUEST['paged'],
+                        ] : [
+                            'posts_per_page' => -1
+                        ];
+
                         Mail::export(wp_list_pluck(
-                            Logs::get(['posts_per_page' => -1]),
+                            Logs::get($args),
                             'id'
                         ));
                     }

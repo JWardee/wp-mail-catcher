@@ -193,4 +193,46 @@ class TestLogFunctions extends WP_UnitTestCase
 		wp_delete_attachment($imgAttachmentId);
 		wp_delete_attachment($pdfAttachmentId);
 	}
+
+    public function testCanExportLogsInBatches()
+    {
+        $numberOfBatches = 2;
+        $totalNumberOfLogs = 10;
+        $logsPerBatch = $totalNumberOfLogs / $numberOfBatches;
+        $imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/img-attachment.png');
+        $pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/pdf-attachment.pdf');
+
+        for ($i = 0; $i < $totalNumberOfLogs; $i++) {
+            wp_mail('test' . $i . '@test.com', 'subject ' . $i, 'message ' . $i, ['Content-type: text/html', 'cc: test' . ($i + 1) . '@test.com'], [
+                get_attached_file($imgAttachmentId),
+                get_attached_file($pdfAttachmentId)
+            ]);
+        }
+
+        for ($i = 0; $i < $numberOfBatches; $i++) {
+            $batch = wp_list_pluck(Logs::get([
+                'posts_per_page' => $logsPerBatch,
+                'paged' => ($i + 1),
+            ]), 'id');
+
+            $csvString = $export = Mail::export($batch, false);
+            $csvArray = explode(',', $csvString);
+
+            array_walk($csvArray, function (&$element) {
+                $element = str_replace('"', '', $element);
+                $element = str_replace(["\r", "\n", '"'], '', $element);
+            });
+
+            for ($j = ($i * $logsPerBatch); $j < ($i * $logsPerBatch); $j++) {
+                $this->assertContains('test' . $j . '@test.com', $csvArray);
+                $this->assertContains('subject ' . $j, $csvArray);
+                $this->assertContains('message ' . $j, $csvArray);
+                $this->assertContains('Content-type: text/html' . GeneralHelper::$csvItemDelimiter . 'cc: test' . ($j + 1) . '@test.com', $csvArray);
+                $this->assertContains(wp_get_attachment_url($imgAttachmentId) . GeneralHelper::$csvItemDelimiter . wp_get_attachment_url($pdfAttachmentId), $csvArray);
+            }
+        }
+
+        wp_delete_attachment($imgAttachmentId);
+        wp_delete_attachment($pdfAttachmentId);
+    }
 }

@@ -21,7 +21,8 @@ class Mail
     {
 		$logs = Logs::get([
 			'post__in' => $ids,
-			'date_time_format' => 'd-M-Y @ H:s'
+			'date_time_format' => 'd-M-Y @ H:s',
+            'posts_per_page' => -1
 		]);
 
 		/**
