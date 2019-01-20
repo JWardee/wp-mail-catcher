@@ -21,6 +21,8 @@ class GeneralHelper
 	static public $attachmentNotImageThumbnail;
 	static public $failedNonceMessage;
     static public $pluginMainPhpFile;
+    static public $settingsPageSlug;
+    static public $logLimitBeforeWarning;
 
     static public function setSettings()
 	{
@@ -39,6 +41,8 @@ class GeneralHelper
 		self::$attachmentNotImageThumbnail = self::$pluginAssetsUrl . '/file-icon.png';
 		self::$failedNonceMessage = 'Failed security check';
 		self::$pluginVersion = get_file_data(self::$pluginMainPhpFile, ['Version'], 'plugin')[0];
+		self::$settingsPageSlug = self::$adminPageSlug . '-settings';
+		self::$logLimitBeforeWarning = 100;
 	}
 
 	/**

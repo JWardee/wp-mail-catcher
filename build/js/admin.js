@@ -99,4 +99,23 @@ jQuery(function($) {
         $(this).closest('.field-block').remove();
         return false;
     });
+
+    $('input[data-update-format]').on('change', updateExportWarningText);
+
+    updateExportWarningText();
+
+    function updateExportWarningText() {
+        var placeholderValue = '%s';
+        var newText = $('[data-text-format]').attr('data-text-format');
+        var replaceWith = [
+            ($('input[name="posts_per_page"]').val() * ($('input[name="paged"]').val() - 1)) + 1,
+            $('input[name="posts_per_page"]').val() * $('input[name="paged"]').val(),
+        ];
+
+        for (var i = 0; i < replaceWith.length; i++) {
+            newText = newText.replace(placeholderValue, replaceWith[i]);
+        }
+
+        $('[data-text-format]').html(newText);
+    }
 });
