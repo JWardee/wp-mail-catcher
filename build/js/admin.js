@@ -105,6 +105,10 @@ jQuery(function($) {
     updateExportWarningText();
 
     function updateExportWarningText() {
+        if (!$('body').hasClass('toplevel_page_wp-mail-catcher')) {
+            return;
+        }
+
         var placeholderValue = '%s';
         var newText = $('[data-text-format]').attr('data-text-format');
         var replaceWith = [
