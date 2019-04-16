@@ -193,17 +193,23 @@ class GeneralHelper
         return false;
     }
 
+    static public function getHumanReadableTime($from, $to, $suffix = ' ago')
+    {
+        return sprintf(
+            _x('%s' . $suffix, '%s = human-readable time difference', 'WpMailCatcher'),
+            human_time_diff($from, $to)
+        );
+    }
+
     /**
      * Retrieves current timestamp using WPs native functions and translation
      * @param $from @type timestamp
+     * @param string $suffix
      * @return string
      */
-    static public function getHumanReadableTimeFromNow($from)
+    static public function getHumanReadableTimeFromNow($from, $suffix = ' ago')
     {
-        return sprintf(
-            _x('%s ago', '%s = human-readable time difference', 'WpMailCatcher'),
-            human_time_diff($from, current_time('timestamp'))
-        );
+        return self::getHumanReadableTime($from, time(), $suffix);
     }
 }
 

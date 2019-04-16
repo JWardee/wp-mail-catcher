@@ -34,79 +34,77 @@ $cronJobs = CronManager::getInstance()->getTasks();
 
             <table class="form-table">
                 <tbody>
-                <tr>
-                    <th scope="row">
-                        <label>
-                            <?php _e('User capability needed to see logs', 'WpMailCatcher'); ?>
-                        </label>
-                    </th>
-                    <td>
-                        <select name="default_view_role">
-                            <?php foreach ($capabilities as $capability => $value) : ?>
-                                <option<?php if ($settings['default_view_role'] == $capability) : ?> selected<?php endif; ?>>
-                                    <?php echo $capability; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <label>
-                            <?php _e('User capability needed to edit settings', 'WpMailCatcher'); ?>
-                        </label>
-                    </th>
-                    <td>
-                        <select name="default_settings_role">
-                            <?php foreach ($capabilities as $capability => $value) : ?>
-                                <option<?php if ($settings['default_view_role'] == $capability) : ?> selected<?php endif; ?>>
-                                    <?php echo $capability; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <label for="blogname">
-                            <?php _e('Auto delete logs?', 'WpMailCatcher'); ?>
-                        </label>
-                    </th>
-                    <td>
-                        <label>
-                            <input type="radio" name="auto_delete"
-                                   value="false"<?php if ($settings['auto_delete'] == false) : ?> checked<?php endif; ?>>
-                            <span class="date-time-text date-time-custom-text">
-                  <?php _e('No', 'WpMailCatcher'); ?>
-                </span>
-                        </label>
-                        <fieldset>
+                    <tr>
+                        <th scope="row">
+                            <label>
+                                <?php _e('User capability needed to see logs', 'WpMailCatcher'); ?>
+                            </label>
+                        </th>
+                        <td>
+                            <select name="default_view_role">
+                                <?php foreach ($capabilities as $capability => $value) : ?>
+                                    <option<?php if ($settings['default_view_role'] == $capability) : ?> selected<?php endif; ?>>
+                                        <?php echo $capability; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label>
+                                <?php _e('User capability needed to edit settings', 'WpMailCatcher'); ?>
+                            </label>
+                        </th>
+                        <td>
+                            <select name="default_settings_role">
+                                <?php foreach ($capabilities as $capability => $value) : ?>
+                                    <option<?php if ($settings['default_view_role'] == $capability) : ?> selected<?php endif; ?>>
+                                        <?php echo $capability; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="blogname">
+                                <?php _e('Auto delete logs?', 'WpMailCatcher'); ?>
+                            </label>
+                        </th>
+                        <td>
                             <label>
                                 <input type="radio" name="auto_delete"
-                                       value="true"<?php if ($settings['auto_delete'] == true) : ?> checked<?php endif; ?>>
+                                       value="false"<?php if ($settings['auto_delete'] == false) : ?> checked<?php endif; ?>>
                                 <span class="date-time-text date-time-custom-text">
-                    <?php _e('Yes', 'WpMailCatcher'); ?>
-                  </span>
+                                    <?php _e('No', 'WpMailCatcher'); ?>
+                                </span>
                             </label>
-                            <span class="example">
-                  <select name="timescale">
-                    <?php foreach (wp_get_schedules() as $key => $cronSchedule) : ?>
-                        <option
-                            value="<?php echo $key; ?>" <?php if (isset($settings['timescale']) && $settings['timescale'] == $key) : ?> selected<?php endif; ?>>
-                        <?php echo $cronSchedule['display']; ?>
-                      </option>
-                    <?php endforeach; ?>
-                  </select>
-                </span>
-                            <?php if (isset($cronJobs[0])) : ?>
-                                <p class="description">
-                                    <?php printf(__('Will next run in: %s.', 'WpMailCatcher'),
-                                        $cronJobs[0]['nextRun']); ?>
-                                </p>
-                            <?php endif; ?>
-                        </fieldset>
-                    </td>
-                </tr>
+                            <fieldset>
+                                <label>
+                                    <input type="radio" name="auto_delete"
+                                           value="true"<?php if ($settings['auto_delete'] == true) : ?> checked<?php endif; ?>>
+                                    <span class="date-time-text date-time-custom-text">
+                                        <?php _e('Yes', 'WpMailCatcher'); ?>
+                                    </span>
+                                </label>
+                                <span class="example">
+                                    <select name="timescale">
+                                        <?php foreach (wp_get_schedules() as $key => $cronSchedule) : ?>
+                                            <option value="<?php echo $key; ?>" <?php if (isset($settings['timescale']) && $settings['timescale'] == $key) : ?> selected<?php endif; ?>>
+                                                <?php echo $cronSchedule['display']; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </span>
+                                <?php if (isset($cronJobs[0])) : ?>
+                                    <p class="description">
+                                        <?php printf(__('Will next run in: %s.', 'WpMailCatcher'), $cronJobs[0]['nextRun']); ?>
+                                    </p>
+                                <?php endif; ?>
+                            </fieldset>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 

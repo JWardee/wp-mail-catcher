@@ -63,7 +63,7 @@ class CronManager
                         'args' => $data['args'],
                         'schedule' => $data['schedule'],
                         'interval' => isset($data['interval']) ? $data['interval'] : null,
-                        'nextRun' => GeneralHelper::getHumanReadableTimeFromNow($time)
+                        'nextRun' => isset($data['interval']) ? GeneralHelper::getHumanReadableTime($time, time(), '') : null,
                     ];
                 }
             }

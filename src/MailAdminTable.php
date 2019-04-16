@@ -36,12 +36,9 @@ class MailAdminTable extends WP_List_Table
     function column_time($item)
     {
         $actions = [
-            'delete' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=delete&id=' . $item['id'],
-                    'bulk-logs') . '">' . __('Delete', 'WpMailCatcher') . '</a>',
-            'resend' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=resend&id=' . $item['id'],
-                    'bulk-logs') . '">' . __('Resend', 'WpMailCatcher') . '</a>',
-            'export' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=export&id=' . $item['id'],
-                    'bulk-logs') . '">' . __('Export', 'WpMailCatcher') . '</a>',
+            'delete' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=delete&id=' . $item['id'], 'bulk-logs') . '">' . __('Delete', 'WpMailCatcher') . '</a>',
+            'resend' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=resend&id=' . $item['id'], 'bulk-logs') . '">' . __('Resend', 'WpMailCatcher') . '</a>',
+            'export' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=export&id=' . $item['id'], 'bulk-logs') . '">' . __('Export', 'WpMailCatcher') . '</a>',
         ];
 
         return sprintf('%1$s %2$s',
