@@ -5,7 +5,7 @@ namespace WpMailCatcher;
 use WpMailCatcher\Models\Logs;
 use WpMailCatcher\Models\Mail;
 
-class MailAdminTable extends WP_List_Table
+class MailAdminTable extends \WP_List_Table
 {
     public $totalItems;
 
