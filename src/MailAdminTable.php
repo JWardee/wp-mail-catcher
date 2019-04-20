@@ -42,7 +42,7 @@ class MailAdminTable extends \WP_List_Table
         ];
 
         return sprintf('%1$s %2$s',
-            $item['time'],
+            '<span class="-right" data-hover-message="' . date(GeneralHelper::$humanReadableDateFormat, $item['timestamp']) . '">' . $item['time'] . '</span>',
             $this->row_actions($actions)
         );
     }
@@ -82,7 +82,7 @@ class MailAdminTable extends \WP_List_Table
             return '<span class="status">' . __('Success', 'WpMailCatcher') . '</span>';
         }
 
-        return '<span class="status" data-error="' . $item['error'] . '">' . __('Failed', 'WpMailCatcher') . '</span>';
+        return '<span class="status -error" data-hover-message="' . $item['error'] . '">' . __('Failed', 'WpMailCatcher') . '</span>';
     }
 
     function get_sortable_columns()

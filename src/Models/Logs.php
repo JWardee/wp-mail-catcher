@@ -113,6 +113,7 @@ class Logs
                 $result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);
             }
 
+            $result['timestamp'] = $result['time'];
             $result['time'] = $args['date_time_format'] == 'human' ? GeneralHelper::getHumanReadableTimeFromNow($result['time']) : date($args['date_time_format']);
             $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], 'text/html');
             $result['message'] = stripslashes(htmlspecialchars_decode($result['message']));
