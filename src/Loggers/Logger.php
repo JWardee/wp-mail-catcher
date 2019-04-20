@@ -104,6 +104,10 @@ abstract class Logger
             return [];
         }
 
+        if (is_string($attachments)) {
+            $attachments = (array)$attachments;
+        }
+
         $result = [];
 
         array_walk($attachments, function (&$value) {

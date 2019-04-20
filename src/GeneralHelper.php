@@ -23,6 +23,7 @@ class GeneralHelper
     static public $pluginMainPhpFile;
     static public $settingsPageSlug;
     static public $logLimitBeforeWarning;
+    static public $humanReadableDateFormat;
 
     static public function setSettings()
     {
@@ -52,6 +53,7 @@ class GeneralHelper
         self::$pluginVersion = get_file_data(self::$pluginMainPhpFile, ['Version'], 'plugin')[0];
         self::$settingsPageSlug = self::$adminPageSlug . '-settings';
         self::$logLimitBeforeWarning = 100;
+        self::$humanReadableDateFormat = get_option('date_format') . ' H:i:s';
     }
 
     /**
