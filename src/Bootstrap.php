@@ -70,10 +70,10 @@ class Bootstrap
 
         $screenOptions = new ScreenOptions($mainPageHook);
         $screenOptions->newOption('per_page', [
-            'label' => 'Logs per page',
             'default' => GeneralHelper::$logsPerPage,
-            'option' => 'derp'
+            'option' => 'derp' // TODO: Update me
         ]);
+        $screenOptions->newHelpTab('General', '<strong>blah</strong> blah');
 
         if (isset($_GET['page'])) {
             if ($_GET['page'] == GeneralHelper::$adminPageSlug) {

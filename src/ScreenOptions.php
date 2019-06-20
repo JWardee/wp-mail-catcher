@@ -22,7 +22,7 @@ class ScreenOptions
         ];
     }
 
-    public function addHelpTab($title, $content)
+    public function newHelpTab($title, $content)
     {
         $this->helpTabs[] = [
             'id' => $this->pageHook . count($this->helpTabs),
