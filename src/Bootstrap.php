@@ -9,9 +9,10 @@ use WpMailCatcher\Models\Settings;
 class Bootstrap
 {
     /**
+     * FIXME: GitHub issues
      * FIXME: Subject line in 'new message' modal isn't 100% width, does this matter?
      * TODO: Add screen option help text to both screens
-     * TODO: Implement number of logs per page field inside of screen options
+     * TODO: Implement number of logs per page field inside of screen options, can this be done automatically like the column checkboxes?
      */
     public function __construct()
     {
@@ -56,6 +57,7 @@ class Bootstrap
 
     public function route()
     {
+
         $mainPageHook = add_menu_page('WP Mail Catcher', 'WP Mail Catcher', Settings::get('default_view_role'),
             GeneralHelper::$adminPageSlug, function () {
                 require GeneralHelper::$pluginViewDirectory . '/Log.php';

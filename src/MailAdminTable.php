@@ -8,14 +8,24 @@ use WpMailCatcher\Models\Mail;
 class MailAdminTable extends \WP_List_Table
 {
     public $totalItems;
+    static private $instance = false;
 
-    function __construct()
+    private function __construct()
     {
         parent::__construct([
             'singular' => 'log',
             'plural' => 'logs',
             'ajax' => false
         ]);
+    }
+
+    public static function getInstance()
+    {
+        if (self::$instance == false) {
+            self::$instance = new MailAdminTable();
+        }
+
+        return self::$instance;
     }
 
     function column_default($item, $column_name)
