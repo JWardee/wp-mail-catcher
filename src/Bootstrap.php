@@ -9,10 +9,9 @@ use WpMailCatcher\Models\Settings;
 class Bootstrap
 {
     /**
-     * FIXME: Submitting update settings page form doesn't go to the correct page
      * FIXME: Subject line in 'new message' modal isn't 100% width, does this matter?
      * TODO: Add screen option help text to both screens
-     * TODO: Implem
+     * TODO: Implement number of logs per page field inside of screen options
      */
     public function __construct()
     {
@@ -21,6 +20,7 @@ class Bootstrap
         $this->registerCronTasks();
 
         add_filter('plugin_action_links_wp-mail-catcher/WpMailCatcher.php', [$this, 'extraPluginLinks']);
+        add_action('admin_menu', [$this, 'route']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
         add_action('plugins_loaded', function () {
             load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$pluginPath . '/languages');
@@ -56,7 +56,7 @@ class Bootstrap
 
     public function route()
     {
-        add_menu_page('WP Mail Catcher', 'WP Mail Catcher', Settings::get('default_view_role'),
+        $mainPageHook = add_menu_page('WP Mail Catcher', 'WP Mail Catcher', Settings::get('default_view_role'),
             GeneralHelper::$adminPageSlug, function () {
                 require GeneralHelper::$pluginViewDirectory . '/Log.php';
             }, 'dashicons-email-alt');
@@ -65,6 +65,13 @@ class Bootstrap
             GeneralHelper::$settingsPageSlug, function () {
                 require GeneralHelper::$pluginViewDirectory . '/Settings.php';
             });
+
+        $screenOptions = new ScreenOptions($mainPageHook);
+        $screenOptions->newOption('per_page', [
+            'label' => 'Logs per page',
+            'default' => GeneralHelper::$logsPerPage,
+            'option' => 'derp'
+        ]);
 
         if (isset($_GET['page'])) {
             if ($_GET['page'] == GeneralHelper::$adminPageSlug) {
