@@ -8,6 +8,12 @@ use WpMailCatcher\Models\Settings;
 
 class Bootstrap
 {
+    /**
+     * FIXME: Submitting update settings page form doesn't go to the correct page
+     * FIXME: Subject line in 'new message' modal isn't 100% width, does this matter?
+     * TODO: Add screen option help text to both screens
+     * TODO: Implem
+     */
     public function __construct()
     {
         GeneralHelper::setSettings();
@@ -15,7 +21,6 @@ class Bootstrap
         $this->registerCronTasks();
 
         add_filter('plugin_action_links_wp-mail-catcher/WpMailCatcher.php', [$this, 'extraPluginLinks']);
-        add_action('admin_menu', [$this, 'route']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
         add_action('plugins_loaded', function () {
             load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$pluginPath . '/languages');

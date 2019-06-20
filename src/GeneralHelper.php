@@ -24,6 +24,7 @@ class GeneralHelper
     static public $settingsPageSlug;
     static public $logLimitBeforeWarning;
     static public $humanReadableDateFormat;
+    static public $namespacePrefix;
 
     static public function setSettings()
     {
@@ -54,6 +55,7 @@ class GeneralHelper
         self::$settingsPageSlug = self::$adminPageSlug . '-settings';
         self::$logLimitBeforeWarning = 100;
         self::$humanReadableDateFormat = get_option('date_format') . ' H:i:s';
+        self::$namespacePrefix = GeneralHelper::$adminPageSlug . '_';
     }
 
     /**
@@ -195,6 +197,17 @@ class GeneralHelper
         return false;
     }
 
+    static public function searchForSubStringInArray($array, $subString)
+    {
+        foreach ($array as $element) {
+            if (stripos($element, $subString) !== false) {
+                return $element;
+            }
+        }
+
+        return false;
+    }
+
     static public function getHumanReadableTime($from, $to, $suffix = ' ago')
     {
         return sprintf(
@@ -212,6 +225,16 @@ class GeneralHelper
     static public function getHumanReadableTimeFromNow($from, $suffix = ' ago')
     {
         return self::getHumanReadableTime($from, time(), $suffix);
+    }
+
+    /**
+     * Generates a near unique, replicable key based on a string value
+     * @param $slugOrLabel
+     * @return string
+     */
+    static public function getPrefixedSlug($slugOrLabel)
+    {
+        return self::$namespacePrefix . self::labelToSlug($slugOrLabel);
     }
 }
 

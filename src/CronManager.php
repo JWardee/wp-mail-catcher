@@ -5,13 +5,11 @@ namespace WpMailCatcher;
 class CronManager
 {
     public $currentIntervals = null;
-    public $prefix;
     private $cronTasks = [];
     static private $instance = false;
 
     private function __construct()
     {
-        $this->prefix = GeneralHelper::$adminPageSlug . '_';
         add_filter('cron_schedules', [$this, 'addIntervals']);
     }
 
@@ -26,7 +24,7 @@ class CronManager
 
     public function addTask($callback, $interval)
     {
-        $identifier = $this->prefix . count($this->cronTasks);
+        $identifier = GeneralHelper::$namespacePrefix . count($this->cronTasks);
 
         add_action($identifier, $callback);
         $this->cronTasks[] = $identifier;
@@ -52,7 +50,7 @@ class CronManager
         foreach ($cronTasks as $time => $cron) {
             foreach ($cron as $hook => $dings) {
                 foreach ($dings as $sig => $data) {
-                    if (strpos($hook, $this->prefix) === false) {
+                    if (strpos($hook, GeneralHelper::$namespacePrefix) === false) {
                         continue;
                     }
 

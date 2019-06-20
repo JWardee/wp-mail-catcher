@@ -23,6 +23,7 @@ class MailAdminTable extends \WP_List_Table
         switch ($column_name) {
             case 'time':
             case 'email_to':
+            case 'email_from':
             case 'subject':
             case 'status':
                 return $item[$column_name];
@@ -68,6 +69,7 @@ class MailAdminTable extends \WP_List_Table
             'cb' => '<input type="checkbox" />',
             'time' => __('Sent', 'WpMailCatcher'),
             'email_to' => __('To', 'WpMailCatcher'),
+            'email_from' => __('From', 'WpMailCatcher'),
             'subject' => __('Subject', 'WpMailCatcher'),
             'status' => __('Status', 'WpMailCatcher'),
             'more_info' => ''
@@ -83,6 +85,13 @@ class MailAdminTable extends \WP_List_Table
         }
 
         return '<span class="status -error" data-hover-message="' . $item['error'] . '">' . __('Failed', 'WpMailCatcher') . '</span>';
+    }
+
+    function get_hidden_columns()
+    {
+        return [
+            'email_from'
+        ];
     }
 
     function get_sortable_columns()
@@ -117,7 +126,7 @@ class MailAdminTable extends \WP_List_Table
         $per_page = GeneralHelper::$logsPerPage;
 
         $columns = $this->get_columns();
-        $hidden = [];
+        $hidden = $this->get_hidden_columns();
         $sortable = $this->get_sortable_columns();
 
         $this->_column_headers = [$columns, $hidden, $sortable];
