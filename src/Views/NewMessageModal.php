@@ -25,6 +25,7 @@
                                         <option value="to"><?php _e('To', 'WpMailCatcher'); ?></option>
                                         <option value="cc"><?php _e('Cc', 'WpMailCatcher'); ?></option>
                                         <option value="bcc"><?php _e('Bcc', 'WpMailCatcher'); ?></option>
+                                        <option value="from"><?php _e('From', 'WpMailCatcher'); ?></option>
                                         <option value="custom"><?php _e('Custom', 'WpMailCatcher'); ?></option>
                                     </select>
 
