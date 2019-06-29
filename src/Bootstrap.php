@@ -22,6 +22,11 @@ class Bootstrap
         $this->registerCronTasks();
         $this->screenOptions = ScreenOptions::getInstance();
 
+        add_filter('wpmu_drop_tables', function($tables) {
+            $tables[] = $GLOBALS['wpdb']->prefix . GeneralHelper::$tableName;
+            return $tables;
+        });
+
         add_filter('plugin_action_links_wp-mail-catcher/WpMailCatcher.php', [$this, 'extraPluginLinks']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
         add_action('plugins_loaded', function() {
