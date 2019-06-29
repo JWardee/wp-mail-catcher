@@ -2,6 +2,7 @@
 
 use WpMailCatcher\Bootstrap;
 use WpMailCatcher\CronManager;
+use WpMailCatcher\GeneralHelper;
 use WpMailCatcher\Models\Settings;
 
 class TestSettings extends WP_UnitTestCase
@@ -35,7 +36,7 @@ class TestSettings extends WP_UnitTestCase
          * Assert 1 instead of 0 because the new default setting for
          * auto_delete is true so the next hook will start at 1 not 0
          */
-		$this->assertEquals($this->cronManager->prefix . '1', $cronTasks[0]['hook']);
+		$this->assertEquals(GeneralHelper::$namespacePrefix . '1', $cronTasks[0]['hook']);
 	}
 
 	public function testCronDisable()

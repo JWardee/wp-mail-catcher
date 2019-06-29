@@ -2,7 +2,7 @@
 Contributors: Wardee
 Tags: wp_mail, mail, logging, catcher, export, resend
 Requires at least: 4.7
-Tested up to: 5.1.1
+Tested up to: 5.2.2
 Requires PHP: 5.6
 Stable tag: 1.3.0
 License: GNU General Public License v3.0
