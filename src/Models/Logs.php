@@ -6,11 +6,13 @@ use WpMailCatcher\GeneralHelper;
 
 class Logs
 {
-    static public $postsPerPage = 10;
-
-    static public function getTotalPages()
+    static public function getTotalPages($postsPerPage = false)
     {
-        return ceil(self::getTotalAmount() / self::$postsPerPage);
+        if ($postsPerPage == false) {
+            $postsPerPage = GeneralHelper::$logsPerPage;
+        }
+
+        return ceil(self::getTotalAmount() / $postsPerPage);
     }
 
     /**
@@ -34,7 +36,7 @@ class Logs
          */
         $defaults = [
             'orderby' => 'time',
-            'posts_per_page' => self::$postsPerPage,
+            'posts_per_page' => GeneralHelper::$logsPerPage,
             'paged' => 1,
             'order' => 'DESC',
             'date_time_format' => 'human',

@@ -12,19 +12,24 @@ class Bootstrap
      * FIXME: GitHub issues
      * FIXME: Subject line in 'new message' modal isn't 100% width, does this matter?
      * TODO: Add screen option help text to both screens
-     * TODO: Implement number of logs per page field inside of screen options, can this be done automatically like the column checkboxes?
      */
+    private $screenOptions;
+
     public function __construct()
     {
         GeneralHelper::setSettings();
         LoggerFactory::Set();
         $this->registerCronTasks();
+        $this->screenOptions = ScreenOptions::getInstance();
 
         add_filter('plugin_action_links_wp-mail-catcher/WpMailCatcher.php', [$this, 'extraPluginLinks']);
-        add_action('admin_menu', [$this, 'route']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
-        add_action('plugins_loaded', function () {
+        add_action('plugins_loaded', function() {
             load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$pluginPath . '/languages');
+        });
+        add_action('admin_menu', function() {
+            $this->registerPages();
+            $this->route();
         });
     }
 
@@ -55,26 +60,28 @@ class Bootstrap
         ]);
     }
 
-    public function route()
+    public function registerPages()
     {
-
         $mainPageHook = add_menu_page('WP Mail Catcher', 'WP Mail Catcher', Settings::get('default_view_role'),
-            GeneralHelper::$adminPageSlug, function () {
+            GeneralHelper::$adminPageSlug, function() {
                 require GeneralHelper::$pluginViewDirectory . '/Log.php';
-            }, 'dashicons-email-alt');
+            }, 'dashicons-email-alt'
+        );
 
         add_submenu_page(GeneralHelper::$adminPageSlug, 'Settings', 'Settings', Settings::get('default_settings_role'),
-            GeneralHelper::$settingsPageSlug, function () {
+            GeneralHelper::$settingsPageSlug, function() {
                 require GeneralHelper::$pluginViewDirectory . '/Settings.php';
-            });
+            }
+        );
 
-        $screenOptions = new ScreenOptions($mainPageHook);
-        $screenOptions->newOption('per_page', [
-            'default' => GeneralHelper::$logsPerPage,
-            'option' => 'derp' // TODO: Update me
+        $this->screenOptions->newOption($mainPageHook, 'per_page', [
+            'default' => GeneralHelper::$logsPerPage
         ]);
-        $screenOptions->newHelpTab('General', '<strong>blah</strong> blah');
+        $this->screenOptions->newHelpTab($mainPageHook, 'General', '<strong>blah</strong> blah');
+    }
 
+    public function route()
+    {
         if (isset($_GET['page'])) {
             if ($_GET['page'] == GeneralHelper::$adminPageSlug) {
                 if (current_user_can(Settings::get('default_view_role'))) {

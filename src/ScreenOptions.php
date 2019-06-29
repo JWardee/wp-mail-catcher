@@ -4,28 +4,48 @@ namespace WpMailCatcher;
 
 class ScreenOptions
 {
+    static private $instance;
     private $options = [];
     private $helpTabs = [];
     private $currentScreen = null;
-    private $pageHook = null;
+    static public $optionIdsToWatch = [
+        'logs_per_page' => 'toplevel_page_wp_mail_catcher_per_page',
+        'logs_hidden_table_columns' => 'managetoplevel_page_wp-mail-catchercolumnshidden'
+    ];
 
-    public function __construct($pageHook)
+    private function __construct()
     {
-        $this->pageHook = add_action('load-' . $pageHook, [$this, 'addToScreen']);
+        add_filter('set-screen-option', [$this, 'saveOption'], 10, 3);
     }
 
-    public function newOption($type, $args)
+    static public function getInstance()
     {
+        if (self::$instance == null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    public function saveOption($keep, $option, $value)
+    {
+        return in_array($option, self::$optionIdsToWatch) ? $value : false;
+    }
+
+    public function newOption($pageHook, $type, $args)
+    {
+        add_action('load-' . $pageHook, [$this, 'addToScreen']);
+
         $this->options[] = [
             'type' => $type,
             $args
         ];
     }
 
-    public function newHelpTab($title, $content)
+    public function newHelpTab($pageHook, $title, $content)
     {
         $this->helpTabs[] = [
-            'id' => $this->pageHook . count($this->helpTabs),
+            'id' => $pageHook . count($this->helpTabs),
             'title' => $title,
             'content' => $content
         ];

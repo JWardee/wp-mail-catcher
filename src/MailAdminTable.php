@@ -99,7 +99,13 @@ class MailAdminTable extends \WP_List_Table
 
     function get_hidden_columns()
     {
-        return [
+        $userSaved = get_user_meta(
+            get_current_user_id(),
+            ScreenOptions::$optionIdsToWatch['logs_hidden_table_columns'],
+            true
+        );
+
+        return !empty($userSaved) ? $userSaved : [
             'email_from'
         ];
     }
@@ -131,9 +137,23 @@ class MailAdminTable extends \WP_List_Table
     {
     }
 
+    public function getLogsPerPage()
+    {
+        $userSaved = get_user_meta(
+            get_current_user_id(),
+            ScreenOptions::$optionIdsToWatch['logs_per_page'],
+            true
+        );
+
+//        var_dump($userSaved);
+//        exit;
+
+        return !empty($userSaved) ? (int)$userSaved : GeneralHelper::$logsPerPage;
+    }
+
     function prepare_items()
     {
-        $per_page = GeneralHelper::$logsPerPage;
+        $per_page = $this->getLogsPerPage();
 
         $columns = $this->get_columns();
         $hidden = $this->get_hidden_columns();
@@ -145,7 +165,8 @@ class MailAdminTable extends \WP_List_Table
         /** Can pass $_GET because we whitelist and sanitize it at the model level */
         $this->items = Logs::get(array_merge([
             'paged' => $this->get_pagenum(),
-            'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any'
+            'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any',
+            'posts_per_page' => $per_page
         ], $_GET));
 
         $this->totalItems = Logs::getTotalAmount();
@@ -153,7 +174,7 @@ class MailAdminTable extends \WP_List_Table
         $this->set_pagination_args([
             'total_items' => $this->totalItems,
             'per_page' => $per_page,
-            'total_pages' => Logs::getTotalPages()
+            'total_pages' => Logs::getTotalPages($per_page)
         ]);
     }
 }
