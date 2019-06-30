@@ -6,11 +6,13 @@ use WpMailCatcher\GeneralHelper;
 
 class Logs
 {
-    static public $postsPerPage = 10;
-
-    static public function getTotalPages()
+    static public function getTotalPages($postsPerPage = false)
     {
-        return ceil(self::getTotalAmount() / self::$postsPerPage);
+        if ($postsPerPage == false) {
+            $postsPerPage = GeneralHelper::$logsPerPage;
+        }
+
+        return ceil(self::getTotalAmount() / $postsPerPage);
     }
 
     /**
@@ -34,7 +36,7 @@ class Logs
          */
         $defaults = [
             'orderby' => 'time',
-            'posts_per_page' => self::$postsPerPage,
+            'posts_per_page' => GeneralHelper::$logsPerPage,
             'paged' => 1,
             'order' => 'DESC',
             'date_time_format' => 'human',
@@ -116,6 +118,7 @@ class Logs
             $result['timestamp'] = $result['time'];
             $result['time'] = $args['date_time_format'] == 'human' ? GeneralHelper::getHumanReadableTimeFromNow($result['time']) : date($args['date_time_format']);
             $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], 'text/html');
+            $result['email_from'] = self::getEmailFrom($result);
             $result['message'] = stripslashes(htmlspecialchars_decode($result['message']));
 
             if (!empty($result['attachments'])) {
@@ -164,5 +167,16 @@ class Logs
         global $wpdb;
 
         $wpdb->query("TRUNCATE TABLE " . $wpdb->prefix . GeneralHelper::$tableName);
+    }
+
+    static private function getEmailFrom($logEntry)
+    {
+        $fullHeader = GeneralHelper::searchForSubStringInArray($logEntry['additional_headers'], 'From: ');
+
+        /**
+         * Need to replace "custom:" as well due to a bug in previous versions
+         * that caused the header to save as "custom: from: example@test.com"
+         */
+        return str_replace(['custom:', 'From:', ' '], '', $fullHeader);
     }
 }

@@ -8,8 +8,9 @@ use WpMailCatcher\Models\Mail;
 class MailAdminTable extends \WP_List_Table
 {
     public $totalItems;
+    static private $instance = false;
 
-    function __construct()
+    private function __construct()
     {
         parent::__construct([
             'singular' => 'log',
@@ -18,11 +19,21 @@ class MailAdminTable extends \WP_List_Table
         ]);
     }
 
+    public static function getInstance()
+    {
+        if (self::$instance == false) {
+            self::$instance = new MailAdminTable();
+        }
+
+        return self::$instance;
+    }
+
     function column_default($item, $column_name)
     {
         switch ($column_name) {
             case 'time':
             case 'email_to':
+            case 'email_from':
             case 'subject':
             case 'status':
                 return $item[$column_name];
@@ -68,6 +79,7 @@ class MailAdminTable extends \WP_List_Table
             'cb' => '<input type="checkbox" />',
             'time' => __('Sent', 'WpMailCatcher'),
             'email_to' => __('To', 'WpMailCatcher'),
+            'email_from' => __('From', 'WpMailCatcher'),
             'subject' => __('Subject', 'WpMailCatcher'),
             'status' => __('Status', 'WpMailCatcher'),
             'more_info' => ''
@@ -83,6 +95,19 @@ class MailAdminTable extends \WP_List_Table
         }
 
         return '<span class="status -error" data-hover-message="' . $item['error'] . '">' . __('Failed', 'WpMailCatcher') . '</span>';
+    }
+
+    function get_hidden_columns()
+    {
+        $userSaved = get_user_meta(
+            get_current_user_id(),
+            ScreenOptions::$optionIdsToWatch['logs_hidden_table_columns'],
+            true
+        );
+
+        return !empty($userSaved) ? $userSaved : [
+            'email_from'
+        ];
     }
 
     function get_sortable_columns()
@@ -112,12 +137,26 @@ class MailAdminTable extends \WP_List_Table
     {
     }
 
+    public function getLogsPerPage()
+    {
+        $userSaved = get_user_meta(
+            get_current_user_id(),
+            ScreenOptions::$optionIdsToWatch['logs_per_page'],
+            true
+        );
+
+//        var_dump($userSaved);
+//        exit;
+
+        return !empty($userSaved) ? (int)$userSaved : GeneralHelper::$logsPerPage;
+    }
+
     function prepare_items()
     {
-        $per_page = GeneralHelper::$logsPerPage;
+        $per_page = $this->getLogsPerPage();
 
         $columns = $this->get_columns();
-        $hidden = [];
+        $hidden = $this->get_hidden_columns();
         $sortable = $this->get_sortable_columns();
 
         $this->_column_headers = [$columns, $hidden, $sortable];
@@ -126,7 +165,8 @@ class MailAdminTable extends \WP_List_Table
         /** Can pass $_GET because we whitelist and sanitize it at the model level */
         $this->items = Logs::get(array_merge([
             'paged' => $this->get_pagenum(),
-            'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any'
+            'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any',
+            'posts_per_page' => $per_page
         ], $_GET));
 
         $this->totalItems = Logs::getTotalAmount();
@@ -134,7 +174,7 @@ class MailAdminTable extends \WP_List_Table
         $this->set_pagination_args([
             'total_items' => $this->totalItems,
             'per_page' => $per_page,
-            'total_pages' => Logs::getTotalPages()
+            'total_pages' => Logs::getTotalPages($per_page)
         ]);
     }
 }

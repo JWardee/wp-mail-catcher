@@ -13,8 +13,13 @@ class Mail
         ]);
 
         foreach ($logs as $log) {
-            wp_mail($log['email_to'], $log['subject'], $log['message'], $log['additional_headers'],
-                $log['attachment_file_paths']);
+            wp_mail(
+                $log['email_to'],
+                $log['subject'],
+                $log['message'],
+                $log['additional_headers'],
+                $log['attachment_file_paths']
+            );
         }
     }
 
@@ -102,11 +107,17 @@ class Mail
                 case ('to') :
                     $tos[] = $headerValues[$i];
                     break;
-                case ('other') :
-                    $headers[] = $headerValues[$i];
+                case ('cc') :
+                    $headers[] = 'Cc: ' . $headerValues[$i];
+                    break;
+                case ('bcc') :
+                    $headers[] = 'Bcc: ' . $headerValues[$i];
+                    break;
+                case ('from') :
+                    $headers[] = 'From: ' . $headerValues[$i];
                     break;
                 default:
-                    $headers[] = $headerKeys[$i] . ': ' . $headerValues[$i];
+                    $headers[] = str_replace('custom', '', $headerKeys[$i]) . $headerValues[$i];
                     break;
             }
         }

@@ -2,7 +2,7 @@
 
 use WpMailCatcher\Models\Logs;
 
-class TestEmailBatch extends WP_UnitTestCase
+class TestEmails extends WP_UnitTestCase
 {
 	public function setUp()
 	{
@@ -15,6 +15,7 @@ class TestEmailBatch extends WP_UnitTestCase
 		$subject = 'subject';
 		$message = 'message';
 		$additionalHeaders = ['Content-type: text/html', 'cc: test1@test.com'];
+
 		$imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/img-attachment.png');
 		$pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/pdf-attachment.pdf');
 

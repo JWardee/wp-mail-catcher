@@ -5,7 +5,7 @@ namespace WpMailCatcher;
 use WpMailCatcher\Models\Settings;
 
 $settings = Settings::get();
-$logs = new MailAdminTable();
+$logs = MailAdminTable::getInstance();
 $logs->prepare_items();
 ?>
 
