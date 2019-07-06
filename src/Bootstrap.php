@@ -8,11 +8,6 @@ use WpMailCatcher\Models\Settings;
 
 class Bootstrap
 {
-    /**
-     * FIXME: GitHub issues
-     * FIXME: Subject line in 'new message' modal isn't 100% width, does this matter?
-     * TODO: Add screen option help text to both screens
-     */
     private $screenOptions;
 
     public function __construct()
@@ -82,7 +77,7 @@ class Bootstrap
         $this->screenOptions->newOption($mainPageHook, 'per_page', [
             'default' => GeneralHelper::$logsPerPage
         ]);
-        $this->screenOptions->newHelpTab($mainPageHook, 'General', '<strong>blah</strong> blah');
+//        $this->screenOptions->newHelpTab($mainPageHook, 'General', '<strong>blah</strong> blah');
     }
 
     public function route()

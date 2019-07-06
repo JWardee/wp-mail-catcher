@@ -23,10 +23,12 @@ class Logs
     {
         global $wpdb;
 
-        $cachedValue = Cache::get($args);
+        if (!isset($args['ignore_cache']) || $args['ignore_cache'] == false) {
+            $cachedValue = Cache::get($args);
 
-        if ($cachedValue != null) {
-            return $cachedValue;
+            if ($cachedValue != null) {
+                return $cachedValue;
+            }
         }
 
         /**
@@ -100,7 +102,13 @@ class Logs
                OFFSET " . ($args['posts_per_page'] * ($args['paged'] - 1));
         }
 
-        return Cache::set($args, self::dbResultTransform($wpdb->get_results($sql, ARRAY_A), $args));
+        $results = self::dbResultTransform($wpdb->get_results($sql, ARRAY_A), $args);
+
+        if (!isset($args['ignore_cache']) || $args['ignore_cache'] == false) {
+            Cache::set($args, $results);
+        }
+
+        return $results;
     }
 
     static private function dbResultTransform($results, $args = [])
@@ -174,8 +182,9 @@ class Logs
         $fullHeader = GeneralHelper::searchForSubStringInArray($logEntry['additional_headers'], 'From: ');
 
         /**
-         * Need to replace "custom:" as well due to a bug in previous versions
+         * This cannot be removed because of a bug in previous versions
          * that caused the header to save as "custom: from: example@test.com"
+         * @url https://github.com/JWardee/wp-mail-catcher/issues/56
          */
         return str_replace(['custom:', 'From:', ' '], '', $fullHeader);
     }
