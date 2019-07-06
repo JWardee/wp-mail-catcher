@@ -46,7 +46,7 @@ script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       composer update
-      phpunit
+      ./vendor/bin/phpunit
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
