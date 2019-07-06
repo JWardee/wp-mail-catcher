@@ -46,10 +46,9 @@ script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       composer update
-      cd testing
       phpunit
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-      phpcs --standard=testing/phpcs.ruleset.xml $(find . -name '*.php')
+      phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php')
     fi
