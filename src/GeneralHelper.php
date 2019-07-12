@@ -136,7 +136,7 @@ class GeneralHelper
                 });
                 break;
             default :
-                $value = $value = sanitize_text_field($value);
+                $value = sanitize_text_field($value);
                 break;
 
         }
