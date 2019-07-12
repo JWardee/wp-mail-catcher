@@ -127,8 +127,8 @@ class Bootstrap
                     }
 
                     /** Delete message(s) */
-                    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' &&
-                        isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+                    if (((isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete') || (isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'delete')) &&
+                    	isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
                         if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
                             wp_die(GeneralHelper::$failedNonceMessage);
                         }
