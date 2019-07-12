@@ -49,7 +49,7 @@ if (isset($log)) :
                                 <hr/>
                                 <ul>
                                     <?php foreach ($log['additional_headers'] as $additionalHeader) : ?>
-                                        <li><?php echo $additionalHeader; ?></li>
+                                        <li><?php echo esc_html($additionalHeader); ?></li>
                                     <?php endforeach; ?>
                                 </ul>
                             <?php endif; ?>
