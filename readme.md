@@ -1,7 +1,5 @@
 # WP Mail Catcher
 
-[![Build Status](https://travis-ci.org/JWardee/wp-mail-catcher.svg?branch=master)](https://travis-ci.org/JWardee/wp-mail-catcher)
-
 A fast, lightweight plugin that saves emails sent by your WordPress website (under 140kb in size!)
 
 ## Features
