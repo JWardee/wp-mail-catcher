@@ -92,11 +92,10 @@ jQuery(function ($) {
         var field_block = $(this).closest('.field-block');
         var cloneable = $(this).closest('.cloneable');
 
-        cloneable.find('.wp-mail-catcher-page .remove-field.-disabled').removeClass('-disabled');
-
-        field_block.clone(true).appendTo(cloneable);
-
-        cloneable.find('.wp-mail-catcher-page .remove-field').eq(0).addClass('-disabled');
+        field_block.clone(true)
+            .appendTo(cloneable)
+            .find('.remove-field.-disabled')
+            .removeClass('-disabled');
 
         return false;
     });

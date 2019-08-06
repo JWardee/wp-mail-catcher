@@ -32,12 +32,13 @@ class MailAdminTable extends \WP_List_Table
     {
         switch ($column_name) {
             case 'time':
-            case 'email_to':
-            case 'email_from':
             case 'subject':
             case 'status':
                 return $item[$column_name];
                 break;
+            case 'email_to':
+            case 'email_from':
+                return esc_html($item[$column_name]);
             default:
                 return print_r($item, true);
                 break;
@@ -144,9 +145,6 @@ class MailAdminTable extends \WP_List_Table
             ScreenOptions::$optionIdsToWatch['logs_per_page'],
             true
         );
-
-//        var_dump($userSaved);
-//        exit;
 
         return !empty($userSaved) ? (int)$userSaved : GeneralHelper::$logsPerPage;
     }
