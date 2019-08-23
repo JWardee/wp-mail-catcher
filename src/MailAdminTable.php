@@ -10,7 +10,7 @@ class MailAdminTable extends \WP_List_Table
     public $totalItems;
     static private $instance = false;
 
-    private function __construct()
+    public function __construct($args = array())
     {
         parent::__construct([
             'singular' => 'log',
