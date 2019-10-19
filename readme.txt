@@ -1,6 +1,6 @@
-=== Backup & Save Contact Form Emails - WP Mail Catcher ===
+=== Backup, Log & Save Contact Form Emails - WordPress - WP Mail Catcher ===
 Contributors: Wardee
-Tags: wp_mail, mail, logging, catcher, export, resend, contact form, database, db, save, contact form email, contact form backup, contact form saver, save contact form, save email, backup email
+Tags: mail logging, email backup, contact form email, contact form backup, contact form saver, save contact form, save email, backup email, wp_mail, mail, logging, catcher, export, resend, contact form, database, db, save
 Requires at least: 4.7
 Tested up to: 5.2.2
 Requires PHP: 5.6
@@ -8,12 +8,12 @@ Stable tag: 1.3.2
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 
-Backup and save your contact form emails (including Contact Form 7) to your database with this fast, lightweight plugin (under 140kb in size!)
+Backup, log and save your contact form emails (including Contact Form 7) to your database with this fast, lightweight plugin (under 140kb in size!)
 
 == Description ==
-Backup and save your contact form emails (including Contact Form 7) to your database with this fast, lightweight plugin (under 140kb in size!)
+Backup, log and save your contact form emails (including Contact Form 7) to your database with this fast, lightweight plugin (under 140kb in size!)
 
-Just install and activate then all of your contact form emails will be saved to your DB with no additional configuration required.
+Just install and activate then all of your contact form emails will be logged and saved to your DB with no additional configuration required.
 
 View and manage all your form submissions through the default WordPress interface. An email failed to send? With a single click you can resend the backed up email.
 
