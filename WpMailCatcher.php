@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: WP Mail Catcher
+Plugin Name: Backup & Save Contact Form Emails - WP Mail Catcher
 Plugin URI: https://wordpress.org/plugins/wp-mail-catcher/
 Text Domain: WpMailCatcher
 Domain Path: /languages
-Description: A fast, lightweight plugin that saves emails sent by your WordPress website.
+Description: Backup and save your contact form emails (including Contact Form 7) to your database with this fast, lightweight plugin (under 140kb in size!)
 Author: James Ward
-Version: 1.3.1
+Version: 1.3.2
 Author URI: https://jamesward.io
 */
 

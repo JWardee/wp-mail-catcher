@@ -31,6 +31,10 @@ class Mail
             'posts_per_page' => -1
         ]);
 
+        if (count($logs) == 0) {
+            GeneralHelper::redirectToThisHomeScreen();
+        }
+
         /**
          * Only export the "legal columns"
          * so no seralised objects are exported etc

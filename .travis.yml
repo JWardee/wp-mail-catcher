@@ -9,7 +9,7 @@ notifications:
 
 branches:
   only:
-    - codeception
+    - master
 
 cache:
   directories:

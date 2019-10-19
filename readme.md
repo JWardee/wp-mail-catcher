@@ -1,6 +1,8 @@
 # WP Mail Catcher
 
-A fast, lightweight plugin that saves emails sent by your WordPress website (under 140kb in size!)
+Backup and save your contact form emails (including Contact Form 7) to your database with this fast, lightweight plugin (under 140kb in size!)
+
+[![Build Status](https://travis-ci.org/JWardee/wp-mail-catcher.svg?branch=master)](https://travis-ci.org/JWardee/wp-mail-catcher)
 
 ## Features
 * Zero setup required - just install and away you go
