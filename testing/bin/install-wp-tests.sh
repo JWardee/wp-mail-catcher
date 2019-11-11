@@ -13,7 +13,7 @@ WP_VERSION=${5-latest}
 SKIP_DB_CREATE=${6-false}
 
 CURRENT_DIR=$(pwd)
-TMPDIR="/tmp"
+TMPDIR="${CURRENT_DIR}/tmp"
 WP_TESTS_DIR=${WP_TESTS_DIR-$TMPDIR/wordpress-tests-lib}
 WP_CORE_DIR=${WP_CORE_DIR-$TMPDIR/wordpress/}
 
