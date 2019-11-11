@@ -19,14 +19,18 @@ class Bootstrap
 
         // ensure that is_plugin_active_for_network() is defined.
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        if (is_plugin_active_for_network('wp-mail-catcher/WpMailCatcher.php')) {
-        	$hook = 'wp_initialize_site';
-        	if (version_compare(get_bloginfo('version'), '5.1', '<')) {
-        		$hook = 'wpmu_new_blog';
-        	}
-        	add_action($hook, [$this, 'install']);
+
+        if (is_plugin_active_for_network(GeneralHelper::$pluginMainPhpFile)) {
+            $hook = 'wp_initialize_site';
+
+            if (version_compare(get_bloginfo('version'), '5.1', '<')) {
+                $hook = 'wpmu_new_blog';
+            }
+
+            add_action($hook, [$this, 'install']);
         }
-        add_filter('wpmu_drop_tables', function($tables) {
+
+        add_filter('wpmu_drop_tables', function ($tables) {
             $tables[] = $GLOBALS['wpdb']->prefix . GeneralHelper::$tableName;
             return $tables;
         });
@@ -137,7 +141,7 @@ class Bootstrap
 
                     /** Delete message(s) */
                     if (((isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete') || (isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'delete')) &&
-                    	isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+                        isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
                         if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
                             wp_die(GeneralHelper::$failedNonceMessage);
                         }
@@ -196,20 +200,22 @@ class Bootstrap
         }
     }
 
-    public function install($new_site = null)
+    public function install($newSite = null)
     {
         global $wpdb;
 
-        if ($new_site) {
+        if ($newSite != null) {
             // $new_site will only be passed when we're called via the wp_insert_site (WP >=5.1)
             // or wpmu_new_blog (WP < 5.1) actions being fired.  When wp_insert_site is fired,
             // it passes a WP_Site object; whereas, when wpmu_new_blog fires, it passes the
             // blog_id.
             if ('wp_initialize_site' === current_action()) {
-                $new_site = $new_site->blog_id;
+                $newSite = $newSite->blog_id;
             }
-            switch_to_blog($new_site);
+
+            switch_to_blog($newSite);
         }
+
         $sql = "CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . GeneralHelper::$tableName . " (
                   id int NOT NULL AUTO_INCREMENT,
                   time int NOT NULL,
@@ -228,8 +234,8 @@ class Bootstrap
         dbDelta($sql);
 
         Settings::installOptions();
-        
-        if ($new_site) {
+
+        if ($newSite != null) {
             restore_current_blog();
         }
     }
