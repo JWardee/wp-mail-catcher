@@ -2,7 +2,7 @@
 Contributors: Wardee
 Tags: mail logging, email backup, contact form email, contact form backup, contact form saver, save contact form, save email, backup email, wp_mail, mail, logging, catcher, export, resend, contact form, database, db, save
 Requires at least: 4.7
-Tested up to: 5.2.2
+Tested up to: 5.3
 Requires PHP: 5.6
 Stable tag: 1.3.2
 License: GNU General Public License v3.0
