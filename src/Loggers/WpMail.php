@@ -2,6 +2,6 @@
 
 namespace WpMailCatcher\Loggers;
 
-class WpMail extends Logger
+class WpMail extends Logger implements LoggerContract
 {
 }

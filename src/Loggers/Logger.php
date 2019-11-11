@@ -6,7 +6,7 @@ use WpMailCatcher\GeneralHelper;
 use WP_Error;
 use WpMailCatcher\Models\Cache;
 
-abstract class Logger
+abstract class Logger implements LoggerContract
 {
     protected $id = null;
 
