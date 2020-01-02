@@ -14,8 +14,6 @@ Backup and save your contact form emails (including Contact Form 7) to your data
 <a href="https://travis-ci.org/JWardee/wp-mail-catcher"><img src="https://travis-ci.org/JWardee/wp-mail-catcher.svg?branch=master" alt="Build Status"></a>
 </p>
 
-------
-
 ## Features
 * Zero setup required - just install and away you go
 * Minimalistic - no overbloated features you never use weighing your site down - under 140kb in size!
