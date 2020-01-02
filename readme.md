@@ -1,8 +1,20 @@
-# WP Mail Catcher
+<p align="center">
+<img width="200" src="https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/icon.svg?sanitize=true">
+</p>
 
+<h1 align="center">
+WP Mail Catcher
+</h1>
+
+<p align="center"> 
 Backup and save your contact form emails (including Contact Form 7) to your database with this fast, lightweight plugin (under 140kb in size!)
+</p>
 
-[![Build Status](https://travis-ci.org/JWardee/wp-mail-catcher.svg?branch=master)](https://travis-ci.org/JWardee/wp-mail-catcher)
+<p align="center">
+<a href="https://travis-ci.org/JWardee/wp-mail-catcher"><img src="https://travis-ci.org/JWardee/wp-mail-catcher.svg?branch=master" alt="Build Status"></a>
+</p>
+
+------
 
 ## Features
 * Zero setup required - just install and away you go
@@ -60,4 +72,3 @@ Contributions are always welcome, to get started do the following:
 * [PSR-2 coding standards](http://www.php-fig.org/psr/psr-2/)
 * [Installing composer](https://getcomposer.org/download/)
 * [Installing grunt](https://gruntjs.com/getting-started/)
-
