@@ -43,8 +43,9 @@ class Logs
             'order' => 'DESC',
             'date_time_format' => 'human',
             'post_status' => 'any',
+            'post__in' => [],
             'subject' => null,
-            'post__in' => []
+            's' => null
         ];
 
         $args = array_merge($defaults, $args);
@@ -66,7 +67,11 @@ class Logs
             $sql .= "WHERE id IN(" . GeneralHelper::arrayToString($args['post__in']) . ") ";
         }
 
-        if ($args['subject'] != null) {
+        if ($args['subject'] != null && $args['s'] == null) {
+            $args['s'] = $args['subject'];
+        }
+
+        if ($args['s'] != null) {
             if ($whereClause == true) {
                 $sql .= "AND ";
             } else {
@@ -74,7 +79,11 @@ class Logs
                 $whereClause = true;
             }
 
-            $sql .= "subject LIKE '%" . $args['subject'] . "%' ";
+            $sql .= "(subject LIKE '%" . $args['s'] . "%') OR ";
+            $sql .= "(message LIKE '%" . $args['s'] . "%') OR ";
+            $sql .= "(email_to LIKE '%" . $args['s'] . "%') OR ";
+            $sql .= "(attachments LIKE '%" . $args['s'] . "%') OR ";
+            $sql .= "(additional_headers LIKE '%" . $args['s'] . "%') ";
         }
 
         if ($args['post_status'] != 'any') {

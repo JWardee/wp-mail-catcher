@@ -4,7 +4,7 @@ Tags: mail logging, email backup, contact form email, contact form backup, conta
 Requires at least: 4.7
 Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 1.3.2
+Stable tag: 1.3.4
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 

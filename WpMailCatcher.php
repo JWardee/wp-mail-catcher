@@ -6,7 +6,7 @@ Text Domain: WpMailCatcher
 Domain Path: /languages
 Description: Backup and save your contact form emails (including Contact Form 7) to your database with this fast, lightweight plugin (under 140kb in size!)
 Author: James Ward
-Version: 1.3.2
+Version: 1.3.4
 Author URI: https://jamesward.io
 */
 

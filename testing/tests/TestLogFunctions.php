@@ -235,4 +235,37 @@ class TestLogFunctions extends WP_UnitTestCase
         wp_delete_attachment($imgAttachmentId);
         wp_delete_attachment($pdfAttachmentId);
     }
+
+    public function testCanSearchByEmail()
+    {
+        $email = 'look_for_me_email@test.com';
+        wp_mail('dont_find_me@test.com', 'subject', 'message');
+        wp_mail($email, 'subject', 'message');
+
+        $emailLogAddress = Logs::get(['s' => $email])[0];
+
+        $this->assertEquals($email, $emailLogAddress['email_to']);
+    }
+
+    public function testCanSearchBySubject()
+    {
+        $subject = 'look_for_me_subject';
+        wp_mail('test@test.com', 'dont find me', 'message');
+        wp_mail('test@test.com', $subject, 'message');
+
+        $emailLogSubject = Logs::get(['s' => $subject])[0];
+
+        $this->assertEquals($subject, $emailLogSubject['subject']);
+    }
+
+    public function testCanSearchByMessage()
+    {
+        $message = 'look_for_me_message';
+        wp_mail('test@test.com', 'subject', 'dont find me');
+        wp_mail('test@test.com', 'subject', $message);
+
+        $emailLogMessage = Logs::get(['s' => $message])[0];
+
+        $this->assertEquals($message, $emailLogMessage['message']);
+    }
 }

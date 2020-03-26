@@ -59,7 +59,6 @@ class MailAdminTable extends \WP_List_Table
         );
     }
 
-
     function column_cb($item)
     {
         return sprintf(
@@ -160,12 +159,12 @@ class MailAdminTable extends \WP_List_Table
         $this->_column_headers = [$columns, $hidden, $sortable];
         $this->process_bulk_action();
 
-        /** Can pass $_GET because we whitelist and sanitize it at the model level */
+        /** Can pass $_REQUEST because we whitelist and sanitize it at the model level */
         $this->items = Logs::get(array_merge([
             'paged' => $this->get_pagenum(),
             'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any',
-            'posts_per_page' => $per_page
-        ], $_GET));
+            'posts_per_page' => $per_page,
+        ], $_REQUEST));
 
         $this->totalItems = Logs::getTotalAmount();
 

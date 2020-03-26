@@ -71,6 +71,7 @@ $logs->prepare_items();
         </ul>
 
         <form action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>" method="post">
+            <?php $logs->search_box(__('Search Logs', 'WpMailCatcher'), 'search_id'); ?>
             <?php $logs->display(); ?>
         </form>
 
