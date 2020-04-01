@@ -279,6 +279,18 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
+    padding: 10px 15px;
+    background: #23282d;
+    border-radius: 5px;
+
+    a {
+      color: #d2dce6;
+      line-height: 25px;
+
+      &:hover, &:focus {
+        text-decoration: none;
+      }
+    }
 
     .dashicons {
       font-size: 15px;
