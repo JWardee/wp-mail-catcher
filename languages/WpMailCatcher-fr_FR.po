@@ -1,0 +1,304 @@
+# Copyright (C) 2020 James Ward
+# This file is distributed under the same license as the Backup & Save Contact Form Emails - WP Mail Catcher plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Backup & Save Contact Form Emails - WP Mail Catcher 1.3.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-mail-catcher\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2020-04-02T11:47:11+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: WpMailCatcher\n"
+
+#. Plugin Name of the plugin
+msgid "Backup & Save Contact Form Emails - WP Mail Catcher"
+msgstr ""
+"Sauvegarde et enregistrement des e-mails de formulaire de contact - WP Mail "
+"Catcher"
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/wp-mail-catcher/"
+msgstr "https://wordpress.org/plugins/wp-mail-catcher/"
+
+#. Description of the plugin
+msgid ""
+"Backup and save your contact form emails (including Contact Form 7) to your "
+"database with this fast, lightweight plugin (under 140kb in size!)"
+msgstr ""
+"Sauvegardez et enregistrez vos e-mails de formulaire de contact (y compris "
+"les formulaires de Contact Form 7) dans votre base de données avec ce "
+"plugin rapide et léger (de moins de 140 Ko !)"
+
+#. Author of the plugin/theme
+msgid "James Ward"
+msgstr "James Ward"
+
+#. Author URI of the plugin/theme
+msgid "https://jamesward.io"
+msgstr "https://jamesward.io"
+
+#: src/Bootstrap.php:51
+#: src/Bootstrap.php:84
+msgid "Settings"
+msgstr "Paramètres"
+
+#: src/CronManager.php:89
+msgid "Once Weekly"
+msgstr "Une fois par semaine"
+
+#: src/CronManager.php:94
+msgid "Once a month"
+msgstr "Une fois par mois"
+
+#: src/GeneralHelper.php:214
+msgctxt "%s = human-readable time difference"
+msgid "%s"
+msgstr "%s"
+
+#: src/MailAdminTable.php:51
+#: src/MailAdminTable.php:128
+msgid "Delete"
+msgstr "Supprimer"
+
+#: src/MailAdminTable.php:52
+#: src/MailAdminTable.php:129
+msgid "Resend"
+msgstr "Renvoyer"
+
+#: src/MailAdminTable.php:53
+#: src/MailAdminTable.php:130
+#: src/Views/ExportWarningDialog.php:63
+msgid "Export"
+msgstr "Exporter"
+
+#: src/MailAdminTable.php:73
+msgid "More Info"
+msgstr ""
+
+#: src/MailAdminTable.php:80
+msgid "Sent"
+msgstr "Envoyer"
+
+#: src/MailAdminTable.php:81
+#: src/Views/NewMessageModal.php:25
+msgid "To"
+msgstr "À"
+
+#: src/MailAdminTable.php:82
+#: src/Views/NewMessageModal.php:28
+msgid "From"
+msgstr "De"
+
+#: src/MailAdminTable.php:83
+#: src/Views/NewMessageModal.php:41
+msgid "Subject"
+msgstr "Sujet"
+
+#: src/MailAdminTable.php:84
+msgid "Status"
+msgstr "Statut"
+
+#: src/MailAdminTable.php:94
+msgid "Success"
+msgstr "Réussi"
+
+#: src/MailAdminTable.php:97
+#: src/Views/Log.php:68
+msgid "Failed"
+msgstr "Échoué"
+
+#: src/Views/ExportWarningDialog.php:11
+msgid "Warning"
+msgstr "Attention"
+
+#: src/Views/ExportWarningDialog.php:15
+msgid ""
+"You are trying to export <strong>%s</strong> messages when the recommended "
+"limit is no more than <strong>%s</strong>, this can cause the server to "
+"timeout before the export is complete, we recommend reducing the amount of "
+"messages exported, or exporting them in batches."
+msgstr ""
+"Vous essayez d’exporter <strong>%s</strong> messages quand la limite "
+"recommandée est pas plus de <strong>%s</strong>, cela peut entraîner "
+"l’expiration du serveur avant la fin de l’exportation, nous vous "
+"recommandons de réduire la quantité de messages exportés ou de les exporter "
+"par lots."
+
+#: src/Views/ExportWarningDialog.php:29
+msgid "Number of logs to export"
+msgstr "Nombre de lois à exporter"
+
+#: src/Views/ExportWarningDialog.php:41
+msgid "Batch number"
+msgstr "Numéro de lot"
+
+#: src/Views/ExportWarningDialog.php:48
+msgid "This will export messages <strong>%s-%s</strong>"
+msgstr "Ceci exportera <strong>%s-%s</strong> messages"
+
+#: src/Views/ExportWarningDialog.php:66
+msgid "Cancel"
+msgstr "Annuler"
+
+#: src/Views/Footer.php:10
+msgid "If you've found this useful - please rate us!"
+msgstr ""
+
+#: src/Views/Log.php:19
+msgid "logs"
+msgstr "logs"
+
+#: src/Views/Log.php:25
+msgid ""
+"You have <strong>over %s</strong> messages stored and <a href=\"%s\">auto-"
+"delete is disabled</a>. As a result your database can become very large, "
+"please either allow auto-delete or delete some logs."
+msgstr ""
+"Vous avez <strong>plus de %s</strong> messages stockés et <a href=\"%s\">la "
+"suppression automatique est désactivée</a>. En conséquence, votre base de "
+"données peut devenir très volumineuse, veuillez autoriser la suppression "
+"automatique ou supprimer certains logs."
+
+#: src/Views/Log.php:37
+msgid "New Message"
+msgstr "Nouveau message"
+
+#: src/Views/Log.php:42
+#: src/Views/Log.php:47
+msgid "Export all messages"
+msgstr "Exporter tous les messages"
+
+#: src/Views/Log.php:56
+msgid "All"
+msgstr ""
+
+#: src/Views/Log.php:62
+msgid "Successful"
+msgstr ""
+
+#: src/Views/Log.php:74
+msgid "Search Logs"
+msgstr "Rechercher dans les logs"
+
+#: src/Views/LogModal.php:11
+#: src/Views/NewMessageModal.php:66
+msgid "Message"
+msgstr "Message"
+
+#: src/Views/LogModal.php:12
+msgid "Detail"
+msgstr "Détail"
+
+#: src/Views/LogModal.php:13
+msgid "Debug"
+msgstr "Debug"
+
+#: src/Views/LogModal.php:23
+msgid "There aren't any details to show!"
+msgstr "Il n’y a aucun détail à afficher !"
+
+#: src/Views/LogModal.php:27
+#: src/Views/NewMessageModal.php:47
+msgid "Attachments"
+msgstr "Pièces jointes"
+
+#: src/Views/LogModal.php:48
+msgid "Additional Headers"
+msgstr "En-têtes additionnelles"
+
+#: src/Views/LogModal.php:61
+msgid "Triggered from:"
+msgstr "Déclenché depuis :"
+
+#: src/Views/LogModal.php:62
+msgid "On line:"
+msgstr "À la ligne :"
+
+#: src/Views/LogModal.php:63
+msgid "Sent at:"
+msgstr "Envoyé à :"
+
+#: src/Views/LogModal.php:67
+msgid "Errors:"
+msgstr "Erreurs :"
+
+#: src/Views/LogModal.php:77
+#: src/Views/NewMessageModal.php:82
+msgid "Close"
+msgstr "Fermer"
+
+#: src/Views/NewMessageModal.php:11
+msgid "Headers"
+msgstr "En-têtes"
+
+#: src/Views/NewMessageModal.php:26
+msgid "Cc"
+msgstr "Cc"
+
+#: src/Views/NewMessageModal.php:27
+msgid "Bcc"
+msgstr "Bcc"
+
+#: src/Views/NewMessageModal.php:29
+msgid "Custom"
+msgstr "Custom"
+
+#: src/Views/NewMessageModal.php:38
+msgid "Is HTML email?"
+msgstr ""
+
+#: src/Views/NewMessageModal.php:60
+msgid "Add Attachments"
+msgstr "Ajouter des pièces jointes"
+
+#: src/Views/NewMessageModal.php:69
+msgid "My Message"
+msgstr ""
+
+#: src/Views/NewMessageModal.php:79
+msgid "Send Message"
+msgstr "Envoyer le message"
+
+#: src/Views/Settings.php:18
+msgid "Settings were successfully updated!"
+msgstr "Les paramètres ont été mis à jour avec succès !"
+
+#: src/Views/Settings.php:24
+msgid "You didn't change any settings"
+msgstr "Vous n’avez modifié aucun paramètre"
+
+#: src/Views/Settings.php:30
+msgid "settings"
+msgstr "paramètres"
+
+#: src/Views/Settings.php:40
+msgid "User capability needed to see logs"
+msgstr "Rôle utilisateur nécessaire pour voir les logs"
+
+#: src/Views/Settings.php:56
+msgid "User capability needed to edit settings"
+msgstr "Rôle utilisateur nécessaire pour modifier les paramètres"
+
+#: src/Views/Settings.php:72
+msgid "Auto delete logs?"
+msgstr "Supprimer automatiquement les logs ?"
+
+#: src/Views/Settings.php:80
+msgid "No"
+msgstr "Non"
+
+#: src/Views/Settings.php:88
+msgid "Yes"
+msgstr "Oui"
+
+#: src/Views/Settings.php:102
+msgid "Will next run in: %s."
+msgstr "S’exécutera ensuite dans : %s."
+
+#: src/Views/Settings.php:113
+msgid "Save Changes"
+msgstr "Sauvegarder les modifications"

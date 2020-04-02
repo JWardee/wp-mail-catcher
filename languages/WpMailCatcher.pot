@@ -1,25 +1,43 @@
+# Copyright (C) 2020 James Ward
+# This file is distributed under the same license as the Backup & Save Contact Form Emails - WP Mail Catcher plugin.
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Project-Id-Version: Backup & Save Contact Form Emails - WP Mail Catcher\n"
-"POT-Creation-Date: 2020-03-31 18:01+0200\n"
-"PO-Revision-Date: 2020-03-31 18:02+0200\n"
+"Project-Id-Version: Backup & Save Contact Form Emails - WP Mail Catcher 1.3.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-mail-catcher\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: WpMailCatcher.php\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
-"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Last-Translator: \n"
-"Language: fr\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"POT-Creation-Date: 2020-04-02T11:47:11+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: WpMailCatcher\n"
+
+#. Plugin Name of the plugin
+msgid "Backup & Save Contact Form Emails - WP Mail Catcher"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/wp-mail-catcher/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Backup and save your contact form emails (including Contact Form 7) to your database with this fast, lightweight plugin (under 140kb in size!)"
+msgstr ""
+
+#. Author of the plugin
+msgid "James Ward"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://jamesward.io"
+msgstr ""
+
+#: src/Bootstrap.php:51
+#: src/Bootstrap.php:84
+msgid "Settings"
+msgstr ""
 
 #: src/CronManager.php:89
 msgid "Once Weekly"
@@ -30,37 +48,46 @@ msgid "Once a month"
 msgstr ""
 
 #: src/GeneralHelper.php:214
-#, php-format
 msgctxt "%s = human-readable time difference"
 msgid "%s"
 msgstr ""
 
-#: src/MailAdminTable.php:51 src/MailAdminTable.php:128
+#: src/MailAdminTable.php:51
+#: src/MailAdminTable.php:128
 msgid "Delete"
 msgstr ""
 
-#: src/MailAdminTable.php:52 src/MailAdminTable.php:129
+#: src/MailAdminTable.php:52
+#: src/MailAdminTable.php:129
 msgid "Resend"
 msgstr ""
 
-#: src/MailAdminTable.php:53 src/MailAdminTable.php:130
-#: src/Views/ExportWarningDialog.php:62
+#: src/MailAdminTable.php:53
+#: src/MailAdminTable.php:130
+#: src/Views/ExportWarningDialog.php:63
 msgid "Export"
+msgstr ""
+
+#: src/MailAdminTable.php:73
+msgid "More Info"
 msgstr ""
 
 #: src/MailAdminTable.php:80
 msgid "Sent"
 msgstr ""
 
-#: src/MailAdminTable.php:81 src/Views/NewMessageModal.php:25
+#: src/MailAdminTable.php:81
+#: src/Views/NewMessageModal.php:25
 msgid "To"
 msgstr ""
 
-#: src/MailAdminTable.php:82 src/Views/NewMessageModal.php:28
+#: src/MailAdminTable.php:82
+#: src/Views/NewMessageModal.php:28
 msgid "From"
 msgstr ""
 
-#: src/MailAdminTable.php:83 src/Views/NewMessageModal.php:41
+#: src/MailAdminTable.php:83
+#: src/Views/NewMessageModal.php:41
 msgid "Subject"
 msgstr ""
 
@@ -73,6 +100,7 @@ msgid "Success"
 msgstr ""
 
 #: src/MailAdminTable.php:97
+#: src/Views/Log.php:68
 msgid "Failed"
 msgstr ""
 
@@ -81,29 +109,29 @@ msgid "Warning"
 msgstr ""
 
 #: src/Views/ExportWarningDialog.php:15
-#, php-format
 msgid ""
-"You are trying to export <strong>%s</strong> messages when the recommended "
-"limit is no more than <strong>%s</strong>, this can cause the server to "
-"timeout before the export is complete, we recommend reducing the amount of "
-"messages exported, or exporting them in batches."
+"You are trying to export <strong>%s</strong> messages when the recommended limit is no more than <strong>%s</strong>,\n"
+"this can cause the server to timeout before the export is complete, we recommend reducing the amount of messages exported, or exporting them in batches."
 msgstr ""
 
-#: src/Views/ExportWarningDialog.php:28
+#: src/Views/ExportWarningDialog.php:29
 msgid "Number of logs to export"
 msgstr ""
 
-#: src/Views/ExportWarningDialog.php:40
+#: src/Views/ExportWarningDialog.php:41
 msgid "Batch number"
 msgstr ""
 
-#: src/Views/ExportWarningDialog.php:47
-#, php-format
+#: src/Views/ExportWarningDialog.php:48
 msgid "This will export messages <strong>%s-%s</strong>"
 msgstr ""
 
-#: src/Views/ExportWarningDialog.php:65
+#: src/Views/ExportWarningDialog.php:66
 msgid "Cancel"
+msgstr ""
+
+#: src/Views/Footer.php:10
+msgid "If you've found this useful - please rate us!"
 msgstr ""
 
 #: src/Views/Log.php:19
@@ -111,26 +139,32 @@ msgid "logs"
 msgstr ""
 
 #: src/Views/Log.php:25
-#, php-format
-msgid ""
-"You have <strong>over %s</strong> messages stored and <a href=\"%s\">auto-"
-"delete is disabled</a>. As a result your database can become very large, "
-"please either allow auto-delete or delete some logs."
+msgid "You have <strong>over %s</strong> messages stored and <a href=\"%s\">auto-delete is disabled</a>. As a result your database can become very large, please either allow auto-delete or delete some logs."
 msgstr ""
 
 #: src/Views/Log.php:37
 msgid "New Message"
 msgstr ""
 
-#: src/Views/Log.php:42 src/Views/Log.php:47
+#: src/Views/Log.php:42
+#: src/Views/Log.php:47
 msgid "Export all messages"
+msgstr ""
+
+#: src/Views/Log.php:56
+msgid "All"
+msgstr ""
+
+#: src/Views/Log.php:62
+msgid "Successful"
 msgstr ""
 
 #: src/Views/Log.php:74
 msgid "Search Logs"
 msgstr ""
 
-#: src/Views/LogModal.php:11 src/Views/NewMessageModal.php:66
+#: src/Views/LogModal.php:11
+#: src/Views/NewMessageModal.php:66
 msgid "Message"
 msgstr ""
 
@@ -146,7 +180,8 @@ msgstr ""
 msgid "There aren't any details to show!"
 msgstr ""
 
-#: src/Views/LogModal.php:27 src/Views/NewMessageModal.php:47
+#: src/Views/LogModal.php:27
+#: src/Views/NewMessageModal.php:47
 msgid "Attachments"
 msgstr ""
 
@@ -170,7 +205,8 @@ msgstr ""
 msgid "Errors:"
 msgstr ""
 
-#: src/Views/LogModal.php:77 src/Views/NewMessageModal.php:82
+#: src/Views/LogModal.php:77
+#: src/Views/NewMessageModal.php:82
 msgid "Close"
 msgstr ""
 
@@ -190,8 +226,16 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
+#: src/Views/NewMessageModal.php:38
+msgid "Is HTML email?"
+msgstr ""
+
 #: src/Views/NewMessageModal.php:60
 msgid "Add Attachments"
+msgstr ""
+
+#: src/Views/NewMessageModal.php:69
+msgid "My Message"
 msgstr ""
 
 #: src/Views/NewMessageModal.php:79
@@ -231,32 +275,9 @@ msgid "Yes"
 msgstr ""
 
 #: src/Views/Settings.php:102
-#, php-format
 msgid "Will next run in: %s."
 msgstr ""
 
 #: src/Views/Settings.php:113
 msgid "Save Changes"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "Backup & Save Contact Form Emails - WP Mail Catcher"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "https://wordpress.org/plugins/wp-mail-catcher/"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid ""
-"Backup and save your contact form emails (including Contact Form 7) to your "
-"database with this fast, lightweight plugin (under 140kb in size!)"
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "James Ward"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://jamesward.io"
 msgstr ""
