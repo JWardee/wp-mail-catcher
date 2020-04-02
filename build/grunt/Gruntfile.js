@@ -7,8 +7,8 @@ module.exports = function (grunt) {
 		// TODO: Incorporate globbing
 		po2mo: {
 			files: {
-				src: _package.lang_po_directory + '/wp-mail-catcher-fr_FR.po',
-				dest: _package.lang_po_directory + '/wp-mail-catcher-fr_FR.mo',
+				src: _package.lang_po_directory + '/WpMailCatcher-fr_FR.po',
+				dest: _package.lang_po_directory + '/WpMailCatcher-fr_FR.mo',
 			},
 		},
 
