@@ -53,19 +53,19 @@ $logs->prepare_items();
             <li>
                 <a href="?page=<?php echo GeneralHelper::$adminPageSlug; ?>"
                     <?php if (!isset($_GET['post_status']) || $_GET['post_status'] == 'any') : ?> class="current"<?php endif; ?>>
-                    All <span class="count">(<?php echo $logs->totalItems; ?>)</span>
+                    <?php _e( 'All', 'WpMailCatcher' ); ?> <span class="count">(<?php echo $logs->totalItems; ?>)</span>
                 </a> |
             </li>
             <li>
                 <a href="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&post_status=successful"
                     <?php if (isset($_GET['post_status']) && $_GET['post_status'] == 'successful') : ?> class="current"<?php endif; ?>>
-                    Successful
+                    <?php _e( 'Successful', 'WpMailCatcher' ); ?>
                 </a> |
             </li>
             <li>
                 <a href="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&post_status=failed"
                     <?php if (isset($_GET['post_status']) && $_GET['post_status'] == 'failed') : ?> class="current"<?php endif; ?>>
-                    Failed
+                    <?php _e( 'Failed', 'WpMailCatcher' ); ?>
                 </a>
             </li>
         </ul>
