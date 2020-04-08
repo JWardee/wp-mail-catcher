@@ -38,7 +38,7 @@ class Bootstrap
         add_filter('plugin_action_links_wp-mail-catcher/WpMailCatcher.php', [$this, 'extraPluginLinks']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
         add_action('plugins_loaded', function() {
-            load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$pluginPath . '/languages');
+            load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$adminPageSlug . '/languages/');
         });
         add_action('admin_menu', function() {
             $this->registerPages();
@@ -48,7 +48,7 @@ class Bootstrap
 
     public function extraPluginLinks($links)
     {
-        array_unshift($links, '<a href="admin.php?page=' . GeneralHelper::$adminPageSlug . '-settings">Settings</a>');
+        array_unshift($links, '<a href="admin.php?page=' . GeneralHelper::$adminPageSlug . '-settings">' . __('Settings', 'WpMailCatcher') . '</a>');
         return $links;
     }
 
@@ -81,7 +81,7 @@ class Bootstrap
             }, 'dashicons-email-alt'
         );
 
-        add_submenu_page(GeneralHelper::$adminPageSlug, 'Settings', 'Settings', Settings::get('default_settings_role'),
+        add_submenu_page(GeneralHelper::$adminPageSlug, __('Settings', 'WpMailCatcher'), __('Settings', 'WpMailCatcher'), Settings::get('default_settings_role'),
             GeneralHelper::$settingsPageSlug, function() {
                 require GeneralHelper::$pluginViewDirectory . '/Settings.php';
             }

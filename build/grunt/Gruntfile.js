@@ -4,6 +4,14 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		pkg: _package,
 
+		// TODO: Incorporate globbing
+		po2mo: {
+			files: {
+				src: _package.lang_po_directory + '/WpMailCatcher-fr_FR.po',
+				dest: _package.lang_po_directory + '/WpMailCatcher-fr_FR.mo',
+			},
+		},
+
 		concat: {
 			js: {
 				options: {
@@ -55,9 +63,7 @@ module.exports = function (grunt) {
 					require('cssnano')({
 						safe: true
 					}),
-					require('autoprefixer')({
-						browsers: 'last 5 versions'
-					})
+					require('autoprefixer')
 				]
 			},
 			dist: {
@@ -94,6 +100,7 @@ module.exports = function (grunt) {
 		}
 	});
 
+	grunt.loadNpmTasks('grunt-po2mo');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
@@ -101,5 +108,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-postcss');
 
-	grunt.registerTask('default', ['concat', 'uglify', 'sass', 'postcss', 'clean', 'watch']);
+	grunt.registerTask('compile', ['concat', 'uglify', 'sass', 'postcss', 'clean', 'po2mo']);
+	grunt.registerTask('default', ['concat', 'uglify', 'sass', 'postcss', 'clean', 'po2mo', 'watch']);
 };

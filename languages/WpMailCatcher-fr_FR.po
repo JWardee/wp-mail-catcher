@@ -1,0 +1,303 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Project-Id-Version: Backup & Save Contact Form Emails - WP Mail Catcher\n"
+"POT-Creation-Date: 2020-04-08 14:51+0200\n"
+"PO-Revision-Date: 2020-04-08 15:04+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: WpMailCatcher.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: \n"
+"Language: fr\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: src/Bootstrap.php:51 src/Bootstrap.php:84
+msgid "Settings"
+msgstr "Paramètres"
+
+#: src/CronManager.php:89
+msgid "Once Weekly"
+msgstr "Une fois par semaine"
+
+#: src/CronManager.php:94
+msgid "Once a month"
+msgstr "Une fois par semaine"
+
+#: src/GeneralHelper.php:214
+#, php-format
+msgctxt "%s = human-readable time difference"
+msgid "%s"
+msgstr "%s"
+
+#: src/MailAdminTable.php:51 src/MailAdminTable.php:128
+msgid "Delete"
+msgstr "Supprimer"
+
+#: src/MailAdminTable.php:52 src/MailAdminTable.php:129
+msgid "Resend"
+msgstr "Renvoyer"
+
+#: src/MailAdminTable.php:53 src/MailAdminTable.php:130
+#: src/Views/ExportWarningDialog.php:63
+msgid "Export"
+msgstr "Exporter"
+
+#: src/MailAdminTable.php:73
+msgid "More Info"
+msgstr "Plus d’information"
+
+#: src/MailAdminTable.php:80
+msgid "Sent"
+msgstr "Envoyé"
+
+#: src/MailAdminTable.php:81 src/Views/NewMessageModal.php:25
+msgid "To"
+msgstr "To"
+
+#: src/MailAdminTable.php:82 src/Views/NewMessageModal.php:28
+msgid "From"
+msgstr "From"
+
+#: src/MailAdminTable.php:83 src/Views/NewMessageModal.php:41
+msgid "Subject"
+msgstr "Sujet"
+
+#: src/MailAdminTable.php:84
+msgid "Status"
+msgstr "Statut"
+
+#: src/MailAdminTable.php:94
+msgid "Success"
+msgstr "Succès"
+
+#: src/MailAdminTable.php:97 src/Views/Log.php:68
+msgid "Failed"
+msgstr "Échoué"
+
+#: src/Views/ExportWarningDialog.php:11
+msgid "Warning"
+msgstr "Alerte"
+
+#: src/Views/ExportWarningDialog.php:15
+#, php-format
+msgid ""
+"You are trying to export <strong>%s</strong> messages when the recommended "
+"limit is no more than <strong>%s</strong>,\n"
+"                                           this can cause the server to "
+"timeout before the export is complete, we recommend reducing the amount of "
+"messages exported, or exporting them in batches."
+msgstr ""
+"Vous essayez d’exporter des <strong>% s </strong> messages alors que la "
+"limite recommandée n’est pas supérieure à <strong>% s </strong>,\n"
+"                                           cela peut entraîner un timeout "
+"serveur avant la fin de l’exportation, nous vous recommandons de réduire la "
+"quantité de messages exportés ou de les exporter par lots."
+
+#: src/Views/ExportWarningDialog.php:29
+msgid "Number of logs to export"
+msgstr "Nombre de logs à exporter"
+
+#: src/Views/ExportWarningDialog.php:41
+msgid "Batch number"
+msgstr "Numéro du lot"
+
+#: src/Views/ExportWarningDialog.php:48
+#, php-format
+msgid "This will export messages <strong>%s-%s</strong>"
+msgstr "Ceci exportera les messages <strong>%s-%s</strong>"
+
+#: src/Views/ExportWarningDialog.php:66
+msgid "Cancel"
+msgstr "Annuler"
+
+#: src/Views/Footer.php:10
+msgid "If you've found this useful - please rate us!"
+msgstr "Si vous avez trouvé cela utile, veuillez nous évaluer !"
+
+#: src/Views/Log.php:19
+msgid "logs"
+msgstr "logs"
+
+#: src/Views/Log.php:25
+#, php-format
+msgid ""
+"You have <strong>over %s</strong> messages stored and <a href=\"%s\">auto-"
+"delete is disabled</a>. As a result your database can become very large, "
+"please either allow auto-delete or delete some logs."
+msgstr ""
+"Vous avez <strong>plus de% s</strong> messages stockés et <a href=\"%s\">la "
+"suppression automatique est désactivée</a>. En conséquence, votre base de "
+"données peut devenir très volumineuse, veuillez autoriser la suppression "
+"automatique ou supprimer certains logs."
+
+#: src/Views/Log.php:37
+msgid "New Message"
+msgstr "Nouveau message"
+
+#: src/Views/Log.php:42 src/Views/Log.php:47
+msgid "Export all messages"
+msgstr "Exporter tous les messages"
+
+#: src/Views/Log.php:56
+msgid "All"
+msgstr "Tous"
+
+#: src/Views/Log.php:62
+msgid "Successful"
+msgstr "Réussie"
+
+#: src/Views/Log.php:74
+msgid "Search Logs"
+msgstr "Rechercher dans les logs"
+
+#: src/Views/LogModal.php:11 src/Views/NewMessageModal.php:66
+msgid "Message"
+msgstr "Message"
+
+#: src/Views/LogModal.php:12
+msgid "Detail"
+msgstr "Détail"
+
+#: src/Views/LogModal.php:13
+msgid "Debug"
+msgstr "Déboguer"
+
+#: src/Views/LogModal.php:23
+msgid "There aren't any details to show!"
+msgstr "Il n’y a aucun détails à montrer !"
+
+#: src/Views/LogModal.php:27 src/Views/NewMessageModal.php:47
+msgid "Attachments"
+msgstr "Pièces jointes"
+
+#: src/Views/LogModal.php:48
+msgid "Additional Headers"
+msgstr "Headers additionnels"
+
+#: src/Views/LogModal.php:61
+msgid "Triggered from:"
+msgstr "Déclenché depuis :"
+
+#: src/Views/LogModal.php:62
+msgid "On line:"
+msgstr "À la ligne :"
+
+#: src/Views/LogModal.php:63
+msgid "Sent at:"
+msgstr "Envoyer à :"
+
+#: src/Views/LogModal.php:67
+msgid "Errors:"
+msgstr "Erreurs :"
+
+#: src/Views/LogModal.php:77 src/Views/NewMessageModal.php:82
+msgid "Close"
+msgstr "Fermer"
+
+#: src/Views/NewMessageModal.php:11
+msgid "Headers"
+msgstr "Headers"
+
+#: src/Views/NewMessageModal.php:26
+msgid "Cc"
+msgstr "Cc"
+
+#: src/Views/NewMessageModal.php:27
+msgid "Bcc"
+msgstr "Bcc"
+
+#: src/Views/NewMessageModal.php:29
+msgid "Custom"
+msgstr "Custom"
+
+#: src/Views/NewMessageModal.php:38
+msgid "Is HTML email?"
+msgstr "Est-ce un email au format HTML ?"
+
+#: src/Views/NewMessageModal.php:60
+msgid "Add Attachments"
+msgstr "Ajouter des pièces jointes"
+
+#: src/Views/NewMessageModal.php:69
+msgid "My Message"
+msgstr "Mon message"
+
+#: src/Views/NewMessageModal.php:79
+msgid "Send Message"
+msgstr "Envoyer un message"
+
+#: src/Views/Settings.php:18
+msgid "Settings were successfully updated!"
+msgstr "Les paramètres ont été mis à jour avec succès !"
+
+#: src/Views/Settings.php:24
+msgid "You didn't change any settings"
+msgstr "Vous n’avez modifié aucun paramètre"
+
+#: src/Views/Settings.php:30
+msgid "settings"
+msgstr "paramètres"
+
+#: src/Views/Settings.php:40
+msgid "User capability needed to see logs"
+msgstr "Droit utilisateur nécessaire pour voir les logs"
+
+#: src/Views/Settings.php:56
+msgid "User capability needed to edit settings"
+msgstr "Droit utilisateur nécessaire pour modifier les paramètres"
+
+#: src/Views/Settings.php:72
+msgid "Auto delete logs?"
+msgstr "Supprimer automatiquement les logs ?"
+
+#: src/Views/Settings.php:80
+msgid "No"
+msgstr "Non"
+
+#: src/Views/Settings.php:88
+msgid "Yes"
+msgstr "Oui"
+
+#: src/Views/Settings.php:102
+#, php-format
+msgid "Will next run in: %s."
+msgstr "S’exécutera ensuite dans: %s."
+
+#: src/Views/Settings.php:113
+msgid "Save Changes"
+msgstr "Sauvegarder les modifications"
+
+#. Plugin Name of the plugin/theme
+msgid "Backup & Save Contact Form Emails - WP Mail Catcher"
+msgstr "Backup & Save Contact Form Emails - WP Mail Catcher"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/wp-mail-catcher/"
+msgstr "https://wordpress.org/plugins/wp-mail-catcher/"
+
+#. Description of the plugin/theme
+msgid ""
+"Backup and save your contact form emails (including Contact Form 7) to your "
+"database with this fast, lightweight plugin (under 140kb in size!)"
+msgstr ""
+"Sauvegardez et enregistrez vos e-mails de formulaire de contact (y compris "
+"les formulaires de Contact Form 7) dans votre base de données avec ce "
+"plugin rapide et léger (de moins de 140 Ko !)"
+
+#. Author of the plugin/theme
+msgid "James Ward"
+msgstr "James Ward"
+
+#. Author URI of the plugin/theme
+msgid "https://jamesward.io"
+msgstr "https://jamesward.io"
