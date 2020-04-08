@@ -70,7 +70,7 @@ class MailAdminTable extends \WP_List_Table
 
     function column_more_info($item)
     {
-        return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">More Info</a>';
+        return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('More Info' ,'WpMailCatcher') . '</a>';
     }
 
     function get_columns()

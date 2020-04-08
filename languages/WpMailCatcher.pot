@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Backup & Save Contact Form Emails - WP Mail Catcher\n"
-"POT-Creation-Date: 2020-04-02 00:56+0200\n"
-"PO-Revision-Date: 2020-03-31 17:59+0200\n"
+"POT-Creation-Date: 2020-04-08 14:51+0200\n"
+"PO-Revision-Date: 2020-04-08 14:51+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,14 @@ msgstr ""
 "X-Poedit-WPHeader: WpMailCatcher.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
-"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: src/Bootstrap.php:51 src/Bootstrap.php:84
+msgid "Settings"
+msgstr ""
 
 #: src/CronManager.php:89
 msgid "Once Weekly"
@@ -44,8 +48,12 @@ msgid "Resend"
 msgstr ""
 
 #: src/MailAdminTable.php:53 src/MailAdminTable.php:130
-#: src/Views/ExportWarningDialog.php:62
+#: src/Views/ExportWarningDialog.php:63
 msgid "Export"
+msgstr ""
+
+#: src/MailAdminTable.php:73
+msgid "More Info"
 msgstr ""
 
 #: src/MailAdminTable.php:80
@@ -72,7 +80,7 @@ msgstr ""
 msgid "Success"
 msgstr ""
 
-#: src/MailAdminTable.php:97
+#: src/MailAdminTable.php:97 src/Views/Log.php:68
 msgid "Failed"
 msgstr ""
 
@@ -84,26 +92,31 @@ msgstr ""
 #, php-format
 msgid ""
 "You are trying to export <strong>%s</strong> messages when the recommended "
-"limit is no more than <strong>%s</strong>, this can cause the server to "
+"limit is no more than <strong>%s</strong>,\n"
+"                                           this can cause the server to "
 "timeout before the export is complete, we recommend reducing the amount of "
 "messages exported, or exporting them in batches."
 msgstr ""
 
-#: src/Views/ExportWarningDialog.php:28
+#: src/Views/ExportWarningDialog.php:29
 msgid "Number of logs to export"
 msgstr ""
 
-#: src/Views/ExportWarningDialog.php:40
+#: src/Views/ExportWarningDialog.php:41
 msgid "Batch number"
 msgstr ""
 
-#: src/Views/ExportWarningDialog.php:47
+#: src/Views/ExportWarningDialog.php:48
 #, php-format
 msgid "This will export messages <strong>%s-%s</strong>"
 msgstr ""
 
-#: src/Views/ExportWarningDialog.php:65
+#: src/Views/ExportWarningDialog.php:66
 msgid "Cancel"
+msgstr ""
+
+#: src/Views/Footer.php:10
+msgid "If you've found this useful - please rate us!"
 msgstr ""
 
 #: src/Views/Log.php:19
@@ -124,6 +137,14 @@ msgstr ""
 
 #: src/Views/Log.php:42 src/Views/Log.php:47
 msgid "Export all messages"
+msgstr ""
+
+#: src/Views/Log.php:56
+msgid "All"
+msgstr ""
+
+#: src/Views/Log.php:62
+msgid "Successful"
 msgstr ""
 
 #: src/Views/Log.php:74
@@ -190,8 +211,16 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
+#: src/Views/NewMessageModal.php:38
+msgid "Is HTML email?"
+msgstr ""
+
 #: src/Views/NewMessageModal.php:60
 msgid "Add Attachments"
+msgstr ""
+
+#: src/Views/NewMessageModal.php:69
+msgid "My Message"
 msgstr ""
 
 #: src/Views/NewMessageModal.php:79

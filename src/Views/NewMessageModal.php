@@ -35,7 +35,7 @@
 
                             <label class="is-html-email"><input type="checkbox" value="Content-Type: text/html"
                                                                 name="header_keys[]"/>
-                                Is HTML email? </label>
+                                <?php _e('Is HTML email?', 'WpMailCatcher'); ?> </label>
                         </div>
                         <div>
                             <h2><?php _e('Subject', 'WpMailCatcher'); ?></h2>
@@ -66,7 +66,7 @@
                             <h2><?php _e('Message', 'WpMailCatcher'); ?></h2>
                             <hr/>
 
-                            <?php wp_editor('My Message', 'message', $settings = []); ?>
+                            <?php wp_editor(__('My Message', 'WpMailCatcher'), 'message', $settings = []); ?>
                         </div>
                     </div>
                 </div>

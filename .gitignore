@@ -11,3 +11,4 @@ node_modules
 .idea
 .sass-cache
 global.min.*
+/languages/*.mo
