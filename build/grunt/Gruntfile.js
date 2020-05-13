@@ -5,6 +5,7 @@ module.exports = function (grunt) {
 		pkg: _package,
 
 		// TODO: Incorporate globbing
+		// FIXME: po2mo compile fails on node versions > 10, need to manually generate mo file for now ("Can not create sync-exec directory")
 		po2mo: {
 			files: {
 				src: _package.lang_po_directory + '/WpMailCatcher-fr_FR.po',
