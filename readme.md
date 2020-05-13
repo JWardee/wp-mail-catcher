@@ -33,6 +33,9 @@ Backup and save your contact form emails (including Contact Form 7) to your data
 
 ![alt text](https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/build/images/wp-mail-catcher-screenshot-2.png)
 
+
+![alt text](https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/build/images/wp-mail-catcher-screenshot-4.png)
+
 ## Confirmed support
 * [wp_mail](https://developer.wordpress.org/reference/functions/wp_mail/)
 * [WooCommerce](https://wordpress.org/plugins/woocommerce/)
