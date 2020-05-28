@@ -47,4 +47,15 @@ class TestSettings extends WP_UnitTestCase
 		$cronTasks = $this->cronManager->getTasks();
 		$this->assertEquals('0', count($cronTasks));
 	}
+
+	public function testDefaultSettingsSerialization()
+    {
+        // Simulate a third party invalidating the serialized object
+        $invalidSerializationObj = 's:164:"a:4:{s:17:"def";}";';
+        update_option(Settings::$optionsName, $invalidSerializationObj);
+
+        // Assert that the default value is used if the value cannot be
+        // found within the serialized object
+        $this->assertEquals(true, Settings::get('auto_delete'));
+    }
 }

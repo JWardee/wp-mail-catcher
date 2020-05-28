@@ -4,8 +4,8 @@ namespace WpMailCatcher\Models;
 
 class Settings
 {
+    static public $optionsName = 'mailcatcher_settings';
     static private $settings = null;
-    static private $optionsName = 'mailcatcher_settings';
     static private $defaultSettings = [
         'default_view_role' => 'manage_options',
         'default_settings_role' => 'manage_options',
@@ -23,8 +23,8 @@ class Settings
             self::installOptions();
         }
 
-        if ($key != null && isset(self::$settings[$key])) {
-            return self::$settings[$key];
+        if ($key != null) {
+            return isset(self::$settings[$key]) ? self::$settings[$key] : self::$defaultSettings[$key];
         }
 
         return self::$settings;

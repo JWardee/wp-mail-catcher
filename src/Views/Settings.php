@@ -59,7 +59,7 @@ $cronJobs = CronManager::getInstance()->getTasks();
                         <td>
                             <select name="default_settings_role">
                                 <?php foreach ($capabilities as $capability => $value) : ?>
-                                    <option<?php if ($settings['default_view_role'] == $capability) : ?> selected<?php endif; ?>>
+                                    <option<?php if ($settings['default_settings_role'] == $capability) : ?> selected<?php endif; ?>>
                                         <?php echo $capability; ?>
                                     </option>
                                 <?php endforeach; ?>
