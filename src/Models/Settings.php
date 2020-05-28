@@ -23,6 +23,12 @@ class Settings
             self::installOptions();
         }
 
+//        // Merge values pulled from the DB with the default values
+//        self::$settings = array_merge(
+//            self::$defaultSettings,
+//            unserialize(get_option(self::$optionsName, null))
+//        );
+
         if ($key != null && isset(self::$settings[$key])) {
             return self::$settings[$key];
         }

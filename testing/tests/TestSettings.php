@@ -50,11 +50,16 @@ class TestSettings extends WP_UnitTestCase
 
 	public function testDefaultSettingsSerialization()
     {
+        // Update the settings to have values missing
         Settings::update(['auto_delete' => false]);
 
         $settings = Settings::get();
 
+        // Assert auto_delete was saved correctly
         $this->assertEquals(false, $settings['auto_delete']);
+
+        // Assert that despite the default_view_role missing
+        // from the DB the default value is still used
         $this->assertEquals('manage_options', $settings['default_view_role']);
     }
 }
