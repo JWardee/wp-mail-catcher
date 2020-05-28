@@ -47,4 +47,14 @@ class TestSettings extends WP_UnitTestCase
 		$cronTasks = $this->cronManager->getTasks();
 		$this->assertEquals('0', count($cronTasks));
 	}
+
+	public function testDefaultSettingsSerialization()
+    {
+        Settings::update(['auto_delete' => false]);
+
+        $settings = Settings::get();
+
+        $this->assertEquals(false, $settings['auto_delete']);
+        $this->assertEquals('manage_options', $settings['default_view_role']);
+    }
 }
