@@ -42,9 +42,9 @@ class Settings
         return update_option(self::$optionsName, serialize($settings));
     }
 
-    static public function installOptions()
+    static public function installOptions($force = false)
     {
-        if (get_option(self::$optionsName, false) == false) {
+        if ($force == true || get_option(self::$optionsName, false) == false) {
             add_option(self::$optionsName, serialize(self::$defaultSettings), '', 'no');
             self::$settings = self::$defaultSettings;
         }
