@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Backup & Save Contact Form Emails - WP Mail Catcher
+Plugin Name: Mail logging - WP Mail Catcher
 Plugin URI: https://wordpress.org/plugins/wp-mail-catcher/
 Text Domain: WpMailCatcher
 Domain Path: /languages
