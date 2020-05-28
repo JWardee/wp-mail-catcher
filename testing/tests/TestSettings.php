@@ -18,7 +18,7 @@ class TestSettings extends WP_UnitTestCase
 
 	public function setUp()
 	{
-		Settings::installOptions();
+		Settings::installOptions(true);
 		$this->cronManager->clearTasks();
 	}
 
