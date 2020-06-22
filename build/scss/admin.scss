@@ -198,6 +198,15 @@
       .html-preview {
         height: 60vh;
       }
+
+      .subheading {
+        display: block;
+        margin-top: 50px;
+      }
+
+      code {
+        display: block;
+      }
     }
 
     &.-active .modal-content {
