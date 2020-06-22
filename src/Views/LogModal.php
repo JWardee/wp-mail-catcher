@@ -44,7 +44,9 @@ if (isset($log)) :
                                 </ul>
                             <?php endif; ?>
 
-                            <?php if (!empty($log['additional_headers'])) : ?>
+                            <?php if (empty(array_filter($log['additional_headers']))) : ?>
+                                <p><?php _e('No additional details to show', 'WpMailCatcher'); ?></p>
+                            <?php else : ?>
                                 <h3><?php _e('Additional Headers', 'WpMailCatcher'); ?></h3>
                                 <hr/>
                                 <ul>
@@ -64,11 +66,16 @@ if (isset($log)) :
                         </ul>
 
                         <?php if (!empty($log['error'])) : ?>
-                            <h3><?php _e('Errors:', 'WpMailCatcher'); ?></h3>
+                            <h3 class="subheading"><?php _e('Errors:', 'WpMailCatcher'); ?></h3>
                             <hr/>
                             <ul>
                                 <li><?php echo $log['error']; ?></li>
                             </ul>
+                        <?php endif; ?>
+
+                        <?php if (isset($log['is_html']) && $log['is_html'] == true) : ?>
+                            <strong class="subheading"><?php _e('HTML Code', 'WpMailCatcher'); ?></strong>
+                            <pre><code><?php echo htmlspecialchars($log['message']); ?></code></pre>
                         <?php endif; ?>
                     </div>
                 </div>
