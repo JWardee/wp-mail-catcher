@@ -70,3 +70,6 @@ Great! Please leave a note in our (GitHub tracker)
 2. Basic, no clutter options page
 3. The table supports: sorting, exporting and resending
 4. Supports column customisation and pagination
+
+== Changelog ==
+See the differences between versions [here](https://github.com/JWardee/wp-mail-catcher/releases)

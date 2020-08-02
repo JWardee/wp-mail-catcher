@@ -73,3 +73,6 @@ Contributions are always welcome, to get started do the following:
 * [PSR-2 coding standards](http://www.php-fig.org/psr/psr-2/)
 * [Installing composer](https://getcomposer.org/download/)
 * [Installing grunt](https://gruntjs.com/getting-started/)
+
+## Changelog
+See the differences between versions [here](https://github.com/JWardee/wp-mail-catcher/releases)
