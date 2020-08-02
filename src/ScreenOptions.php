@@ -16,6 +16,10 @@ class ScreenOptions
     private function __construct()
     {
         add_filter('set-screen-option', [$this, 'saveOption'], 10, 3);
+
+        foreach (self::$optionIdsToWatch as $key => $value) {
+            add_filter('set_screen_option_' . $value, [$this, 'saveOption'], 10, 3);
+        }
     }
 
     static public function getInstance()
@@ -29,7 +33,7 @@ class ScreenOptions
 
     public function saveOption($keep, $option, $value)
     {
-        return in_array($option, self::$optionIdsToWatch) ? $value : false;
+        return in_array($option, self::$optionIdsToWatch) ? $value : $keep;
     }
 
     public function newOption($pageHook, $type, $args)
