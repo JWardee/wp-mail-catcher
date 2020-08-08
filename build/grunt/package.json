@@ -1,6 +1,6 @@
 {
   "name": "WpMailCatcher",
-  "version": "1.3.8",
+  "version": "1.3.9",
   "lang_po_directory": "../../languages",
   "build_directory": "./..",
   "dist_directory": "../../assets",
