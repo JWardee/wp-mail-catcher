@@ -64,9 +64,9 @@
                         </div>
                         <div>
                             <h2><?php _e('Message', 'WpMailCatcher'); ?></h2>
-                            <hr/>
+                            <hr />
 
-                            <?php wp_editor(__('My Message', 'WpMailCatcher'), 'message', $settings = []); ?>
+                            <?php wp_editor(__('My Message', 'WpMailCatcher'), 'message'); ?>
                         </div>
                     </div>
                 </div>
