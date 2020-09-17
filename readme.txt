@@ -73,6 +73,14 @@ Great! Please leave a note in our (GitHub tracker)
 
 == Changelog ==
 
+= 1.3.10 =
+
+- Performance: Email previews are now loaded lazily
+
+= 1.3.9 =
+
+- Fix: Auto delete notification is always shown regardless of settings
+
 = 1.3.8 =
 
 - Fix: Logs per page screen option was being ignored

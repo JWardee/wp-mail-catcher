@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WpMailCatcher 1.3.7\n"
+"Project-Id-Version: WpMailCatcher 1.3.10\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2020-06-22 14:27+0100\n"
+"POT-Creation-Date: 2020-09-17 16:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
