@@ -6,7 +6,7 @@ Text Domain: WpMailCatcher
 Domain Path: /languages
 Description: Logging your mail will stop you from ever losing your emails again! This fast, lightweight plugin (under 140kb in size!) is also useful for debugging or backing up your messages.
 Author: James Ward
-Version: 1.3.9
+Version: 1.3.10
 Author URI: https://jamesward.io
 Donate link: https://paypal.me/jamesmward
 */
