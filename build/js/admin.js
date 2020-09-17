@@ -80,7 +80,13 @@ jQuery(function ($) {
 
     $('.wp-mail-catcher-page [data-target]').on('click', function () {
         $('.wp-mail-catcher-page .modal.-active').removeClass('-active');
-        $($(this).data('target')).addClass('-active');
+        var active_modal = $($(this).data('target'));
+        active_modal.addClass('-active');
+
+        var preview_iframe = active_modal.find('iframe[data-src]');
+        preview_iframe.attr('src', preview_iframe.attr('data-src'));
+        preview_iframe.removeAttr('data-src');
+
         return false;
     });
 
