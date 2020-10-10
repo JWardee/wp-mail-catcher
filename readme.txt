@@ -52,14 +52,14 @@ Anything that doesn't unhook the native wp_mail function is supported, this incl
 * Easy WP SMTP (excluding their test email function)
 * SendGrid
 
-(Click here for a full list)[https://github.com/JWardee/wp-mail-catcher#confirmed-support]
+[Click here for a full list](https://github.com/JWardee/wp-mail-catcher#confirmed-support)
 
 = What plugins are currently not supported =
 
 * WP Mail Bank (unhooks wp_mail filters)
 * BuddyPress
 
-If you'd like to see support for these plugins or any other plugins please leave a feature request in our (GitHub tracker)[https://github.com/JWardee/wp-mail-catcher/issues]
+If you'd like to see support for these plugins or any other plugins please leave a feature request in our [GitHub tracker](https://github.com/JWardee/wp-mail-catcher/issues)
 
 = I've found an issue!/I have a great idea on how to improve this =
 
