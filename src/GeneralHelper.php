@@ -25,6 +25,7 @@ class GeneralHelper
     static public $logLimitBeforeWarning;
     static public $humanReadableDateFormat;
     static public $namespacePrefix;
+    static public $reviewLink;
 
     static public function setSettings()
     {
@@ -56,6 +57,7 @@ class GeneralHelper
         self::$logLimitBeforeWarning = 100;
         self::$humanReadableDateFormat = get_option('date_format') . ' H:i:s';
         self::$namespacePrefix = GeneralHelper::$adminPageSlug . '_';
+        self::$reviewLink = 'https://wordpress.org/support/plugin/wp-mail-catcher/reviews/#new-post';
     }
 
     /**
