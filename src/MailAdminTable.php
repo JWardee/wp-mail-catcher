@@ -3,7 +3,6 @@
 namespace WpMailCatcher;
 
 use WpMailCatcher\Models\Logs;
-use WpMailCatcher\Models\Mail;
 
 class MailAdminTable extends \WP_List_Table
 {
@@ -47,16 +46,7 @@ class MailAdminTable extends \WP_List_Table
 
     function column_time($item)
     {
-        $actions = [
-            'delete' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=delete&id=' . $item['id'], 'bulk-logs') . '">' . __('Delete', 'WpMailCatcher') . '</a>',
-            'resend' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=resend&id=' . $item['id'], 'bulk-logs') . '">' . __('Resend', 'WpMailCatcher') . '</a>',
-            'export' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=export&id=' . $item['id'], 'bulk-logs') . '">' . __('Export', 'WpMailCatcher') . '</a>',
-        ];
-
-        return sprintf('%1$s %2$s',
-            '<span class="-right" data-hover-message="' . date(GeneralHelper::$humanReadableDateFormat, $item['timestamp']) . '">' . $item['time'] . '</span>',
-            $this->row_actions($actions)
-        );
+        return '<span data-hover-message="' . date(GeneralHelper::$humanReadableDateFormat, $item['timestamp']) . '">' . $item['time'] . '</span>';
     }
 
     function column_cb($item)
@@ -77,24 +67,31 @@ class MailAdminTable extends \WP_List_Table
     {
         $columns = [
             'cb' => '<input type="checkbox" />',
-            'time' => __('Sent', 'WpMailCatcher'),
+            'status' => '',
             'email_to' => __('To', 'WpMailCatcher'),
-            'email_from' => __('From', 'WpMailCatcher'),
             'subject' => __('Subject', 'WpMailCatcher'),
-            'status' => __('Status', 'WpMailCatcher'),
+            'email_from' => __('From', 'WpMailCatcher'),
+            'time' => __('Sent', 'WpMailCatcher'),
             'more_info' => ''
         ];
 
         return $columns;
     }
 
+    function column_email_to($item)
+    {
+        $actions = [
+            'delete' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=delete&id=' . $item['id'], 'bulk-logs') . '">' . __('Delete', 'WpMailCatcher') . '</a>',
+            'resend' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=resend&id=' . $item['id'], 'bulk-logs') . '">' . __('Resend', 'WpMailCatcher') . '</a>',
+            'export' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=export&id=' . $item['id'], 'bulk-logs') . '">' . __('Export', 'WpMailCatcher') . '</a>',
+        ];
+
+        return sprintf('%1$s %2$s', $item['email_to'], $this->row_actions($actions));
+    }
+
     function column_status($item)
     {
-        if ($item['status'] == true) {
-            return '<span class="status">' . __('Success', 'WpMailCatcher') . '</span>';
-        }
-
-        return '<span class="status -error" data-hover-message="' . $item['error'] . '">' . __('Failed', 'WpMailCatcher') . '</span>';
+        return $item['status'] ? '<div class="status-indicator"></div>' : '<div class="-right" data-hover-message="' . $item['error'] . '"><div class="status-indicator -error"></div></div>';
     }
 
     function get_hidden_columns()
@@ -116,7 +113,6 @@ class MailAdminTable extends \WP_List_Table
             'time' => ['time', false],
             'email_to' => ['email_to', false],
             'subject' => ['subject', false],
-            'status' => ['status', false],
         ];
 
         return $sortable_columns;

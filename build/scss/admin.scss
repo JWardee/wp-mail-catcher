@@ -44,11 +44,20 @@
     margin-bottom: 50px;
   }
 
-  .status {
-    color: green;
+  th#status {
+    width: 25px;
+  }
+
+  .status-indicator {
+    height: 12px;
+    width: 12px;
+    border-radius: 100%;
+    margin: 5px auto 0 auto;
+    cursor: pointer;
+    background-color: #35bc35;
 
     &.-error {
-      color: red;
+      background-color: #fd4f4f;
     }
   }
 
