@@ -91,7 +91,7 @@ class MailAdminTable extends \WP_List_Table
 
     function column_status($item)
     {
-        return $item['status'] ? '<div class="status-indicator"></div>' : '<div class="status-indicator -error -right" data-hover-message="' . $item['error'] . '"></div>';
+        return $item['status'] ? '<div class="status-indicator"></div>' : '<div class="-right" data-hover-message="' . $item['error'] . '"><div class="status-indicator -error"></div></div>';
     }
 
     function get_hidden_columns()

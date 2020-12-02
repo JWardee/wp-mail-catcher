@@ -5,6 +5,7 @@ namespace WpMailCatcher\Loggers;
 use WpMailCatcher\GeneralHelper;
 use WP_Error;
 use WpMailCatcher\Models\Cache;
+use WpMailCatcher\Models\Logs;
 
 abstract class Logger implements LoggerContract
 {
@@ -31,10 +32,7 @@ abstract class Logger implements LoggerContract
     {
         global $wpdb;
 
-        $wpdb->insert(
-            $wpdb->prefix . GeneralHelper::$tableName,
-            $this->getMailArgs($args)
-        );
+        $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, $this->getMailArgs($args));
 
         Cache::flush();
 
@@ -43,6 +41,8 @@ abstract class Logger implements LoggerContract
         if (!isset($args['to']) || $args['to'] == null) {
             $args['to'] = [];
         }
+
+        do_action(GeneralHelper::$actionNameSpace . '_mail_success', Logs::getFirst(['id' => $this->id]));
 
         return $args;
     }
@@ -67,6 +67,8 @@ abstract class Logger implements LoggerContract
         );
 
         Cache::flush();
+
+        do_action(GeneralHelper::$actionNameSpace . '_mail_failed', Logs::getFirst(['id' => $this->id]));
     }
 
     /**

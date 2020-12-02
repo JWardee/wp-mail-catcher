@@ -26,6 +26,7 @@ class GeneralHelper
     static public $humanReadableDateFormat;
     static public $namespacePrefix;
     static public $reviewLink;
+    static public $actionNameSpace;
 
     static public function setSettings()
     {
@@ -58,6 +59,7 @@ class GeneralHelper
         self::$humanReadableDateFormat = get_option('date_format') . ' H:i:s';
         self::$namespacePrefix = GeneralHelper::$adminPageSlug . '_';
         self::$reviewLink = 'https://wordpress.org/support/plugin/wp-mail-catcher/reviews/#new-post';
+        self::$actionNameSpace = 'wp_mail_catcher';
     }
 
     /**

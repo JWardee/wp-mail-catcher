@@ -15,6 +15,12 @@ class Logs
         return ceil(self::getTotalAmount() / $postsPerPage);
     }
 
+    static public function getFirst($args = [])
+    {
+        $result = self::get($args);
+        return isset($result[0]) ? $result[0] : false;
+    }
+
     /**
      * @param array $args
      * @return array|null|object
