@@ -23,7 +23,7 @@ Backup and save your contact form emails (including Contact Form 7) to your data
 * Debugging - see exactly which file and code line was responsible for sending the email, along with any errors encountered
 * Manage what user permissions can see the logs
 * Routinely have your logs cleared out at a specified time - or keep them forever
-* Need to be notified when there's a problem sending your mail. We've got hooks to allow you to do just that
+* Need to be notified when there's a problem sending your mail? We've got hooks that allow you to do just that
 * Completely free
 
 ![alt text](https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/build/images/wp-mail-catcher-screenshot-1.png)
