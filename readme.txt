@@ -94,8 +94,8 @@ Great! Please leave a note in our (GitHub tracker)
 
 = 1.4.0 =
 
-- Enhancement: Refreshed log table UI
-- Enhancement: Added 2 new actions `wp_mail_catcher_mail_success` and `wp_mail_catcher_mail_failed`
+- New: Refreshed log table UI
+- New: Added 2 new actions `wp_mail_catcher_mail_success` and `wp_mail_catcher_mail_failed`
 
 = 1.3.10 =
 
