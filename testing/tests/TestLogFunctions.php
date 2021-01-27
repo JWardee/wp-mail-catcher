@@ -135,8 +135,7 @@ class TestLogFunctions extends WP_UnitTestCase
         $this->assertContains($to, $csvArray);
         $this->assertContains($subject, $csvArray);
         $this->assertContains($additionalHeaders[0].GeneralHelper::$csvItemDelimiter.$additionalHeaders[1], $csvArray);
-        $this->assertContains(wp_get_attachment_url($imgAttachmentId).GeneralHelper::$csvItemDelimiter.wp_get_attachment_url($pdfAttachmentId),
-            $csvArray);
+        $this->assertContains(wp_get_attachment_url($imgAttachmentId).GeneralHelper::$csvItemDelimiter.wp_get_attachment_url($pdfAttachmentId), $csvArray);
 
         wp_delete_attachment($imgAttachmentId);
         wp_delete_attachment($pdfAttachmentId);
@@ -170,7 +169,7 @@ class TestLogFunctions extends WP_UnitTestCase
             'posts_per_page' => 2
         ]);
 
-        $csvString = $export = Mail::export([
+        $csvString = Mail::export([
             $lastEmail[0]['id'],
             $lastEmail[1]['id']
         ], false);
@@ -189,8 +188,7 @@ class TestLogFunctions extends WP_UnitTestCase
         $this->assertContains($subject2, $csvArray);
         $this->assertContains($message2, $csvArray);
         $this->assertContains($additionalHeaders[0].GeneralHelper::$csvItemDelimiter.$additionalHeaders[1], $csvArray);
-        $this->assertContains(wp_get_attachment_url($imgAttachmentId).GeneralHelper::$csvItemDelimiter.wp_get_attachment_url($pdfAttachmentId),
-            $csvArray);
+        $this->assertContains(wp_get_attachment_url($imgAttachmentId).GeneralHelper::$csvItemDelimiter.wp_get_attachment_url($pdfAttachmentId), $csvArray);
 
         wp_delete_attachment($imgAttachmentId);
         wp_delete_attachment($pdfAttachmentId);
