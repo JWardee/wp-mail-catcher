@@ -92,6 +92,10 @@ Great! Please leave a note in our (GitHub tracker)
 
 == Changelog ==
 
+= 1.4.1 =
+
+- Fix: Log exports now show the correct date and time
+
 = 1.4.0 =
 
 - New: Refreshed log table UI
