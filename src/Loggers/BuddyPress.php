@@ -4,7 +4,7 @@ namespace WpMailCatcher\Loggers;
 
 use WpMailCatcher\GeneralHelper;
 
-class WpMail implements LoggerContract
+class BuddyPress implements LoggerContract
 {
     use LogHelper;
 
@@ -14,8 +14,8 @@ class WpMail implements LoggerContract
      */
     public function __construct()
     {
-        add_action('wp_mail', [$this, 'recordMail'], 999999);
-        add_action('wp_mail_failed', [$this, 'recordError'], 999999);
+        add_action('bp_send_email_success', [$this, 'recordMail']);
+        add_action('bp_send_email_failure', [$this, 'recordError']);
     }
 
     public function recordMail($args)
@@ -32,20 +32,20 @@ class WpMail implements LoggerContract
      * Transform the incoming details of the mail into the
      * correct format for our log (data fractal)
      *
-     * @param array $args the details of the mail going to be sent
+     * @param BP_Email $bpMail the details of the mail going to be sent
      * @return array must return an array in the same format
      */
-    protected function getMailArgs($args)
+    protected function getMailArgs($bpMail)
     {
         return [
             'time' => time(),
-            'email_to' => GeneralHelper::arrayToString($args['to']),
-            'subject' => $args['subject'],
-            'message' => $this->sanitiseInput($args['message']),
-            'backtrace_segment' => json_encode($this->getBacktrace()),
+            'email_to' => GeneralHelper::arrayToString($bpMail->get_to()),
+            'subject' => $bpMail->get_subject(),
+            'message' => $this->sanitiseInput($bpMail->get_content()),
+            'backtrace_segment' => json_encode($this->getBacktrace('bp_send_email')),
             'status' => 1,
-            'attachments' => json_encode($this->getAttachmentLocations($args['attachments'])),
-            'additional_headers' => json_encode($args['headers'])
+            'attachments' => '',//json_encode($this->getAttachmentLocations($args['attachments'])),
+            'additional_headers' => json_encode($bpMail->get_headers())
         ];
     }
 }

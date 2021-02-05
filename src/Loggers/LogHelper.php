@@ -2,24 +2,14 @@
 
 namespace WpMailCatcher\Loggers;
 
-use WpMailCatcher\GeneralHelper;
 use WP_Error;
+use WpMailCatcher\GeneralHelper;
 use WpMailCatcher\Models\Cache;
 use WpMailCatcher\Models\Logs;
 
-abstract class Logger implements LoggerContract
+trait LogHelper
 {
     protected $id = null;
-
-    /**
-     * Register any filters and actions
-     * that need to be called in order to log the outgoing mail
-     */
-    public function __construct()
-    {
-        add_action('wp_mail', [$this, 'recordMail'], 999999);
-        add_action('wp_mail_failed', [$this, 'recordError'], 999999);
-    }
 
     /**
      * Save the mail to the database, override this method if you wish
@@ -28,11 +18,11 @@ abstract class Logger implements LoggerContract
      * @param array $args the details of the mail going to be sent
      * @return mixed must return an array in the same format
      */
-    public function recordMail($args)
+    public function saveMail($args)
     {
         global $wpdb;
 
-        $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, $this->getMailArgs($args));
+        $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, $args);
 
         Cache::flush();
 
@@ -51,47 +41,24 @@ abstract class Logger implements LoggerContract
      * Sending the mail has failed, record the error and update
      * the log to show it has failed
      *
-     * @param WP_Error $error the WordPress error object
+     * @param $error string of the error
      */
-    public function recordError(WP_Error $error)
+    public function saveError($error)
     {
         global $wpdb;
 
         $wpdb->update(
             $wpdb->prefix . GeneralHelper::$tableName, [
-            'status' => 0,
-            'error' => $error->errors['wp_mail_failed'][0],
-        ], [
-                'id' => $this->id
-            ]
+                'status' => 0,
+                'error' => $error,
+            ],
+            ['id' => $this->id]
         );
 
         Cache::flush();
 
         do_action(GeneralHelper::$actionNameSpace . '_mail_failed', Logs::getFirst(['id' => $this->id]));
     }
-
-    /**
-     * Transform the incoming details of the mail into the
-     * correct format for our log (data fractal)
-     *
-     * @param array $args the details of the mail going to be sent
-     * @return array must return an array in the same format
-     */
-    protected function getMailArgs($args)
-    {
-        return [
-            'time' => time(),
-            'email_to' => GeneralHelper::arrayToString($args['to']),
-            'subject' => $args['subject'],
-            'message' => $this->sanitiseInput($args['message']),
-            'backtrace_segment' => json_encode($this->getBacktrace()),
-            'status' => 1,
-            'attachments' => json_encode($this->getAttachmentLocations($args['attachments'])),
-            'additional_headers' => json_encode($args['headers'])
-        ];
-    }
-
 
     /**
      * Convert attachment ids or urls into a format to be usable
@@ -134,7 +101,7 @@ abstract class Logger implements LoggerContract
             return [];
         }
 
-        for ($i = 0; $i < count($attachments); $i++) {
+        for ($i = 0, $iMax = count($attachments); $i < $iMax; $i++) {
             $result[] = [
                 'id' => $attachmentIds[$i],
                 'url' => GeneralHelper::$uploadsFolderInfo['url'] . $attachments[$i]
@@ -156,13 +123,13 @@ abstract class Logger implements LoggerContract
      *
      * @return array a single element of the debug_backtrace function
      */
-    private function getBacktrace()
+    private function getBacktrace($functionName = 'wp_mail')
     {
         $backtraceSegment = null;
         $backtrace = debug_backtrace();
 
         foreach ($backtrace as $segment) {
-            if ($segment['function'] == 'wp_mail') {
+            if ($segment['function'] == $functionName) {
                 $backtraceSegment = $segment;
             }
         }
