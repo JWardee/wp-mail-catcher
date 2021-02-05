@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WpMailCatcher 1.3.10\n"
+"Project-Id-Version: WpMailCatcher 1.5.0\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2020-09-17 16:55+0100\n"
+"POT-Creation-Date: 2021-02-05 15:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../src/Bootstrap.php:51 ../../src/Bootstrap.php:84
+#: ../../src/Bootstrap.php:54 ../../src/Bootstrap.php:87
 msgid "Settings"
 msgstr ""
 
@@ -29,55 +29,43 @@ msgstr ""
 msgid "Once a month"
 msgstr ""
 
-#: ../../src/GeneralHelper.php:214
+#: ../../src/GeneralHelper.php:218
 #, php-format
 msgctxt "%s = human-readable time difference"
 msgid "%s"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:51 ../../src/MailAdminTable.php:128
-msgid "Delete"
-msgstr ""
-
-#: ../../src/MailAdminTable.php:52 ../../src/MailAdminTable.php:129
-msgid "Resend"
-msgstr ""
-
-#: ../../src/MailAdminTable.php:53 ../../src/MailAdminTable.php:130
-#: ../../src/Views/ExportWarningDialog.php:63
-msgid "Export"
-msgstr ""
-
-#: ../../src/MailAdminTable.php:73
+#: ../../src/MailAdminTable.php:63
 msgid "More Info"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:80
-msgid "Sent"
-msgstr ""
-
-#: ../../src/MailAdminTable.php:81 ../../src/Views/NewMessageModal.php:25
+#: ../../src/MailAdminTable.php:71 ../../src/Views/NewMessageModal.php:25
 msgid "To"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:82 ../../src/Views/NewMessageModal.php:28
-msgid "From"
-msgstr ""
-
-#: ../../src/MailAdminTable.php:83 ../../src/Views/NewMessageModal.php:41
+#: ../../src/MailAdminTable.php:72 ../../src/Views/NewMessageModal.php:41
 msgid "Subject"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:84
-msgid "Status"
+#: ../../src/MailAdminTable.php:73 ../../src/Views/NewMessageModal.php:28
+msgid "From"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:94
-msgid "Success"
+#: ../../src/MailAdminTable.php:74
+msgid "Sent"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:97 ../../src/Views/Log.php:68
-msgid "Failed"
+#: ../../src/MailAdminTable.php:84 ../../src/MailAdminTable.php:124
+msgid "Delete"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:85 ../../src/MailAdminTable.php:125
+msgid "Resend"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:86 ../../src/MailAdminTable.php:126
+#: ../../src/Views/ExportWarningDialog.php:63
+msgid "Export"
 msgstr ""
 
 #: ../../src/Views/ExportWarningDialog.php:11
@@ -111,7 +99,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../../src/Views/Footer.php:10
+#: ../../src/Views/Footer.php:9
 msgid "If you've found this useful - please rate us!"
 msgstr ""
 
@@ -141,6 +129,10 @@ msgstr ""
 
 #: ../../src/Views/Log.php:62
 msgid "Successful"
+msgstr ""
+
+#: ../../src/Views/Log.php:68
+msgid "Failed"
 msgstr ""
 
 #: ../../src/Views/Log.php:74

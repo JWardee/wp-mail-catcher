@@ -45,11 +45,11 @@ Backup and save your contact form emails (including Contact Form 7) to your data
 * [SparkPost](https://wordpress.org/plugins/sparkpost/)
 * [Easy WP SMTP](https://wordpress.org/plugins/easy-wp-smtp/) (excluding their test email function)
 * [SendGrid](https://en-gb.wordpress.org/plugins/sendgrid-email-delivery-simplified)
+* [BuddyPress](https://en-gb.wordpress.org/plugins/buddypress/)
 * Anything that uses wp_mail!
 
 ## Not currently supported
 * [WP Mail Bank](https://wordpress.org/plugins/wp-mail-bank/) (unhooks wp_mail filters)
-* [BuddyPress](https://en-gb.wordpress.org/plugins/buddypress/)
 
 ## Hooks and actions
 * `wp_mail_catcher_mail_success` is triggered when a message is sent and logged successfully. It has a single argument that is an array containing the log

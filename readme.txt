@@ -4,7 +4,7 @@ Tags: mail logging, email log, email logger, logging, email logging, mail, crm
 Requires at least: 4.7
 Tested up to: 5.6
 Requires PHP: 5.6
-Stable tag: 1.4.1
+Stable tag: 1.5.0
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 Donate link: https://paypal.me/jamesmward
@@ -70,13 +70,13 @@ Anything that doesn't unhook the native wp_mail function is supported, this incl
 * SparkPost
 * Easy WP SMTP (excluding their test email function)
 * SendGrid
+* BuddyPress
 
 [Click here for a full list](https://github.com/JWardee/wp-mail-catcher#confirmed-support)
 
 = What plugins are currently not supported =
 
 * WP Mail Bank (unhooks wp_mail filters)
-* BuddyPress
 
 If you'd like to see support for these plugins or any other plugins please leave a feature request in our [GitHub tracker](https://github.com/JWardee/wp-mail-catcher/issues)
 
@@ -91,6 +91,11 @@ Great! Please leave a note in our (GitHub tracker)
 4. Supports column customisation and pagination
 
 == Changelog ==
+
+= 1.5.0 =
+
+- New: Added BuddyPress support
+- Fix: Minute/seconds being slightly off in export
 
 = 1.4.1 =
 

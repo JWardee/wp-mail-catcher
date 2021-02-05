@@ -13,9 +13,12 @@ class Bootstrap
     public function __construct()
     {
         GeneralHelper::setSettings();
-        LoggerFactory::Set();
         $this->registerCronTasks();
         $this->screenOptions = ScreenOptions::getInstance();
+
+        add_action('admin_init',  function() {
+            LoggerFactory::Set();
+        });
 
         // ensure that is_plugin_active_for_network() is defined.
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
