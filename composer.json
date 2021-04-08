@@ -1,5 +1,5 @@
 {
-  "name": "WpMailCatcher",
+  "name": "jwardee/wp-mail-catcher",
   "description": "",
   "autoload": {
     "psr-4": {
