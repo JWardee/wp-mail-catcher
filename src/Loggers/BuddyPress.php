@@ -4,7 +4,7 @@ namespace WpMailCatcher\Loggers;
 
 use WpMailCatcher\GeneralHelper;
 
-class BuddyPress implements LoggerContract
+class BuddyPress
 {
     use LogHelper;
 
@@ -14,13 +14,13 @@ class BuddyPress implements LoggerContract
      */
     public function __construct()
     {
-        add_action('bp_send_email_success', [$this, 'recordMail']);
+        add_action('bp_send_email_success', [$this, 'recordMail'], 10, 2);
         add_action('bp_send_email_failure', [$this, 'recordError']);
     }
 
-    public function recordMail($args)
+    public function recordMail($status, $bpMail)
     {
-        $this->saveMail($this->getMailArgs($args));
+        $this->saveMail($this->getMailArgs($bpMail));
     }
 
     public function recordError($error)
@@ -37,9 +37,13 @@ class BuddyPress implements LoggerContract
      */
     protected function getMailArgs($bpMail)
     {
+        $tos = array_map(function($bpRecipient) {
+            return $bpRecipient->get_address();
+        }, $bpMail->get_to());
+
         return [
             'time' => time(),
-            'email_to' => GeneralHelper::arrayToString($bpMail->get_to()),
+            'email_to' => GeneralHelper::arrayToString($tos),
             'subject' => $bpMail->get_subject(),
             'message' => $this->sanitiseInput($bpMail->get_content()),
             'backtrace_segment' => json_encode($this->getBacktrace('bp_send_email')),

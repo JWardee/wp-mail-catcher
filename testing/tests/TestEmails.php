@@ -24,20 +24,21 @@ class TestEmails extends WP_UnitTestCase
 			get_attached_file($pdfAttachmentId)
 		]);
 
-		$emailLog = Logs::get()[0];
+        $emailLogs = Logs::get();
 
-		$this->assertEquals($to, $emailLog['email_to']);
-		$this->assertEquals($subject, $emailLog['subject']);
-		$this->assertEquals($message, $emailLog['message']);
+        $this->assertCount(1, $emailLogs);
+		$this->assertEquals($to, $emailLogs[0]['email_to']);
+		$this->assertEquals($subject, $emailLogs[0]['subject']);
+		$this->assertEquals($message, $emailLogs[0]['message']);
 
-		$this->assertEquals($additionalHeaders[0], $emailLog['additional_headers'][0]);
-		$this->assertEquals($additionalHeaders[1], $emailLog['additional_headers'][1]);
+		$this->assertEquals($additionalHeaders[0], $emailLogs[0]['additional_headers'][0]);
+		$this->assertEquals($additionalHeaders[1], $emailLogs[0]['additional_headers'][1]);
 
-		$this->assertEquals($imgAttachmentId, $emailLog['attachments'][0]['id']);
-		$this->assertEquals(wp_get_attachment_url($imgAttachmentId), $emailLog['attachments'][0]['url']);
+		$this->assertEquals($imgAttachmentId, $emailLogs[0]['attachments'][0]['id']);
+		$this->assertEquals(wp_get_attachment_url($imgAttachmentId), $emailLogs[0]['attachments'][0]['url']);
 
-		$this->assertEquals($pdfAttachmentId, $emailLog['attachments'][1]['id']);
-		$this->assertEquals(wp_get_attachment_url($pdfAttachmentId), $emailLog['attachments'][1]['url']);
+		$this->assertEquals($pdfAttachmentId, $emailLogs[0]['attachments'][1]['id']);
+		$this->assertEquals(wp_get_attachment_url($pdfAttachmentId), $emailLogs[0]['attachments'][1]['url']);
 
 		wp_delete_attachment($imgAttachmentId);
 		wp_delete_attachment($pdfAttachmentId);

@@ -15,8 +15,8 @@ class LoggerFactory
          */
         new WpMail();
 
-        if (\is_plugin_active('buddypress/class-buddypress.php')) {
+//        if (\is_plugin_active('buddypress/class-buddypress.php')) {
             new BuddyPress();
-        }
+//        }
     }
 }

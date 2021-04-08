@@ -16,6 +16,8 @@ class Bootstrap
         $this->registerCronTasks();
         $this->screenOptions = ScreenOptions::getInstance();
 
+        LoggerFactory::Set();
+
         add_action('admin_init',  function() {
             LoggerFactory::Set();
         });

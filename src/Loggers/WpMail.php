@@ -14,8 +14,9 @@ class WpMail implements LoggerContract
      */
     public function __construct()
     {
-        add_action('wp_mail', [$this, 'recordMail'], 999999);
-        add_action('wp_mail_failed', [$this, 'recordError'], 999999);
+        $priority = 999999;
+        add_action('wp_mail', [$this, 'recordMail'], $priority);
+        add_action('wp_mail_failed', [$this, 'recordError'], $priority);
     }
 
     public function recordMail($args)
