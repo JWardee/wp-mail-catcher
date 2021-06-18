@@ -50,7 +50,7 @@ Immediately find out if your contact form submission was successfully sent.
   * `timestamp` a unix timestamp of when the email was sent
   * `is_html` a boolean, that will be true if the message is a html email and false if not
   * `email_from` the from value of the email
-* `wp_mail_catcher_mail_failed` is triggered when a message is sent and logged successfully. It has a single argument that is an array containing the log (same as the arguments for `wp_mail_catcher_mail_success`)
+* `wp_mail_catcher_mail_failed` is triggered when a message failed to send and logged successfully. It has a single argument that is an array containing the log (same as the arguments for `wp_mail_catcher_mail_success`)
 
 == Frequently Asked Questions ==
 = Is this really free?  =
