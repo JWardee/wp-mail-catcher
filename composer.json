@@ -8,13 +8,6 @@
   },
   "require": {},
   "require-dev": {
-    "phpunit/phpunit": "5.7.*",
-    "wpackagist-plugin/buddypress": "*"
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://wpackagist.org"
-    }
-  ]
+    "phpunit/phpunit": "5.7.*"
+  }
 }
