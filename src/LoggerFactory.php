@@ -14,9 +14,6 @@ class LoggerFactory
          *  that determines which one to use will go here
          */
         new WpMail();
-
-//        if (\is_plugin_active('buddypress/class-buddypress.php')) {
-            new BuddyPress();
-//        }
+        new BuddyPress();
     }
 }
