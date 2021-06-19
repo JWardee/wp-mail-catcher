@@ -60,7 +60,7 @@ Yup, completely 100% free, no premium add-ons or anything like that.
 
 = Does that include adverts/nagging =
 
-Yes, there are no adverts/annoying messages asking you to "upgrade to pro" or anything similar, 100% of the features are available and always will be.
+Yes, there are no adverts/annoying messages asking you to "upgrade to pro" or anything similar, 100% of the features are available.
 
 = What plugins are supported? =
 
@@ -95,7 +95,7 @@ Great! Please leave a note in our (GitHub tracker)
 
 = 1.5.0 =
 
-- New: Added BuddyPress support
+- New: Added beta BuddyPress support
 - New: Can now auto delete messages that are over a specific age
 - Fix: Minute/seconds being slightly off in export
 
