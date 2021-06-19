@@ -85,18 +85,20 @@ $cronJobs = CronManager::getInstance()->getTasks();
                                     <input type="radio" name="auto_delete"
                                            value="true"<?php if ($settings['auto_delete'] == true) : ?> checked<?php endif; ?>>
                                     <span class="date-time-text date-time-custom-text">
-                                        <?php _e('Yes', 'WpMailCatcher'); ?>
+                                        <?php
+                                        $getOptions = function() {
+                                            $options = '';
+                                            foreach (ExpiredLogManager::deletionIntervals() as $key => $label) :
+                                                $options .= '<option value="' . $key . '"' . ((isset($settings['timescale']) && $settings['timescale'] == $key) ? 'selected' : '') . '>';
+                                                $options .= $label . '</option>';
+                                            endforeach;
+                                          return '<span><select name="timescale">' . $options . '</select></span>';
+                                        };
+
+                                        printf(__('Yes - delete messages that are over %s old', 'WpMailCatcher'), $getOptions());
+                                        ?>
                                     </span>
                                 </label>
-                                <span class="example">
-                                    <select name="timescale">
-                                        <?php foreach (wp_get_schedules() as $key => $cronSchedule) : ?>
-                                            <option value="<?php echo $key; ?>" <?php if (isset($settings['timescale']) && $settings['timescale'] == $key) : ?> selected<?php endif; ?>>
-                                                <?php echo $cronSchedule['display']; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </span>
                                 <?php if (isset($cronJobs[0])) : ?>
                                     <p class="description">
                                         <?php printf(__('Will next run in: %s.', 'WpMailCatcher'), $cronJobs[0]['nextRun']); ?>

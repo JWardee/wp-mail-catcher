@@ -9,10 +9,12 @@ use WpMailCatcher\Models\Settings;
 class Bootstrap
 {
     private $screenOptions;
+    private $logManager;
 
     public function __construct()
     {
         GeneralHelper::setSettings();
+        $this->logManager = new ExpiredLogManager();
         $this->registerCronTasks();
         $this->screenOptions = ScreenOptions::getInstance();
 
@@ -61,7 +63,7 @@ class Bootstrap
     {
         if (Settings::get('auto_delete') == true) {
             $cronManager = CronManager::getInstance();
-            $cronManager->addTask('WpMailCatcher\Models\Logs::truncate', Settings::get('timescale'), 'Truncate');
+            $cronManager->addTask('WpMailCatcher\LogManager::removeExpiredLogs', Settings::$howOftenCheckForExpiredMessages);
         }
     }
 

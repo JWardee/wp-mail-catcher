@@ -5,12 +5,20 @@ namespace WpMailCatcher\Models;
 class Settings
 {
     static public $optionsName = 'mailcatcher_settings';
+    static public $howOftenCheckForExpiredMessages = 'daily';
     static private $settings = null;
-    static private $defaultSettings = [
+    static public $defaultSettings = [
         'default_view_role' => 'manage_options',
         'default_settings_role' => 'manage_options',
         'auto_delete' => true,
-        'timescale' => 'monthly'
+        'timescale' => 2419200
+    ];
+    static public $defaultDeletionIntervals = [
+        604800 => '1 week',
+        1209600 => '2 weeks',
+        1814400 => '3 weeks',
+        2419200 => '4 weeks',
+        15780000 => '6 months'
     ];
 
     static public function get($key = null)

@@ -51,6 +51,7 @@ Immediately find out if your contact form submission was successfully sent.
   * `is_html` a boolean, that will be true if the message is a html email and false if not
   * `email_from` the from value of the email
 * `wp_mail_catcher_mail_failed` is triggered when a message failed to send and logged successfully. It has a single argument that is an array containing the log (same as the arguments for `wp_mail_catcher_mail_success`)
+* `wp_mail_catcher_deletion_intervals` is a filter that should return an array where each key is an amount of time in seconds, and the value is the label. Used to determine when a message has expired and should be deleted
 
 == Frequently Asked Questions ==
 = Is this really free?  =
@@ -95,6 +96,7 @@ Great! Please leave a note in our (GitHub tracker)
 = 1.5.0 =
 
 - New: Added BuddyPress support
+- New: Can now auto delete messages that are over a specific age
 - Fix: Minute/seconds being slightly off in export
 
 = 1.4.1 =
