@@ -1,8 +1,10 @@
 <?php
 
 use WpMailCatcher\GeneralHelper;
+use WpMailCatcher\ExpiredLogManager;
 use WpMailCatcher\Models\Logs;
 use WpMailCatcher\Models\Mail;
+use WpMailCatcher\Models\Settings;
 
 class TestLogFunctions extends WP_UnitTestCase
 {
@@ -277,28 +279,69 @@ class TestLogFunctions extends WP_UnitTestCase
         $message = 'hello world';
         $actionWasCalled = false;
 
-        add_action(GeneralHelper::$actionNameSpace.'_mail_success', function ($log) use ($message, &$actionWasCalled) {
+        $func = function ($log) use ($message, &$actionWasCalled) {
             $this->assertEquals($message, $log['message']);
             $this->assertTrue((bool)$log['status']);
             $actionWasCalled = true;
-        });
+        };
 
+        add_action(GeneralHelper::$actionNameSpace.'_mail_success', $func);
         wp_mail('test@test.com', 'subject', $message);
         $this->assertTrue($actionWasCalled);
+        remove_action(GeneralHelper::$actionNameSpace.'_mail_success', $func);
     }
 
     public function testMailFailedActionTriggered()
     {
         $message = 'hello world';
         $actionWasCalled = false;
-
-        add_action(GeneralHelper::$actionNameSpace.'_mail_failed', function ($log) use ($message, &$actionWasCalled) {
+        $func = function ($log) use ($message, &$actionWasCalled) {
             $this->assertEquals($message, $log['message']);
             $this->assertFalse((bool)$log['status']);
             $actionWasCalled = true;
-        });
+        };
+
+        add_action(GeneralHelper::$actionNameSpace.'_mail_failed', $func);
 
         wp_mail('', 'subject', $message);
         $this->assertTrue($actionWasCalled);
+        remove_action(GeneralHelper::$actionNameSpace.'_mail_failed', $func);
+    }
+
+    public function testCanAddTimeIntervalViaFilter()
+    {
+        $filterName = GeneralHelper::$actionNameSpace . '_deletion_intervals';
+        $newDeletionInterval = [
+            'test' => 123
+        ];
+
+        $func = function($deletionIntervals) use ($newDeletionInterval) {
+            return array_merge($deletionIntervals, $newDeletionInterval);
+        };
+
+        add_filter($filterName, $func);
+
+        $this->assertEquals(
+            ExpiredLogManager::deletionIntervals(),
+            array_merge(Settings::$defaultDeletionIntervals, $newDeletionInterval)
+        );
+
+        remove_filter($filterName, $func);
+    }
+
+    public function testExpiredMailIsDeleted()
+    {
+        wp_mail('test@test.com', 'Old message - should be deleted', 'My message');
+        sleep(1);
+        wp_mail('test@test.com', 'New message', 'My message');
+
+        $logs = Logs::get();
+        $this->assertEquals(2, count($logs));
+
+        ExpiredLogManager::removeExpiredLogs(1);
+
+        $logs = Logs::get();
+        $this->assertEquals(1, count($logs));
+        $this->assertEquals('New message', $logs[0]['subject']);
     }
 }

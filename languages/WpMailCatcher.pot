@@ -251,15 +251,15 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: ../../src/Views/Settings.php:88
-msgid "Yes"
+#: ../../src/Views/Settings.php:98
+msgid "Yes - delete messages that are over %s old"
 msgstr ""
 
-#: ../../src/Views/Settings.php:102
+#: ../../src/Views/Settings.php:104
 #, php-format
 msgid "Will next run in: %s."
 msgstr ""
 
-#: ../../src/Views/Settings.php:113
+#: ../../src/Views/Settings.php:115
 msgid "Save Changes"
 msgstr ""

@@ -7,7 +7,7 @@ use WpMailCatcher\Models\Settings;
 
 class TestSettings extends WP_UnitTestCase
 {
-	private $timescale = 'weekly';
+	private $timescale = 'daily';
 	private $cronManager;
 
 	public function __construct($name = null, $data = [], $dataName = '')

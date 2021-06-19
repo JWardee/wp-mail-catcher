@@ -265,15 +265,15 @@ msgid "No"
 msgstr "Non"
 
 #: src/Views/Settings.php:88
-msgid "Yes"
-msgstr "Oui"
+msgid "Yes - delete messages that are over %s old"
+msgstr "Oui - supprimer les messages terminés %s vieux"
 
-#: src/Views/Settings.php:102
+#: src/Views/Settings.php:104
 #, php-format
 msgid "Will next run in: %s."
 msgstr "S’exécutera ensuite dans: %s."
 
-#: src/Views/Settings.php:113
+#: src/Views/Settings.php:115
 msgid "Save Changes"
 msgstr "Sauvegarder les modifications"
 
