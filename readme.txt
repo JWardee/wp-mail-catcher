@@ -4,7 +4,7 @@ Tags: mail logging, email log, email logger, logging, email logging, mail, crm
 Requires at least: 4.7
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 Donate link: https://paypal.me/jamesmward
@@ -92,6 +92,10 @@ Great! Please leave a note in our (GitHub tracker)
 4. Supports column customisation and pagination
 
 == Changelog ==
+
+= 1.5.1 =
+
+- Fix: Auto deleting timer isn't pulled through on settings page. Thanks to @oginomizuho
 
 = 1.5.0 =
 
