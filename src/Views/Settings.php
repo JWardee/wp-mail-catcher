@@ -86,16 +86,16 @@ $cronJobs = CronManager::getInstance()->getTasks();
                                            value="true"<?php if ($settings['auto_delete'] == true) : ?> checked<?php endif; ?>>
                                     <span class="date-time-text date-time-custom-text">
                                         <?php
-                                        $getOptions = function() {
+                                        $getOptions = function( $timescale ) {
                                             $options = '';
                                             foreach (ExpiredLogManager::deletionIntervals() as $key => $label) :
-                                                $options .= '<option value="' . $key . '"' . ((isset($settings['timescale']) && $settings['timescale'] == $key) ? 'selected' : '') . '>';
+                                                $options .= '<option value="' . $key . '"' . ($timescale == $key ? 'selected' : '') . '>';
                                                 $options .= $label . '</option>';
                                             endforeach;
                                           return '<span><select name="timescale">' . $options . '</select></span>';
                                         };
 
-                                        printf(__('Yes - delete messages that are over %s old', 'WpMailCatcher'), $getOptions());
+                                        printf(__('Yes - delete messages that are over %s old', 'WpMailCatcher'), $getOptions( $settings['timescale'] ));
                                         ?>
                                     </span>
                                 </label>
