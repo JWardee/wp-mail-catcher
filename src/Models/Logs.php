@@ -131,7 +131,9 @@ class Logs
         foreach ($results as &$result) {
             $result['status'] = (bool)$result['status'];
             $result['attachments'] = json_decode($result['attachments'], true);
-            $result['additional_headers'] = json_decode($result['additional_headers'], true);
+            $result['additional_headers'] = isset($result['additional_headers']) && !empty($result['additional_headers']) ?
+                json_decode($result['additional_headers'], true) :
+                [];
             $result['attachment_file_paths'] = [];
 
             if (is_string($result['additional_headers'])) {
