@@ -56,7 +56,7 @@ class Bootstrap
     {
         if (Settings::get('auto_delete') == true) {
             $cronManager = CronManager::getInstance();
-            $cronManager->addTask('WpMailCatcher\LogManager::removeExpiredLogs', Settings::$howOftenCheckForExpiredMessages);
+            $cronManager->addTask('WpMailCatcher\ExpiredLogManager::removeExpiredLogs', Settings::$howOftenCheckForExpiredMessages);
         }
     }
 
