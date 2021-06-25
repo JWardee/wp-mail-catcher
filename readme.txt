@@ -93,6 +93,11 @@ Great! Please leave a note in our (GitHub tracker)
 
 == Changelog ==
 
+= 1.5.3 =
+
+- Fix: Cron job issue preventing logs from being auto deleted
+- Fix: v1.5.0 broke compatibility with some other mail plugins
+
 = 1.5.2 =
 
 - Fix: PHP notice that appears if additional_headers column is corrupted
