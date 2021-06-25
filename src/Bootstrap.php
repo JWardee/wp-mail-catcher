@@ -9,20 +9,13 @@ use WpMailCatcher\Models\Settings;
 class Bootstrap
 {
     private $screenOptions;
-    private $logManager;
 
     public function __construct()
     {
         GeneralHelper::setSettings();
-        $this->logManager = new ExpiredLogManager();
+        LoggerFactory::Set();
         $this->registerCronTasks();
         $this->screenOptions = ScreenOptions::getInstance();
-
-        LoggerFactory::Set();
-
-        add_action('admin_init',  function() {
-            LoggerFactory::Set();
-        });
 
         // ensure that is_plugin_active_for_network() is defined.
         require_once ABSPATH . 'wp-admin/includes/plugin.php';

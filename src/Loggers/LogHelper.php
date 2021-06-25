@@ -16,13 +16,14 @@ trait LogHelper
      * to save the data elsewhere or change how it is saved
      *
      * @param array $args the details of the mail going to be sent
+     * @param function($args) called before inserting the db entry to transform the mail into log format
      * @return mixed must return an array in the same format
      */
-    public function saveMail($args)
+    public function saveMail($args, $transformFunc)
     {
         global $wpdb;
 
-        $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, $args);
+        $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, $transformFunc($args));
 
         Cache::flush();
 

@@ -21,7 +21,7 @@ class WpMail implements LoggerContract
 
     public function recordMail($args)
     {
-        $this->saveMail($this->getMailArgs($args));
+        return $this->saveMail($args, [$this, 'getTransformedMailArgs']);
     }
 
     public function recordError($error)
@@ -36,7 +36,7 @@ class WpMail implements LoggerContract
      * @param array $args the details of the mail going to be sent
      * @return array must return an array in the same format
      */
-    protected function getMailArgs($args)
+    protected function getTransformedMailArgs($args)
     {
         return [
             'time' => time(),
