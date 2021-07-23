@@ -11,7 +11,7 @@ Backup and save your contact form emails (including Contact Form 7) to your data
 </p>
 
 <p align="center">
-<a href="https://travis-ci.org/JWardee/wp-mail-catcher"><img src="https://travis-ci.org/JWardee/wp-mail-catcher.svg?branch=master" alt="Build Status"></a>
+<img src="https://github.com/JWardee/wp-mail-catcher/actions/workflows/main.yml/badge.svg">
 </p>
 
 ## Features
