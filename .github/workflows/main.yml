@@ -41,7 +41,7 @@ jobs:
       run: composer install --optimize-autoloader --prefer-dist
     
     - name: Install WP Tests
-      run: bash testing/bin/install-wp-tests.sh wordpress_test username password localhost latest
+      run: bash testing/bin/install-wp-tests.sh wordpress_test username password 127.0.0.1 latest
       
     - name: phpunit tests
       run: ./vendor/bin/phpunit
