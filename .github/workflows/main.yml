@@ -13,13 +13,13 @@ jobs:
           MYSQL_USER: username
           MYSQL_PASSWORD: password
         ports:
-          - 3306
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     runs-on: ${{ matrix.operating-system }}
     strategy:      
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.3', '7.0', '5.6']
+        php-versions: ['7.3']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
     - name: Checkout
