@@ -10,9 +10,8 @@ jobs:
         env: 
           MYSQL_ALLOW_EMPTY_PASSWORD: yes 
           MYSQL_DATABASE: wordpress_test
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: username
+          MYSQL_PASSWORD: password
         ports:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -42,7 +41,7 @@ jobs:
       run: composer install --optimize-autoloader --prefer-dist
     
     - name: Install WP Tests
-      run: bash testing/bin/install-wp-tests.sh wordpress_test root root localhost latest
+      run: bash testing/bin/install-wp-tests.sh wordpress_test username password localhost latest
       
     - name: phpunit tests
       run: ./vendor/bin/phpunit
