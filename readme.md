@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center">
-WP Mail Catcher
+WP Mail Catcherf
 </h1>
 
 <p align="center"> 
