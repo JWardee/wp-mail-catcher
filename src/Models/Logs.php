@@ -178,6 +178,10 @@ class Logs
 
     static public function delete($ids)
     {
+        if (empty($ids)) {
+            return;
+        }
+        
         global $wpdb;
 
         $ids = GeneralHelper::arrayToString($ids);
