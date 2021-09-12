@@ -107,6 +107,11 @@ class Mail
         $attachments = [];
 
         for ($i = 0; $i < count($headerKeys); $i++) {
+            if (!isset($headerValues[$i])) {
+                $headerValues[$i] = $headerKeys[$i];
+                $headerKeys[$i] = '';
+            }
+
             switch ($headerKeys[$i]) {
                 case ('to') :
                     $tos[] = $headerValues[$i];
@@ -121,7 +126,7 @@ class Mail
                     $headers[] = 'From: ' . $headerValues[$i];
                     break;
                 default:
-                    $headers[] = str_replace('custom', '', $headerKeys[$i]) . $headerValues[$i];
+                    $headers[] = str_ireplace('custom', '', $headerKeys[$i]) . $headerValues[$i];
                     break;
             }
         }

@@ -344,4 +344,20 @@ class TestLogFunctions extends WP_UnitTestCase
         $this->assertEquals(1, count($logs));
         $this->assertEquals('New message', $logs[0]['subject']);
     }
+
+    public function testDoesUnevenHeaderKeysAndValuesCorrectItself()
+    {
+        Mail::add(
+            ['to', 'Content-Type: text/html', 'foo: bar'], 
+            [''],
+            [],
+            '',
+            ''
+        );
+
+        $logs = Logs::get();
+        $this->assertTrue($logs[0]['is_html']);
+        $this->assertEquals('Content-Type: text/html', $logs[0]['additional_headers'][0]);
+        $this->assertEquals('foo: bar', $logs[0]['additional_headers'][1]);
+    }
 }

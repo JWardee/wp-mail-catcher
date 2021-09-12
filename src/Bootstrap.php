@@ -156,9 +156,13 @@ class Bootstrap
                             wp_die(GeneralHelper::$failedNonceMessage);
                         }
 
-                        Mail::add($_POST['header_keys'], $_POST['header_values'], $_POST['attachment_ids'],
+                        Mail::add(
+                            $_POST['header_keys'],
+                            $_POST['header_values'], 
+                            $_POST['attachment_ids'],
                             $_POST['subject'],
-                            $_POST['message']);
+                            $_POST['message']
+                        );
                         GeneralHelper::redirectToThisHomeScreen();
                     }
 
