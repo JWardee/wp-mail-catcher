@@ -93,6 +93,11 @@ Great! Please leave a note in our (GitHub tracker)
 
 == Changelog ==
 
+= 1.5.4 =
+
+- Fix: Auto delete wasn't always deleting Logs
+- Fix: Fixed header syncing issue
+
 = 1.5.3 =
 
 - Fix: Cron job issue preventing logs from being auto deleted
