@@ -32,7 +32,7 @@ assignees: JWardee
 
 <!--- Provide a general summary of the issue in the Title above -->
 
-## Detailed Description
+## Detailed Description - [please include any relevant errors/logs!](https://www.wpbeginner.com/wp-tutorials/how-to-set-up-wordpress-error-logs-in-wp-config/)
 <!--- Provide a detailed description of the change or addition you are proposing -->
 
 ## Possible Solution
