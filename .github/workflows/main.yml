@@ -43,5 +43,5 @@ jobs:
     - name: Install WP Tests
       run: bash testing/bin/install-wp-tests.sh wordpress_test username password 127.0.0.1 latest true
       
-    - name: phpunit tests
+    - name: Run PHPUnit tests
       run: ./vendor/bin/phpunit
