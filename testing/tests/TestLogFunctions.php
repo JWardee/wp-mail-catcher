@@ -111,8 +111,8 @@ class TestLogFunctions extends WP_UnitTestCase
         $message = 'message';
 
         $additionalHeaders = ['Content-type: text/html', 'cc: test1@test.com'];
-        $imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__.'/../assets/img-attachment.png');
-        $pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__.'/../assets/pdf-attachment.pdf');
+        $imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/img-attachment.png');
+        $pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/pdf-attachment.pdf');
 
         wp_mail($to, $subject, $message, $additionalHeaders, [
             get_attached_file($imgAttachmentId),
@@ -136,8 +136,8 @@ class TestLogFunctions extends WP_UnitTestCase
 
         $this->assertContains($to, $csvArray);
         $this->assertContains($subject, $csvArray);
-        $this->assertContains($additionalHeaders[0].GeneralHelper::$csvItemDelimiter.$additionalHeaders[1], $csvArray);
-        $this->assertContains(wp_get_attachment_url($imgAttachmentId).GeneralHelper::$csvItemDelimiter.wp_get_attachment_url($pdfAttachmentId), $csvArray);
+        $this->assertContains($additionalHeaders[0] . GeneralHelper::$csvItemDelimiter . $additionalHeaders[1], $csvArray);
+        $this->assertContains(wp_get_attachment_url($imgAttachmentId) . GeneralHelper::$csvItemDelimiter . wp_get_attachment_url($pdfAttachmentId), $csvArray);
 
         wp_delete_attachment($imgAttachmentId);
         wp_delete_attachment($pdfAttachmentId);
@@ -154,8 +154,8 @@ class TestLogFunctions extends WP_UnitTestCase
         $message2 = 'message 2';
 
         $additionalHeaders = ['Content-type: text/html', 'cc: test1@test.com'];
-        $imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__.'/../assets/img-attachment.png');
-        $pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__.'/../assets/pdf-attachment.pdf');
+        $imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/img-attachment.png');
+        $pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/pdf-attachment.pdf');
 
         wp_mail($to1, $subject1, $message1, $additionalHeaders, [
             get_attached_file($imgAttachmentId),
@@ -189,8 +189,8 @@ class TestLogFunctions extends WP_UnitTestCase
         $this->assertContains($to2, $csvArray);
         $this->assertContains($subject2, $csvArray);
         $this->assertContains($message2, $csvArray);
-        $this->assertContains($additionalHeaders[0].GeneralHelper::$csvItemDelimiter.$additionalHeaders[1], $csvArray);
-        $this->assertContains(wp_get_attachment_url($imgAttachmentId).GeneralHelper::$csvItemDelimiter.wp_get_attachment_url($pdfAttachmentId), $csvArray);
+        $this->assertContains($additionalHeaders[0] . GeneralHelper::$csvItemDelimiter . $additionalHeaders[1], $csvArray);
+        $this->assertContains(wp_get_attachment_url($imgAttachmentId) . GeneralHelper::$csvItemDelimiter . wp_get_attachment_url($pdfAttachmentId), $csvArray);
 
         wp_delete_attachment($imgAttachmentId);
         wp_delete_attachment($pdfAttachmentId);
@@ -201,16 +201,22 @@ class TestLogFunctions extends WP_UnitTestCase
         $numberOfBatches = 2;
         $totalNumberOfLogs = 10;
         $logsPerBatch = $totalNumberOfLogs / $numberOfBatches;
-        $imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__.'/../assets/img-attachment.png');
-        $pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__.'/../assets/pdf-attachment.pdf');
+        $imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/img-attachment.png');
+        $pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/pdf-attachment.pdf');
 
         for ($i = 0; $i < $totalNumberOfLogs; $i++) {
-            wp_mail('test'.$i.'@test.com', 'subject '.$i, 'message '.$i,
-                ['Content-type: text/html', 'cc: test'.($i + 1).'@test.com'], [
+            wp_mail(
+                'test' . $i . '@test.com',
+                'subject ' . $i,
+                'message ' . $i,
+                ['Content-type: text/html', 'cc: test' . ($i + 1) . '@test.com'],
+                [
                     get_attached_file($imgAttachmentId),
                     get_attached_file($pdfAttachmentId)
-                ]);
+                ]
+            );
         }
+
 
         for ($i = 0; $i < $numberOfBatches; $i++) {
             $batch = wp_list_pluck(Logs::get([
@@ -218,22 +224,35 @@ class TestLogFunctions extends WP_UnitTestCase
                 'paged' => ($i + 1),
             ]), 'id');
 
-            $csvString = $export = Mail::export($batch, false);
-            $csvArray = explode(',', $csvString);
+            $csvString = Mail::export($batch, false);
 
+            // Split each csv line into an array
+            $csvArrays = explode(PHP_EOL, $csvString);
+
+            // Remove csv headings
+            array_shift($csvArrays);
+
+            // Concat csv arrays into a single array
+            $csvArray = explode(",", implode(",", $csvArrays));
+
+            // Format values ready for assertions
             array_walk($csvArray, function (&$element) {
                 $element = str_replace('"', '', $element);
                 $element = str_replace(["\r", "\n", '"'], '', $element);
             });
 
-            for ($j = ($i * $logsPerBatch); $j < ($i * $logsPerBatch); $j++) {
-                $this->assertContains('test'.$j.'@test.com', $csvArray);
-                $this->assertContains('subject '.$j, $csvArray);
-                $this->assertContains('message '.$j, $csvArray);
-                $this->assertContains('Content-type: text/html'.GeneralHelper::$csvItemDelimiter.'cc: test'.($j + 1).'@test.com',
-                    $csvArray);
-                $this->assertContains(wp_get_attachment_url($imgAttachmentId).GeneralHelper::$csvItemDelimiter.wp_get_attachment_url($pdfAttachmentId),
-                    $csvArray);
+            for ($j = ($i * $logsPerBatch); $j < ((($i + 1) * $logsPerBatch) - 1); $j++) {
+                $this->assertContains('test' . $j . '@test.com', $csvArray);
+                $this->assertContains('subject ' . $j, $csvArray);
+                $this->assertContains('message ' . $j, $csvArray);
+                $this->assertContains(
+                    'Content-type: text/html' . GeneralHelper::$csvItemDelimiter . 'cc: test' . ($j + 1) . '@test.com',
+                    $csvArray
+                );
+                $this->assertContains(
+                    wp_get_attachment_url($imgAttachmentId) . GeneralHelper::$csvItemDelimiter . wp_get_attachment_url($pdfAttachmentId),
+                    $csvArray
+                );
             }
         }
 
@@ -285,10 +304,11 @@ class TestLogFunctions extends WP_UnitTestCase
             $actionWasCalled = true;
         };
 
-        add_action(GeneralHelper::$actionNameSpace.'_mail_success', $func);
+        add_action(GeneralHelper::$actionNameSpace . '_mail_success', $func);
         wp_mail('test@test.com', 'subject', $message);
+        
         $this->assertTrue($actionWasCalled);
-        remove_action(GeneralHelper::$actionNameSpace.'_mail_success', $func);
+        remove_action(GeneralHelper::$actionNameSpace . '_mail_success', $func);
     }
 
     public function testMailFailedActionTriggered()
@@ -301,11 +321,11 @@ class TestLogFunctions extends WP_UnitTestCase
             $actionWasCalled = true;
         };
 
-        add_action(GeneralHelper::$actionNameSpace.'_mail_failed', $func);
+        add_action(GeneralHelper::$actionNameSpace . '_mail_failed', $func);
 
         wp_mail('', 'subject', $message);
         $this->assertTrue($actionWasCalled);
-        remove_action(GeneralHelper::$actionNameSpace.'_mail_failed', $func);
+        remove_action(GeneralHelper::$actionNameSpace . '_mail_failed', $func);
     }
 
     public function testCanAddTimeIntervalViaFilter()
@@ -315,7 +335,7 @@ class TestLogFunctions extends WP_UnitTestCase
             'test' => 123
         ];
 
-        $func = function($deletionIntervals) use ($newDeletionInterval) {
+        $func = function ($deletionIntervals) use ($newDeletionInterval) {
             return array_merge($deletionIntervals, $newDeletionInterval);
         };
 
@@ -348,7 +368,7 @@ class TestLogFunctions extends WP_UnitTestCase
     public function testDoesUnevenHeaderKeysAndValuesCorrectItself()
     {
         Mail::add(
-            ['to', 'Content-Type: text/html', 'foo: bar'], 
+            ['to', 'Content-Type: text/html', 'foo: bar'],
             [''],
             [],
             '',

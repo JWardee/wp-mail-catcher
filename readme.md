@@ -74,7 +74,7 @@ Backup and save your contact form emails (including Contact Form 7) to your data
 1. Download the repo
 2. Run `composer install`
 3. Run `bash ./testing/bin/install-wp-tests.sh`
-4. Run `phpunit`
+4. Run `./vendor/bin/phpunit`
 
 ## Found an issue, or have an idea on how we can improve?
 Let us know in our [GitHub tracker!](https://github.com/JWardee/wp-mail-catcher/issues)
