@@ -201,7 +201,8 @@
       width: 600px;
 
       &.is-html {
-        width: 800px;
+        width: 80%;
+        max-width: 800px;
       }
 
       .html-preview {
