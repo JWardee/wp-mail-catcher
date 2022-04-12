@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WpMailCatcher 1.5.0\n"
+"Project-Id-Version: WpMailCatcher 2.0.0\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2021-02-05 15:29+0000\n"
+"POT-Creation-Date: 2022-04-12 21:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../src/Bootstrap.php:54 ../../src/Bootstrap.php:87
+#: ../../src/Bootstrap.php:51 ../../src/Bootstrap.php:84
 msgid "Settings"
 msgstr ""
 
@@ -252,6 +252,7 @@ msgid "No"
 msgstr ""
 
 #: ../../src/Views/Settings.php:98
+#, php-format
 msgid "Yes - delete messages that are over %s old"
 msgstr ""
 
