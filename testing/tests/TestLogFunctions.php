@@ -368,7 +368,7 @@ class TestLogFunctions extends WP_UnitTestCase
     public function testDoesUnevenHeaderKeysAndValuesCorrectItself()
     {
         Mail::add(
-            ['to', 'Content-Type: text/html', 'foo: bar'],
+            ['to', GeneralHelper::$htmlEmailHeader, 'foo: bar'],
             [''],
             [],
             '',
@@ -377,7 +377,7 @@ class TestLogFunctions extends WP_UnitTestCase
 
         $logs = Logs::get();
         $this->assertTrue($logs[0]['is_html']);
-        $this->assertEquals('Content-Type: text/html', $logs[0]['additional_headers'][0]);
+        $this->assertEquals(GeneralHelper::$htmlEmailHeader, $logs[0]['additional_headers'][0]);
         $this->assertEquals('foo: bar', $logs[0]['additional_headers'][1]);
     }
 }

@@ -4,6 +4,7 @@ namespace WpMailCatcher;
 
 use WpMailCatcher\Models\Settings;
 
+$dbUpgradeManager = DatabaseUpgradeManager::getInstance();
 $settings = Settings::get();
 $logs = MailAdminTable::getInstance();
 $logs->prepare_items();
@@ -17,6 +18,19 @@ $logs->prepare_items();
 
     <div class="wrap<?php if (count($logs->items) == 0) : ?> -empty<?php endif; ?>">
         <h2 class="heading">WP Mail Catcher - <?php _e('logs', 'WpMailCatcher'); ?></h2>
+
+        <?php if ($dbUpgradeManager->isUpgradeRequired()) : ?>
+            <div class="notice notice-warning">
+                <p>
+                    <?php
+                    printf(__('Click <a href="%s">here</a> to upgrade your database',
+                        'WpMailCatcher'),
+                        '?page=' . GeneralHelper::$adminPageSlug . '&action=upgrade-database'
+                    );
+                    ?>
+                </p>
+            </div>
+        <?php endif; ?>
 
         <?php if ($logs->totalItems > GeneralHelper::$logLimitBeforeWarning && $settings['auto_delete'] == false) : ?>
             <div class="notice notice-warning">

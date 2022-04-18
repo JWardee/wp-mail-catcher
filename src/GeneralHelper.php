@@ -27,6 +27,7 @@ class GeneralHelper
     static public $namespacePrefix;
     static public $reviewLink;
     static public $actionNameSpace;
+    static public $htmlEmailHeader = 'Content-Type: text/html;';
 
     static public function setSettings()
     {

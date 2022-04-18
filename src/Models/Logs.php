@@ -142,7 +142,7 @@ class Logs
 
             $result['timestamp'] = $result['time'];
             $result['time'] = $args['date_time_format'] == 'human' ? GeneralHelper::getHumanReadableTimeFromNow($result['timestamp']) : date($args['date_time_format'], $result['timestamp']);
-            $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], 'text/html');
+            $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], GeneralHelper::$htmlEmailHeader);
             $result['email_from'] = self::getEmailFrom($result);
             $result['message'] = stripslashes(htmlspecialchars_decode($result['message']));
 
