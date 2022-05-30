@@ -17,7 +17,7 @@ class ExpiredLogManager
         $idsToRemove = [];
         $interval = $timeInterval == null ?  Settings::get('timescale') : $timeInterval;
 
-        foreach (Logs::get() as $log) {
+        foreach (Logs::get( array( 'posts_per_page' => -1 ) ) as $log) {
             if ((time() - $log['timestamp']) >= $interval) {
                 $idsToRemove[] = $log['id'];
             }
