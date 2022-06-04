@@ -169,7 +169,8 @@ class Bootstrap
                     $_POST['header_values'], 
                     $_POST['attachment_ids'],
                     $_POST['subject'],
-                    $_POST['message']
+                    $_POST['message'],
+                    $_POST['is_html']
                 );
                 GeneralHelper::redirectToThisHomeScreen();
             }
@@ -229,17 +230,17 @@ class Bootstrap
         }
 
         $sql = "CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . GeneralHelper::$tableName . " (
-                  id int NOT NULL AUTO_INCREMENT,
-                  time int NOT NULL,
-                  email_to text DEFAULT NULL,
-                  subject text DEFAULT NULL,
-                  message text DEFAULT NULL,
-                  backtrace_segment text NOT NULL,
-                  status bool DEFAULT 1 NOT NULL,
-                  error text DEFAULT NULL,
-                  attachments text DEFAULT NULL,
-                  additional_headers text DEFAULT NULL,
-                  PRIMARY KEY  (id)
+                id int NOT NULL AUTO_INCREMENT,
+                time int NOT NULL,
+                email_to text DEFAULT NULL,
+                subject text DEFAULT NULL,
+                message text DEFAULT NULL,
+                backtrace_segment text NOT NULL,
+                status bool DEFAULT 1 NOT NULL,
+                error text DEFAULT NULL,
+                attachments text DEFAULT NULL,
+                additional_headers text DEFAULT NULL,
+                PRIMARY KEY  (id)
                 ) " . $wpdb->get_charset_collate() . ";";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -247,12 +248,12 @@ class Bootstrap
 
         Settings::installOptions();
 
+        $dbUpgradeManager = DatabaseUpgradeManager::getInstance();
+        $dbUpgradeManager->doUpgrade();
+
         if ($newSite != null) {
             restore_current_blog();
         }
-
-        $dbUpgradeManager = DatabaseUpgradeManager::getInstance();
-        $dbUpgradeManager->doUpgrade();
     }
 
     static public function deactivate()

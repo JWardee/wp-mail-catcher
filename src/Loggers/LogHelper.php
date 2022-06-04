@@ -46,6 +46,10 @@ trait LogHelper
      */
     public function saveError($error)
     {
+        if ($this->id === null) {
+            return;
+        }
+
         global $wpdb;
 
         $wpdb->update(
@@ -59,6 +63,27 @@ trait LogHelper
         Cache::flush();
 
         do_action(GeneralHelper::$actionNameSpace . '_mail_failed', Logs::getFirst(['id' => $this->id]));
+    }
+
+    public function saveIsHtml($contentType)
+    {
+        if ($this->id === null) {
+            return;
+        }
+
+        global $wpdb;
+
+        $wpdb->update(
+            $wpdb->prefix . GeneralHelper::$tableName, [
+                'is_html' => $contentType === 'text/html',
+            ],
+            ['id' => $this->id]
+        );
+
+        Cache::flush();
+
+        // Because this is triggered from add_filter we need to return the unmodified content type
+        return $contentType;
     }
 
     /**

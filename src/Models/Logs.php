@@ -44,7 +44,7 @@ class Logs
          */
         $defaults = [
             'orderby' => 'time',
-            'posts_per_page' => GeneralHelper::$logsPerPage,
+            'posts_per_page' => -1,
             'paged' => 1,
             'order' => 'DESC',
             'date_time_format' => 'human',
@@ -62,7 +62,7 @@ class Logs
         array_walk_recursive($args, 'WpMailCatcher\GeneralHelper::sanitiseForQuery');
 
         $sql = "SELECT id, time, email_to, subject, message,
-            status, error, backtrace_segment, attachments,
+            status, error, backtrace_segment, attachments, is_html,
             additional_headers
             FROM " . $wpdb->prefix . GeneralHelper::$tableName . " ";
 
@@ -142,7 +142,7 @@ class Logs
 
             $result['timestamp'] = $result['time'];
             $result['time'] = $args['date_time_format'] == 'human' ? GeneralHelper::getHumanReadableTimeFromNow($result['timestamp']) : date($args['date_time_format'], $result['timestamp']);
-            $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], GeneralHelper::$htmlEmailHeader);
+            $result['is_html'] = $result['is_html'] ? (bool)$result['is_html'] : GeneralHelper::doesArrayContainSubString($result['additional_headers'], GeneralHelper::$htmlEmailHeader);
             $result['email_from'] = self::getEmailFrom($result);
             $result['message'] = stripslashes(htmlspecialchars_decode($result['message']));
 

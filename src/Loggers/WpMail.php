@@ -3,8 +3,9 @@
 namespace WpMailCatcher\Loggers;
 
 use WpMailCatcher\GeneralHelper;
+use WpMailCatcher\Models\Settings;
 
-class WpMail implements LoggerContract
+class WpMail
 {
     use LogHelper;
 
@@ -15,13 +16,15 @@ class WpMail implements LoggerContract
     public function __construct()
     {
         $priority = 999999;
-        add_action('wp_mail', [$this, 'recordMail'], $priority);
+        add_filter('wp_mail', [$this, 'recordMail'], $priority);
         add_action('wp_mail_failed', [$this, 'recordError'], $priority);
+        add_filter('wp_mail_content_type', [$this, 'saveIsHtml'], $priority);
     }
 
     public function recordMail($args)
     {
-        return $this->saveMail($args, [$this, 'getTransformedMailArgs']);
+        $this->saveMail($args, [$this, 'getTransformedMailArgs']);
+        return $args;
     }
 
     public function recordError($error)
@@ -46,7 +49,7 @@ class WpMail implements LoggerContract
             'backtrace_segment' => json_encode($this->getBacktrace()),
             'status' => 1,
             'attachments' => json_encode($this->getAttachmentLocations($args['attachments'])),
-            'additional_headers' => json_encode($args['headers'])
+            'additional_headers' => json_encode($args['headers']),
         ];
     }
 }

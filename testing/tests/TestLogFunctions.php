@@ -306,7 +306,7 @@ class TestLogFunctions extends WP_UnitTestCase
 
         add_action(GeneralHelper::$actionNameSpace . '_mail_success', $func);
         wp_mail('test@test.com', 'subject', $message);
-        
+
         $this->assertTrue($actionWasCalled);
         remove_action(GeneralHelper::$actionNameSpace . '_mail_success', $func);
     }
@@ -349,14 +349,19 @@ class TestLogFunctions extends WP_UnitTestCase
         remove_filter($filterName, $func);
     }
 
-    public function testExpiredMailIsDeleted()
+    public function testAllExpiredMailAreDeleted()
     {
-        wp_mail('test@test.com', 'Old message - should be deleted', 'My message');
+        $noOfExpiredMailToSend = 10;
+
+        for ($i = 0; $i < $noOfExpiredMailToSend; $i++) {
+            wp_mail('test@test.com', 'Old message - should be deleted', 'My message');
+        }
+
         sleep(1);
         wp_mail('test@test.com', 'New message', 'My message');
 
         $logs = Logs::get();
-        $this->assertEquals(2, count($logs));
+        $this->assertEquals($noOfExpiredMailToSend + 1, count($logs));
 
         ExpiredLogManager::removeExpiredLogs(1);
 

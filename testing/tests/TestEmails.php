@@ -60,23 +60,16 @@ class TestEmails extends WP_UnitTestCase
 
     public function testHtmlEmailSetViaFilter()
     {
-		$contentTypeFilterPriority = 9999;
-		$updateContentType = function($contentType) {
+		$contentTypeFilterPriority = 999;
+		$updateContentType = function() {
 			return 'text/html';
 		};
 
 		add_filter('wp_mail_content_type', $updateContentType, $contentTypeFilterPriority);
-		// add_action('phpmailer_init', function($phpmailer) {
-		// 	print_r('hello from action');
-		// 	print_r($phpmailer->getMailMIME());
-		// 	// exit;
-		// });
 
 		// Send an email without explicitly setting the html header
         wp_mail('test@test.com', 'subject', 'message');
 
-		// print_r(Logs::get()[0]['is_html'] ? 'true' : 'false');
-		// exit;
 		remove_filter('wp_mail_content_type', $updateContentType, $contentTypeFilterPriority);
 
         $this->assertTrue(Logs::get()[0]['is_html']);

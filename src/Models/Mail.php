@@ -6,6 +6,8 @@ use WpMailCatcher\GeneralHelper;
 
 class Mail
 {
+    private static $contentTypeFilterPriority = 9999;
+
     static public function resend($ids)
     {
         $logs = Logs::get([
@@ -13,6 +15,12 @@ class Mail
         ]);
 
         foreach ($logs as $log) {
+            $updateContentType = function($contentType) use ($log) {
+                return $log['is_html'] ? 'text/html' : $contentType;
+            };
+
+            add_filter('wp_mail_content_type', $updateContentType, self::$contentTypeFilterPriority);
+
             wp_mail(
                 $log['email_to'],
                 $log['subject'],
@@ -20,6 +28,8 @@ class Mail
                 $log['additional_headers'],
                 $log['attachment_file_paths']
             );
+
+            remove_filter('wp_mail_content_type', $updateContentType, self::$contentTypeFilterPriority);
         }
     }
 
@@ -100,7 +110,7 @@ class Mail
         fclose($out);
     }
 
-    static public function add($headerKeys, $headerValues, $attachmentIds, $subject, $message)
+    static public function add($headerKeys, $headerValues, $attachmentIds, $subject, $message, $isHtml = false)
     {
         $tos = [];
         $headers = [];
@@ -139,6 +149,18 @@ class Mail
             $attachments[] = get_attached_file($attachment_id);
         }
 
+        if ($isHtml) {
+            $updateContentType = function() {
+                return 'text/html';
+            };
+
+            add_filter('wp_mail_content_type', $updateContentType, self::$contentTypeFilterPriority);
+        }
+
         wp_mail($tos, $subject, $message, $headers, $attachments);
+
+        if ($isHtml) {
+            remove_filter('wp_mail_content_type', $updateContentType, self::$contentTypeFilterPriority);
+        }
     }
 }
