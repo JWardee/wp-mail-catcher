@@ -179,7 +179,7 @@ class Bootstrap
                 isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
                 $log = Logs::get(['post__in' => [$_REQUEST['id']]])[0];
                 $view = GeneralHelper::$pluginViewDirectory;
-                $view .= $log['is_html'] == true ? '/HtmlMessage.php' : '/TextMessage.php';
+                $view .= $log['is_html'] ? '/HtmlMessage.php' : '/TextMessage.php';
 
                 require $view;
                 exit;
@@ -187,6 +187,14 @@ class Bootstrap
         }
 
         if (current_user_can(Settings::get('default_settings_role'))) {
+            if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'trigger-auto-delete') {
+                ExpiredLogManager::removeExpiredLogs();
+                GeneralHelper::redirectToThisHomeScreen([
+                    'trigger-auto-delete-success' => true,
+                    'page' => GeneralHelper::$adminPageSlug . '-settings'
+                ]);
+            }
+
             if (!isset($_REQUEST['action']) || $_REQUEST['action'] !== 'update_settings') {
                 return;
             }
