@@ -77,8 +77,16 @@ class TestEmails extends WP_UnitTestCase
 
     public function testHtmlEmail()
     {
+		// Test various formats
         wp_mail('test@test.com', 'subject', 'message', [GeneralHelper::$htmlEmailHeader]);
+        wp_mail('test@test.com', 'subject', 'message', ['content-type:text/html']);
+        wp_mail('test@test.com', 'subject', 'message', ['Content-Type: text/html']);
+        wp_mail('test@test.com', 'subject', 'message', ['Content-Type: text/html;']);
+
         $this->assertTrue(Logs::get()[0]['is_html']);
+        $this->assertTrue(Logs::get()[1]['is_html']);
+        $this->assertTrue(Logs::get()[2]['is_html']);
+        $this->assertTrue(Logs::get()[3]['is_html']);
     }
 
     public function testNonHtmlEmail()
