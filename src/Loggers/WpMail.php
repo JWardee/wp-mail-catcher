@@ -3,7 +3,6 @@
 namespace WpMailCatcher\Loggers;
 
 use WpMailCatcher\GeneralHelper;
-use WpMailCatcher\Models\Settings;
 
 class WpMail
 {
@@ -24,6 +23,8 @@ class WpMail
     public function recordMail($args)
     {
         $this->saveMail($args, [$this, 'getTransformedMailArgs']);
+
+        // Because this is triggered from add_filter we need to return the unmodified args
         return $args;
     }
 

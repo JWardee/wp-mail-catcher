@@ -14,6 +14,6 @@ class LoggerFactory
          *  that determines which one to use will go here
          */
         new WpMail();
-        new BuddyPress();
+        // new BuddyPress();
     }
 }
