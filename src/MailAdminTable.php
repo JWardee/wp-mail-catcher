@@ -155,13 +155,14 @@ class MailAdminTable extends \WP_List_Table
         $this->_column_headers = [$columns, $hidden, $sortable];
         $this->process_bulk_action();
 
-        /** Can pass $_REQUEST because we whitelist and sanitize it at the model level */
+        $overrideParams = array_intersect_key($_REQUEST, Logs::$whitelistedParams);
+    
         $this->items = Logs::get(array_merge([
             'paged' => $this->get_pagenum(),
             'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any',
             'posts_per_page' => $per_page,
             'column_blacklist' => ['message']
-        ], $_REQUEST));
+        ], $overrideParams));
 
         $this->totalItems = Logs::getTotalAmount();
 

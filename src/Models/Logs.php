@@ -6,6 +6,17 @@ use WpMailCatcher\GeneralHelper;
 
 class Logs
 {
+    // Need to set null because we're using array_intersect_key
+    static public $whitelistedParams = [
+        'orderby' => null,
+        'posts_per_page' => null,
+        'paged' => null,
+        'order' => null,
+        'post_status' => null,
+        'subject' => null,
+        's' => null
+    ];
+
     static public function getTotalPages($postsPerPage = false)
     {
         if ($postsPerPage == false) {

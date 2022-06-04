@@ -84,10 +84,16 @@ $logs->prepare_items();
             </li>
         </ul>
 
-        <form action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>" method="post">
+        <form method="get">
+            <!-- WordPress breaks the redirect unless we pass the query params as inputs instead of the <form> action param -->
+            <?php foreach ($_GET as $key => $value) : ?>
+                <input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>" />
+            <?php endforeach; ?>
+            
             <?php $logs->search_box(__('Search Logs', 'WpMailCatcher'), 'search_id'); ?>
-            <?php $logs->display(); ?>
         </form>
+
+        <?php $logs->display(); ?>
 
         <?php require GeneralHelper::$pluginViewDirectory . '/Footer.php'; ?>
     </div>
