@@ -160,6 +160,7 @@ class MailAdminTable extends \WP_List_Table
             'paged' => $this->get_pagenum(),
             'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any',
             'posts_per_page' => $per_page,
+            'column_blacklist' => ['message']
         ], $_REQUEST));
 
         $this->totalItems = Logs::getTotalAmount();

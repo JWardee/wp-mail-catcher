@@ -45,7 +45,7 @@ if (isset($log)) :
                             </ul>
                         <?php endif; ?>
 
-                        <?php if (empty(array_filter($log['additional_headers']))) : ?>
+                        <?php if (!isset($log['additional_headers']) || empty(array_filter($log['additional_headers']))) : ?>
                             <p><?php _e('No additional headers to show', 'WpMailCatcher'); ?></p>
                         <?php else : ?>
                             <h3><?php _e('Additional Headers', 'WpMailCatcher'); ?></h3>
@@ -71,11 +71,6 @@ if (isset($log)) :
                             <ul>
                                 <li><?php echo $log['error']; ?></li>
                             </ul>
-                        <?php endif; ?>
-
-                        <?php if (isset($log['is_html']) && $log['is_html']) : ?>
-                            <strong class="subheading"><?php _e('HTML Code', 'WpMailCatcher'); ?></strong>
-                            <pre><code><?php echo htmlspecialchars($log['message']); ?></code></pre>
                         <?php endif; ?>
                     </div>
                 </div>

@@ -385,4 +385,15 @@ class TestLogFunctions extends WP_UnitTestCase
         $this->assertEquals(GeneralHelper::$htmlEmailHeader, $logs[0]['additional_headers'][0]);
         $this->assertEquals('foo: bar', $logs[0]['additional_headers'][1]);
     }
+
+    public function testCanNotReturnDbColumnsViaBlacklist()
+    {
+        wp_mail('test@test.com', 'New message', 'My message');
+        
+        $log = Logs::get(['column_blacklist' => ['message', 'is_html', 'additional_headers']])[0];
+
+        $this->assertTrue(isset($log['message']) === false);
+        $this->assertTrue(isset($log['is_html']) === false);
+        $this->assertTrue(isset($log['additional_headers']) === false);
+    }
 }
