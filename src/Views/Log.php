@@ -23,7 +23,7 @@ $logs->prepare_items();
             <div class="notice notice-warning">
                 <p>
                     <?php
-                    printf(__('Click <a href="%s">here</a> to upgrade your database',
+                    printf(__('Your WP Mail Catcher database needs upgrading. <strong>Click <a href="%s">here</a> to perform the upgrade.</strong>',
                         'WpMailCatcher'),
                         '?page=' . GeneralHelper::$adminPageSlug . '&action=upgrade-database'
                     );

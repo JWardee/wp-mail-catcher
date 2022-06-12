@@ -70,9 +70,13 @@ class Logs
 
         $defaultColumns = [
             'id', 'time', 'email_to', 'subject', 'message',
-            'status', 'error', 'backtrace_segment', 'attachments', 'is_html',
+            'status', 'error', 'backtrace_segment', 'attachments',
             'additional_headers'
         ];
+
+        if (Settings::get('db_version') >= '2.0.0') {
+            $defaultColumns[] = 'is_html';
+        }
 
         $columnsToSelect = array_diff($defaultColumns, $args['column_blacklist']);
 
@@ -168,8 +172,12 @@ class Logs
                 $result['time'] = $args['date_time_format'] == 'human' ? GeneralHelper::getHumanReadableTimeFromNow($result['timestamp']) : date($args['date_time_format'], $result['timestamp']);
             }
 
-            if (isset($result['is_html']) && isset($result['additional_headers'])) {
-                $result['is_html'] = $result['is_html'] ? (bool)$result['is_html'] : GeneralHelper::doesArrayContainSubString($result['additional_headers'], GeneralHelper::$htmlEmailHeader);
+            // This will exist if the db_version is >= 2.0.0
+            if (isset($result['is_html']) && $result['is_html'] == true) {
+                $result['is_html'] = (bool)$result['is_html'];
+            // Otherwise resort to the original method
+            } else if (isset($result['additional_headers'])) {
+                $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], GeneralHelper::$htmlEmailHeader);
             }
 
             if (isset($result['message'])) {

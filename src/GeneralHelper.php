@@ -241,6 +241,13 @@ class GeneralHelper
     {
         return self::$namespacePrefix . self::labelToSlug($slugOrLabel);
     }
+
+    static public function dd($value)
+    {
+        echo '<pre>';
+        print_r($value);
+        exit;
+    }
 }
 
 

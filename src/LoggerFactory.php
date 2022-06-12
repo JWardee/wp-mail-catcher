@@ -7,7 +7,7 @@ use WpMailCatcher\Loggers\WpMail;
 
 class LoggerFactory
 {
-    static public function Set()
+    static public function set()
     {
         /**
          *  When more loggers are added, the logic

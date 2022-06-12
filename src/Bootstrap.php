@@ -13,7 +13,7 @@ class Bootstrap
     public function __construct()
     {
         GeneralHelper::setSettings();
-        LoggerFactory::Set();
+        LoggerFactory::set();
         $this->registerCronTasks();
         $this->screenOptions = ScreenOptions::getInstance();
 
