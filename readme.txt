@@ -78,6 +78,7 @@ Anything that doesn't unhook the native wp_mail function is supported, this incl
 = What plugins are currently not supported =
 
 * WP Mail Bank (unhooks wp_mail filters)
+* Post SMTP (overrides wp_mail function and doesn't implement the same actions/filters)
 
 If you'd like to see support for these plugins or any other plugins please leave a feature request in our [GitHub tracker](https://github.com/JWardee/wp-mail-catcher/issues)
 
@@ -95,7 +96,17 @@ Great! Please leave a note in our (GitHub tracker)
 
 = 2.0.0 =
 
-- Deprecation: Increased minimal PHP version to 7.2
+- Deprecation: Increased supported PHP version from 5.6 to 7.2
+- New: Added partial lazy loading to reduce database strain
+- New: Can now manually trigger removing of old logs
+- New: Added support for wp_mail_content_type filter
+- New: Implemented database upgrade system
+- Fix: Old logs not being automatically deleted
+- Fix: Pagination now works on search results or other filters
+- Fix: BuddyPress error exception
+- Fix: Re-implemented resending HTML emails
+- Fix: PHP notice appearing on settings page under certain circumstances
+- Fix: Scrolling not working correctly on mobile and tablets
 
 = 1.5.4 =
 

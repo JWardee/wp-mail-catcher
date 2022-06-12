@@ -50,6 +50,7 @@ Backup and save your contact form emails (including Contact Form 7) to your data
 
 ## Not currently supported
 * [WP Mail Bank](https://wordpress.org/plugins/wp-mail-bank/) (unhooks wp_mail filters)
+* [Post SMTP](https://wordpress.org/plugins/post-smtp/) (overrides wp_mail function and doesn't implement the same actions/filters)
 
 ## Hooks and actions
 * `wp_mail_catcher_mail_success` is triggered when a message is sent and logged successfully. It has a single argument that is an array containing the log
