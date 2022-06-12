@@ -33,9 +33,9 @@ class TestSettings extends WP_UnitTestCase
 		$this->assertEquals($this->timescale, $cronTasks[0]['schedule']);
 
 		/**
-         * Assert 1 instead of 0 because the new default setting for
-         * auto_delete is true so the next hook will start at 1 not 0
-         */
+		 * Assert 1 instead of 0 because the new default setting for
+		 * auto_delete is true so the next hook will start at 1 not 0
+		 */
 		$this->assertEquals(GeneralHelper::$namespacePrefix . '1', $cronTasks[0]['hook']);
 	}
 
@@ -49,13 +49,14 @@ class TestSettings extends WP_UnitTestCase
 	}
 
 	public function testDefaultSettingsSerialization()
-    {
-        // Simulate a third party invalidating the serialized object
-        $invalidSerializationObj = 's:164:"a:4:{s:17:"def";}";';
-        update_option(Settings::$optionsName, $invalidSerializationObj);
+	{
+		// Simulate a third party invalidating the serialized object
+		$invalidSerializationObj = 'a:1:{s:3:"foo";s:3:"bar";}';
+		update_option(Settings::$optionsName, $invalidSerializationObj);
 
-        // Assert that the default value is used if the value cannot be
-        // found within the serialized object
-        $this->assertEquals(true, Settings::get('auto_delete'));
-    }
+		// Assert that the default value is used if the value cannot be
+		// found within the serialized object
+		$this->assertEquals(Settings::$defaultSettings['auto_delete'], Settings::get(null, true)['auto_delete']);
+		$this->assertEquals(Settings::$defaultSettings['auto_delete'], Settings::get('auto_delete', true));
+	}
 }

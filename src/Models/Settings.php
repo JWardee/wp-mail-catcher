@@ -11,7 +11,8 @@ class Settings
         'default_view_role' => 'manage_options',
         'default_settings_role' => 'manage_options',
         'auto_delete' => true,
-        'timescale' => 2419200
+        'timescale' => 2419200, // 28 days
+        'db_version' => '',
     ];
     static public $defaultDeletionIntervals = [
         604800 => '1 week',
@@ -21,14 +22,16 @@ class Settings
         15780000 => '6 months'
     ];
 
-    static public function get($key = null)
+    static public function get($key = null, $bypassCache = false)
     {
-        if (self::$settings == null) {
-            self::$settings = unserialize(get_option(self::$optionsName, null));
-        }
+        if (self::$settings == null || $bypassCache) {
+            $options = unserialize(get_option(self::$optionsName, null));
 
-        if (self::$settings == null) {
-            self::installOptions();
+            if (!is_array($options)) {
+                self::installOptions();
+            } else {
+                self::$settings = array_merge(self::$defaultSettings, $options);
+            }
         }
 
         if ($key != null) {

@@ -1,6 +1,6 @@
 {
   "name": "WpMailCatcher",
-  "version": "1.5.4",
+  "version": "2.0.0",
   "lang_po_directory": "../../languages",
   "build_directory": "./..",
   "dist_directory": "../../assets",
@@ -13,7 +13,7 @@
     "autoprefixer": "^9.4.3",
     "css-mqpacker": "^7.0.0",
     "cssnano": "^4.1.8",
-    "grunt": "^1.3.0",
+    "grunt": "^1.5.2",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-cssmin": "^3.0.0",

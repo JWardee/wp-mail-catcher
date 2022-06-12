@@ -27,6 +27,7 @@ class GeneralHelper
     static public $namespacePrefix;
     static public $reviewLink;
     static public $actionNameSpace;
+    static public $htmlEmailHeader = 'content-type: text/html;';
 
     static public function setSettings()
     {
@@ -239,6 +240,13 @@ class GeneralHelper
     static public function getPrefixedSlug($slugOrLabel)
     {
         return self::$namespacePrefix . self::labelToSlug($slugOrLabel);
+    }
+
+    static public function dd($value)
+    {
+        echo '<pre>';
+        print_r($value);
+        exit;
     }
 }
 

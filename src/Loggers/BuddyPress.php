@@ -20,7 +20,7 @@ class BuddyPress
 
     public function recordMail($status, $bpMail)
     {
-        $this->saveMail($this->getMailArgs($bpMail));
+        $this->saveMail($bpMail, $this->getTransformedMailArgs($bpMail));
     }
 
     public function recordError($error)
@@ -35,7 +35,7 @@ class BuddyPress
      * @param BP_Email $bpMail the details of the mail going to be sent
      * @return array must return an array in the same format
      */
-    protected function getMailArgs($bpMail)
+    protected function getTransformedMailArgs($bpMail)
     {
         $tos = array_map(function($bpRecipient) {
             return $bpRecipient->get_address();

@@ -33,7 +33,7 @@
                                 </div>
                             </div>
 
-                            <label class="is-html-email"><input type="checkbox" value="Content-Type: text/html"
+                            <label class="is-html-email"><input type="checkbox" value="<?php echo GeneralHelper::$htmlEmailHeader; ?>"
                                                                 name="header_keys[]"/>
                                 <?php _e('Is HTML email?', 'WpMailCatcher'); ?> </label>
                         </div>

@@ -4,6 +4,7 @@ namespace WpMailCatcher;
 
 use WpMailCatcher\Models\Settings;
 
+$dbUpgradeManager = DatabaseUpgradeManager::getInstance();
 $settings = Settings::get();
 $logs = MailAdminTable::getInstance();
 $logs->prepare_items();
@@ -17,6 +18,19 @@ $logs->prepare_items();
 
     <div class="wrap<?php if (count($logs->items) == 0) : ?> -empty<?php endif; ?>">
         <h2 class="heading">WP Mail Catcher - <?php _e('logs', 'WpMailCatcher'); ?></h2>
+
+        <?php if ($dbUpgradeManager->isUpgradeRequired()) : ?>
+            <div class="notice notice-warning">
+                <p>
+                    <?php
+                    printf(__('Your WP Mail Catcher database needs upgrading. <strong>Click <a href="%s">here</a> to perform the upgrade.</strong>',
+                        'WpMailCatcher'),
+                        '?page=' . GeneralHelper::$adminPageSlug . '&action=upgrade-database'
+                    );
+                    ?>
+                </p>
+            </div>
+        <?php endif; ?>
 
         <?php if ($logs->totalItems > GeneralHelper::$logLimitBeforeWarning && $settings['auto_delete'] == false) : ?>
             <div class="notice notice-warning">
@@ -70,10 +84,16 @@ $logs->prepare_items();
             </li>
         </ul>
 
-        <form action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>" method="post">
+        <form method="get">
+            <!-- WordPress breaks the redirect unless we pass the query params as inputs instead of the <form> action param -->
+            <?php foreach ($_GET as $key => $value) : ?>
+                <input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>" />
+            <?php endforeach; ?>
+            
             <?php $logs->search_box(__('Search Logs', 'WpMailCatcher'), 'search_id'); ?>
-            <?php $logs->display(); ?>
         </form>
+
+        <?php $logs->display(); ?>
 
         <?php require GeneralHelper::$pluginViewDirectory . '/Footer.php'; ?>
     </div>

@@ -6,6 +6,17 @@ use WpMailCatcher\GeneralHelper;
 
 class Logs
 {
+    // Need to set null because we're using array_intersect_key
+    static public $whitelistedParams = [
+        'orderby' => null,
+        'posts_per_page' => null,
+        'paged' => null,
+        'order' => null,
+        'post_status' => null,
+        'subject' => null,
+        's' => null
+    ];
+
     static public function getTotalPages($postsPerPage = false)
     {
         if ($postsPerPage == false) {
@@ -44,26 +55,37 @@ class Logs
          */
         $defaults = [
             'orderby' => 'time',
-            'posts_per_page' => GeneralHelper::$logsPerPage,
+            'posts_per_page' => -1,
             'paged' => 1,
             'order' => 'DESC',
             'date_time_format' => 'human',
             'post_status' => 'any',
             'post__in' => [],
             'subject' => null,
-            's' => null
+            's' => null,
+            'column_blacklist' => []
         ];
 
         $args = array_merge($defaults, $args);
+
+        $defaultColumns = [
+            'id', 'time', 'email_to', 'subject', 'message',
+            'status', 'error', 'backtrace_segment', 'attachments',
+            'additional_headers'
+        ];
+
+        if (Settings::get('db_version') >= '2.0.0') {
+            $defaultColumns[] = 'is_html';
+        }
+
+        $columnsToSelect = array_diff($defaultColumns, $args['column_blacklist']);
 
         /**
          * Sanitise each value in the array
          */
         array_walk_recursive($args, 'WpMailCatcher\GeneralHelper::sanitiseForQuery');
 
-        $sql = "SELECT id, time, email_to, subject, message,
-            status, error, backtrace_segment, attachments,
-            additional_headers
+        $sql = "SELECT " . implode(',', $columnsToSelect) . "
             FROM " . $wpdb->prefix . GeneralHelper::$tableName . " ";
 
         $whereClause = false;
@@ -101,10 +123,10 @@ class Logs
             }
 
             switch ($args['post_status']) {
-                case ('successful') :
+                case ('successful'):
                     $sql .= "status = 1 ";
                     break;
-                case ('failed') :
+                case ('failed'):
                     $sql .= "status = 0 ";
                     break;
             }
@@ -129,24 +151,42 @@ class Logs
     static private function dbResultTransform($results, $args = [])
     {
         foreach ($results as &$result) {
-            $result['status'] = (bool)$result['status'];
-            $result['attachments'] = json_decode($result['attachments'], true);
-            $result['additional_headers'] = isset($result['additional_headers']) && !empty($result['additional_headers']) ?
-                json_decode($result['additional_headers'], true) :
-                [];
             $result['attachment_file_paths'] = [];
 
-            if (is_string($result['additional_headers'])) {
-                $result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);
+            if (isset($result['status'])) {
+                $result['status'] = (bool)$result['status'];
             }
 
-            $result['timestamp'] = $result['time'];
-            $result['time'] = $args['date_time_format'] == 'human' ? GeneralHelper::getHumanReadableTimeFromNow($result['timestamp']) : date($args['date_time_format'], $result['timestamp']);
-            $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], 'text/html');
-            $result['email_from'] = self::getEmailFrom($result);
-            $result['message'] = stripslashes(htmlspecialchars_decode($result['message']));
+            if (isset($result['additional_headers'])) {
+                $result['additional_headers'] = json_decode($result['additional_headers'], true);
+
+                if (is_string($result['additional_headers'])) {
+                    $result['additional_headers'] = explode(PHP_EOL, $result['additional_headers']);
+                }
+
+                $result['email_from'] = self::getEmailFrom($result);
+            }
+
+            if (isset($result['time'])) {
+                $result['timestamp'] = $result['time'];
+                $result['time'] = $args['date_time_format'] == 'human' ? GeneralHelper::getHumanReadableTimeFromNow($result['timestamp']) : date($args['date_time_format'], $result['timestamp']);
+            }
+
+            // This will exist if the db_version is >= 2.0.0
+            if (isset($result['is_html']) && $result['is_html'] == true) {
+                $result['is_html'] = (bool)$result['is_html'];
+            // Otherwise resort to the original method
+            } else if (isset($result['additional_headers'])) {
+                $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], GeneralHelper::$htmlEmailHeader);
+            }
+
+            if (isset($result['message'])) {
+                $result['message'] = stripslashes(htmlspecialchars_decode($result['message']));
+            }
 
             if (!empty($result['attachments'])) {
+                $result['attachments'] = json_decode($result['attachments'], true);
+
                 foreach ($result['attachments'] as &$attachment) {
                     if ($attachment['id'] == -1) {
                         $attachment['note'] = GeneralHelper::$attachmentNotInMediaLib;
@@ -181,7 +221,7 @@ class Logs
         if (empty($ids)) {
             return;
         }
-        
+
         global $wpdb;
 
         $ids = GeneralHelper::arrayToString($ids);
