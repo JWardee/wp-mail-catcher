@@ -94,6 +94,10 @@ Great! Please leave a note in our (GitHub tracker)
 
 == Changelog ==
 
+= 2.0.1 =
+
+- Fix: Bulk actions (delete, export, resend) now works
+
 = 2.0.0 =
 
 - Deprecation: Increased supported PHP version from 5.6 to 7.2
