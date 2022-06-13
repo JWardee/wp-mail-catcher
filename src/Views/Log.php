@@ -91,9 +91,9 @@ $logs->prepare_items();
             <?php endforeach; ?>
             
             <?php $logs->search_box(__('Search Logs', 'WpMailCatcher'), 'search_id'); ?>
-        </form>
 
-        <?php $logs->display(); ?>
+            <?php $logs->display(); ?>
+        </form>
 
         <?php require GeneralHelper::$pluginViewDirectory . '/Footer.php'; ?>
     </div>
