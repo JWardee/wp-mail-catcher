@@ -153,14 +153,6 @@ class Logs
         foreach ($results as &$result) {
             $result['attachment_file_paths'] = [];
 
-            if (isset($result['email_to'])) {
-                $result['email_to'] = htmlspecialchars($result['email_to']);
-            }
-
-            if (isset($result['subject'])) {
-                $result['subject'] = htmlspecialchars($result['subject']);
-            }
-
             if (isset($result['status'])) {
                 $result['status'] = (bool)$result['status'];
             }

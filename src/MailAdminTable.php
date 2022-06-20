@@ -86,7 +86,7 @@ class MailAdminTable extends \WP_List_Table
             'export' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=export&id=' . $item['id'], 'bulk-logs') . '">' . __('Export', 'WpMailCatcher') . '</a>',
         ];
 
-        return sprintf('%1$s %2$s', $item['email_to'], $this->row_actions($actions));
+        return sprintf('%1$s %2$s', htmlspecialchars($item['email_to']), $this->row_actions($actions));
     }
 
     function column_status($item)
