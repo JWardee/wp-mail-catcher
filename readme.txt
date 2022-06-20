@@ -94,6 +94,12 @@ Great! Please leave a note in our (GitHub tracker)
 
 == Changelog ==
 
+= 2.0.2 =
+
+- Improvement: Reduced memory usage when deleting expired logs
+- Fix: Emails sent with the to address formatted with angled brackets are now escaped
+- Possible fix: Aligned wp_mail handling to be much closer to older version as some people reported issues
+
 = 2.0.1 =
 
 - Fix: Bulk actions (delete, export, resend) now works
