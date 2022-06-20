@@ -153,6 +153,14 @@ class Logs
         foreach ($results as &$result) {
             $result['attachment_file_paths'] = [];
 
+            if (isset($result['email_to'])) {
+                $result['email_to'] = htmlspecialchars($result['email_to']);
+            }
+
+            if (isset($result['subject'])) {
+                $result['subject'] = htmlspecialchars($result['subject']);
+            }
+
             if (isset($result['status'])) {
                 $result['status'] = (bool)$result['status'];
             }
@@ -248,5 +256,16 @@ class Logs
          * @url https://github.com/JWardee/wp-mail-catcher/issues/56
          */
         return str_replace(['custom:', 'From:', ' '], '', $fullHeader);
+    }
+
+    static public function deleteOlderThan($timeInterval)
+    {
+        global $wpdb;
+
+        $timestamp = time() - $timeInterval;
+
+        $sql = $wpdb->prepare("DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . " WHERE time <= %d", $timestamp);
+
+        $wpdb->query($sql);
     }
 }

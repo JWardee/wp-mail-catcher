@@ -4,7 +4,7 @@ Tags: mail logging, email log, email logger, logging, email logging, mail, crm
 Requires at least: 4.7
 Tested up to: 6.0
 Requires PHP: 7.2
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 Donate link: https://paypal.me/jamesmward
@@ -93,6 +93,12 @@ Great! Please leave a note in our (GitHub tracker)
 4. Supports column customisation and pagination
 
 == Changelog ==
+
+= 2.0.2 =
+
+- Improvement: Reduced memory usage when deleting expired logs
+- Fix: Emails sent with the to address formatted with angled brackets are now escaped
+- Possible fix: Aligned wp_mail handling to be much closer to older version as some people reported issues
 
 = 2.0.1 =
 
