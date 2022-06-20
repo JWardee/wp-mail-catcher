@@ -249,4 +249,15 @@ class Logs
          */
         return str_replace(['custom:', 'From:', ' '], '', $fullHeader);
     }
+
+    static public function deleteOlderThan($timeInterval)
+    {
+        global $wpdb;
+
+        $timestamp = time() - $timeInterval;
+
+        $sql = $wpdb->prepare("DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . " WHERE time <= %d", $timestamp);
+
+        $wpdb->query($sql);
+    }
 }
