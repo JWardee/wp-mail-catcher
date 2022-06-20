@@ -15,17 +15,14 @@ class WpMail
     public function __construct()
     {
         $priority = 999999;
-        add_filter('wp_mail', [$this, 'recordMail'], $priority);
+        add_action('wp_mail', [$this, 'recordMail'], $priority);
         add_action('wp_mail_failed', [$this, 'recordError'], $priority);
         add_filter('wp_mail_content_type', [$this, 'saveIsHtml'], $priority);
     }
 
     public function recordMail($args)
     {
-        $this->saveMail($args, [$this, 'getTransformedMailArgs']);
-
-        // Because this is triggered from add_filter we need to return the unmodified args
-        return $args;
+        return $this->saveMail($args, [$this, 'getTransformedMailArgs']);
     }
 
     public function recordError($error)

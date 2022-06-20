@@ -53,7 +53,8 @@ trait LogHelper
         global $wpdb;
 
         $wpdb->update(
-            $wpdb->prefix . GeneralHelper::$tableName, [
+            $wpdb->prefix . GeneralHelper::$tableName,
+            [
                 'status' => 0,
                 'error' => $error,
             ],
@@ -68,13 +69,15 @@ trait LogHelper
     public function saveIsHtml($contentType)
     {
         if ($this->id === null) {
-            return;
+            // Because this is triggered from add_filter we need to return the unmodified content type
+            return $contentType;
         }
 
         global $wpdb;
 
         $wpdb->update(
-            $wpdb->prefix . GeneralHelper::$tableName, [
+            $wpdb->prefix . GeneralHelper::$tableName,
+            [
                 'is_html' => $contentType === 'text/html',
             ],
             ['id' => $this->id]
