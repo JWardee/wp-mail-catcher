@@ -46,19 +46,6 @@ class TestEmails extends WP_UnitTestCase
 		wp_delete_attachment($pdfAttachmentId);
 	}
 
-	public function testEscapingToAndSubject()
-	{
-		$to = 'hello <test@test.com>';
-		$subject = 'my subject <blah> " \'';
-
-		wp_mail($to, $subject, 'message');
-		
-		$log = Logs::getFirst();
-
-		$this->assertEquals($log['email_to'], htmlspecialchars($to));
-		$this->assertEquals($log['subject'], htmlspecialchars($subject));
-	}
-
 	public function testCorrectTos()
 	{
 		wp_mail('test@test.com', 'subject', 'message');
