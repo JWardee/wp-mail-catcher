@@ -250,11 +250,12 @@ class Logs
         return str_replace(['custom:', 'From:', ' '], '', $fullHeader);
     }
 
-    static public function deleteOlderThan($timeInterval)
+    static public function deleteOlderThan($timeInterval = null)
     {
         global $wpdb;
-
-        $timestamp = time() - $timeInterval;
+        
+        $interval = $timeInterval == null ?  Settings::get('timescale') : $timeInterval;
+        $timestamp = time() - $interval;
 
         $sql = $wpdb->prepare("DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . " WHERE time <= %d", $timestamp);
 
