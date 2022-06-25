@@ -94,6 +94,10 @@ Great! Please leave a note in our (GitHub tracker)
 
 == Changelog ==
 
+= 2.0.4 =
+
+- Fix: Resolved memory leak when saving a new log
+
 = 2.0.3 =
 
 - Fix: Auto deleting clearing all logs
