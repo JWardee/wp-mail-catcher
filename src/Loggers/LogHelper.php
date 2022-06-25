@@ -33,7 +33,7 @@ trait LogHelper
             $args['to'] = [];
         }
 
-        do_action(GeneralHelper::$actionNameSpace . '_mail_success', Logs::getFirst(['id' => $this->id]));
+        do_action(GeneralHelper::$actionNameSpace . '_mail_success', Logs::getFirst(['post__in' => $this->id]));
 
         return $args;
     }
@@ -63,7 +63,7 @@ trait LogHelper
 
         Cache::flush();
 
-        do_action(GeneralHelper::$actionNameSpace . '_mail_failed', Logs::getFirst(['id' => $this->id]));
+        do_action(GeneralHelper::$actionNameSpace . '_mail_failed', Logs::getFirst(['post__in' => $this->id]));
     }
 
     public function saveIsHtml($contentType)
