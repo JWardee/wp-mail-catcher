@@ -39,6 +39,9 @@ class Bootstrap
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
         add_action('plugins_loaded', function() {
             load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$adminPageSlug . '/languages/');
+
+            // Silently run database upgrades - if there are any
+            DatabaseUpgradeManager::getInstance()->doUpgrade();
         });
         add_action('admin_menu', function() {
             $this->registerPages();
@@ -102,8 +105,7 @@ class Bootstrap
         if (current_user_can(Settings::get('default_view_role'))) {
             /** Perform database upgrade */
             if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'upgrade-database') {
-                $dbUpgradeManager = DatabaseUpgradeManager::getInstance();
-                $dbUpgradeManager->doUpgrade();
+                DatabaseUpgradeManager::getInstance()->doUpgrade();
                 GeneralHelper::redirectToThisHomeScreen();
             }
 
@@ -166,7 +168,7 @@ class Bootstrap
 
                 Mail::add(
                     $_POST['header_keys'],
-                    $_POST['header_values'], 
+                    $_POST['header_values'],
                     $_POST['attachment_ids'],
                     $_POST['subject'],
                     $_POST['message'],
@@ -187,6 +189,14 @@ class Bootstrap
         }
 
         if (current_user_can(Settings::get('default_settings_role'))) {
+            if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'rerun-migrations') {
+                DatabaseUpgradeManager::getInstance()->doUpgrade(true);
+                GeneralHelper::redirectToThisHomeScreen([
+                    'trigger-rerun-migration-success' => true,
+                    'page' => GeneralHelper::$adminPageSlug . '-settings'
+                ]);
+            }
+
             if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'trigger-auto-delete') {
                 ExpiredLogManager::removeExpiredLogs();
                 GeneralHelper::redirectToThisHomeScreen([
@@ -256,8 +266,7 @@ class Bootstrap
 
         Settings::installOptions();
 
-        $dbUpgradeManager = DatabaseUpgradeManager::getInstance();
-        $dbUpgradeManager->doUpgrade();
+        DatabaseUpgradeManager::getInstance()->doUpgrade();
 
         if ($newSite != null) {
             restore_current_blog();
@@ -266,8 +275,7 @@ class Bootstrap
 
     static public function deactivate()
     {
-        $cronManager = CronManager::getInstance();
-        $cronManager->clearTasks();
+        CronManager::getInstance()->clearTasks();
     }
 
     static public function uninstall()

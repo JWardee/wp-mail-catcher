@@ -6,6 +6,7 @@ use WP_Error;
 use WpMailCatcher\GeneralHelper;
 use WpMailCatcher\Models\Cache;
 use WpMailCatcher\Models\Logs;
+use WpMailCatcher\Models\Settings;
 
 trait LogHelper
 {
@@ -68,7 +69,7 @@ trait LogHelper
 
     public function saveIsHtml($contentType)
     {
-        if ($this->id === null) {
+        if ($this->id === null || Settings::get('db_version') < '2.0.0') {
             // Because this is triggered from add_filter we need to return the unmodified content type
             return $contentType;
         }
