@@ -2,7 +2,6 @@
 
 namespace WpMailCatcher;
 
-use WpMailCatcher\Loggers\BuddyPress;
 use WpMailCatcher\Loggers\WpMail;
 
 class LoggerFactory

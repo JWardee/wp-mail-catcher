@@ -41,7 +41,7 @@ class Settings
         return self::$settings;
     }
 
-    static public function update($newValues)
+    static public function update($newValues): bool
     {
         $settings = self::get();
 

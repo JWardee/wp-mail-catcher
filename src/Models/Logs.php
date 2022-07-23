@@ -33,10 +33,11 @@ class Logs
     }
 
     /**
-     * @param array $args
+     * @param  array  $args
+     *
      * @return array|null|object
      */
-    static public function get($args = [])
+    static public function get(array $args = [])
     {
         global $wpdb;
 
@@ -119,7 +120,6 @@ class Logs
                 $sql .= "AND ";
             } else {
                 $sql .= "WHERE ";
-                $whereClause = true;
             }
 
             switch ($args['post_status']) {
@@ -209,7 +209,7 @@ class Logs
         return $results;
     }
 
-    static public function getTotalAmount()
+    static public function getTotalAmount(): ?string
     {
         global $wpdb;
 

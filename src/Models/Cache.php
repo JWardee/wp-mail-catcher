@@ -24,7 +24,7 @@ class Cache
         self::$cache = [];
     }
 
-    static private function getHashedKey($entry)
+    static private function getHashedKey($entry): string
     {
         return md5(serialize($entry));
     }

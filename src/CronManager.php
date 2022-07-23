@@ -42,7 +42,7 @@ class CronManager
         wp_schedule_event($nextRun, $interval, $identifier);
     }
 
-    public function getTasks()
+    public function getTasks(): array
     {
         $cronTasks = _get_cron_array();
         $events = [];

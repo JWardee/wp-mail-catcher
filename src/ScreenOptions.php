@@ -21,7 +21,7 @@ class ScreenOptions
         }
     }
 
-    static public function getInstance()
+    static public function getInstance(): ScreenOptions
     {
         if (self::$instance == null) {
             self::$instance = new self();
@@ -66,7 +66,6 @@ class ScreenOptions
 
     public function addToScreen()
     {
-        $currentScreen = null;
         $currentScreen = get_current_screen();
         $this->initTables();
 

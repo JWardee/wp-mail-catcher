@@ -7,7 +7,7 @@ use WpMailCatcher\Models\Settings;
 class DatabaseUpgradeService
 {
     private $dbVersion;
-    private $upgradePaths = [];
+    private $upgradePaths;
 
     public function __construct($upgradePaths, $currentDbVersion)
     {
@@ -15,7 +15,7 @@ class DatabaseUpgradeService
         $this->dbVersion = $currentDbVersion;
     }
 
-    public function isUpgradeRequired()
+    public function isUpgradeRequired(): bool
     {
         foreach ($this->upgradePaths as $version => $function) {
             if ($this->dbVersion < $version) {
