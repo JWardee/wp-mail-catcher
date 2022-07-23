@@ -42,11 +42,11 @@ class Bootstrap
 
             // Fix for db_version falling out of sync in previous versions
             if (in_array(Settings::get('db_version'), ['2.0.1', '2.0.2', '2.0.3', '2.0.4'])) {
-                Settings::update(['db_version' => '2.0.0']);
+                DatabaseUpgradeManager::getInstance()->doUpgrade(true);
+            } else {
+                // Silently run database upgrades - if there are any
+                DatabaseUpgradeManager::getInstance()->doUpgrade();
             }
-
-            // Silently run database upgrades - if there are any
-            DatabaseUpgradeManager::getInstance()->doUpgrade();
         });
         add_action('admin_menu', function() {
             $this->registerPages();
