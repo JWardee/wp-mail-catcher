@@ -54,7 +54,7 @@ class Bootstrap
 
     public function registerCronTasks()
     {
-        if (Settings::get('auto_delete') == true) {
+        if (Settings::get('auto_delete')) {
             $cronManager = CronManager::getInstance();
             $cronManager->addTask('WpMailCatcher\ExpiredLogManager::removeExpiredLogs', Settings::$howOftenCheckForExpiredMessages);
         }
@@ -166,7 +166,7 @@ class Bootstrap
 
                 Mail::add(
                     $_POST['header_keys'],
-                    $_POST['header_values'], 
+                    $_POST['header_values'],
                     $_POST['attachment_ids'],
                     $_POST['subject'],
                     $_POST['message'],
@@ -211,7 +211,7 @@ class Bootstrap
                 'default_view_role' => $_POST['default_view_role'],
                 'default_settings_role' => $_POST['default_settings_role'],
                 'auto_delete' => $_POST['auto_delete'],
-                'timescale' => $_POST['auto_delete'] == true ? $_POST['timescale'] : null,
+                'timescale' => $_POST['auto_delete'] ? $_POST['timescale'] : null,
             ]);
 
             GeneralHelper::redirectToThisHomeScreen([

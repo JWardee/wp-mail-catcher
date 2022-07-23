@@ -19,7 +19,7 @@ class Logs
 
     static public function getTotalPages($postsPerPage = false)
     {
-        if ($postsPerPage == false) {
+        if ( ! $postsPerPage) {
             $postsPerPage = GeneralHelper::$logsPerPage;
         }
 
@@ -29,7 +29,7 @@ class Logs
     static public function getFirst($args = [])
     {
         $result = self::get($args);
-        return isset($result[0]) ? $result[0] : false;
+        return $result[0] ?? false;
     }
 
     /**
@@ -40,7 +40,7 @@ class Logs
     {
         global $wpdb;
 
-        if (!isset($args['ignore_cache']) || $args['ignore_cache'] == false) {
+        if ( !isset($args['ignore_cache']) || ! $args['ignore_cache']) {
             $cachedValue = Cache::get($args);
 
             if ($cachedValue != null) {
@@ -100,7 +100,7 @@ class Logs
         }
 
         if ($args['s'] != null) {
-            if ($whereClause == true) {
+            if ($whereClause) {
                 $sql .= "AND ";
             } else {
                 $sql .= "WHERE ";
@@ -115,7 +115,7 @@ class Logs
         }
 
         if ($args['post_status'] != 'any') {
-            if ($whereClause == true) {
+            if ($whereClause) {
                 $sql .= "AND ";
             } else {
                 $sql .= "WHERE ";
@@ -141,7 +141,7 @@ class Logs
 
         $results = self::dbResultTransform($wpdb->get_results($sql, ARRAY_A), $args);
 
-        if (!isset($args['ignore_cache']) || $args['ignore_cache'] == false) {
+        if ( !isset($args['ignore_cache']) || ! $args['ignore_cache']) {
             Cache::set($args, $results);
         }
 
@@ -173,7 +173,7 @@ class Logs
             }
 
             // This will exist if the db_version is >= 2.0.0
-            if (isset($result['is_html']) && $result['is_html'] == true) {
+            if (isset($result['is_html']) && $result['is_html']) {
                 $result['is_html'] = (bool)$result['is_html'];
             // Otherwise resort to the original method
             } else if (isset($result['additional_headers'])) {
@@ -197,9 +197,9 @@ class Logs
                     $attachment['url'] = wp_get_attachment_url($attachment['id']);
                     $result['attachment_file_paths'][] = get_attached_file($attachment['id']);
 
-                    $isImage = strpos(get_post_mime_type($attachment['id']), 'image') !== false ? true : false;
+                    $isImage = strpos(get_post_mime_type($attachment['id']), 'image') !== false;
 
-                    if ($isImage == true) {
+                    if ($isImage) {
                         $attachment['src'] = $attachment['url'];
                     }
                 }
@@ -253,7 +253,7 @@ class Logs
     static public function deleteOlderThan($timeInterval = null)
     {
         global $wpdb;
-        
+
         $interval = $timeInterval == null ?  Settings::get('timescale') : $timeInterval;
         $timestamp = time() - $interval;
 

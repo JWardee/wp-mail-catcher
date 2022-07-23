@@ -69,7 +69,7 @@ class Mail
                 $log['additional_headers'] = '-';
             }
 
-            if ($log['status'] == true) {
+            if ($log['status']) {
                 $log['error'] = 'None';
                 $log['status'] = 'Successful';
             } else {
@@ -82,7 +82,7 @@ class Mail
             $heading = GeneralHelper::slugToLabel($heading);
         });
 
-        if ($forceBrowserDownload == true) {
+        if ($forceBrowserDownload) {
             header('Content-Type: text/csv; charset=utf-8');
             header('Content-Disposition: attachment; filename="' . GeneralHelper::$csvExportFileName . '"');
             self::processLogToCsv($headings, $logs);

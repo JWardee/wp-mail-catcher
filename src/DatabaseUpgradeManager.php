@@ -10,7 +10,7 @@ class DatabaseUpgradeManager
 
     public static function getInstance()
     {
-        if (self::$instance == true) {
+        if (self::$instance) {
             return self::$instance;
         }
 
@@ -18,7 +18,7 @@ class DatabaseUpgradeManager
             '2.0.0' => function () {
                 global $wpdb;
 
-                // dbDelta creates a diff between the table schemas, and executes 
+                // dbDelta creates a diff between the table schemas, and executes
                 // the necessary SQL so they match. In this case we add the column
                 // is_html and default it to false
                 $sql = "CREATE TABLE " . $wpdb->prefix . GeneralHelper::$tableName . " (

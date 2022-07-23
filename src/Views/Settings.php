@@ -51,13 +51,15 @@ $cronJobs = CronManager::getInstance()->getTasks();
                             </label>
                         </th>
                         <td>
-                            <select name="default_view_role">
-                                <?php foreach ($capabilities as $capability => $value) : ?>
-                                    <option<?php if ($settings['default_view_role'] == $capability) : ?> selected<?php endif; ?>>
-                                        <?php echo $capability; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <label>
+                                <select name="default_view_role">
+                                    <?php foreach ($capabilities as $capability => $value) : ?>
+                                        <option<?php if ($settings['default_view_role'] == $capability) : ?> selected<?php endif; ?>>
+                                            <?php echo $capability; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </label>
                         </td>
                     </tr>
                     <tr>
@@ -67,13 +69,15 @@ $cronJobs = CronManager::getInstance()->getTasks();
                             </label>
                         </th>
                         <td>
-                            <select name="default_settings_role">
-                                <?php foreach ($capabilities as $capability => $value) : ?>
-                                    <option<?php if ($settings['default_settings_role'] == $capability) : ?> selected<?php endif; ?>>
-                                        <?php echo $capability; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <label>
+                                <select name="default_settings_role">
+                                    <?php foreach ($capabilities as $capability => $value) : ?>
+                                        <option<?php if ($settings['default_settings_role'] == $capability) : ?> selected<?php endif; ?>>
+                                            <?php echo $capability; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </label>
                         </td>
                     </tr>
                     <tr>
@@ -85,7 +89,7 @@ $cronJobs = CronManager::getInstance()->getTasks();
                         <td>
                             <label>
                                 <input type="radio" name="auto_delete"
-                                       value="false"<?php if ($settings['auto_delete'] == false) : ?> checked<?php endif; ?>>
+                                       value="false"<?php if ( ! $settings['auto_delete']) : ?> checked<?php endif; ?>>
                                 <span class="date-time-text date-time-custom-text">
                                     <?php _e('No', 'WpMailCatcher'); ?>
                                 </span>
@@ -93,7 +97,7 @@ $cronJobs = CronManager::getInstance()->getTasks();
                             <fieldset>
                                 <label>
                                     <input type="radio" name="auto_delete"
-                                           value="true"<?php if ($settings['auto_delete'] == true) : ?> checked<?php endif; ?>>
+                                           value="true"<?php if ($settings['auto_delete']) : ?> checked<?php endif; ?>>
                                     <span class="date-time-text date-time-custom-text">
                                         <?php
                                         $getOptions = function($timescale) {

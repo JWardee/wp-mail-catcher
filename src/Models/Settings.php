@@ -35,7 +35,7 @@ class Settings
         }
 
         if ($key != null) {
-            return isset(self::$settings[$key]) ? self::$settings[$key] : self::$defaultSettings[$key];
+            return self::$settings[$key] ?? self::$defaultSettings[$key];
         }
 
         return self::$settings;
@@ -55,7 +55,7 @@ class Settings
 
     static public function installOptions($force = false)
     {
-        if ($force == true || get_option(self::$optionsName, false) == false) {
+        if ($force || ! get_option(self::$optionsName, false)) {
             add_option(self::$optionsName, serialize(self::$defaultSettings), '', 'no');
             self::$settings = self::$defaultSettings;
         }

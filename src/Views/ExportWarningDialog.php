@@ -1,4 +1,10 @@
-<?php use WpMailCatcher\GeneralHelper; ?>
+<?php
+use WpMailCatcher\GeneralHelper;
+
+if (!isset($logs)) {
+    return;
+}
+?>
 
 <div id="export-warning-dialog" class="modal">
     <div class="modal-content">
@@ -30,9 +36,11 @@
                                         </label>
                                     </th>
                                     <td>
-                                        <input data-update-format name="posts_per_page" type="text"
-                                               value="<?php echo GeneralHelper::$logLimitBeforeWarning; ?>"
-                                               class="field -input"/>
+                                        <label>
+                                            <input data-update-format name="posts_per_page" type="text"
+                                                   value="<?php echo GeneralHelper::$logLimitBeforeWarning; ?>"
+                                                   class="field -input"/>
+                                        </label>
                                     </td>
                                 </tr>
                                 <tr>
@@ -42,8 +50,10 @@
                                         </label>
                                     </th>
                                     <td>
-                                        <input data-update-format name="paged" type="text" value="1"
-                                               class="field -input"/>
+                                        <label>
+                                            <input data-update-format name="paged" type="text" value="1"
+                                                   class="field -input"/>
+                                        </label>
                                         <p class="description"
                                            data-text-format="<?php _e('This will export messages <strong>%s-%s</strong>',
                                                'WpMailCatcher'); ?>"></p>

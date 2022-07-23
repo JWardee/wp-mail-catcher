@@ -7,7 +7,6 @@ class ScreenOptions
     static private $instance;
     private $options = [];
     private $helpTabs = [];
-    private $currentScreen = null;
     static public $optionIdsToWatch = [
         'logs_per_page' => 'toplevel_page_wp_mail_catcher_per_page',
         'logs_hidden_table_columns' => 'managetoplevel_page_wp-mail-catchercolumnshidden'
@@ -67,11 +66,12 @@ class ScreenOptions
 
     public function addToScreen()
     {
-        $this->currentScreen = get_current_screen();
+        $currentScreen = null;
+        $currentScreen = get_current_screen();
         $this->initTables();
 
         foreach ($this->helpTabs as $helpTab) {
-            $this->currentScreen->add_help_tab($helpTab);
+            $currentScreen->add_help_tab($helpTab);
         }
 
         foreach ($this->options as $option) {

@@ -15,7 +15,7 @@ class CronManager
 
     public static function getInstance()
     {
-        if (self::$instance == false) {
+        if ( ! self::$instance) {
             self::$instance = new CronManager();
         }
 
@@ -60,7 +60,7 @@ class CronManager
                         'sig' => $sig,
                         'args' => $data['args'],
                         'schedule' => $data['schedule'],
-                        'interval' => isset($data['interval']) ? $data['interval'] : null,
+                        'interval' => $data['interval'] ?? null,
                         'nextRun' => isset($data['interval']) ? GeneralHelper::getHumanReadableTime($time, time(), '') : null,
                     ];
                 }
