@@ -13,14 +13,14 @@ class DatabaseUpgradeManager
         if (self::$instance == true) {
             return self::$instance;
         }
-        
+
         // When adding a new migration use the current/next plugin version as the
         // key rather than just incrementing the previous key
         self::$instance = new DatabaseUpgradeService([
             '2.0.0' => function () {
                 global $wpdb;
 
-                // dbDelta creates a diff between the table schemas, and executes 
+                // dbDelta creates a diff between the table schemas, and executes
                 // the necessary SQL so they match. In this case we add the column
                 // is_html and default it to false
                 $sql = "CREATE TABLE " . $wpdb->prefix . GeneralHelper::$tableName . " (

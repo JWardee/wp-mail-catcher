@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WpMailCatcher 2.0.0\n"
+"Project-Id-Version: WpMailCatcher 2.0.5\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2022-04-18 19:18+0100\n"
+"POT-Creation-Date: 2022-07-23 16:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../src/Bootstrap.php:51 ../../src/Bootstrap.php:84
+#: ../../src/Bootstrap.php:59 ../../src/Bootstrap.php:92
 msgid "Settings"
 msgstr ""
 
@@ -103,16 +103,18 @@ msgstr ""
 msgid "If you've found this useful - please rate us!"
 msgstr ""
 
-#: ../../src/Views/Log.php:22
+#: ../../src/Views/Log.php:20
 msgid "logs"
 msgstr ""
 
-#: ../../src/Views/Log.php:28
+#: ../../src/Views/Log.php:26
 #, php-format
-msgid "Click <a href=\"%s\">here</a> to upgrade your database"
+msgid ""
+"Your WP Mail Catcher database needs upgrading. <strong>Click <a href=\"%s"
+"\">here</a> to perform the upgrade.</strong>"
 msgstr ""
 
-#: ../../src/Views/Log.php:41
+#: ../../src/Views/Log.php:39
 #, php-format
 msgid ""
 "You have <strong>over %s</strong> messages stored and <a href=\"%s\">auto-"
@@ -120,27 +122,27 @@ msgid ""
 "please either allow auto-delete or delete some logs."
 msgstr ""
 
-#: ../../src/Views/Log.php:53
+#: ../../src/Views/Log.php:51
 msgid "New Message"
 msgstr ""
 
-#: ../../src/Views/Log.php:58 ../../src/Views/Log.php:63
+#: ../../src/Views/Log.php:56 ../../src/Views/Log.php:61
 msgid "Export all messages"
 msgstr ""
 
-#: ../../src/Views/Log.php:72
+#: ../../src/Views/Log.php:70
 msgid "All"
 msgstr ""
 
-#: ../../src/Views/Log.php:78
+#: ../../src/Views/Log.php:76
 msgid "Successful"
 msgstr ""
 
-#: ../../src/Views/Log.php:84
+#: ../../src/Views/Log.php:82
 msgid "Failed"
 msgstr ""
 
-#: ../../src/Views/Log.php:90
+#: ../../src/Views/Log.php:93
 msgid "Search Logs"
 msgstr ""
 
@@ -156,19 +158,31 @@ msgstr ""
 msgid "Debug"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:23
-msgid "There aren't any details to show!"
+#: ../../src/Views/LogModal.php:22 ../../src/Views/NewMessageModal.php:38
+msgid "Is HTML email?"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:27 ../../src/Views/NewMessageModal.php:47
+#: ../../src/Views/LogModal.php:23
+msgid "Yes"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:23 ../../src/Views/Settings.php:96
+msgid "No"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:26
+msgid "No attachments to show"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:28 ../../src/Views/NewMessageModal.php:47
 msgid "Attachments"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:48
-msgid "No additional details to show"
+#: ../../src/Views/LogModal.php:49
+msgid "No additional headers to show"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:50
+#: ../../src/Views/LogModal.php:51
 msgid "Additional Headers"
 msgstr ""
 
@@ -188,11 +202,7 @@ msgstr ""
 msgid "Errors:"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:77
-msgid "HTML Code"
-msgstr ""
-
-#: ../../src/Views/LogModal.php:84 ../../src/Views/NewMessageModal.php:82
+#: ../../src/Views/LogModal.php:79 ../../src/Views/NewMessageModal.php:82
 msgid "Close"
 msgstr ""
 
@@ -210,10 +220,6 @@ msgstr ""
 
 #: ../../src/Views/NewMessageModal.php:29
 msgid "Custom"
-msgstr ""
-
-#: ../../src/Views/NewMessageModal.php:38
-msgid "Is HTML email?"
 msgstr ""
 
 #: ../../src/Views/NewMessageModal.php:60
@@ -236,36 +242,49 @@ msgstr ""
 msgid "You didn't change any settings"
 msgstr ""
 
-#: ../../src/Views/Settings.php:30
+#: ../../src/Views/Settings.php:33
+msgid "The auto delete was successfully triggered"
+msgstr ""
+
+#: ../../src/Views/Settings.php:41
+msgid "Database migrations were successfully rerun"
+msgstr ""
+
+#: ../../src/Views/Settings.php:46
 msgid "settings"
 msgstr ""
 
-#: ../../src/Views/Settings.php:40
+#: ../../src/Views/Settings.php:56
 msgid "User capability needed to see logs"
 msgstr ""
 
-#: ../../src/Views/Settings.php:56
+#: ../../src/Views/Settings.php:72
 msgid "User capability needed to edit settings"
 msgstr ""
 
-#: ../../src/Views/Settings.php:72
+#: ../../src/Views/Settings.php:88
 msgid "Auto delete logs?"
 msgstr ""
 
-#: ../../src/Views/Settings.php:80
-msgid "No"
-msgstr ""
-
-#: ../../src/Views/Settings.php:98
+#: ../../src/Views/Settings.php:114
 #, php-format
 msgid "Yes - delete messages that are over %s old"
 msgstr ""
 
-#: ../../src/Views/Settings.php:104
+#: ../../src/Views/Settings.php:120
 #, php-format
-msgid "Will next run in: %s."
+msgid "Will next run in: %s. <a href=\"?page="
 msgstr ""
 
-#: ../../src/Views/Settings.php:115
+#: ../../src/Views/Settings.php:129
+msgid "Database version"
+msgstr ""
+
+#: ../../src/Views/Settings.php:134
+#, php-format
+msgid "%s. <a href=\"?page="
+msgstr ""
+
+#: ../../src/Views/Settings.php:143
 msgid "Save Changes"
 msgstr ""
