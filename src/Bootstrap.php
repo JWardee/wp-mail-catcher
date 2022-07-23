@@ -41,7 +41,7 @@ class Bootstrap
             load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$adminPageSlug . '/languages/');
 
             // Silently run database upgrades - if there are any
-            DatabaseUpgradeManager::getInstance()->doUpgrade();
+            DatabaseUpgradeManager::getInstance()->doUpgrade(true);
         });
         add_action('admin_menu', function() {
             $this->registerPages();
