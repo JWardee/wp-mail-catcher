@@ -39,7 +39,10 @@ jobs:
 
     - name: Composer install
       run: composer install --optimize-autoloader --prefer-dist
-    
+
+    - name: Run PHPStan analysis
+      run: ./vendor/bin/phpstan analyse
+
     - name: Install WP Tests
       run: bash testing/bin/install-wp-tests.sh wordpress_test username password 127.0.0.1 latest true
       
