@@ -26,18 +26,18 @@ class DatabaseUpgradeService
         return false;
     }
 
-    public function doUpgrade()
+    public function doUpgrade($forceUpgrade = false)
     {
-        if (!$this->isUpgradeRequired()) {
+        if (!$forceUpgrade && !$this->isUpgradeRequired()) {
             return;
         }
 
         foreach ($this->upgradePaths as $version => $function) {
-            if ($this->dbVersion < $version) {
+            if ($forceUpgrade || $this->dbVersion < $version) {
                 $function();
             }
         }
 
-        Settings::update(['db_version' => GeneralHelper::$pluginVersion]);
+        Settings::update(['db_version' => array_key_last($this->upgradePaths)]);
     }
 }
