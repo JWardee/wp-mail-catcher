@@ -12,7 +12,7 @@ class Settings
         'default_settings_role' => 'manage_options',
         'auto_delete' => true,
         'timescale' => 2419200, // 28 days
-        'db_version' => '',
+        'db_version' => '0',
     ];
     static public $defaultDeletionIntervals = [
         604800 => '1 week',

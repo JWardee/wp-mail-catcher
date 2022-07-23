@@ -2,7 +2,7 @@
 Contributors: Wardee
 Tags: mail logging, email log, email logger, logging, email logging, mail, crm
 Requires at least: 4.7
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 7.2
 Stable tag: 2.0.5
 License: GNU General Public License v3.0
@@ -96,7 +96,9 @@ Great! Please leave a note in our (GitHub tracker)
 
 = 2.0.5 =
 
----
+- Fix: Improved error handling when attempting to save a log without running the migration
+- New: Added ability to force rerun database migrations
+- Improvement: Database migrations will now happen automatically on plugin upgrade
 
 = 2.0.4 =
 

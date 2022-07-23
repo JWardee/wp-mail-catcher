@@ -28,4 +28,29 @@ class TestDbUpgrade extends WP_UnitTestCase
         $this->assertTrue($wasV2UpgradeCalled);
         $this->assertTrue($wasV25UpgradeCalled);
     }
+
+    public function testCanForceMigrationRerun()
+    {
+        $wasV15UpgradeCalled = false;
+        $wasV2UpgradeCalled = false;
+
+        $dbUpgradeManager = new DatabaseUpgradeService([
+            '1.5.0' => function () use (&$wasV15UpgradeCalled) {
+                $wasV15UpgradeCalled = true;
+            },
+            '2.0.0' => function () use (&$wasV2UpgradeCalled) {
+                $wasV2UpgradeCalled = true;
+            },
+        ], '2.0.0');
+
+        $dbUpgradeManager->doUpgrade();
+
+        $this->assertFalse($wasV15UpgradeCalled);
+        $this->assertFalse($wasV2UpgradeCalled);
+
+        $dbUpgradeManager->doUpgrade(true);
+
+        $this->assertTrue($wasV15UpgradeCalled);
+        $this->assertTrue($wasV2UpgradeCalled);
+    }
 }

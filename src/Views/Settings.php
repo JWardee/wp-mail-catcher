@@ -27,14 +27,20 @@ $cronJobs = CronManager::getInstance()->getTasks();
             <?php endif; ?>
         <?php endif; ?>
 
-        <?php if (isset($_GET['trigger-auto-delete-success'])) : ?>
-            <?php if ($_GET['trigger-auto-delete-success'] == 1) : ?>
-                <div class="notice notice-success">
-                    <p>
-                        <?php _e('The auto delete was successfully triggered', 'WpMailCatcher'); ?>
-                    </p>
-                </div>
-            <?php endif; ?>
+        <?php if (isset($_GET['trigger-auto-delete-success']) && $_GET['trigger-auto-delete-success'] == 1) : ?>
+            <div class="notice notice-success">
+                <p>
+                    <?php _e('The auto delete was successfully triggered', 'WpMailCatcher'); ?>
+                </p>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_GET['trigger-rerun-migration-success']) && $_GET['trigger-rerun-migration-success'] == 1) : ?>
+            <div class="notice notice-success">
+                <p>
+                    <?php _e('Database migrations were successfully rerun', 'WpMailCatcher'); ?>
+                </p>
+            </div>
         <?php endif; ?>
 
         <h2 class="heading">WP Mail Catcher - <?php _e('settings', 'WpMailCatcher'); ?></h2>
@@ -115,6 +121,18 @@ $cronJobs = CronManager::getInstance()->getTasks();
                                     </p>
                                 <?php endif; ?>
                             </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="blogname">
+                                <?php _e('Database version', 'WpMailCatcher'); ?>
+                            </label>
+                        </th>
+                        <td>
+                            <p class="description">
+                                <?php printf(__('%s. <a href="?page=' . GeneralHelper::$adminPageSlug . '&action=rerun-migrations">Rerun migrations</a>', 'WpMailCatcher'), $settings['db_version']); ?>
+                            </p>
                         </td>
                     </tr>
                 </tbody>
