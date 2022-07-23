@@ -13,7 +13,9 @@ class DatabaseUpgradeManager
         if (self::$instance == true) {
             return self::$instance;
         }
-
+        
+        // When adding a new migration use the current/next plugin version as the
+        // key rather than just incrementing the previous key
         self::$instance = new DatabaseUpgradeService([
             '2.0.0' => function () {
                 global $wpdb;

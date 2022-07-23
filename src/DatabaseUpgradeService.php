@@ -38,6 +38,6 @@ class DatabaseUpgradeService
             }
         }
 
-        Settings::update(['db_version' => GeneralHelper::$pluginVersion]);
+        Settings::update(['db_version' => array_key_last($this->upgradePaths)]);
     }
 }
