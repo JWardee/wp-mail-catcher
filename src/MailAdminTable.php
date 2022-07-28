@@ -9,6 +9,9 @@ class MailAdminTable extends \WP_List_Table
     public $totalItems;
     static private $instance = false;
 
+    const EMAIL_SUBJECT_BASE64_ENCODED = '=?utf-8?B?';
+	const EMAIL_SUBJECT_QUOTED_ENCODED = '=?utf-8?Q?';
+
     public function __construct($args = array())
     {
         parent::__construct([
@@ -107,6 +110,22 @@ class MailAdminTable extends \WP_List_Table
         ];
     }
 
+    function column_subject($item)
+	{
+		$subject = $item['subject'];
+
+		if( 0 === strpos($subject, self::EMAIL_SUBJECT_BASE64_ENCODED)) {
+			$subject_encoded = substr($subject, strlen(self::EMAIL_SUBJECT_BASE64_ENCODED), strlen($subject) - strlen(self::EMAIL_SUBJECT_BASE64_ENCODED) - 1);
+			$subject_decoded = base64_decode($subject_encoded);
+			return '[Base64] ' . $subject_decoded;
+		} else if ( 0 === strpos($subject, self::EMAIL_SUBJECT_QUOTED_ENCODED) ){
+			$subject_encoded = substr($subject, strlen(self::EMAIL_SUBJECT_QUOTED_ENCODED), strlen($subject) - strlen(self::EMAIL_SUBJECT_QUOTED_ENCODED) - 1);
+			$subject_decoded = quoted_printable_decode($subject_encoded);
+			return '[Quoted Printable] ' . $subject_decoded;
+		}
+		return $subject;
+	}
+
     function get_sortable_columns()
     {
         $sortable_columns = [
@@ -156,7 +175,7 @@ class MailAdminTable extends \WP_List_Table
         $this->process_bulk_action();
 
         $overrideParams = array_intersect_key($_REQUEST, Logs::$whitelistedParams);
-    
+
         $this->items = Logs::get(array_merge([
             'paged' => $this->get_pagenum(),
             'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any',
