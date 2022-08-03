@@ -12,3 +12,4 @@ node_modules
 .sass-cache
 global.min.*
 /languages/*.mo
+/.phpunit.result.cache
