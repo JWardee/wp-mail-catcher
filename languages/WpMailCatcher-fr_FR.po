@@ -52,10 +52,6 @@ msgstr "Renvoyer"
 msgid "Export"
 msgstr "Exporter"
 
-#: src/MailAdminTable.php:73
-msgid "More Info"
-msgstr "Plus d’information"
-
 #: src/MailAdminTable.php:80
 msgid "Sent"
 msgstr "Envoyé"

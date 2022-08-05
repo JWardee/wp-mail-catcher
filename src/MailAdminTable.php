@@ -58,11 +58,6 @@ class MailAdminTable extends \WP_List_Table
         );
     }
 
-    function column_more_info($item)
-    {
-        return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('More Info' ,'WpMailCatcher') . '</a>';
-    }
-
     function get_columns()
     {
         $columns = [
@@ -71,8 +66,7 @@ class MailAdminTable extends \WP_List_Table
             'email_to' => __('To', 'WpMailCatcher'),
             'subject' => __('Subject', 'WpMailCatcher'),
             'email_from' => __('From', 'WpMailCatcher'),
-            'time' => __('Sent', 'WpMailCatcher'),
-            'more_info' => ''
+            'time' => __('Sent', 'WpMailCatcher')
         ];
 
         return $columns;
