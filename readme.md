@@ -6,7 +6,7 @@
 WP Mail Catcher
 </h1>
 
-<p align="center"> 
+<p align="center">
 Backup and save your contact form emails (including Contact Form 7) to your database with this fast, lightweight plugin (under 140kb in size!)
 </p>
 
@@ -84,7 +84,7 @@ Let us know in our [GitHub tracker!](https://github.com/JWardee/wp-mail-catcher/
 Contributions are always welcome, to get started do the following:
 1. Pull the repo and run `composer install`
 2. cd into `build/grunt` and run `npm install`
-3. While inside of `build/grunt` run `grunt` this will watch your scss and js and compile any changes
+3. Still inside `build/grunt` run `npx grunt` (requires `sass` gem). This will build and watch the scss and js
 4. Make sure your code conforms to [PSR-2 standards](http://www.php-fig.org/psr/psr-2/)
 5. Ensure your changes pass all the unit tests
 6. Submit your pull request!

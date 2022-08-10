@@ -53,10 +53,10 @@
     width: 12px;
     border-radius: 100%;
     margin: 5px auto 0 auto;
-    cursor: pointer;
     background-color: #35bc35;
 
     &.-error {
+      cursor: pointer;
       background-color: #fd4f4f;
     }
   }
