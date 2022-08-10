@@ -156,7 +156,7 @@ class MailAdminTable extends \WP_List_Table
         $this->process_bulk_action();
 
         $overrideParams = array_intersect_key($_REQUEST, Logs::$whitelistedParams);
-    
+
         $this->items = Logs::get(array_merge([
             'paged' => $this->get_pagenum(),
             'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any',
