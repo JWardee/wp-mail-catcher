@@ -35,6 +35,10 @@ msgctxt "%s = human-readable time difference"
 msgid "%s"
 msgstr ""
 
+#: ../../src/MailAdminTable.php:63
+msgid "More Info"
+msgstr ""
+
 #: ../../src/MailAdminTable.php:71 ../../src/Views/NewMessageModal.php:25
 msgid "To"
 msgstr ""
