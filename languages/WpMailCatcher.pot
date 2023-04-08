@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WpMailCatcher 2.0.5\n"
+"Project-Id-Version: WpMailCatcher 2.1.0\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2022-07-23 16:46+0100\n"
+"POT-Creation-Date: 2023-04-08 00:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,44 +35,48 @@ msgctxt "%s = human-readable time difference"
 msgid "%s"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:63
+#: ../../src/MailAdminTable.php:62
 msgid "More Info"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:71 ../../src/Views/NewMessageModal.php:25
+#: ../../src/MailAdminTable.php:70 ../../src/Views/NewMessageModal.php:26
 msgid "To"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:72 ../../src/Views/NewMessageModal.php:41
+#: ../../src/MailAdminTable.php:71 ../../src/Views/NewMessageModal.php:45
 msgid "Subject"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:73 ../../src/Views/NewMessageModal.php:28
+#: ../../src/MailAdminTable.php:72 ../../src/Views/NewMessageModal.php:29
 msgid "From"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:74
+#: ../../src/MailAdminTable.php:73
 msgid "Sent"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:84 ../../src/MailAdminTable.php:124
+#: ../../src/MailAdminTable.php:81 ../../src/MailAdminTable.php:120
 msgid "Delete"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:85 ../../src/MailAdminTable.php:125
+#: ../../src/MailAdminTable.php:82 ../../src/MailAdminTable.php:121
 msgid "Resend"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:86 ../../src/MailAdminTable.php:126
-#: ../../src/Views/ExportWarningDialog.php:63
+#: ../../src/MailAdminTable.php:83 ../../src/MailAdminTable.php:122
+#: ../../src/Views/ExportWarningDialog.php:73
 msgid "Export"
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:11
+#: ../../src/MailAdminTable.php:84
+msgid "View"
+msgstr ""
+
+#: ../../src/Views/ExportWarningDialog.php:17
 msgid "Warning"
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:15
+#: ../../src/Views/ExportWarningDialog.php:21
 #, php-format
 msgid ""
 "You are trying to export <strong>%s</strong> messages when the recommended "
@@ -82,20 +86,20 @@ msgid ""
 "messages exported, or exporting them in batches."
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:29
+#: ../../src/Views/ExportWarningDialog.php:35
 msgid "Number of logs to export"
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:41
+#: ../../src/Views/ExportWarningDialog.php:49
 msgid "Batch number"
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:48
+#: ../../src/Views/ExportWarningDialog.php:58
 #, php-format
 msgid "This will export messages <strong>%s-%s</strong>"
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:66
+#: ../../src/Views/ExportWarningDialog.php:76
 msgid "Cancel"
 msgstr ""
 
@@ -146,7 +150,7 @@ msgstr ""
 msgid "Search Logs"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:11 ../../src/Views/NewMessageModal.php:66
+#: ../../src/Views/LogModal.php:11 ../../src/Views/NewMessageModal.php:72
 msgid "Message"
 msgstr ""
 
@@ -158,7 +162,7 @@ msgstr ""
 msgid "Debug"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:22 ../../src/Views/NewMessageModal.php:38
+#: ../../src/Views/LogModal.php:22 ../../src/Views/NewMessageModal.php:42
 msgid "Is HTML email?"
 msgstr ""
 
@@ -166,7 +170,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:23 ../../src/Views/Settings.php:96
+#: ../../src/Views/LogModal.php:23 ../../src/Views/Settings.php:100
 msgid "No"
 msgstr ""
 
@@ -174,7 +178,7 @@ msgstr ""
 msgid "No attachments to show"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:28 ../../src/Views/NewMessageModal.php:47
+#: ../../src/Views/LogModal.php:28 ../../src/Views/NewMessageModal.php:53
 msgid "Attachments"
 msgstr ""
 
@@ -202,7 +206,7 @@ msgstr ""
 msgid "Errors:"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:79 ../../src/Views/NewMessageModal.php:82
+#: ../../src/Views/LogModal.php:79 ../../src/Views/NewMessageModal.php:88
 msgid "Close"
 msgstr ""
 
@@ -210,27 +214,27 @@ msgstr ""
 msgid "Headers"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:26
+#: ../../src/Views/NewMessageModal.php:27
 msgid "Cc"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:27
+#: ../../src/Views/NewMessageModal.php:28
 msgid "Bcc"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:29
+#: ../../src/Views/NewMessageModal.php:30
 msgid "Custom"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:60
+#: ../../src/Views/NewMessageModal.php:66
 msgid "Add Attachments"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:69
+#: ../../src/Views/NewMessageModal.php:75
 msgid "My Message"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:79
+#: ../../src/Views/NewMessageModal.php:85
 msgid "Send Message"
 msgstr ""
 
@@ -258,33 +262,33 @@ msgstr ""
 msgid "User capability needed to see logs"
 msgstr ""
 
-#: ../../src/Views/Settings.php:72
+#: ../../src/Views/Settings.php:74
 msgid "User capability needed to edit settings"
 msgstr ""
 
-#: ../../src/Views/Settings.php:88
+#: ../../src/Views/Settings.php:92
 msgid "Auto delete logs?"
 msgstr ""
 
-#: ../../src/Views/Settings.php:114
+#: ../../src/Views/Settings.php:118
 #, php-format
 msgid "Yes - delete messages that are over %s old"
 msgstr ""
 
-#: ../../src/Views/Settings.php:120
+#: ../../src/Views/Settings.php:124
 #, php-format
 msgid "Will next run in: %s. <a href=\"?page="
 msgstr ""
 
-#: ../../src/Views/Settings.php:129
+#: ../../src/Views/Settings.php:133
 msgid "Database version"
 msgstr ""
 
-#: ../../src/Views/Settings.php:134
+#: ../../src/Views/Settings.php:138
 #, php-format
 msgid "%s. <a href=\"?page="
 msgstr ""
 
-#: ../../src/Views/Settings.php:143
+#: ../../src/Views/Settings.php:147
 msgid "Save Changes"
 msgstr ""
