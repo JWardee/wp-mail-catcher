@@ -32,12 +32,13 @@ class BuddyPress
      * Transform the incoming details of the mail into the
      * correct format for our log (data fractal)
      *
-     * @param BP_Email $bpMail the details of the mail going to be sent
+     * @param  object  $bpMail the details of the mail going to be sent
+     *
      * @return array must return an array in the same format
      */
-    protected function getTransformedMailArgs($bpMail)
+    protected function getTransformedMailArgs(object $bpMail): array
     {
-        $tos = array_map(function($bpRecipient) {
+        $tos = array_map(function ($bpRecipient) {
             return $bpRecipient->get_address();
         }, $bpMail->get_to());
 

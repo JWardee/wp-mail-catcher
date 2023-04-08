@@ -8,14 +8,14 @@ class Mail
 {
     private static $contentTypeFilterPriority = 9999;
 
-    static public function resend($ids)
+    public static function resend($ids)
     {
         $logs = Logs::get([
             'post__in' => $ids
         ]);
 
         foreach ($logs as $log) {
-            $updateContentType = function($contentType) use ($log) {
+            $updateContentType = function ($contentType) use ($log) {
                 return $log['is_html'] ? 'text/html' : $contentType;
             };
 
@@ -33,7 +33,7 @@ class Mail
         }
     }
 
-    static public function export($ids, $forceBrowserDownload = true)
+    public static function export($ids, $forceBrowserDownload = true)
     {
         $logs = Logs::get([
             'post__in' => $ids,
@@ -56,20 +56,27 @@ class Mail
 
             if (isset($log['attachments']) && !empty($log['attachments']) && is_array($log['attachments'])) {
                 $log['attachments'] = array_column($log['attachments'], 'url');
-                $log['attachments'] = GeneralHelper::arrayToString($log['attachments'],
-                    GeneralHelper::$csvItemDelimiter);
+                $log['attachments'] = GeneralHelper::arrayToString(
+                    $log['attachments'],
+                    GeneralHelper::$csvItemDelimiter
+                );
             } else {
                 $log['attachments'] = '-';
             }
 
-            if (isset($log['additional_headers']) && !empty($log['additional_headers']) && is_array($log['additional_headers'])) {
-                $log['additional_headers'] = GeneralHelper::arrayToString($log['additional_headers'],
-                    GeneralHelper::$csvItemDelimiter);
+            if (
+                isset($log['additional_headers']) &&
+                !empty($log['additional_headers']) && is_array($log['additional_headers'])
+            ) {
+                $log['additional_headers'] = GeneralHelper::arrayToString(
+                    $log['additional_headers'],
+                    GeneralHelper::$csvItemDelimiter
+                );
             } else {
                 $log['additional_headers'] = '-';
             }
 
-            if ($log['status'] == true) {
+            if ($log['status']) {
                 $log['error'] = 'None';
                 $log['status'] = 'Successful';
             } else {
@@ -82,7 +89,7 @@ class Mail
             $heading = GeneralHelper::slugToLabel($heading);
         });
 
-        if ($forceBrowserDownload == true) {
+        if ($forceBrowserDownload) {
             header('Content-Type: text/csv; charset=utf-8');
             header('Content-Disposition: attachment; filename="' . GeneralHelper::$csvExportFileName . '"');
             self::processLogToCsv($headings, $logs);
@@ -94,7 +101,7 @@ class Mail
         }
     }
 
-    static private function processLogToCsv($headings, $logs)
+    private static function processLogToCsv($headings, $logs)
     {
         $out = fopen('php://output', 'w');
         fputcsv($out, $headings);
@@ -110,7 +117,7 @@ class Mail
         fclose($out);
     }
 
-    static public function add($headerKeys, $headerValues, $attachmentIds, $subject, $message, $isHtml = false)
+    public static function add($headerKeys, $headerValues, $attachmentIds, $subject, $message, $isHtml = false)
     {
         $tos = [];
         $headers = [];
@@ -123,16 +130,16 @@ class Mail
             }
 
             switch ($headerKeys[$i]) {
-                case ('to') :
+                case ('to'):
                     $tos[] = $headerValues[$i];
                     break;
-                case ('cc') :
+                case ('cc'):
                     $headers[] = 'Cc: ' . $headerValues[$i];
                     break;
-                case ('bcc') :
+                case ('bcc'):
                     $headers[] = 'Bcc: ' . $headerValues[$i];
                     break;
-                case ('from') :
+                case ('from'):
                     $headers[] = 'From: ' . $headerValues[$i];
                     break;
                 default:
@@ -150,7 +157,7 @@ class Mail
         }
 
         if ($isHtml) {
-            $updateContentType = function() {
+            $updateContentType = function () {
                 return 'text/html';
             };
 

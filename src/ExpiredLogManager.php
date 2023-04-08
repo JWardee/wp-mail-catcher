@@ -9,7 +9,10 @@ class ExpiredLogManager
 {
     public static function deletionIntervals()
     {
-        return apply_filters(GeneralHelper::$actionNameSpace . '_deletion_intervals', Settings::$defaultDeletionIntervals);
+        return apply_filters(
+            GeneralHelper::$actionNameSpace . '_deletion_intervals',
+            Settings::$defaultDeletionIntervals
+        );
     }
 
     public static function removeExpiredLogs($timeInterval = null)

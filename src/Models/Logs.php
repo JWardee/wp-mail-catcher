@@ -7,7 +7,7 @@ use WpMailCatcher\GeneralHelper;
 class Logs
 {
     // Need to set null because we're using array_intersect_key
-    static public $whitelistedParams = [
+    public static $whitelistedParams = [
         'orderby' => null,
         'posts_per_page' => null,
         'paged' => null,
@@ -17,30 +17,31 @@ class Logs
         's' => null
     ];
 
-    static public function getTotalPages($postsPerPage = false)
+    public static function getTotalPages($postsPerPage = false)
     {
-        if ($postsPerPage == false) {
+        if (! $postsPerPage) {
             $postsPerPage = GeneralHelper::$logsPerPage;
         }
 
         return ceil(self::getTotalAmount() / $postsPerPage);
     }
 
-    static public function getFirst($args = [])
+    public static function getFirst($args = [])
     {
         $result = self::get($args);
-        return isset($result[0]) ? $result[0] : false;
+        return $result[0] ?? false;
     }
 
     /**
-     * @param array $args
+     * @param  array  $args
+     *
      * @return array|null|object
      */
-    static public function get($args = [])
+    public static function get(array $args = [])
     {
         global $wpdb;
 
-        if (!isset($args['ignore_cache']) || $args['ignore_cache'] == false) {
+        if (!isset($args['ignore_cache']) || ! $args['ignore_cache']) {
             $cachedValue = Cache::get($args);
 
             if ($cachedValue != null) {
@@ -100,7 +101,7 @@ class Logs
         }
 
         if ($args['s'] != null) {
-            if ($whereClause == true) {
+            if ($whereClause) {
                 $sql .= "AND ";
             } else {
                 $sql .= "WHERE ";
@@ -115,11 +116,10 @@ class Logs
         }
 
         if ($args['post_status'] != 'any') {
-            if ($whereClause == true) {
+            if ($whereClause) {
                 $sql .= "AND ";
             } else {
                 $sql .= "WHERE ";
-                $whereClause = true;
             }
 
             switch ($args['post_status']) {
@@ -141,14 +141,14 @@ class Logs
 
         $results = self::dbResultTransform($wpdb->get_results($sql, ARRAY_A), $args);
 
-        if (!isset($args['ignore_cache']) || $args['ignore_cache'] == false) {
+        if (!isset($args['ignore_cache']) || ! $args['ignore_cache']) {
             Cache::set($args, $results);
         }
 
         return $results;
     }
 
-    static private function dbResultTransform($results, $args = [])
+    private static function dbResultTransform($results, $args = [])
     {
         foreach ($results as &$result) {
             $result['attachment_file_paths'] = [];
@@ -169,15 +169,20 @@ class Logs
 
             if (isset($result['time'])) {
                 $result['timestamp'] = $result['time'];
-                $result['time'] = $args['date_time_format'] == 'human' ? GeneralHelper::getHumanReadableTimeFromNow($result['timestamp']) : date($args['date_time_format'], $result['timestamp']);
+                $result['time'] = $args['date_time_format'] == 'human' ?
+                    GeneralHelper::getHumanReadableTimeFromNow($result['timestamp']) :
+                    date($args['date_time_format'], $result['timestamp']);
             }
 
             // This will exist if the db_version is >= 2.0.0
-            if (isset($result['is_html']) && $result['is_html'] == true) {
+            if (isset($result['is_html']) && $result['is_html']) {
                 $result['is_html'] = (bool)$result['is_html'];
             // Otherwise resort to the original method
-            } else if (isset($result['additional_headers'])) {
-                $result['is_html'] = GeneralHelper::doesArrayContainSubString($result['additional_headers'], GeneralHelper::$htmlEmailHeader);
+            } elseif (isset($result['additional_headers'])) {
+                $result['is_html'] = GeneralHelper::doesArrayContainSubString(
+                    $result['additional_headers'],
+                    GeneralHelper::$htmlEmailHeader
+                );
             }
 
             if (isset($result['message'])) {
@@ -197,9 +202,9 @@ class Logs
                     $attachment['url'] = wp_get_attachment_url($attachment['id']);
                     $result['attachment_file_paths'][] = get_attached_file($attachment['id']);
 
-                    $isImage = strpos(get_post_mime_type($attachment['id']), 'image') !== false ? true : false;
+                    $isImage = strpos(get_post_mime_type($attachment['id']), 'image') !== false;
 
-                    if ($isImage == true) {
+                    if ($isImage) {
                         $attachment['src'] = $attachment['url'];
                     }
                 }
@@ -209,14 +214,14 @@ class Logs
         return $results;
     }
 
-    static public function getTotalAmount()
+    public static function getTotalAmount(): ?string
     {
         global $wpdb;
 
         return $wpdb->get_var("SELECT COUNT(*) FROM " . $wpdb->prefix . GeneralHelper::$tableName);
     }
 
-    static public function delete($ids)
+    public static function delete($ids)
     {
         if (empty($ids)) {
             return;
@@ -231,14 +236,14 @@ class Logs
                       WHERE id IN(" . $ids . ")");
     }
 
-    static public function truncate()
+    public static function truncate()
     {
         global $wpdb;
 
         $wpdb->query("TRUNCATE TABLE " . $wpdb->prefix . GeneralHelper::$tableName);
     }
 
-    static private function getEmailFrom($logEntry)
+    private static function getEmailFrom($logEntry)
     {
         $fullHeader = GeneralHelper::searchForSubStringInArray($logEntry['additional_headers'], 'From: ');
 
@@ -250,14 +255,17 @@ class Logs
         return str_replace(['custom:', 'From:', ' '], '', $fullHeader);
     }
 
-    static public function deleteOlderThan($timeInterval = null)
+    public static function deleteOlderThan($timeInterval = null)
     {
         global $wpdb;
-        
+
         $interval = $timeInterval == null ?  Settings::get('timescale') : $timeInterval;
         $timestamp = time() - $interval;
 
-        $sql = $wpdb->prepare("DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . " WHERE time <= %d", $timestamp);
+        $sql = $wpdb->prepare(
+            "DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . " WHERE time <= %d",
+            $timestamp
+        );
 
         $wpdb->query($sql);
     }

@@ -1,4 +1,8 @@
-<?php use WpMailCatcher\GeneralHelper; ?>
+<?php
+
+use WpMailCatcher\GeneralHelper;
+
+?>
 
 <div id="new-message" class="modal">
     <div class="modal-content">
@@ -21,27 +25,37 @@
                                         <span class="dashicons dashicons-dismiss -icon"></span>
                                     </a>
 
-                                    <select name="header_keys[]" class="field -select">
-                                        <option value="to"><?php _e('To', 'WpMailCatcher'); ?></option>
-                                        <option value="cc"><?php _e('Cc', 'WpMailCatcher'); ?></option>
-                                        <option value="bcc"><?php _e('Bcc', 'WpMailCatcher'); ?></option>
-                                        <option value="from"><?php _e('From', 'WpMailCatcher'); ?></option>
-                                        <option value="custom"><?php _e('Custom', 'WpMailCatcher'); ?></option>
-                                    </select>
+                                    <label>
+                                        <select name="header_keys[]" class="field -select">
+                                            <option value="to"><?php _e('To', 'WpMailCatcher'); ?></option>
+                                            <option value="cc"><?php _e('Cc', 'WpMailCatcher'); ?></option>
+                                            <option value="bcc"><?php _e('Bcc', 'WpMailCatcher'); ?></option>
+                                            <option value="from"><?php _e('From', 'WpMailCatcher'); ?></option>
+                                            <option value="custom"><?php _e('Custom', 'WpMailCatcher'); ?></option>
+                                        </select>
+                                    </label>
 
-                                    <input name="header_values[]" type="text" class="field -input"/>
+                                    <label>
+                                        <input name="header_values[]" type="text" class="field -input"/>
+                                    </label>
                                 </div>
                             </div>
 
-                            <label class="is-html-email"><input type="checkbox" value="<?php echo GeneralHelper::$htmlEmailHeader; ?>"
-                                                                name="header_keys[]"/>
+                            <label class="is-html-email">
+                                <input
+                                    type="checkbox"
+                                    value="<?php echo GeneralHelper::$htmlEmailHeader; ?>"
+                                    name="header_keys[]"
+                                />
                                 <?php _e('Is HTML email?', 'WpMailCatcher'); ?> </label>
                         </div>
                         <div>
                             <h2><?php _e('Subject', 'WpMailCatcher'); ?></h2>
                             <hr/>
 
-                            <input name="subject" type="text" class="field -input"/>
+                            <label>
+                                <input name="subject" type="text" class="field -input"/>
+                            </label>
                         </div>
                         <div>
                             <h2><?php _e('Attachments', 'WpMailCatcher'); ?></h2>

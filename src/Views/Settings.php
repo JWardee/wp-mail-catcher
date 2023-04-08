@@ -57,13 +57,17 @@ $cronJobs = CronManager::getInstance()->getTasks();
                             </label>
                         </th>
                         <td>
-                            <select name="default_view_role">
-                                <?php foreach ($capabilities as $capability => $value) : ?>
-                                    <option<?php if ($settings['default_view_role'] == $capability) : ?> selected<?php endif; ?>>
-                                        <?php echo $capability; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <label>
+                                <select name="default_view_role">
+                                    <?php foreach ($capabilities as $capability => $value) : ?>
+                                        <option<?php if ($settings['default_view_role'] == $capability) :
+                                            ?> selected<?php
+                                               endif; ?>>
+                                            <?php echo $capability; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </label>
                         </td>
                     </tr>
                     <tr>
@@ -73,13 +77,17 @@ $cronJobs = CronManager::getInstance()->getTasks();
                             </label>
                         </th>
                         <td>
-                            <select name="default_settings_role">
-                                <?php foreach ($capabilities as $capability => $value) : ?>
-                                    <option<?php if ($settings['default_settings_role'] == $capability) : ?> selected<?php endif; ?>>
-                                        <?php echo $capability; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <label>
+                                <select name="default_settings_role">
+                                    <?php foreach ($capabilities as $capability => $value) : ?>
+                                        <option<?php if ($settings['default_settings_role'] == $capability) :
+                                            ?> selected<?php
+                                               endif; ?>>
+                                            <?php echo $capability; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </label>
                         </td>
                     </tr>
                     <tr>
@@ -91,7 +99,9 @@ $cronJobs = CronManager::getInstance()->getTasks();
                         <td>
                             <label>
                                 <input type="radio" name="auto_delete"
-                                       value="false"<?php if ($settings['auto_delete'] == false) : ?> checked<?php endif; ?>>
+                                       value="false"<?php if (! $settings['auto_delete']) :
+                                            ?> checked<?php
+                                                    endif; ?>>
                                 <span class="date-time-text date-time-custom-text">
                                     <?php _e('No', 'WpMailCatcher'); ?>
                                 </span>
@@ -99,25 +109,41 @@ $cronJobs = CronManager::getInstance()->getTasks();
                             <fieldset>
                                 <label>
                                     <input type="radio" name="auto_delete"
-                                           value="true"<?php if ($settings['auto_delete'] == true) : ?> checked<?php endif; ?>>
+                                           value="true"<?php if ($settings['auto_delete']) :
+                                                ?> checked<?php
+                                                       endif; ?>>
                                     <span class="date-time-text date-time-custom-text">
                                         <?php
-                                        $getOptions = function($timescale) {
+                                        $getOptions = function ($timescale) {
                                             $options = '';
                                             foreach (ExpiredLogManager::deletionIntervals() as $key => $label) :
-                                                $options .= '<option value="' . $key . '"' . ($timescale == $key ? 'selected' : '') . '>';
+                                                $isSelected = $timescale == $key ? 'selected' : '';
+                                                $options .= '<option value="' . $key . '"' . $isSelected . '>';
                                                 $options .= $label . '</option>';
                                             endforeach;
-                                          return '<span><select name="timescale">' . $options . '</select></span>';
+                                            return '<span><select name="timescale">' . $options . '</select></span>';
                                         };
 
-                                        printf(__('Yes - delete messages that are over %s old', 'WpMailCatcher'), $getOptions($settings['timescale']));
+                                        printf(
+                                            __('Yes - delete messages that are over %s old', 'WpMailCatcher'),
+                                            $getOptions($settings['timescale'])
+                                        );
                                         ?>
                                     </span>
                                 </label>
-                                <?php if (isset($cronJobs[0])) : ?>
+                                <?php if (isset($cronJobs[0])) :
+                                    $href = '?page=' . GeneralHelper::$adminPageSlug . '&action=trigger-auto-delete';
+                                    ?>
                                     <p class="description">
-                                        <?php printf(__('Will next run in: %s. <a href="?page=' . GeneralHelper::$adminPageSlug . '&action=trigger-auto-delete">Trigger now</a>', 'WpMailCatcher'), $cronJobs[0]['nextRun']); ?>
+                                        <?php
+                                        printf(
+                                            __(
+                                                'Will next run in: %s. <a href="' . $href . '">Trigger now</a>',
+                                                'WpMailCatcher'
+                                            ),
+                                            $cronJobs[0]['nextRun']
+                                        );
+                                        ?>
                                     </p>
                                 <?php endif; ?>
                             </fieldset>
@@ -131,7 +157,16 @@ $cronJobs = CronManager::getInstance()->getTasks();
                         </th>
                         <td>
                             <p class="description">
-                                <?php printf(__('%s. <a href="?page=' . GeneralHelper::$adminPageSlug . '&action=rerun-migrations">Rerun migrations</a>', 'WpMailCatcher'), $settings['db_version']); ?>
+                                <?php
+                                $href = '?page=' . GeneralHelper::$adminPageSlug . '&action=rerun-migrations';
+                                printf(
+                                    __(
+                                        '%s. <a href="' . $href . '">Rerun migrations</a>',
+                                        'WpMailCatcher'
+                                    ),
+                                    $settings['db_version']
+                                );
+                                ?>
                             </p>
                         </td>
                     </tr>

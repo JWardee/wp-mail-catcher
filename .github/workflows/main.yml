@@ -19,7 +19,7 @@ jobs:
     strategy:      
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.2', '7.3', '8.0', '8.1']
+        php-versions: ['7.4', '8.0', '8.1']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
     - name: Checkout
@@ -39,9 +39,15 @@ jobs:
 
     - name: Composer install
       run: composer install --optimize-autoloader --prefer-dist
-    
+
+    - name: Run PHPCS linter
+      run: ./vendor/bin/phpcs
+
+    - name: Run PHPStan analysis
+      run: ./vendor/bin/phpstan analyse
+
     - name: Install WP Tests
-      run: bash testing/bin/install-wp-tests.sh wordpress_test username password 127.0.0.1 latest true
+      run: bash docker/install-wp-tests.sh wordpress_test username password 127.0.0.1 latest true
       
     - name: Run PHPUnit tests
       run: ./vendor/bin/phpunit

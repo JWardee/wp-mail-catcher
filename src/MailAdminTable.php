@@ -2,14 +2,15 @@
 
 namespace WpMailCatcher;
 
+use WP_List_Table;
 use WpMailCatcher\Models\Logs;
 
-class MailAdminTable extends \WP_List_Table
+class MailAdminTable extends WP_List_Table
 {
     public $totalItems;
-    static private $instance = false;
+    private static $instance = false;
 
-    public function __construct($args = array())
+    public function __construct()
     {
         parent::__construct([
             'singular' => 'log',
@@ -20,7 +21,7 @@ class MailAdminTable extends \WP_List_Table
 
     public static function getInstance()
     {
-        if (self::$instance == false) {
+        if (! self::$instance) {
             self::$instance = new MailAdminTable();
         }
 
@@ -34,17 +35,15 @@ class MailAdminTable extends \WP_List_Table
             case 'subject':
             case 'status':
                 return $item[$column_name];
-                break;
             case 'email_to':
             case 'email_from':
                 return esc_html($item[$column_name]);
             default:
                 return print_r($item, true);
-                break;
         }
     }
 
-    function column_time($item)
+    function column_time($item): string
     {
         return '<span data-hover-message="' . date(GeneralHelper::$humanReadableDateFormat, $item['timestamp']) . '">' . $item['time'] . '</span>';
     }
@@ -58,14 +57,14 @@ class MailAdminTable extends \WP_List_Table
         );
     }
 
-    function column_more_info($item)
+    function column_more_info($item): string
     {
-        return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('More Info' ,'WpMailCatcher') . '</a>';
+        return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('More Info', 'WpMailCatcher') . '</a>';
     }
 
-    function get_columns()
+    function get_columns(): array
     {
-        $columns = [
+        return [
             'cb' => '<input type="checkbox" />',
             'status' => '',
             'email_to' => __('To', 'WpMailCatcher'),
@@ -74,11 +73,9 @@ class MailAdminTable extends \WP_List_Table
             'time' => __('Sent', 'WpMailCatcher'),
             'more_info' => ''
         ];
-
-        return $columns;
     }
 
-    function column_email_to($item)
+    function column_email_to($item): string
     {
         $actions = [
             'delete' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=delete&id=' . $item['id'], 'bulk-logs') . '">' . __('Delete', 'WpMailCatcher') . '</a>',
@@ -90,7 +87,7 @@ class MailAdminTable extends \WP_List_Table
         return sprintf('%1$s %2$s', htmlspecialchars($item['email_to']), $this->row_actions($actions));
     }
 
-    function column_status($item)
+    function column_status($item): string
     {
         return $item['status'] ? '<div class="status-indicator"></div>' : '<div class="-right" data-hover-message="' . $item['error'] . '"><div class="status-indicator -error"></div></div>';
     }
@@ -108,33 +105,29 @@ class MailAdminTable extends \WP_List_Table
         ];
     }
 
-    function get_sortable_columns()
+    function get_sortable_columns(): array
     {
-        $sortable_columns = [
+        return [
             'time' => ['time', false],
             'email_to' => ['email_to', false],
             'subject' => ['subject', false],
         ];
-
-        return $sortable_columns;
     }
 
-    function get_bulk_actions()
+    function get_bulk_actions(): array
     {
-        $actions = [
+        return [
             'delete' => __('Delete', 'WpMailCatcher'),
             'resend' => __('Resend', 'WpMailCatcher'),
             'export' => __('Export', 'WpMailCatcher')
         ];
-
-        return $actions;
     }
 
     function process_bulk_action()
     {
     }
 
-    public function getLogsPerPage()
+    public function getLogsPerPage(): int
     {
         $userSaved = get_user_meta(
             get_current_user_id(),
@@ -160,7 +153,7 @@ class MailAdminTable extends \WP_List_Table
 
         $this->items = Logs::get(array_merge([
             'paged' => $this->get_pagenum(),
-            'post_status' => isset($_GET['post_status']) ? $_GET['post_status'] : 'any',
+            'post_status' => $_GET['post_status'] ?? 'any',
             'posts_per_page' => $per_page,
             'column_blacklist' => ['message']
         ], $overrideParams));

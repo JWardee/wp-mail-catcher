@@ -4,32 +4,32 @@ namespace WpMailCatcher;
 
 class GeneralHelper
 {
-    static public $csvItemDelimiter = ' | ';
-    static public $logsPerPage = 5;
-    static public $pluginPath;
-    static public $pluginUrl;
-    static public $pluginVersion;
-    static public $tableName;
-    static public $csvExportLegalColumns;
-    static public $csvExportFileName;
-    static public $adminUrl;
-    static public $adminPageSlug;
-    static public $uploadsFolderInfo;
-    static public $pluginAssetsUrl;
-    static public $pluginViewDirectory;
-    static public $attachmentNotInMediaLib;
-    static public $attachmentNotImageThumbnail;
-    static public $failedNonceMessage;
-    static public $pluginMainPhpFile;
-    static public $settingsPageSlug;
-    static public $logLimitBeforeWarning;
-    static public $humanReadableDateFormat;
-    static public $namespacePrefix;
-    static public $reviewLink;
-    static public $actionNameSpace;
-    static public $htmlEmailHeader = 'content-type: text/html;';
+    public static $csvItemDelimiter = ' | ';
+    public static $logsPerPage = 5;
+    public static $pluginPath;
+    public static $pluginUrl;
+    public static $pluginVersion;
+    public static $tableName;
+    public static $csvExportLegalColumns;
+    public static $csvExportFileName;
+    public static $adminUrl;
+    public static $adminPageSlug;
+    public static $uploadsFolderInfo;
+    public static $pluginAssetsUrl;
+    public static $pluginViewDirectory;
+    public static $attachmentNotInMediaLib;
+    public static $attachmentNotImageThumbnail;
+    public static $failedNonceMessage;
+    public static $pluginMainPhpFile;
+    public static $settingsPageSlug;
+    public static $logLimitBeforeWarning;
+    public static $humanReadableDateFormat;
+    public static $namespacePrefix;
+    public static $reviewLink;
+    public static $actionNameSpace;
+    public static $htmlEmailHeader = 'content-type: text/html;';
 
-    static public function setSettings()
+    public static function setSettings()
     {
         self::$csvExportFileName = 'WpMailCatcherExport_' . date('d-m-Y_H-i-s') . '.csv';
         self::$csvExportLegalColumns = [
@@ -72,7 +72,7 @@ class GeneralHelper
      *
      * @return array Flattened array to one level
      */
-    static public function flatten($array, $separator = '.', $parent = null)
+    public static function flatten($array, $separator = '.', $parent = null)
     {
         if (!is_array($array)) {
             return $array;
@@ -101,7 +101,7 @@ class GeneralHelper
         return $flattened;
     }
 
-    static public function arrayToString($pieces, $glue = ', ')
+    public static function arrayToString($pieces, $glue = ', ')
     {
         $result = self::flatten($pieces);
 
@@ -112,7 +112,7 @@ class GeneralHelper
         return $result;
     }
 
-    static public function slugToLabel($slug)
+    public static function slugToLabel($slug)
     {
         $illegalChars = [
             '-',
@@ -126,30 +126,29 @@ class GeneralHelper
         return mb_convert_case($slug, MB_CASE_TITLE, 'UTF-8');
     }
 
-    static public function labelToSlug($label)
+    public static function labelToSlug($label)
     {
         $label = str_replace(' ', '-', $label);
         return strtolower($label);
     }
 
-    static public function sanitiseForQuery($value)
+    public static function sanitiseForQuery($value)
     {
         switch (gettype($value)) {
-            case ('array') :
+            case ('array'):
                 array_walk_recursive($value, function (&$value) {
                     $value = sanitize_text_field($value);
                 });
                 break;
-            default :
+            default:
                 $value = sanitize_text_field($value);
                 break;
-
         }
 
         return $value;
     }
 
-    static public function getAttachmentIdsFromUrl($urls)
+    public static function getAttachmentIdsFromUrl($urls)
     {
         if (empty($urls)) {
             return [];
@@ -181,7 +180,7 @@ class GeneralHelper
         return [];
     }
 
-    static public function redirectToThisHomeScreen($params = [])
+    public static function redirectToThisHomeScreen($params = [])
     {
         if (!isset($params['page'])) {
             $params['page'] = GeneralHelper::$adminPageSlug;
@@ -191,7 +190,7 @@ class GeneralHelper
         exit;
     }
 
-    static public function doesArrayContainSubString($array, $subString)
+    public static function doesArrayContainSubString($array, $subString)
     {
         foreach ($array as $element) {
             if (stripos($element, $subString) !== false) {
@@ -202,7 +201,7 @@ class GeneralHelper
         return false;
     }
 
-    static public function searchForSubStringInArray($array, $subString)
+    public static function searchForSubStringInArray($array, $subString)
     {
         foreach ($array as $element) {
             if (stripos($element, $subString) !== false) {
@@ -213,7 +212,7 @@ class GeneralHelper
         return false;
     }
 
-    static public function getHumanReadableTime($from, $to, $suffix = ' ago')
+    public static function getHumanReadableTime($from, $to, $suffix = ' ago')
     {
         return sprintf(
             _x('%s' . $suffix, '%s = human-readable time difference', 'WpMailCatcher'),
@@ -227,7 +226,7 @@ class GeneralHelper
      * @param string $suffix
      * @return string
      */
-    static public function getHumanReadableTimeFromNow($from, $suffix = ' ago')
+    public static function getHumanReadableTimeFromNow($from, $suffix = ' ago')
     {
         return self::getHumanReadableTime($from, time(), $suffix);
     }
@@ -237,17 +236,15 @@ class GeneralHelper
      * @param $slugOrLabel
      * @return string
      */
-    static public function getPrefixedSlug($slugOrLabel)
+    public static function getPrefixedSlug($slugOrLabel)
     {
         return self::$namespacePrefix . self::labelToSlug($slugOrLabel);
     }
 
-    static public function dd($value)
+    public static function dd($value)
     {
         echo '<pre>';
         print_r($value);
         exit;
     }
 }
-
-

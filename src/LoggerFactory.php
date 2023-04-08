@@ -2,12 +2,11 @@
 
 namespace WpMailCatcher;
 
-use WpMailCatcher\Loggers\BuddyPress;
 use WpMailCatcher\Loggers\WpMail;
 
 class LoggerFactory
 {
-    static public function set()
+    public static function set()
     {
         /**
          *  When more loggers are added, the logic

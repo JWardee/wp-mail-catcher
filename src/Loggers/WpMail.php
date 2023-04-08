@@ -15,12 +15,12 @@ class WpMail
     public function __construct()
     {
         $priority = 999999;
-        add_action('wp_mail', [$this, 'recordMail'], $priority);
+        add_filter('wp_mail', [$this, 'recordMail'], $priority);
         add_action('wp_mail_failed', [$this, 'recordError'], $priority);
         add_filter('wp_mail_content_type', [$this, 'saveIsHtml'], $priority);
     }
 
-    public function recordMail($args)
+    public function recordMail($args): array
     {
         return $this->saveMail($args, [$this, 'getTransformedMailArgs']);
     }
@@ -34,10 +34,11 @@ class WpMail
      * Transform the incoming details of the mail into the
      * correct format for our log (data fractal)
      *
-     * @param array $args the details of the mail going to be sent
+     * @param  array  $args the details of the mail going to be sent
+     *
      * @return array must return an array in the same format
      */
-    protected function getTransformedMailArgs($args)
+    protected function getTransformedMailArgs(array $args): array
     {
         return [
             'time' => time(),

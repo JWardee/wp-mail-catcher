@@ -1,1 +1,3 @@
-<?php echo $log['message'];
+<?php
+
+echo $log['message'] ?? '';

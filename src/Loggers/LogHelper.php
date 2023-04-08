@@ -2,7 +2,6 @@
 
 namespace WpMailCatcher\Loggers;
 
-use WP_Error;
 use WpMailCatcher\GeneralHelper;
 use WpMailCatcher\Models\Cache;
 use WpMailCatcher\Models\Logs;
@@ -16,11 +15,12 @@ trait LogHelper
      * Save the mail to the database, override this method if you wish
      * to save the data elsewhere or change how it is saved
      *
-     * @param array $args the details of the mail going to be sent
-     * @param function($args) called before inserting the db entry to transform the mail into log format
-     * @return mixed must return an array in the same format
+     * @param  array  $args the details of the mail going to be sent
+     * @param $transformFunc($args) called before inserting the db entry to transform the mail into log format
+     *
+     * @return array must return an array in the same format
      */
-    public function saveMail($args, $transformFunc)
+    public function saveMail(array $args, $transformFunc): array
     {
         global $wpdb;
 
@@ -45,7 +45,7 @@ trait LogHelper
      *
      * @param $error string of the error
      */
-    public function saveError($error)
+    public function saveError(string $error)
     {
         if ($this->id === null) {
             return;
@@ -94,10 +94,11 @@ trait LogHelper
      * Convert attachment ids or urls into a format to be usable
      * by the logs
      *
-     * @param array $attachments either array of attachment ids or their urls
+     * @param  array | string  $attachments either array of attachment ids or their urls
+     *
      * @return array [id, url] of attachments
      */
-    protected function getAttachmentLocations($attachments)
+    protected function getAttachmentLocations($attachments): array
     {
         if (empty($attachments)) {
             return [];
@@ -141,7 +142,7 @@ trait LogHelper
         return $result;
     }
 
-    protected function sanitiseInput($input)
+    protected function sanitiseInput($input): string
     {
         return htmlspecialchars(
             preg_replace('#<script(.*?)>(.*?)</script>#is', '', $input)
@@ -153,7 +154,7 @@ trait LogHelper
      *
      * @return array a single element of the debug_backtrace function
      */
-    private function getBacktrace($functionName = 'wp_mail')
+    private function getBacktrace($functionName = 'wp_mail'): ?array
     {
         $backtraceSegment = null;
         $backtrace = debug_backtrace();
