@@ -8,7 +8,7 @@ use WpMailCatcher\Models\Logs;
 class MailAdminTable extends WP_List_Table
 {
     public $totalItems;
-    static private $instance = false;
+    private static $instance = false;
 
     public function __construct()
     {
@@ -21,7 +21,7 @@ class MailAdminTable extends WP_List_Table
 
     public static function getInstance()
     {
-        if ( ! self::$instance) {
+        if (! self::$instance) {
             self::$instance = new MailAdminTable();
         }
 
@@ -59,7 +59,7 @@ class MailAdminTable extends WP_List_Table
 
     function column_more_info($item): string
     {
-        return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('More Info' ,'WpMailCatcher') . '</a>';
+        return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('More Info', 'WpMailCatcher') . '</a>';
     }
 
     function get_columns(): array

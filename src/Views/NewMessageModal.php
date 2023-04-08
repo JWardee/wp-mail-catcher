@@ -1,4 +1,8 @@
-<?php use WpMailCatcher\GeneralHelper; ?>
+<?php
+
+use WpMailCatcher\GeneralHelper;
+
+?>
 
 <div id="new-message" class="modal">
     <div class="modal-content">
@@ -37,8 +41,12 @@
                                 </div>
                             </div>
 
-                            <label class="is-html-email"><input type="checkbox" value="<?php echo GeneralHelper::$htmlEmailHeader; ?>"
-                                                                name="header_keys[]"/>
+                            <label class="is-html-email">
+                                <input
+                                    type="checkbox"
+                                    value="<?php echo GeneralHelper::$htmlEmailHeader; ?>"
+                                    name="header_keys[]"
+                                />
                                 <?php _e('Is HTML email?', 'WpMailCatcher'); ?> </label>
                         </div>
                         <div>

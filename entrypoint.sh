@@ -29,5 +29,5 @@ elif [ "$CMD" == "composer" ]; then
 elif [ "$CMD" == "phpstan" ]; then
   docker-compose run --name phpstan --rm -w /var/www/html/wp-content/plugins/wp-mail-catcher wordpress ./vendor/bin/phpstan analyze
 elif [ "$CMD" == "phpcs" ]; then
-  docker-compose run --name phpcs --rm -w /var/www/html/wp-content/plugins/wp-mail-catcher wordpress ./vendor/bin/phpcs --standard=PSR12 ./src
+  docker-compose run --name phpcs --rm -w /var/www/html/wp-content/plugins/wp-mail-catcher wordpress ./vendor/bin/phpcs
 fi

@@ -37,7 +37,7 @@ class Bootstrap
 
         add_filter('plugin_action_links_wp-mail-catcher/WpMailCatcher.php', [$this, 'extraPluginLinks']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
-        add_action('plugins_loaded', function() {
+        add_action('plugins_loaded', function () {
             load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$adminPageSlug . '/languages/');
 
             // Fix for db_version falling out of sync in previous versions
@@ -48,7 +48,7 @@ class Bootstrap
                 DatabaseUpgradeManager::getInstance()->doUpgrade();
             }
         });
-        add_action('admin_menu', function() {
+        add_action('admin_menu', function () {
             $this->registerPages();
             $this->route();
         });
@@ -56,7 +56,13 @@ class Bootstrap
 
     public function extraPluginLinks($links)
     {
-        array_unshift($links, '<a href="admin.php?page=' . GeneralHelper::$adminPageSlug . '-settings">' . __('Settings', 'WpMailCatcher') . '</a>');
+        $href = 'admin.php?page=' . GeneralHelper::$adminPageSlug . '-settings';
+
+        array_unshift(
+            $links,
+            '<a href="' . $href . '">' . __('Settings', 'WpMailCatcher') . '</a>'
+        );
+
         return $links;
     }
 
@@ -64,18 +70,25 @@ class Bootstrap
     {
         if (Settings::get('auto_delete')) {
             $cronManager = CronManager::getInstance();
-            $cronManager->addTask('WpMailCatcher\ExpiredLogManager::removeExpiredLogs', Settings::$howOftenCheckForExpiredMessages);
+            $cronManager->addTask(
+                'WpMailCatcher\ExpiredLogManager::removeExpiredLogs',
+                Settings::$howOftenCheckForExpiredMessages
+            );
         }
     }
 
     public function enqueue()
     {
         wp_enqueue_style('dashicons');
-        wp_enqueue_style('admin_css',
-            GeneralHelper::$pluginAssetsUrl . '/global.min.css?v=' . GeneralHelper::$pluginVersion);
-        wp_enqueue_script('admin_js',
+        wp_enqueue_style(
+            'admin_css',
+            GeneralHelper::$pluginAssetsUrl . '/global.min.css?v=' . GeneralHelper::$pluginVersion
+        );
+        wp_enqueue_script(
+            'admin_js',
             GeneralHelper::$pluginAssetsUrl . '/global.min.js?v=' . GeneralHelper::$pluginVersion,
-            ['jquery']);
+            ['jquery']
+        );
         wp_localize_script('admin_js', GeneralHelper::$tableName, [
             'plugin_url' => GeneralHelper::$pluginUrl,
         ]);
@@ -83,14 +96,24 @@ class Bootstrap
 
     public function registerPages()
     {
-        $mainPageHook = add_menu_page('WP Mail Catcher', 'WP Mail Catcher', Settings::get('default_view_role'),
-            GeneralHelper::$adminPageSlug, function() {
+        $mainPageHook = add_menu_page(
+            'WP Mail Catcher',
+            'WP Mail Catcher',
+            Settings::get('default_view_role'),
+            GeneralHelper::$adminPageSlug,
+            function () {
                 require GeneralHelper::$pluginViewDirectory . '/Log.php';
-            }, 'dashicons-email-alt'
+            },
+            'dashicons-email-alt'
         );
 
-        add_submenu_page(GeneralHelper::$adminPageSlug, __('Settings', 'WpMailCatcher'), __('Settings', 'WpMailCatcher'), Settings::get('default_settings_role'),
-            GeneralHelper::$settingsPageSlug, function() {
+        add_submenu_page(
+            GeneralHelper::$adminPageSlug,
+            __('Settings', 'WpMailCatcher'),
+            __('Settings', 'WpMailCatcher'),
+            Settings::get('default_settings_role'),
+            GeneralHelper::$settingsPageSlug,
+            function () {
                 require GeneralHelper::$pluginViewDirectory . '/Settings.php';
             }
         );
@@ -134,8 +157,10 @@ class Bootstrap
             }
 
             /** Export message(s) */
-            if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' ||
-                isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export') {
+            if (
+                isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' ||
+                isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export'
+            ) {
                 if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
                     wp_die(GeneralHelper::$failedNonceMessage);
                 }
@@ -144,8 +169,11 @@ class Bootstrap
             }
 
             /** Resend message(s) */
-            if (((isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend') || (isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'resend')) &&
-                isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+            if (
+                ((isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend') ||
+                (isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'resend')) &&
+                isset($_REQUEST['id']) && !empty($_REQUEST['id'])
+            ) {
                 if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
                     wp_die(GeneralHelper::$failedNonceMessage);
                 }
@@ -155,8 +183,11 @@ class Bootstrap
             }
 
             /** Delete message(s) */
-            if (((isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete') || (isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'delete')) &&
-                isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+            if (
+                ((isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete') ||
+                (isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'delete')) &&
+                isset($_REQUEST['id']) && !empty($_REQUEST['id'])
+            ) {
                 if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
                     wp_die(GeneralHelper::$failedNonceMessage);
                 }
@@ -182,8 +213,10 @@ class Bootstrap
                 GeneralHelper::redirectToThisHomeScreen();
             }
 
-            if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'single_mail' &&
-                isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+            if (
+                isset($_REQUEST['action']) && $_REQUEST['action'] == 'single_mail' &&
+                isset($_REQUEST['id']) && !empty($_REQUEST['id'])
+            ) {
                 $log = Logs::get(['post__in' => [$_REQUEST['id']]])[0];
                 $view = GeneralHelper::$pluginViewDirectory;
                 $view .= $log['is_html'] ? '/HtmlMessage.php' : '/TextMessage.php';
@@ -278,12 +311,12 @@ class Bootstrap
         }
     }
 
-    static public function deactivate()
+    public static function deactivate()
     {
         CronManager::getInstance()->clearTasks();
     }
 
-    static public function uninstall()
+    public static function uninstall()
     {
         self::deactivate();
 

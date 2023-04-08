@@ -20,9 +20,9 @@ class WpMail
         add_filter('wp_mail_content_type', [$this, 'saveIsHtml'], $priority);
     }
 
-    public function recordMail($args): array
+    public function recordMail($args)
     {
-        return $this->saveMail($args, [$this, 'getTransformedMailArgs']);
+        $this->saveMail($args, [$this, 'getTransformedMailArgs']);
     }
 
     public function recordError($error)

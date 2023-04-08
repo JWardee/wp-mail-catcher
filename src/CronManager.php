@@ -6,7 +6,7 @@ class CronManager
 {
     public $currentIntervals = null;
     private $cronTasks = [];
-    static private $instance = false;
+    private static $instance = false;
 
     private function __construct()
     {
@@ -15,7 +15,7 @@ class CronManager
 
     public static function getInstance()
     {
-        if ( ! self::$instance) {
+        if (! self::$instance) {
             self::$instance = new CronManager();
         }
 
@@ -61,7 +61,9 @@ class CronManager
                         'args' => $data['args'],
                         'schedule' => $data['schedule'],
                         'interval' => $data['interval'] ?? null,
-                        'nextRun' => isset($data['interval']) ? GeneralHelper::getHumanReadableTime($time, time(), '') : null,
+                        'nextRun' => isset($data['interval']) ?
+                            GeneralHelper::getHumanReadableTime($time, time(), '') :
+                            null,
                     ];
                 }
             }

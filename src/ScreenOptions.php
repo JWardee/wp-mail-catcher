@@ -4,10 +4,10 @@ namespace WpMailCatcher;
 
 class ScreenOptions
 {
-    static private $instance;
+    private static $instance;
     private $options = [];
     private $helpTabs = [];
-    static public $optionIdsToWatch = [
+    public static $optionIdsToWatch = [
         'logs_per_page' => 'toplevel_page_wp_mail_catcher_per_page',
         'logs_hidden_table_columns' => 'managetoplevel_page_wp-mail-catchercolumnshidden'
     ];
@@ -21,7 +21,7 @@ class ScreenOptions
         }
     }
 
-    static public function getInstance(): ScreenOptions
+    public static function getInstance(): ScreenOptions
     {
         if (self::$instance == null) {
             self::$instance = new self();

@@ -6,7 +6,7 @@ use WpMailCatcher\Models\Settings;
 
 class DatabaseUpgradeManager
 {
-    static private $instance = false;
+    private static $instance = false;
 
     public static function getInstance()
     {

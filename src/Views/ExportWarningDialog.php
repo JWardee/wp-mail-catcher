@@ -1,4 +1,5 @@
 <?php
+
 use WpMailCatcher\GeneralHelper;
 
 if (!isset($logs)) {
@@ -18,9 +19,14 @@ if (!isset($logs)) {
                             <hr/>
                             <p>
                                 <?php
-                                printf(__('You are trying to export <strong>%s</strong> messages when the recommended limit is no more than <strong>%s</strong>,
-                                           this can cause the server to timeout before the export is complete, we recommend reducing the amount of messages exported, or exporting them in batches.',
-                                    'WpMailCatcher'),
+                                printf(
+                                    __(
+                                        'You are trying to export <strong>%s</strong> messages when the
+                                         recommended limit is no more than <strong>%s</strong>, this can cause the
+                                         server to timeout before the export is complete, we recommend reducing the
+                                         amount of messages exported, or exporting them in batches.',
+                                        'WpMailCatcher'
+                                    ),
                                     $logs->totalItems,
                                     GeneralHelper::$logLimitBeforeWarning
                                 );
@@ -55,8 +61,10 @@ if (!isset($logs)) {
                                                    class="field -input"/>
                                         </label>
                                         <p class="description"
-                                           data-text-format="<?php _e('This will export messages <strong>%s-%s</strong>',
-                                               'WpMailCatcher'); ?>"></p>
+                                           data-text-format="<?php _e(
+                                               'This will export messages <strong>%s-%s</strong>',
+                                               'WpMailCatcher'
+                                           ); ?>"></p>
                                     </td>
                                 </tr>
                                 </tbody>

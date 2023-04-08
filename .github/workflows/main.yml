@@ -41,7 +41,7 @@ jobs:
       run: composer install --optimize-autoloader --prefer-dist
 
     - name: Run PHPCS linter
-      run: ./vendor/bin/phpcs --standard=PSR12 ./src ./testing
+      run: ./vendor/bin/phpcs
 
     - name: Run PHPStan analysis
       run: ./vendor/bin/phpstan analyse

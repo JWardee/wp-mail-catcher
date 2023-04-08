@@ -38,7 +38,7 @@ class BuddyPress
      */
     protected function getTransformedMailArgs(object $bpMail): array
     {
-        $tos = array_map(function($bpRecipient) {
+        $tos = array_map(function ($bpRecipient) {
             return $bpRecipient->get_address();
         }, $bpMail->get_to());
 
