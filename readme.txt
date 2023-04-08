@@ -94,6 +94,8 @@ Great! Please leave a note in our (GitHub tracker)
 
 == Changelog ==
 
+= 2.1.0 =
+
 = 2.0.5 =
 
 - Fix: Improved error handling when attempting to save a log without running the migration

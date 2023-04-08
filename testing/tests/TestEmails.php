@@ -5,7 +5,7 @@ use WpMailCatcher\Models\Logs;
 
 class TestEmails extends WP_UnitTestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		Logs::truncate();
 	}

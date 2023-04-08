@@ -8,7 +8,7 @@ use WpMailCatcher\Models\Settings;
 
 class TestLogFunctions extends WP_UnitTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Logs::truncate();
     }
@@ -389,7 +389,7 @@ class TestLogFunctions extends WP_UnitTestCase
     public function testCanNotReturnDbColumnsViaBlacklist()
     {
         wp_mail('test@test.com', 'New message', 'My message');
-        
+
         $log = Logs::get(['column_blacklist' => ['message', 'is_html', 'additional_headers']])[0];
 
         $this->assertTrue(isset($log['message']) === false);
