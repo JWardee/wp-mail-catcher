@@ -28,4 +28,7 @@ node_modules
 *.zip
 build
 testing
+docker
+docker-compose.yml
+entrypoint.sh
 .codeclimate.yml
