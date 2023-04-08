@@ -157,7 +157,16 @@ $cronJobs = CronManager::getInstance()->getTasks();
                         </th>
                         <td>
                             <p class="description">
-                                <?php printf(__('%s. <a href="?page=' . GeneralHelper::$adminPageSlug . '&action=rerun-migrations">Rerun migrations</a>', 'WpMailCatcher'), $settings['db_version']); ?>
+                                <?php
+                                $href = '?page=' . GeneralHelper::$adminPageSlug . '&action=rerun-migrations';
+                                printf(
+                                    __(
+                                        '%s. <a href="' . $href . '">Rerun migrations</a>',
+                                        'WpMailCatcher'
+                                    ),
+                                    $settings['db_version']
+                                );
+                                ?>
                             </p>
                         </td>
                     </tr>
