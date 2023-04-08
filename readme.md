@@ -97,13 +97,13 @@ Contributions are always welcome, to get started do the following:
 1. Pull the repo and run `composer install`
 2. cd into `build/grunt` and run `npm install`
 3. Still inside `build/grunt` run `npx grunt` (requires `sass` gem). This will build and watch the scss and js
-4. Make sure your code conforms to [PSR-2 standards](http://www.php-fig.org/psr/psr-2/)
+4. Make sure your code conforms to [PSR-12 standards](http://www.php-fig.org/psr/psr-12/)
 5. Ensure your changes pass all the unit tests
 6. Submit your pull request!
 
 ## Additional resources
 * [WordPress repository](https://wordpress.org/plugins/wp-mail-catcher/)
-* [PSR-2 coding standards](http://www.php-fig.org/psr/psr-2/)
+* [PSR-12 coding standards](http://www.php-fig.org/psr/psr-12/)
 * [Installing composer](https://getcomposer.org/download/)
 * [Installing grunt](https://gruntjs.com/getting-started/)
 

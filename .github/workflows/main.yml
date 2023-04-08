@@ -40,6 +40,9 @@ jobs:
     - name: Composer install
       run: composer install --optimize-autoloader --prefer-dist
 
+    - name: Run PHPCS linter
+      run: ./vendor/bin/phpcs --standard=PSR12 ./src ./testing
+
     - name: Run PHPStan analysis
       run: ./vendor/bin/phpstan analyse
 
