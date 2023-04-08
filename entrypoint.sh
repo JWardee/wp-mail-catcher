@@ -27,4 +27,6 @@ elif [ "$CMD" == "grunt" ]; then
   run_grunt "$SECONDARY_CMD"
 elif [ "$CMD" == "composer" ]; then
   run_composer "$SECONDARY_CMD"
+elif [ "$CMD" == "phpstan" ]; then
+  docker-compose run --name phpstan --rm -w /var/www/html/wp-content/plugins/wp-mail-catcher wordpress ./vendor/bin/phpstan analyze
 fi
