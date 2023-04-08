@@ -71,11 +71,23 @@ Backup and save your contact form emails (including Contact Form 7) to your data
 * `wp_mail_catcher_mail_failed` is triggered when a message failed to send and logged successfully. It has a single argument that is an array containing the log (same as the arguments for `wp_mail_catcher_mail_success`)
 * `wp_mail_catcher_deletion_intervals` is a filter that should return an array where each key is an amount of time in seconds, and the value is the label. Used to determine when a message has expired and should be deleted
 
-## Testing locally
+## Developing locally
 1. Download the repo
-2. Run `composer install`
-3. Run `bash ./testing/bin/install-wp-tests.sh`
-4. Run `./vendor/bin/phpunit`
+2. Install [Docker](https://www.docker.com/) and [Docker compose](https://docs.docker.com/compose/)
+3. Allow entrypoint script to be executable `chmod +x ./entrypoint.sh`
+4. Run `./entrypoint.sh up`
+5. Go to `http://localhost:8080` and configure WordPress
+6. Login to the admin panel and activate the plugin
+
+## Extra commands
+1. Run `./entrypoint.sh grunt compile` to compile assets
+2. Run `./entrypoint.sh phpunit` to run unit tests
+3. Run `./entrypoint.sh composer XYZ` to run composer commands
+
+## Changing PHP versions
+1. Update the WordPress/PHP versions in the `entrypoint.sh` file. Ensure the [corresponding Docker image exists](https://hub.docker.com/_/wordpress/tags)
+2. Destroy existing containers and their volumes
+3. Run `./entrypoint.sh up`
 
 ## Found an issue, or have an idea on how we can improve?
 Let us know in our [GitHub tracker!](https://github.com/JWardee/wp-mail-catcher/issues)

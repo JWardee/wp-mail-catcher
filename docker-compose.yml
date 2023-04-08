@@ -1,0 +1,80 @@
+version: "3.9"
+
+volumes:
+  wp_mysql_data:
+    driver: local
+  wp_mysql_data_testing:
+    driver: local
+
+services:
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./docker
+      dockerfile: wordpress.Dockerfile
+      args:
+        DB_USERNAME: ${DB_USERNAME}
+        DB_PASSWORD: ${DB_PASSWORD}
+        DB_DATABASE: ${DB_DATABASE}
+        PHP_VERSION: ${PHP_VERSION}
+        WP_VERSION: ${WP_VERSION}
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html/wp-content/plugins/wp-mail-catcher
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: ${DB_USERNAME}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${DB_DATABASE}
+    restart: always
+    depends_on:
+      - mysql
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - wp_mysql_data:/var/lib/mysql
+    restart: always
+  mysql_testing:
+    container_name: mysql_testing
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}_testing
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - wp_mysql_data_testing:/var/lib/mysql
+    restart: always
+  composer:
+    container_name: composer
+    build:
+      context: ./docker
+      dockerfile: composer.Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    working_dir: /usr/src
+    volumes:
+      - .:/usr/src
+    profiles:
+      - donotstart
+  grunt:
+    container_name: grunt
+    build:
+      context: ./docker
+      dockerfile: grunt.Dockerfile
+    working_dir: /srv/build/grunt
+    volumes:
+      - .:/srv
+    profiles:
+      - donotstart
