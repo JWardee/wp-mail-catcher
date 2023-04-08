@@ -82,7 +82,9 @@ Backup and save your contact form emails (including Contact Form 7) to your data
 ## Extra commands
 1. Run `./entrypoint.sh grunt compile` to compile assets
 2. Run `./entrypoint.sh phpunit` to run unit tests
-3. Run `./entrypoint.sh composer XYZ` to run composer commands
+3. Run `./entrypoint.sh phpstan` to run static analysis
+4. Run `./entrypoint.sh phpcs` to check linting
+5. Run `./entrypoint.sh composer XYZ` to run composer (replace `XYZ` with your composer command)
 
 ## Changing PHP versions
 1. Update the WordPress/PHP versions in the `entrypoint.sh` file. Ensure the [corresponding Docker image exists](https://hub.docker.com/_/wordpress/tags)
@@ -94,12 +96,11 @@ Let us know in our [GitHub tracker!](https://github.com/JWardee/wp-mail-catcher/
 
 ## Contributing
 Contributions are always welcome, to get started do the following:
-1. Pull the repo and run `composer install`
-2. cd into `build/grunt` and run `npm install`
-3. Still inside `build/grunt` run `npx grunt` (requires `sass` gem). This will build and watch the scss and js
-4. Make sure your code conforms to [PSR-12 standards](http://www.php-fig.org/psr/psr-12/)
-5. Ensure your changes pass all the unit tests
-6. Submit your pull request!
+1. Complete "Developing locally steps", make any changes you need
+2. Ensure unit tests pass (`./entrypoint.sh phpunit`)
+3. Ensure static analysis pass (`./entrypoint.sh phpstan`)
+4. Ensure code conforms to PSR-12 standard (`./entrypoint.sh phpcs`)
+5. Submit your pull request!
 
 ## Additional resources
 * [WordPress repository](https://wordpress.org/plugins/wp-mail-catcher/)
