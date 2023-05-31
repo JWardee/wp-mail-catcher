@@ -87,6 +87,10 @@ if (isset($log)) :
                 </div>
             </div>
             <div class="modal-footer">
+                <?php $resendLink = '?page=' . GeneralHelper::$adminPageSlug . '&action=resend&id=' . $log['id']; ?>
+                <a href="<?php echo wp_nonce_url($resendLink, 'modal-resend'); ?>" class="resend-link">
+                    <?php _e('Resend', 'WpMailCatcher'); ?>
+                </a>
                 <button type="button" class="button-primary dismiss-modal">
                     <?php _e('Close', 'WpMailCatcher'); ?>
                 </button>

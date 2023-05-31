@@ -2,7 +2,7 @@
 Contributors: Wardee
 Tags: mail logging, email log, email logger, logging, email logging, mail, crm
 Requires at least: 4.7
-Tested up to: 6.2
+Tested up to: 6.2.2
 Requires PHP: 7.4
 Stable tag: 2.1.0
 License: GNU General Public License v3.0

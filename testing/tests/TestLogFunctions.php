@@ -392,8 +392,8 @@ class TestLogFunctions extends WP_UnitTestCase
 
         $log = Logs::get(['column_blacklist' => ['message', 'is_html', 'additional_headers']])[0];
 
-        $this->assertTrue(isset($log['message']) === false);
-        $this->assertTrue(isset($log['is_html']) === false);
-        $this->assertTrue(isset($log['additional_headers']) === false);
+        $this->assertFalse(isset($log['message']));
+        $this->assertFalse(isset($log['is_html']));
+        $this->assertFalse(isset($log['additional_headers']));
     }
 }
