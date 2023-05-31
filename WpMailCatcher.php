@@ -1,5 +1,4 @@
 <?php
-
 /*
 Plugin Name: Mail logging - WP Mail Catcher
 Plugin URI: https://wordpress.org/plugins/wp-mail-catcher/

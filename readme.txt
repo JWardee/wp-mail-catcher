@@ -98,6 +98,7 @@ Great! Please leave a note in our (GitHub tracker)
 
 - New: Added support for viewing encoded non-ASCII characters in the subject line on the log table
 - New: Added resend link inside of details modal
+- Deprecation: Increased supported PHP version from 7.2 to 7.4
 
 = 2.0.5 =
 
