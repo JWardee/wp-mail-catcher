@@ -96,6 +96,9 @@ Great! Please leave a note in our (GitHub tracker)
 
 = 2.1.0 =
 
+- New: Added support for viewing encoded non-ASCII characters in the subject line on the log table
+- New: Added resend link inside of details modal
+
 = 2.0.5 =
 
 - Fix: Improved error handling when attempting to save a log without running the migration
