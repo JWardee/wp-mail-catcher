@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WpMailCatcher 2.1.0\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2023-05-31 13:07+0000\n"
+"POT-Creation-Date: 2023-05-31 22:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,41 +36,49 @@ msgctxt "%s = human-readable time difference"
 msgid "%s"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:62
+#: ../../src/MailAdminTable.php:61
+msgid "This subject was base64 decoded"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:76
+msgid "This subject was quoted printable decoded"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:101
 msgid "More Info"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:70 ../../src/Views/NewMessageModal.php:30
+#: ../../src/MailAdminTable.php:109 ../../src/Views/NewMessageModal.php:30
 msgid "To"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:71 ../../src/Views/NewMessageModal.php:53
+#: ../../src/MailAdminTable.php:110 ../../src/Views/NewMessageModal.php:53
 msgid "Subject"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:72 ../../src/Views/NewMessageModal.php:33
+#: ../../src/MailAdminTable.php:111 ../../src/Views/NewMessageModal.php:33
 msgid "From"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:73
+#: ../../src/MailAdminTable.php:112
 msgid "Sent"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:81 ../../src/MailAdminTable.php:120
+#: ../../src/MailAdminTable.php:120 ../../src/MailAdminTable.php:159
 msgid "Delete"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:82 ../../src/MailAdminTable.php:121
+#: ../../src/MailAdminTable.php:121 ../../src/MailAdminTable.php:160
 #: ../../src/Views/LogModal.php:92
 msgid "Resend"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:83 ../../src/MailAdminTable.php:122
+#: ../../src/MailAdminTable.php:122 ../../src/MailAdminTable.php:161
 #: ../../src/Views/ExportWarningDialog.php:81
 msgid "Export"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:84
+#: ../../src/MailAdminTable.php:123
 msgid "View"
 msgstr ""
 

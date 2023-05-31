@@ -5,6 +5,7 @@ use WpMailCatcher\ExpiredLogManager;
 use WpMailCatcher\Models\Logs;
 use WpMailCatcher\Models\Mail;
 use WpMailCatcher\Models\Settings;
+use WpMailCatcher\MailAdminTable;
 
 class TestLogFunctions extends WP_UnitTestCase
 {
@@ -395,5 +396,45 @@ class TestLogFunctions extends WP_UnitTestCase
         $this->assertFalse(isset($log['message']));
         $this->assertFalse(isset($log['is_html']));
         $this->assertFalse(isset($log['additional_headers']));
+    }
+
+    public function testCanDecodeAsciBase64SubjectLine()
+    {
+        $mailTable = MailAdminTable::getInstance();
+        $expectedOutput = '<span class="asci-help" data-hover-message="This subject was base64 decoded">
+                               <a href="https://ncona.com/2011/06/using-utf-8-characters-on-an-e-mail-subject/"
+                                  target="_blank">(?)</a>
+                               Subject with non ASCII ó¿¡á
+                           </span>';
+
+        $subject = 'Subject with non ASCII ó¿¡á';
+        $encodedSubject = '=?utf-8?B?' . base64_encode($subject) . '?=';
+
+        $decodedSubject = $mailTable->column_subject(['subject' => $encodedSubject]);
+
+        $this->assertEquals(
+            preg_replace('/\s+/', '', $decodedSubject),
+            preg_replace('/\s+/', '', $expectedOutput)
+        );
+    }
+
+    public function testCanDecodeAsciQuotedEncodedSubjectLine()
+    {
+        $mailTable = MailAdminTable::getInstance();
+        $expectedOutput = '<span class="asci-help" data-hover-message="This subject was quoted printable decoded">
+                               <a href="https://ncona.com/2011/06/using-utf-8-characters-on-an-e-mail-subject/"
+                                  target="_blank">(?)</a>
+                               Subject with non ASCII ó¿¡á
+                           </span>';
+
+        $subject = 'Subject with non ASCII ó¿¡á';
+        $encodedSubject = '=?utf-8?Q?' . quoted_printable_decode(base64_encode($subject)) . '?=';
+
+        $decodedSubject = $mailTable->column_subject(['subject' => $encodedSubject]);
+
+        $this->assertEquals(
+            preg_replace('/\s+/', '', $decodedSubject),
+            preg_replace('/\s+/', '', $expectedOutput)
+        );
     }
 }
