@@ -9,6 +9,9 @@ class MailAdminTable extends WP_List_Table
 {
     public $totalItems;
     private static $instance = false;
+    private $emailSubjectBase64Encoded = '=?utf-8?B?';
+    private $emailSubjectQuotedEncoded = '=?utf-8?Q?';
+    private $asciSubjectHelpLink = 'https://ncona.com/2011/06/using-utf-8-characters-on-an-e-mail-subject/';
 
     public function __construct()
     {
@@ -21,7 +24,7 @@ class MailAdminTable extends WP_List_Table
 
     public static function getInstance()
     {
-        if (! self::$instance) {
+        if (!self::$instance) {
             self::$instance = new MailAdminTable();
         }
 
@@ -41,6 +44,42 @@ class MailAdminTable extends WP_List_Table
             default:
                 return print_r($item, true);
         }
+    }
+
+    function column_subject($item)
+    {
+        $subject = $item['subject'];
+
+        if (strpos($subject, $this->emailSubjectBase64Encoded) === 0) {
+            $subjectEncoded = substr(
+                $subject,
+                strlen($this->emailSubjectBase64Encoded),
+                strlen($subject) - strlen($this->emailSubjectBase64Encoded) - 1
+            );
+
+            $subjectDecoded = base64_decode($subjectEncoded);
+            return '<span class="asci-help" data-hover-message="' . __("This subject was base64 decoded") . '">
+                        <a href="' . $this->asciSubjectHelpLink . '" target="_blank">(?)</a>
+                        ' . $subjectDecoded . '
+                    </span>';
+        }
+
+        if (strpos($subject, $this->emailSubjectQuotedEncoded) === 0) {
+            $subjectEncoded = substr(
+                $subject,
+                strlen($this->emailSubjectQuotedEncoded),
+                strlen($subject) - strlen($this->emailSubjectQuotedEncoded) - 1
+            );
+
+            $subjectDecoded = quoted_printable_decode($subjectEncoded);
+            $subjectDecoded = base64_decode($subjectEncoded);
+            return '<span class="asci-help" data-hover-message="' . __("This subject was quoted printable decoded") . '">
+                        <a href="' . $this->asciSubjectHelpLink . '" target="_blank">(?)</a>
+                        ' . $subjectDecoded . '
+                    </span>';
+        }
+
+        return $subject;
     }
 
     function column_time($item): string

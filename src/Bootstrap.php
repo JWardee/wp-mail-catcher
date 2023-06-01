@@ -174,7 +174,10 @@ class Bootstrap
                 (isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'resend')) &&
                 isset($_REQUEST['id']) && !empty($_REQUEST['id'])
             ) {
-                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
+                if (
+                    !wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs') &&
+                    !wp_verify_nonce($_REQUEST['_wpnonce'], 'modal-resend')
+                ) {
                     wp_die(GeneralHelper::$failedNonceMessage);
                 }
 

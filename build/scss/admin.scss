@@ -5,6 +5,10 @@
 
   .column-subject {
     width: 35%;
+
+    .asci-help > a {
+      font-weight: bold;
+    }
   }
 
   .column-emailto {
@@ -185,6 +189,10 @@
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
+
+    .resend-link {
+      margin-right: 15px;
+    }
 
     .modal-content {
       padding: 15px;

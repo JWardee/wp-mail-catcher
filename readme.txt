@@ -2,9 +2,9 @@
 Contributors: Wardee
 Tags: mail logging, email log, email logger, logging, email logging, mail, crm
 Requires at least: 4.7
-Tested up to: 6.1
-Requires PHP: 7.2
-Stable tag: 2.0.5
+Tested up to: 6.2.2
+Requires PHP: 7.4
+Stable tag: 2.1.0
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 Donate link: https://paypal.me/jamesmward
@@ -95,6 +95,10 @@ Great! Please leave a note in our (GitHub tracker)
 == Changelog ==
 
 = 2.1.0 =
+
+- New: Added support for viewing encoded non-ASCII characters in the subject line on the log table
+- New: Added resend link inside of details modal
+- Deprecation: Increased supported PHP version from 7.2 to 7.4
 
 = 2.0.5 =
 

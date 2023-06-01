@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WpMailCatcher 2.1.0\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2023-04-08 12:10+0000\n"
+"POT-Creation-Date: 2023-05-31 22:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,89 +17,101 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../src/Bootstrap.php:59 ../../src/Bootstrap.php:92
+#: ../../src/Bootstrap.php:63 ../../src/Bootstrap.php:112
+#: ../../src/Bootstrap.php:113
 msgid "Settings"
 msgstr ""
 
-#: ../../src/CronManager.php:89
+#: ../../src/CronManager.php:91
 msgid "Once Weekly"
 msgstr ""
 
-#: ../../src/CronManager.php:94
+#: ../../src/CronManager.php:96
 msgid "Once a month"
 msgstr ""
 
-#: ../../src/GeneralHelper.php:219
+#: ../../src/GeneralHelper.php:218
 #, php-format
 msgctxt "%s = human-readable time difference"
 msgid "%s"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:62
+#: ../../src/MailAdminTable.php:61
+msgid "This subject was base64 decoded"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:76
+msgid "This subject was quoted printable decoded"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:101
 msgid "More Info"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:70 ../../src/Views/NewMessageModal.php:26
+#: ../../src/MailAdminTable.php:109 ../../src/Views/NewMessageModal.php:30
 msgid "To"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:71 ../../src/Views/NewMessageModal.php:45
+#: ../../src/MailAdminTable.php:110 ../../src/Views/NewMessageModal.php:53
 msgid "Subject"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:72 ../../src/Views/NewMessageModal.php:29
+#: ../../src/MailAdminTable.php:111 ../../src/Views/NewMessageModal.php:33
 msgid "From"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:73
+#: ../../src/MailAdminTable.php:112
 msgid "Sent"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:81 ../../src/MailAdminTable.php:120
+#: ../../src/MailAdminTable.php:120 ../../src/MailAdminTable.php:159
 msgid "Delete"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:82 ../../src/MailAdminTable.php:121
+#: ../../src/MailAdminTable.php:121 ../../src/MailAdminTable.php:160
+#: ../../src/Views/LogModal.php:92
 msgid "Resend"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:83 ../../src/MailAdminTable.php:122
-#: ../../src/Views/ExportWarningDialog.php:73
+#: ../../src/MailAdminTable.php:122 ../../src/MailAdminTable.php:161
+#: ../../src/Views/ExportWarningDialog.php:81
 msgid "Export"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:84
+#: ../../src/MailAdminTable.php:123
 msgid "View"
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:17
+#: ../../src/Views/ExportWarningDialog.php:18
 msgid "Warning"
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:21
+#: ../../src/Views/ExportWarningDialog.php:24
 #, php-format
 msgid ""
-"You are trying to export <strong>%s</strong> messages when the recommended "
-"limit is no more than <strong>%s</strong>,\n"
-"                                           this can cause the server to "
-"timeout before the export is complete, we recommend reducing the amount of "
-"messages exported, or exporting them in batches."
+"You are trying to export <strong>%s</strong> messages when the\n"
+"                                         recommended limit is no more than "
+"<strong>%s</strong>, this can cause the\n"
+"                                         server to timeout before the export "
+"is complete, we recommend reducing the\n"
+"                                         amount of messages exported, or "
+"exporting them in batches."
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:35
+#: ../../src/Views/ExportWarningDialog.php:41
 msgid "Number of logs to export"
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:49
+#: ../../src/Views/ExportWarningDialog.php:55
 msgid "Batch number"
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:58
+#: ../../src/Views/ExportWarningDialog.php:65
 #, php-format
 msgid "This will export messages <strong>%s-%s</strong>"
 msgstr ""
 
-#: ../../src/Views/ExportWarningDialog.php:76
+#: ../../src/Views/ExportWarningDialog.php:84
 msgid "Cancel"
 msgstr ""
 
@@ -107,134 +119,137 @@ msgstr ""
 msgid "If you've found this useful - please rate us!"
 msgstr ""
 
-#: ../../src/Views/Log.php:20
+#: ../../src/Views/Log.php:22
 msgid "logs"
 msgstr ""
 
-#: ../../src/Views/Log.php:26
+#: ../../src/Views/Log.php:30
 #, php-format
 msgid ""
 "Your WP Mail Catcher database needs upgrading. <strong>Click <a href=\"%s"
-"\">here</a> to perform the upgrade.</strong>"
+"\">here</a>\n"
+"                             to perform the upgrade.</strong>"
 msgstr ""
 
-#: ../../src/Views/Log.php:39
+#: ../../src/Views/Log.php:47
 #, php-format
 msgid ""
 "You have <strong>over %s</strong> messages stored and <a href=\"%s\">auto-"
-"delete is disabled</a>. As a result your database can become very large, "
-"please either allow auto-delete or delete some logs."
+"delete is\n"
+"                             disabled</a>. As a result your database can "
+"become very large, please either allow\n"
+"                             auto-delete or delete some logs."
 msgstr ""
 
-#: ../../src/Views/Log.php:51
+#: ../../src/Views/Log.php:62
 msgid "New Message"
 msgstr ""
 
-#: ../../src/Views/Log.php:56 ../../src/Views/Log.php:61
+#: ../../src/Views/Log.php:67 ../../src/Views/Log.php:77
 msgid "Export all messages"
 msgstr ""
 
-#: ../../src/Views/Log.php:70
+#: ../../src/Views/Log.php:88
 msgid "All"
 msgstr ""
 
-#: ../../src/Views/Log.php:76
+#: ../../src/Views/Log.php:96
 msgid "Successful"
 msgstr ""
 
-#: ../../src/Views/Log.php:82
+#: ../../src/Views/Log.php:104
 msgid "Failed"
 msgstr ""
 
-#: ../../src/Views/Log.php:93
+#: ../../src/Views/Log.php:118
 msgid "Search Logs"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:11 ../../src/Views/NewMessageModal.php:72
+#: ../../src/Views/LogModal.php:12 ../../src/Views/NewMessageModal.php:80
 msgid "Message"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:12
+#: ../../src/Views/LogModal.php:13
 msgid "Detail"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:13
+#: ../../src/Views/LogModal.php:14
 msgid "Debug"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:22 ../../src/Views/NewMessageModal.php:42
+#: ../../src/Views/LogModal.php:22 ../../src/Views/NewMessageModal.php:50
 msgid "Is HTML email?"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:23
+#: ../../src/Views/LogModal.php:24
 msgid "Yes"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:23 ../../src/Views/Settings.php:100
+#: ../../src/Views/LogModal.php:24 ../../src/Views/Settings.php:106
 msgid "No"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:26
+#: ../../src/Views/LogModal.php:28
 msgid "No attachments to show"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:28 ../../src/Views/NewMessageModal.php:53
+#: ../../src/Views/LogModal.php:30 ../../src/Views/NewMessageModal.php:61
 msgid "Attachments"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:49
+#: ../../src/Views/LogModal.php:56
 msgid "No additional headers to show"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:51
+#: ../../src/Views/LogModal.php:58
 msgid "Additional Headers"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:63
+#: ../../src/Views/LogModal.php:70
 msgid "Triggered from:"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:64
+#: ../../src/Views/LogModal.php:72
 msgid "On line:"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:65
+#: ../../src/Views/LogModal.php:74
 msgid "Sent at:"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:69
+#: ../../src/Views/LogModal.php:80
 msgid "Errors:"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:79 ../../src/Views/NewMessageModal.php:88
+#: ../../src/Views/LogModal.php:95 ../../src/Views/NewMessageModal.php:96
 msgid "Close"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:11
+#: ../../src/Views/NewMessageModal.php:15
 msgid "Headers"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:27
+#: ../../src/Views/NewMessageModal.php:31
 msgid "Cc"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:28
+#: ../../src/Views/NewMessageModal.php:32
 msgid "Bcc"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:30
+#: ../../src/Views/NewMessageModal.php:34
 msgid "Custom"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:66
+#: ../../src/Views/NewMessageModal.php:74
 msgid "Add Attachments"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:75
+#: ../../src/Views/NewMessageModal.php:83
 msgid "My Message"
 msgstr ""
 
-#: ../../src/Views/NewMessageModal.php:85
+#: ../../src/Views/NewMessageModal.php:93
 msgid "Send Message"
 msgstr ""
 
@@ -262,33 +277,33 @@ msgstr ""
 msgid "User capability needed to see logs"
 msgstr ""
 
-#: ../../src/Views/Settings.php:74
+#: ../../src/Views/Settings.php:76
 msgid "User capability needed to edit settings"
 msgstr ""
 
-#: ../../src/Views/Settings.php:92
+#: ../../src/Views/Settings.php:96
 msgid "Auto delete logs?"
 msgstr ""
 
-#: ../../src/Views/Settings.php:118
+#: ../../src/Views/Settings.php:128
 #, php-format
 msgid "Yes - delete messages that are over %s old"
 msgstr ""
 
-#: ../../src/Views/Settings.php:124
+#: ../../src/Views/Settings.php:141
 #, php-format
-msgid "Will next run in: %s. <a href=\"?page="
+msgid "Will next run in: %s. <a href=\""
 msgstr ""
 
-#: ../../src/Views/Settings.php:133
+#: ../../src/Views/Settings.php:155
 msgid "Database version"
 msgstr ""
 
-#: ../../src/Views/Settings.php:138
+#: ../../src/Views/Settings.php:164
 #, php-format
-msgid "%s. <a href=\"?page="
+msgid "%s. <a href=\""
 msgstr ""
 
-#: ../../src/Views/Settings.php:147
+#: ../../src/Views/Settings.php:178
 msgid "Save Changes"
 msgstr ""
