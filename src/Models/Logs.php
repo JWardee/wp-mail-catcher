@@ -189,6 +189,14 @@ class Logs
                 $result['message'] = stripslashes(htmlspecialchars_decode($result['message']));
             }
 
+            if (isset($result['subject'])) {
+                $result['subject'] = stripslashes(htmlspecialchars_decode($result['subject']));
+            }
+
+            if (isset($result['email_to'])) {
+                $result['email_to'] = stripslashes(htmlspecialchars_decode($result['email_to']));
+            }
+
             if (!empty($result['attachments'])) {
                 $result['attachments'] = json_decode($result['attachments'], true);
 
