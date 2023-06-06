@@ -148,6 +148,16 @@ class GeneralHelper
         return $value;
     }
 
+    public static function sanitiseHtmlspecialchars($input): string
+    {
+        return htmlspecialchars(
+            $input,
+            ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
+            null,
+            false
+        );
+    }
+
     public static function getAttachmentIdsFromUrl($urls)
     {
         if (empty($urls)) {
