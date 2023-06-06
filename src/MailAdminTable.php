@@ -58,6 +58,7 @@ class MailAdminTable extends WP_List_Table
             );
 
             $subjectDecoded = base64_decode($subjectEncoded);
+            $subjectDecoded = GeneralHelper::sanitiseHtmlspecialchars($subjectDecoded);
             return '<span class="asci-help" data-hover-message="' . __("This subject was base64 decoded") . '">
                         <a href="' . $this->asciSubjectHelpLink . '" target="_blank">(?)</a>
                         ' . $subjectDecoded . '
@@ -73,13 +74,14 @@ class MailAdminTable extends WP_List_Table
 
             $subjectDecoded = quoted_printable_decode($subjectEncoded);
             $subjectDecoded = base64_decode($subjectEncoded);
+            $subjectDecoded = GeneralHelper::sanitiseHtmlspecialchars($subjectDecoded);
             return '<span class="asci-help" data-hover-message="' . __("This subject was quoted printable decoded") . '">
                         <a href="' . $this->asciSubjectHelpLink . '" target="_blank">(?)</a>
                         ' . $subjectDecoded . '
                     </span>';
         }
 
-        return $subject;
+        return GeneralHelper::sanitiseHtmlspecialchars($subject);
     }
 
     function column_time($item): string
@@ -123,7 +125,7 @@ class MailAdminTable extends WP_List_Table
             'view' => '<a href="#" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('View', 'WpMailCatcher') . '</a>',
         ];
 
-        return sprintf('%1$s %2$s', htmlspecialchars($item['email_to']), $this->row_actions($actions));
+        return sprintf('%1$s %2$s', GeneralHelper::sanitiseHtmlspecialchars($item['email_to']), $this->row_actions($actions));
     }
 
     function column_status($item): string
