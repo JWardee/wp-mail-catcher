@@ -22,11 +22,11 @@ class Mail
             add_filter('wp_mail_content_type', $updateContentType, self::$contentTypeFilterPriority);
 
             if (isset($log['message'])) {
-                $log['message'] = GeneralHelper::unfilterHtml($log['message']);
+                $log['message'] = GeneralHelper::filterHtml($log['message']);
             }
 
             if (isset($log['subject'])) {
-                $log['subject'] = GeneralHelper::unfilterHtml($log['subject']);
+                $log['subject'] = GeneralHelper::filterHtml($log['subject']);
             }
 
             wp_mail(
@@ -63,11 +63,11 @@ class Mail
             }, ARRAY_FILTER_USE_KEY);
 
             if (isset($log['message'])) {
-                $log['message'] = GeneralHelper::unfilterHtml($log['message']);
+                $log['message'] = GeneralHelper::filterHtml($log['message']);
             }
 
             if (isset($log['subject'])) {
-                $log['subject'] = GeneralHelper::unfilterHtml($log['subject']);
+                $log['subject'] = GeneralHelper::filterHtml($log['subject']);
             }
 
             if (isset($log['attachments']) && !empty($log['attachments']) && is_array($log['attachments'])) {

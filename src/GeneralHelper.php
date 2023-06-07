@@ -155,14 +155,6 @@ class GeneralHelper
         return $tags;
     }
 
-    public static function unfilterHtml($value)
-    {
-        return wp_kses(
-            $value,
-            self::getAllowedTags()
-        );
-    }
-
     public static function filterHtml($value)
     {
         return wp_kses($value, self::getAllowedTags());

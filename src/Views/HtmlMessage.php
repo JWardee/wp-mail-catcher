@@ -2,4 +2,4 @@
 
 use WpMailCatcher\GeneralHelper;
 
-echo GeneralHelper::unfilterHtml($log['message'] ?? '');
+echo GeneralHelper::filterHtml($log['message'] ?? '');
