@@ -21,6 +21,14 @@ class Mail
 
             add_filter('wp_mail_content_type', $updateContentType, self::$contentTypeFilterPriority);
 
+            if (isset($log['message'])) {
+                $log['message'] = GeneralHelper::unfilterHtml($log['message']);
+            }
+
+            if (isset($log['subject'])) {
+                $log['subject'] = GeneralHelper::unfilterHtml($log['subject']);
+            }
+
             wp_mail(
                 $log['email_to'],
                 $log['subject'],
@@ -53,6 +61,14 @@ class Mail
             $log = array_filter($log, function ($key) {
                 return in_array($key, GeneralHelper::$csvExportLegalColumns);
             }, ARRAY_FILTER_USE_KEY);
+
+            if (isset($log['message'])) {
+                $log['message'] = GeneralHelper::unfilterHtml($log['message']);
+            }
+
+            if (isset($log['subject'])) {
+                $log['subject'] = GeneralHelper::unfilterHtml($log['subject']);
+            }
 
             if (isset($log['attachments']) && !empty($log['attachments']) && is_array($log['attachments'])) {
                 $log['attachments'] = array_column($log['attachments'], 'url');

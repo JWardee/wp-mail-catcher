@@ -27,7 +27,7 @@ class GeneralHelper
     public static $namespacePrefix;
     public static $reviewLink;
     public static $actionNameSpace;
-    public static $htmlEmailHeader = 'content-type: text/html;';
+    public static $htmlEmailHeader = 'content-type: text/html';
 
     public static function setSettings()
     {
@@ -132,7 +132,7 @@ class GeneralHelper
         return strtolower($label);
     }
 
-    public static function sanitiseForQuery($value)
+    public static function sanitiseForDbQuery($value)
     {
         switch (gettype($value)) {
             case ('array'):
@@ -148,14 +148,24 @@ class GeneralHelper
         return $value;
     }
 
-    public static function sanitiseHtmlspecialchars($input): string
+    private static function getAllowedTags()
     {
-        return htmlspecialchars(
-            $input,
-            ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
-            null,
-            false
+        $tags = wp_kses_allowed_html('post');
+        $tags['style'] = [];
+        return $tags;
+    }
+
+    public static function unfilterHtml($value)
+    {
+        return wp_kses(
+            $value,
+            self::getAllowedTags()
         );
+    }
+
+    public static function filterHtml($value)
+    {
+        return wp_kses($value, self::getAllowedTags());
     }
 
     public static function getAttachmentIdsFromUrl($urls)
@@ -166,7 +176,7 @@ class GeneralHelper
 
         global $wpdb;
 
-        $urls = self::sanitiseForQuery($urls);
+        $urls = self::sanitiseForDbQuery($urls);
 
         $sql = "SELECT DISTINCT post_id
                 FROM " . $wpdb->prefix . "postmeta

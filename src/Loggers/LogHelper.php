@@ -142,25 +142,6 @@ trait LogHelper
         return $result;
     }
 
-    protected function sanitiseInput($input): string
-    {
-        return htmlspecialchars(
-            $input,
-            ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
-            null,
-            false
-        );
-    }
-
-    protected function sanitiseAndRemoveScripts($input): string
-    {
-        return preg_replace(
-            '#<script(.*?)>(.*?)</script>#is',
-            '',
-            GeneralHelper::sanitiseHtmlspecialchars($input)
-        );
-    }
-
     /**
      * Get the details of the method that originally triggered wp_mail
      *

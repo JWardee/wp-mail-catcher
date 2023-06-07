@@ -84,7 +84,7 @@ class Logs
         /**
          * Sanitise each value in the array
          */
-        array_walk_recursive($args, 'WpMailCatcher\GeneralHelper::sanitiseForQuery');
+        array_walk_recursive($args, 'WpMailCatcher\GeneralHelper::sanitiseForDbQuery');
 
         $sql = "SELECT " . implode(',', $columnsToSelect) . "
             FROM " . $wpdb->prefix . GeneralHelper::$tableName . " ";
@@ -180,21 +180,9 @@ class Logs
             // Otherwise resort to the original method
             } elseif (isset($result['additional_headers'])) {
                 $result['is_html'] = GeneralHelper::doesArrayContainSubString(
-                    $result['additional_headers'],
-                    GeneralHelper::$htmlEmailHeader
+                    str_replace(' ', '', $result['additional_headers']),
+                    str_replace(' ', '', GeneralHelper::$htmlEmailHeader)
                 );
-            }
-
-            if (isset($result['message'])) {
-                $result['message'] = stripslashes(htmlspecialchars_decode($result['message']));
-            }
-
-            if (isset($result['subject'])) {
-                $result['subject'] = stripslashes(htmlspecialchars_decode($result['subject']));
-            }
-
-            if (isset($result['email_to'])) {
-                $result['email_to'] = stripslashes(htmlspecialchars_decode($result['email_to']));
             }
 
             if (!empty($result['attachments'])) {
@@ -238,7 +226,7 @@ class Logs
         global $wpdb;
 
         $ids = GeneralHelper::arrayToString($ids);
-        $ids = GeneralHelper::sanitiseForQuery($ids);
+        $ids = GeneralHelper::sanitiseForDbQuery($ids);
 
         $wpdb->query("DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . "
                       WHERE id IN(" . $ids . ")");

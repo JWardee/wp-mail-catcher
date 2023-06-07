@@ -31,6 +31,18 @@ class MailAdminTable extends WP_List_Table
         return self::$instance;
     }
 
+    private function runHtmlSpecialChars($value)
+    {
+        $value = GeneralHelper::filterHtml($value);
+
+        return htmlspecialchars(
+            $value,
+            ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
+            null,
+            false
+        );
+    }
+
     function column_default($item, $column_name)
     {
         switch ($column_name) {
@@ -58,7 +70,8 @@ class MailAdminTable extends WP_List_Table
             );
 
             $subjectDecoded = base64_decode($subjectEncoded);
-            $subjectDecoded = GeneralHelper::sanitiseHtmlspecialchars($subjectDecoded);
+            $subjectDecoded = $this->runHtmlSpecialChars($subjectDecoded);
+
             return '<span class="asci-help" data-hover-message="' . __("This subject was base64 decoded") . '">
                         <a href="' . $this->asciSubjectHelpLink . '" target="_blank">(?)</a>
                         ' . $subjectDecoded . '
@@ -74,14 +87,15 @@ class MailAdminTable extends WP_List_Table
 
             $subjectDecoded = quoted_printable_decode($subjectEncoded);
             $subjectDecoded = base64_decode($subjectEncoded);
-            $subjectDecoded = GeneralHelper::sanitiseHtmlspecialchars($subjectDecoded);
+            $subjectDecoded = $this->runHtmlSpecialChars($subjectDecoded);
+
             return '<span class="asci-help" data-hover-message="' . __("This subject was quoted printable decoded") . '">
                         <a href="' . $this->asciSubjectHelpLink . '" target="_blank">(?)</a>
                         ' . $subjectDecoded . '
                     </span>';
         }
 
-        return GeneralHelper::sanitiseHtmlspecialchars($subject);
+        return $this->runHtmlSpecialChars($subject);
     }
 
     function column_time($item): string
@@ -125,7 +139,9 @@ class MailAdminTable extends WP_List_Table
             'view' => '<a href="#" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('View', 'WpMailCatcher') . '</a>',
         ];
 
-        return sprintf('%1$s %2$s', GeneralHelper::sanitiseHtmlspecialchars($item['email_to']), $this->row_actions($actions));
+        $emailTo = $this->runHtmlSpecialChars($item['email_to']);
+
+        return sprintf('%1$s %2$s', $emailTo, $this->row_actions($actions));
     }
 
     function column_status($item): string
