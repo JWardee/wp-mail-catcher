@@ -20,14 +20,3 @@ $bootstrap = new Bootstrap();
 register_activation_hook(__FILE__, [$bootstrap, 'install']);
 register_deactivation_hook(__FILE__, ['WpMailCatcher\Bootstrap', 'deactivate']);
 register_uninstall_hook(__FILE__, ['WpMailCatcher\Bootstrap', 'uninstall']);
-
-function mailtrap($phpmailer) {
-    $phpmailer->isSMTP();
-    $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
-    $phpmailer->SMTPAuth = true;
-    $phpmailer->Port = 2525;
-    $phpmailer->Username = '67663a530fee8c';
-    $phpmailer->Password = 'b8fda32ad1336d';
-}
-
-add_action('phpmailer_init', 'mailtrap');
