@@ -42,9 +42,9 @@ class WpMail
     {
         return [
             'time' => time(),
-            'email_to' => $this->sanitiseInput(GeneralHelper::arrayToString($args['to'])),
-            'subject' => $this->sanitiseInput($args['subject']),
-            'message' => $this->sanitiseAndRemoveScripts($args['message']),
+            'email_to' => GeneralHelper::filterHtml(GeneralHelper::arrayToString($args['to'])),
+            'subject' => GeneralHelper::filterHtml($args['subject']),
+            'message' => GeneralHelper::filterHtml($args['message']),
             'backtrace_segment' => json_encode($this->getBacktrace()),
             'status' => 1,
             'attachments' => json_encode($this->getAttachmentLocations($args['attachments'])),

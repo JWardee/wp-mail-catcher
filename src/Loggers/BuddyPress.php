@@ -44,9 +44,9 @@ class BuddyPress
 
         return [
             'time' => time(),
-            'email_to' => GeneralHelper::arrayToString($tos),
-            'subject' => $bpMail->get_subject(),
-            'message' => $this->sanitiseInput($bpMail->get_content()),
+            'email_to' => GeneralHelper::filterHtml(GeneralHelper::arrayToString($tos)),
+            'subject' => GeneralHelper::filterHtml($bpMail->get_subject()),
+            'message' => GeneralHelper::filterHtml($bpMail->get_content()),
             'backtrace_segment' => json_encode($this->getBacktrace('bp_send_email')),
             'status' => 1,
             'attachments' => '',//json_encode($this->getAttachmentLocations($args['attachments'])),
