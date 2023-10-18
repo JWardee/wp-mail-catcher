@@ -35,7 +35,7 @@ class Logs
     /**
      * @param  array  $args
      *
-     * @return array|null|object
+     * @return array|null|object|string
      */
     public static function get(array $args = [])
     {
@@ -139,9 +139,14 @@ class Logs
                OFFSET " . ($args['posts_per_page'] * ($args['paged'] - 1));
         }
 
-        $results = self::dbResultTransform($wpdb->get_results($sql, ARRAY_A), $args);
+        if (isset($args['get_sql'])) {
+            return $sql;
+        }
 
-        if (!isset($args['ignore_cache']) || ! $args['ignore_cache']) {
+        $results = $wpdb->get_results($sql, ARRAY_A);
+        $results = self::dbResultTransform($results, $args);
+
+        if (!isset($args['ignore_cache']) || !$args['ignore_cache']) {
             Cache::set($args, $results);
         }
 
