@@ -139,10 +139,10 @@ class Logs
             }
         }
 
-        $sql .= "ORDER BY %s %s ";
+        $order = strtolower($args['order']) === "desc" ? "DESC" : "ASC";
+        $sql .= "ORDER BY %i " . $order . " ";
         $placeholderValues = array_merge($placeholderValues, [
-            $args['orderby'],
-            $args['order']
+            $args['orderby']
         ]);
 
         if ($args['posts_per_page'] != -1) {
