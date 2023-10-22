@@ -75,25 +75,27 @@ class Logs
             'additional_headers'
         ];
 
+        if (!is_array($args['post__in'])) {
+            $args['post__in'] = [$args['post__in']];
+        }
+
         if (Settings::get('db_version') >= '2.0.0') {
             $defaultColumns[] = 'is_html';
         }
 
         $columnsToSelect = array_diff($defaultColumns, $args['column_blacklist']);
-
-        /**
-         * Sanitise each value in the array
-         */
-        array_walk_recursive($args, 'WpMailCatcher\GeneralHelper::sanitiseForDbQuery');
-
-        $sql = "SELECT " . implode(',', $columnsToSelect) . "
-            FROM " . $wpdb->prefix . GeneralHelper::$tableName . " ";
+        $placeholderValues = $columnsToSelect;
+        $columnToSelectPlaceholders = array_fill(0, count($columnsToSelect), '%i');
+        $sql = "SELECT " . implode(',', $columnToSelectPlaceholders) . "
+                FROM " . $wpdb->prefix . GeneralHelper::$tableName . " ";
 
         $whereClause = false;
 
         if (!empty($args['post__in'])) {
             $whereClause = true;
-            $sql .= "WHERE id IN(" . GeneralHelper::arrayToString($args['post__in']) . ") ";
+            $postInPlaceholders = array_fill(0, count($args['post__in']), '%s');
+            $sql .= "WHERE id IN(" . implode(',', $postInPlaceholders) . ") ";
+            $placeholderValues = array_merge($placeholderValues, $args['post__in']);
         }
 
         if ($args['subject'] != null && $args['s'] == null) {
@@ -108,11 +110,16 @@ class Logs
                 $whereClause = true;
             }
 
-            $sql .= "(subject LIKE '%" . $args['s'] . "%') OR ";
-            $sql .= "(message LIKE '%" . $args['s'] . "%') OR ";
-            $sql .= "(email_to LIKE '%" . $args['s'] . "%') OR ";
-            $sql .= "(attachments LIKE '%" . $args['s'] . "%') OR ";
-            $sql .= "(additional_headers LIKE '%" . $args['s'] . "%') ";
+            $sql .= "(subject LIKE %s) OR ";
+            $sql .= "(message LIKE %s) OR ";
+            $sql .= "(email_to LIKE %s) OR ";
+            $sql .= "(attachments LIKE %s) OR ";
+            $sql .= "(additional_headers LIKE %s) ";
+
+            $placeholderValues = array_merge(
+                $placeholderValues,
+                array_fill(0, 5, '%' . $args['s'] . '%')
+            );
         }
 
         if ($args['post_status'] != 'any') {
@@ -132,17 +139,22 @@ class Logs
             }
         }
 
-        $sql .= "ORDER BY " . $args['orderby'] . " " . $args['order'] . " ";
+        $sql .= "ORDER BY %s %s ";
+        $placeholderValues = array_merge($placeholderValues, [
+            $args['orderby'],
+            $args['order']
+        ]);
 
         if ($args['posts_per_page'] != -1) {
-            $sql .= "LIMIT " . $args['posts_per_page'] . "
-               OFFSET " . ($args['posts_per_page'] * ($args['paged'] - 1));
+            $sql .= "LIMIT %d OFFSET %d";
+
+            $placeholderValues = array_merge($placeholderValues, [
+                $args['posts_per_page'],
+                $args['posts_per_page'] * ($args['paged'] - 1)
+            ]);
         }
 
-        if (isset($args['get_sql'])) {
-            return $sql;
-        }
-
+        $sql = $wpdb->prepare($sql, $placeholderValues);
         $results = $wpdb->get_results($sql, ARRAY_A);
         $results = self::dbResultTransform($results, $args);
 
@@ -230,11 +242,10 @@ class Logs
 
         global $wpdb;
 
-        $ids = GeneralHelper::arrayToString($ids);
-        $ids = GeneralHelper::sanitiseForDbQuery($ids);
-
-        $wpdb->query("DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . "
-                      WHERE id IN(" . $ids . ")");
+        $sql = "DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . "
+                WHERE id IN(" . implode(',', array_fill(0, count($ids), '%d')) . ")";
+        $sql = $wpdb->prepare($sql, $ids);
+        $wpdb->query($sql);
     }
 
     public static function truncate()
@@ -263,11 +274,8 @@ class Logs
         $interval = $timeInterval == null ?  Settings::get('timescale') : $timeInterval;
         $timestamp = time() - $interval;
 
-        $sql = $wpdb->prepare(
-            "DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . " WHERE time <= %d",
-            $timestamp
-        );
-
+        $sql = "DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . " WHERE time <= %d";
+        $sql = $wpdb->prepare($sql, $timestamp);
         $wpdb->query($sql);
     }
 }

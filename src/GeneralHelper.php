@@ -132,22 +132,6 @@ class GeneralHelper
         return strtolower($label);
     }
 
-    public static function sanitiseForDbQuery($value)
-    {
-        switch (gettype($value)) {
-            case ('array'):
-                array_walk_recursive($value, function (&$value) {
-                    $value = sanitize_text_field($value);
-                });
-                break;
-            default:
-                $value = sanitize_text_field($value);
-                break;
-        }
-
-        return $value;
-    }
-
     private static function getAllowedTags()
     {
         $tags = wp_kses_allowed_html('post');
@@ -168,21 +152,28 @@ class GeneralHelper
 
         global $wpdb;
 
-        $urls = self::sanitiseForDbQuery($urls);
-
         $sql = "SELECT DISTINCT post_id
                 FROM " . $wpdb->prefix . "postmeta
-				WHERE meta_value LIKE '%" . $urls[0] . "%'";
+				WHERE meta_value LIKE %s";
 
         if (is_array($urls) && count($urls) > 1) {
-            array_shift($urls);
             foreach ($urls as $url) {
-                $sql .= " OR meta_value LIKE '%" . $url . "%'";
+                // Skip first url as it's covered above
+                if ($url === $urls[0]) {
+                    continue;
+                }
+
+                $sql .= " OR meta_value LIKE %s";
             }
         }
 
         $sql .= " AND meta_key = '_wp_attached_file'";
 
+        $urls = array_map(function ($url) {
+            return '%' . $url . '%';
+        }, $urls);
+
+        $sql = $wpdb->prepare($sql, $urls);
         $results = $wpdb->get_results($sql, ARRAY_N);
 
         if (isset($results[0])) {
@@ -251,12 +242,5 @@ class GeneralHelper
     public static function getPrefixedSlug($slugOrLabel)
     {
         return self::$namespacePrefix . self::labelToSlug($slugOrLabel);
-    }
-
-    public static function dd($value)
-    {
-        echo '<pre>';
-        print_r($value);
-        exit;
     }
 }

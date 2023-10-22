@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WpMailCatcher 2.1.0\n"
+"Project-Id-Version: WpMailCatcher 2.1.4\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2023-05-31 22:22+0000\n"
+"POT-Creation-Date: 2023-10-22 17:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,55 +30,55 @@ msgstr ""
 msgid "Once a month"
 msgstr ""
 
-#: ../../src/GeneralHelper.php:218
+#: ../../src/GeneralHelper.php:221
 #, php-format
 msgctxt "%s = human-readable time difference"
 msgid "%s"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:61
+#: ../../src/MailAdminTable.php:75
 msgid "This subject was base64 decoded"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:76
+#: ../../src/MailAdminTable.php:92
 msgid "This subject was quoted printable decoded"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:101
+#: ../../src/MailAdminTable.php:117
 msgid "More Info"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:109 ../../src/Views/NewMessageModal.php:30
+#: ../../src/MailAdminTable.php:125 ../../src/Views/NewMessageModal.php:30
 msgid "To"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:110 ../../src/Views/NewMessageModal.php:53
+#: ../../src/MailAdminTable.php:126 ../../src/Views/NewMessageModal.php:53
 msgid "Subject"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:111 ../../src/Views/NewMessageModal.php:33
+#: ../../src/MailAdminTable.php:127 ../../src/Views/NewMessageModal.php:33
 msgid "From"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:112
+#: ../../src/MailAdminTable.php:128
 msgid "Sent"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:120 ../../src/MailAdminTable.php:159
+#: ../../src/MailAdminTable.php:136 ../../src/MailAdminTable.php:177
 msgid "Delete"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:121 ../../src/MailAdminTable.php:160
+#: ../../src/MailAdminTable.php:137 ../../src/MailAdminTable.php:178
 #: ../../src/Views/LogModal.php:92
 msgid "Resend"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:122 ../../src/MailAdminTable.php:161
+#: ../../src/MailAdminTable.php:138 ../../src/MailAdminTable.php:179
 #: ../../src/Views/ExportWarningDialog.php:81
 msgid "Export"
 msgstr ""
 
-#: ../../src/MailAdminTable.php:123
+#: ../../src/MailAdminTable.php:139
 msgid "View"
 msgstr ""
 
