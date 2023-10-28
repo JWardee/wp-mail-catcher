@@ -31,7 +31,7 @@ class MailAdminTable extends WP_List_Table
         return self::$instance;
     }
 
-    private function runHtmlSpecialChars($value)
+    function runHtmlSpecialChars($value)
     {
         $value = GeneralHelper::filterHtml($value);
 

@@ -11,6 +11,7 @@ class TestLogFunctions extends WP_UnitTestCase
 {
     public function setUp(): void
     {
+        parent::setUp();
         Logs::truncate();
     }
 
@@ -103,6 +104,53 @@ class TestLogFunctions extends WP_UnitTestCase
         ]);
 
         $this->assertEquals(count($mail), 4);
+    }
+
+    public function testOrderLogsByTime()
+    {
+        $oldestSubject = 'I am the oldest';
+        $mostRecentSubject = 'I am the most recent';
+
+        wp_mail('test@test.com', $oldestSubject, 'message');
+        sleep(1);
+        wp_mail('test@test.com', $mostRecentSubject, 'message');
+
+        $log = Logs::getFirst([
+            'orderby' => 'time',
+            'order' => 'DESC'
+        ]);
+
+        $this->assertEquals($mostRecentSubject, $log['subject']);
+
+        $log = Logs::getFirst([
+            'orderby' => 'time',
+            'order' => 'ASC'
+        ]);
+
+        $this->assertEquals($oldestSubject, $log['subject']);
+    }
+
+    public function testOrderLogsBySubject()
+    {
+        $firstSubject = 'abc';
+        $secondSubject = 'def';
+
+        wp_mail('test@test.com', $firstSubject, 'message');
+        wp_mail('test@test.com', $secondSubject, 'message');
+
+        $log = Logs::getFirst([
+            'orderby' => 'subject',
+            'order' => 'ASC'
+        ]);
+
+        $this->assertEquals($firstSubject, $log['subject']);
+
+        $log = Logs::getFirst([
+            'orderby' => 'subject',
+            'order' => 'DESC'
+        ]);
+
+        $this->assertEquals($secondSubject, $log['subject']);
     }
 
     public function testCanExportSingleLog()
