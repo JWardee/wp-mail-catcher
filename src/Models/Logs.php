@@ -240,6 +240,10 @@ class Logs
             return;
         }
 
+        if (!is_array($ids)) {
+            $ids = [$ids];
+        }
+
         global $wpdb;
 
         $sql = "DELETE FROM " . $wpdb->prefix . GeneralHelper::$tableName . "

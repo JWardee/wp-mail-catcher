@@ -5,7 +5,7 @@ namespace WpMailCatcher;
 class GeneralHelper
 {
     public static $csvItemDelimiter = ' | ';
-    public static $logsPerPage = 5;
+    public static $logsPerPage = 20;
     public static $pluginPath;
     public static $pluginUrl;
     public static $pluginVersion;
