@@ -31,6 +31,9 @@ class TestSecurity extends WP_UnitTestCase
         $wpdb->shouldIgnoreMissing()
             ->shouldReceive('get_results')
             ->withArgs(function ($sql) use ($exploitedSql) {
+                // TODO: (low priority) $sql seems to return `null`, need to step
+                // through $wpdb->prepare and see where it returns null.
+                // str_contains on `null` throws a warning in PHP 8.1
                 $doesSqlContainExploit = str_contains($sql, $exploitedSql);
                 $this->assertFalse($doesSqlContainExploit);
                 return true;
