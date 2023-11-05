@@ -97,7 +97,7 @@ Great! Please leave a note in our (GitHub tracker)
 = 2.1.5 =
 
 - Fix: Html emails are now decoded before being rendered
-- Fix: Updated seralisation to use maybe_unserialize for extra compatibility
+- Fix: Updated serialisation to use maybe_unserialize for extra compatibility
 
 = 2.1.4 =
 
