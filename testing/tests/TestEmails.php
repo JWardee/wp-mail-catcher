@@ -157,4 +157,21 @@ class TestEmails extends WP_UnitTestCase
         remove_filter('wp_mail_content_type', $wpMailContentFilter);
         remove_filter('wp_mail_content_type', $wpMailContentFilter, 9999991);
     }
+
+    public function testSpecialCharHtmlEmailCanStillBeViewed()
+    {
+        $htmlMessage = '<strong>Hello <a href="https://example.com" target="_blank">world</a></strong>';
+        wp_mail('test@test.com', 'html encoded', htmlspecialchars($htmlMessage));
+
+        $log = Logs::getFirst([
+            'subject' => 'html encoded'
+        ]);
+
+        ob_start();
+        require __DIR__ . '/../../src/Views/HtmlMessage.php';
+        $actualMessage = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertEquals($htmlMessage, $actualMessage);
+    }
 }

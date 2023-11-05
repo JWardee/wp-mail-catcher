@@ -4,7 +4,7 @@ Tags: mail logging, email log, email logger, logging, email logging, mail, crm
 Requires at least: 4.7
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 2.1.4
+Stable tag: 2.1.5
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 Donate link: https://paypal.me/jamesmward

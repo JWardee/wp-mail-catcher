@@ -1,5 +1,6 @@
 <?php
 
+use WpMailCatcher\GeneralHelper;
 use WpMailCatcher\Models\Logs;
 use WpMailCatcher\MailAdminTable;
 
@@ -11,12 +12,20 @@ class TestSecurity extends WP_UnitTestCase
         parent::tearDown();
     }
 
+    public function testMaliciousHtmlIsEscaped()
+    {
+        $maliciousHtml = '<script>alert("Hello");</script>';
+        $escapedHtml = GeneralHelper::filterHtml($maliciousHtml);
+
+        $this->assertNotEquals($escapedHtml, $maliciousHtml);
+    }
+
     public function testSubjectLineHtmlIsEscaped()
     {
         $mailTable = MailAdminTable::getInstance();
-        $subjectBase = '<script>alert("Hello");</script>';
-        $escapedSubject = $mailTable->runHtmlSpecialChars($subjectBase);
-        $subject = $mailTable->column_subject(['subject' => $subjectBase]);
+        $exploitedSubject = '<script>alert("Hello");</script>';
+        $escapedSubject = $mailTable->runHtmlSpecialChars($exploitedSubject);
+        $subject = $mailTable->column_subject(['subject' => $exploitedSubject]);
 
         $this->assertEquals($subject, $escapedSubject);
     }
