@@ -25,7 +25,7 @@ class Settings
     public static function get($key = null, $bypassCache = false)
     {
         if (self::$settings == null || $bypassCache) {
-            $options = unserialize(get_option(self::$optionsName, ""));
+            $options = maybe_unserialize(get_option(self::$optionsName, ""));
 
             if (!is_array($options)) {
                 self::installOptions();

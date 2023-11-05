@@ -141,6 +141,7 @@ class GeneralHelper
 
     public static function filterHtml($value)
     {
+        $value = htmlspecialchars_decode($value);
         return wp_kses($value, self::getAllowedTags());
     }
 
