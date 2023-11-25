@@ -4,7 +4,7 @@ export DB_DATABASE=wordpress
 export DB_USERNAME=wp_mail_catcher
 export DB_PASSWORD=password
 export PHP_VERSION=8.0
-export WP_VERSION=latest
+export WP_VERSION=6.4.1
 
 CMD=$1
 
