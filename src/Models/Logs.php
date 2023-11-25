@@ -67,6 +67,12 @@ class Logs
             'column_blacklist' => []
         ];
 
+        $validOrderByColumns = ['time', 'email_to', 'subject'];
+
+        if (isset($args['orderby']) && !in_array($args['orderby'], $validOrderByColumns)) {
+            unset($args['orderby']);
+        }
+
         $args = array_merge($defaults, $args);
 
         $defaultColumns = [
@@ -84,9 +90,9 @@ class Logs
         }
 
         $columnsToSelect = array_diff($defaultColumns, $args['column_blacklist']);
-        $placeholderValues = $columnsToSelect;
-        $columnToSelectPlaceholders = array_fill(0, count($columnsToSelect), '%i');
-        $sql = "SELECT " . implode(',', $columnToSelectPlaceholders) . "
+        $placeholderValues = [];
+
+        $sql = "SELECT " . implode(',', $columnsToSelect) . "
                 FROM " . $wpdb->prefix . GeneralHelper::$tableName . " ";
 
         $whereClause = false;
@@ -140,10 +146,7 @@ class Logs
         }
 
         $order = strtolower($args['order']) === "desc" ? "DESC" : "ASC";
-        $sql .= "ORDER BY %i " . $order . " ";
-        $placeholderValues = array_merge($placeholderValues, [
-            $args['orderby']
-        ]);
+        $sql .= "ORDER BY " . $args['orderby'] . " " . $order . " ";
 
         if ($args['posts_per_page'] != -1) {
             $sql .= "LIMIT %d OFFSET %d";
@@ -154,7 +157,10 @@ class Logs
             ]);
         }
 
-        $sql = $wpdb->prepare($sql, $placeholderValues);
+        if (count($placeholderValues)) {
+            $sql = $wpdb->prepare($sql, $placeholderValues);
+        }
+
         $results = $wpdb->get_results($sql, ARRAY_A);
         $results = self::dbResultTransform($results, $args);
 
@@ -194,7 +200,7 @@ class Logs
             // This will exist if the db_version is >= 2.0.0
             if (isset($result['is_html']) && $result['is_html']) {
                 $result['is_html'] = (bool)$result['is_html'];
-            // Otherwise resort to the original method
+                // Otherwise resort to the original method
             } elseif (isset($result['additional_headers'])) {
                 $result['is_html'] = GeneralHelper::doesArrayContainSubString(
                     str_replace(' ', '', $result['additional_headers']),
