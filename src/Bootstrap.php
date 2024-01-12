@@ -133,6 +133,10 @@ class Bootstrap
         if (current_user_can(Settings::get('default_view_role'))) {
             /** Perform database upgrade */
             if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'upgrade-database') {
+                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'upgrade-database')) {
+                    wp_die(GeneralHelper::$failedNonceMessage);
+                }
+
                 DatabaseUpgradeManager::getInstance()->doUpgrade();
                 GeneralHelper::redirectToThisHomeScreen();
             }
@@ -231,6 +235,10 @@ class Bootstrap
 
         if (current_user_can(Settings::get('default_settings_role'))) {
             if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'rerun-migrations') {
+                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'rerun_migrations')) {
+                    wp_die(GeneralHelper::$failedNonceMessage);
+                }
+
                 DatabaseUpgradeManager::getInstance()->doUpgrade(true);
                 GeneralHelper::redirectToThisHomeScreen([
                     'trigger-rerun-migration-success' => true,
@@ -239,6 +247,10 @@ class Bootstrap
             }
 
             if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'trigger-auto-delete') {
+                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'trigger_auto_delete')) {
+                    wp_die(GeneralHelper::$failedNonceMessage);
+                }
+
                 ExpiredLogManager::removeExpiredLogs();
                 GeneralHelper::redirectToThisHomeScreen([
                     'trigger-auto-delete-success' => true,

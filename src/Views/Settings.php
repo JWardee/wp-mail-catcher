@@ -132,7 +132,10 @@ $cronJobs = CronManager::getInstance()->getTasks();
                                     </span>
                                 </label>
                                 <?php if (isset($cronJobs[0])) :
-                                    $href = '?page=' . GeneralHelper::$adminPageSlug . '&action=trigger-auto-delete';
+                                    $href = wp_nonce_url(
+                                        '?page=' . GeneralHelper::$adminPageSlug . '&action=trigger-auto-delete',
+                                        'trigger_auto_delete'
+                                    );
                                     ?>
                                     <p class="description">
                                         <?php
@@ -158,7 +161,10 @@ $cronJobs = CronManager::getInstance()->getTasks();
                         <td>
                             <p class="description">
                                 <?php
-                                $href = '?page=' . GeneralHelper::$adminPageSlug . '&action=rerun-migrations';
+                                $href = wp_nonce_url(
+                                    '?page=' . GeneralHelper::$adminPageSlug . '&action=rerun-migrations',
+                                    'rerun_migrations'
+                                );
                                 printf(
                                     __(
                                         '%s. <a href="' . $href . '">Rerun migrations</a>',

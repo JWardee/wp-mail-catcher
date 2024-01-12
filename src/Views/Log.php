@@ -31,7 +31,10 @@ $logs->prepare_items();
                              to perform the upgrade.</strong>',
                             'WpMailCatcher'
                         ),
-                        '?page=' . GeneralHelper::$adminPageSlug . '&action=upgrade-database'
+                        wp_nonce_url(
+                            '?page=' . GeneralHelper::$adminPageSlug . '&action=upgrade-database',
+                            'upgrade-database'
+                        )
                     );
                     ?>
                 </p>
