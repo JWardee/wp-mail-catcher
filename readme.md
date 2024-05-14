@@ -70,6 +70,8 @@ Backup and save your contact form emails (including Contact Form 7) to your data
   * `email_from` the from value of the email
 * `wp_mail_catcher_mail_failed` is triggered when a message failed to send and logged successfully. It has a single argument that is an array containing the log (same as the arguments for `wp_mail_catcher_mail_success`)
 * `wp_mail_catcher_deletion_intervals` is a filter that should return an array where each key is an amount of time in seconds, and the value is the label. Used to determine when a message has expired and should be deleted
+* `wp_mail_catcher_before_success_log_save` is a filter that is called just before a successful log is saved. It has a single argument that is the transformed log that will be saved (see the `wp_mail_catcher_mail_success` hook above), use this to alter the log before it's saved. Returning `false` will stop the log from being saved.
+* `wp_mail_catcher_before_error_log_save` TODO
 
 ## Developing locally
 1. Download the repo

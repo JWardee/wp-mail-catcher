@@ -485,4 +485,99 @@ class TestLogFunctions extends WP_UnitTestCase
             preg_replace('/\s+/', '', $expectedOutput)
         );
     }
+
+    public function testCanAlterSuccessfulLogBeforeSavingViaFilter()
+    {
+        $beforeTo = 'before@test.com';
+        $beforeSubject = 'Before subject';
+        $afterTo = 'after@test.com';
+        $afterSubject = 'After subject';
+
+        $filterName = GeneralHelper::$actionNameSpace . '_before_success_log_save';
+
+        $func = function ($log) use ($afterTo, $afterSubject) {
+            $log['email_to'] = $afterTo;
+            $log['subject'] = $afterSubject;
+            return $log;
+        };
+
+        add_filter($filterName, $func);
+
+        wp_mail($beforeTo, $beforeSubject, 'Hello');
+
+        $emailLog = Logs::getFirst();
+
+        $this->assertEquals($afterTo, $emailLog['email_to']);
+        $this->assertEquals($afterSubject, $emailLog['subject']);
+
+        remove_filter($filterName, $func);
+    }
+
+    public function testCanStopSuccessfulLogFromSavingViaFilter()
+    {
+        $filterName = GeneralHelper::$actionNameSpace . '_before_success_log_save';
+
+        $func = function ($log) {
+            return false;
+        };
+
+        add_filter($filterName, $func);
+
+        wp_mail('test@test.com', 'Subject', 'Hello');
+
+        $emailLogs = Logs::get();
+        $this->assertCount(0, $emailLogs);
+
+        remove_filter($filterName, $func);
+    }
+
+    public function testCanAlterErroredLogBeforeSavingViaFilter()
+    {
+        // Use invalid email address to trigger an error
+        $beforeTo = 'beforetest.com';
+        $beforeSubject = 'Before subject';
+        $afterTo = 'after@test.com';
+        $afterSubject = 'After subject';
+        $customErrorMessage = 'Something went wrong';
+
+        $filterName = GeneralHelper::$actionNameSpace . '_before_error_log_save';
+
+        $func = function ($log) use ($afterTo, $afterSubject, $customErrorMessage) {
+            $log['error'] = $customErrorMessage;
+            $log['email_to'] = $afterTo;
+            $log['subject'] = $afterSubject;
+            return $log;
+        };
+
+        add_filter($filterName, $func);
+
+        wp_mail($beforeTo, $beforeSubject, 'Hello');
+
+        $emailLog = Logs::getFirst();
+
+        $this->assertEquals($afterTo, $emailLog['email_to']);
+        $this->assertEquals($afterSubject, $emailLog['subject']);
+        $this->assertEquals($customErrorMessage, $emailLog['error']);
+
+        remove_filter($filterName, $func);
+    }
+
+    public function testCanStopErroredLogFromSavingViaFilter()
+    {
+        $filterName = GeneralHelper::$actionNameSpace . '_before_error_log_save';
+
+        $func = function ($log) {
+            return false;
+        };
+
+        add_filter($filterName, $func);
+
+        // Use invalid email address to trigger an error
+        wp_mail('testtest.com', 'Subject', 'Hello');
+
+        $emailLogs = Logs::get();
+        $this->assertCount(0, $emailLogs);
+
+        remove_filter($filterName, $func);
+    }
 }

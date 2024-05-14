@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WpMailCatcher 2.1.4\n"
+"Project-Id-Version: WpMailCatcher 2.1.8\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2023-11-09 20:31+0000\n"
+"POT-Creation-Date: 2024-05-14 20:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,7 +131,7 @@ msgid ""
 "                             to perform the upgrade.</strong>"
 msgstr ""
 
-#: ../../src/Views/Log.php:47
+#: ../../src/Views/Log.php:50
 #, php-format
 msgid ""
 "You have <strong>over %s</strong> messages stored and <a href=\"%s\">auto-"
@@ -141,27 +141,27 @@ msgid ""
 "                             auto-delete or delete some logs."
 msgstr ""
 
-#: ../../src/Views/Log.php:62
+#: ../../src/Views/Log.php:65
 msgid "New Message"
 msgstr ""
 
-#: ../../src/Views/Log.php:67 ../../src/Views/Log.php:77
+#: ../../src/Views/Log.php:70 ../../src/Views/Log.php:80
 msgid "Export all messages"
 msgstr ""
 
-#: ../../src/Views/Log.php:88
+#: ../../src/Views/Log.php:91
 msgid "All"
 msgstr ""
 
-#: ../../src/Views/Log.php:96
+#: ../../src/Views/Log.php:99
 msgid "Successful"
 msgstr ""
 
-#: ../../src/Views/Log.php:104
+#: ../../src/Views/Log.php:107
 msgid "Failed"
 msgstr ""
 
-#: ../../src/Views/Log.php:118
+#: ../../src/Views/Log.php:121
 msgid "Search Logs"
 msgstr ""
 
@@ -290,20 +290,20 @@ msgstr ""
 msgid "Yes - delete messages that are over %s old"
 msgstr ""
 
-#: ../../src/Views/Settings.php:141
+#: ../../src/Views/Settings.php:144
 #, php-format
 msgid "Will next run in: %s. <a href=\""
 msgstr ""
 
-#: ../../src/Views/Settings.php:155
+#: ../../src/Views/Settings.php:158
 msgid "Database version"
 msgstr ""
 
-#: ../../src/Views/Settings.php:164
+#: ../../src/Views/Settings.php:170
 #, php-format
 msgid "%s. <a href=\""
 msgstr ""
 
-#: ../../src/Views/Settings.php:178
+#: ../../src/Views/Settings.php:184
 msgid "Save Changes"
 msgstr ""

@@ -15,8 +15,8 @@ trait LogHelper
      * Save the mail to the database, override this method if you wish
      * to save the data elsewhere or change how it is saved
      *
-     * @param  array  $args the details of the mail going to be sent
-     * @param $transformFunc($args) called before inserting the db entry to transform the mail into log format
+     * @param array $args the details of the mail going to be sent
+     * @param $transformFunc ($args) called before inserting the db entry to transform the mail into log format
      *
      * @return array must return an array in the same format
      */
@@ -24,7 +24,16 @@ trait LogHelper
     {
         global $wpdb;
 
-        $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, $transformFunc($args));
+        $transformedArgs = apply_filters(
+            GeneralHelper::$actionNameSpace . '_before_success_log_save',
+            $transformFunc($args)
+        );
+
+        if (!$transformedArgs) {
+            return [];
+        }
+
+        $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, $transformedArgs);
 
         Cache::flush();
 
@@ -53,6 +62,16 @@ trait LogHelper
 
         global $wpdb;
 
+        $log = Logs::getFirst(['post__in' => $this->id]);
+        $log['status'] = 0;
+        $log['error'] = $error;
+
+        $transformedArgs = apply_filters(
+            GeneralHelper::$actionNameSpace . '_before_error_log_save',
+            $log
+        );
+
+        // FIXME: Need updated args from filter to be saved to the db
         $wpdb->update(
             $wpdb->prefix . GeneralHelper::$tableName,
             [
@@ -64,7 +83,7 @@ trait LogHelper
 
         Cache::flush();
 
-        do_action(GeneralHelper::$actionNameSpace . '_mail_failed', Logs::getFirst(['post__in' => $this->id]));
+        do_action(GeneralHelper::$actionNameSpace . '_mail_failed', $log);
     }
 
     public function saveIsHtml($contentType)
@@ -94,7 +113,7 @@ trait LogHelper
      * Convert attachment ids or urls into a format to be usable
      * by the logs
      *
-     * @param  array | string  $attachments either array of attachment ids or their urls
+     * @param array | string $attachments either array of attachment ids or their urls
      *
      * @return array [id, url] of attachments
      */
