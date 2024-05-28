@@ -6,6 +6,11 @@ use WpMailCatcher\GeneralHelper;
 
 class Logs
 {
+    // The db columns that can be set when logs are updated via filters/hooks
+    public static $whitelistedColumns = [
+        'email_to', 'subject', 'message', 'error', 'time', 'backtrace_segment'
+    ];
+
     // Need to set null because we're using array_intersect_key
     public static $whitelistedParams = [
         'orderby' => null,

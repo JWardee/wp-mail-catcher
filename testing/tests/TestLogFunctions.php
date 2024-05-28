@@ -536,16 +536,23 @@ class TestLogFunctions extends WP_UnitTestCase
         // Use invalid email address to trigger an error
         $beforeTo = 'beforetest.com';
         $beforeSubject = 'Before subject';
+
         $afterTo = 'after@test.com';
         $afterSubject = 'After subject';
-        $customErrorMessage = 'Something went wrong';
+        $afterErrorMessage = 'Something went wrong';
+        $afterMessage = 'My new message';
+        $afterTime = 123;
+        $afterBacktrace = 'Hello world';
 
         $filterName = GeneralHelper::$actionNameSpace . '_before_error_log_save';
 
-        $func = function ($log) use ($afterTo, $afterSubject, $customErrorMessage) {
-            $log['error'] = $customErrorMessage;
+        $func = function ($log) use ($afterTo, $afterSubject, $afterErrorMessage, $afterMessage, $afterTime, $afterBacktrace) {
+            $log['error'] = $afterErrorMessage;
             $log['email_to'] = $afterTo;
             $log['subject'] = $afterSubject;
+            $log['message'] = $afterMessage;
+            $log['time'] = $afterTime;
+            $log['backtrace_segment'] = $afterBacktrace;
             return $log;
         };
 
@@ -557,7 +564,10 @@ class TestLogFunctions extends WP_UnitTestCase
 
         $this->assertEquals($afterTo, $emailLog['email_to']);
         $this->assertEquals($afterSubject, $emailLog['subject']);
-        $this->assertEquals($customErrorMessage, $emailLog['error']);
+        $this->assertEquals($afterErrorMessage, $emailLog['error']);
+        $this->assertEquals($afterMessage, $emailLog['message']);
+        $this->assertEquals(GeneralHelper::getHumanReadableTimeFromNow($afterTime), $emailLog['time']);
+        $this->assertEquals($afterBacktrace, $emailLog['backtrace_segment']);
 
         remove_filter($filterName, $func);
     }

@@ -52,6 +52,19 @@ Immediately find out if your contact form submission was successfully sent.
   * `email_from` the from value of the email
 * `wp_mail_catcher_mail_failed` is triggered when a message failed to send and logged successfully. It has a single argument that is an array containing the log (same as the arguments for `wp_mail_catcher_mail_success`)
 * `wp_mail_catcher_deletion_intervals` is a filter that should return an array where each key is an amount of time in seconds, and the value is the label. Used to determine when a message has expired and should be deleted
+* `wp_mail_catcher_before_success_log_save` is a filter that is called just before a successful log is saved. It has a single argument that is the transformed log that will be saved - use this to alter the log before it's saved. Returning `false` will stop the log from being saved.
+  * `time` a unix timestamp of when the email was sent
+  * `email_to` the email address(es) that the message was sent to
+  * `subject` the subject line of the message
+  * `message` the contents of the message
+  * `backtrace_segment` an array that shows which file and line the mail was initially triggered from
+* `wp_mail_catcher_before_error_log_save`
+  * `time` a unix timestamp of when the email was sent
+  * `email_to` the email address(es) that the message was sent to
+  * `subject` the subject line of the message
+  * `message` the contents of the message
+  * `backtrace_segment` an array that shows which file and line the mail was initially triggered from
+  * `error` the error that occurred
 
 == Frequently Asked Questions ==
 = Is this really free?  =
@@ -93,6 +106,11 @@ Great! Please leave a note in our (GitHub tracker)
 4. Supports column customisation and pagination
 
 == Changelog ==
+
+= 2.1.8 =
+
+- New: Added new hook `wp_mail_catcher_before_success_log_save`
+- New: Added new hook `wp_mail_catcher_before_error_log_save`
 
 = 2.1.7 =
 
