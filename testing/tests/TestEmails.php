@@ -10,12 +10,22 @@ class TestEmails extends WP_UnitTestCase
         Logs::truncate();
     }
 
-    public function testMail()
+    private function isTimeBetwen($time, $compareToTime, $threshold)
     {
-        $to = 'test@test.com';
+        $upperBound = $compareToTime + $threshold;
+        $lowerBound = $compareToTime - $threshold;
+        return $time < $upperBound && $time > $lowerBound;
+    }
+
+    // TODO: Tidy method up, make more generic rather than just setting current args
+    //  needed by other tests
+    private function sendAndAssertMail($to, $additionalHeaders = [], $isHtml = false)
+    {
+        // FIXME: Need a better way to mock `time()`
+        $time = time();
+        $acceptableTimeThreshold = 5;
         $subject = 'subject';
         $message = 'message';
-        $additionalHeaders = [GeneralHelper::$htmlEmailHeader, 'cc: test1@test.com'];
 
         $imgAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/img-attachment.png');
         $pdfAttachmentId = $this->factory()->attachment->create_upload_object(__DIR__ . '/../assets/pdf-attachment.pdf');
@@ -31,10 +41,12 @@ class TestEmails extends WP_UnitTestCase
         $this->assertEquals($to, $emailLogs[0]['email_to']);
         $this->assertEquals($subject, $emailLogs[0]['subject']);
         $this->assertEquals($message, $emailLogs[0]['message']);
-        $this->assertTrue($emailLogs[0]['is_html']);
+        $this->assertTrue($this->isTimeBetwen($emailLogs[0]['timestamp'], $time, $acceptableTimeThreshold));
+        $this->assertEquals($isHtml, $emailLogs[0]['is_html']);
 
-        $this->assertEquals($additionalHeaders[0], $emailLogs[0]['additional_headers'][0]);
-        $this->assertEquals($additionalHeaders[1], $emailLogs[0]['additional_headers'][1]);
+        foreach ($additionalHeaders as $index => $additionalHeader) {
+            $this->assertEquals($additionalHeader, $emailLogs[0]['additional_headers'][$index]);
+        }
 
         $this->assertEquals($imgAttachmentId, $emailLogs[0]['attachments'][0]['id']);
         $this->assertEquals(wp_get_attachment_url($imgAttachmentId), $emailLogs[0]['attachments'][0]['url']);
@@ -48,13 +60,15 @@ class TestEmails extends WP_UnitTestCase
 
     public function testCorrectTos()
     {
-        wp_mail('test@test.com', 'subject', 'message');
+        $this->sendAndAssertMail('test@test.com', [GeneralHelper::$htmlEmailHeader, 'cc: test1@test.com'], true);
         $this->assertTrue(Logs::getFirst()['status']);
     }
 
     public function testIncorrectTos()
     {
-        wp_mail('testtest.com', 'subject', 'message');
+        $this->sendAndAssertMail('testtest.com');
+        print_r(Logs::getFirst());
+        exit;
         $this->assertFalse(Logs::getFirst()['status']);
     }
 

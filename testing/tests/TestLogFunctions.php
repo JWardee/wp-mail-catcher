@@ -490,14 +490,21 @@ class TestLogFunctions extends WP_UnitTestCase
     {
         $beforeTo = 'before@test.com';
         $beforeSubject = 'Before subject';
+
         $afterTo = 'after@test.com';
         $afterSubject = 'After subject';
+        $afterTime = 123;
+        $afterBacktrace = 'Hello world';
+        $afterMessage = 'My new message';
 
         $filterName = GeneralHelper::$actionNameSpace . '_before_success_log_save';
 
-        $func = function ($log) use ($afterTo, $afterSubject) {
+        $func = function ($log) use ($afterTo, $afterSubject, $afterMessage, $afterTime, $afterBacktrace) {
             $log['email_to'] = $afterTo;
             $log['subject'] = $afterSubject;
+            $log['message'] = $afterMessage;
+            $log['time'] = $afterTime;
+            $log['backtrace_segment'] = $afterBacktrace;
             return $log;
         };
 
@@ -509,6 +516,9 @@ class TestLogFunctions extends WP_UnitTestCase
 
         $this->assertEquals($afterTo, $emailLog['email_to']);
         $this->assertEquals($afterSubject, $emailLog['subject']);
+        $this->assertEquals($afterMessage, $emailLog['message']);
+        $this->assertEquals($afterTime, $emailLog['timestamp']);
+        $this->assertEquals($afterBacktrace, $emailLog['backtrace_segment']);
 
         remove_filter($filterName, $func);
     }
@@ -566,7 +576,7 @@ class TestLogFunctions extends WP_UnitTestCase
         $this->assertEquals($afterSubject, $emailLog['subject']);
         $this->assertEquals($afterErrorMessage, $emailLog['error']);
         $this->assertEquals($afterMessage, $emailLog['message']);
-        $this->assertEquals(GeneralHelper::getHumanReadableTimeFromNow($afterTime), $emailLog['time']);
+        $this->assertEquals($afterTime, $emailLog['timestamp']);
         $this->assertEquals($afterBacktrace, $emailLog['backtrace_segment']);
 
         remove_filter($filterName, $func);
