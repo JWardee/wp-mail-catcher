@@ -4,7 +4,7 @@ Tags: mail logging, email log, email logger, logging, email logging, mail, crm
 Requires at least: 4.7
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 2.1.7
+Stable tag: 2.1.8
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 Donate link: https://paypal.me/jamesmward
@@ -52,6 +52,19 @@ Immediately find out if your contact form submission was successfully sent.
   * `email_from` the from value of the email
 * `wp_mail_catcher_mail_failed` is triggered when a message failed to send and logged successfully. It has a single argument that is an array containing the log (same as the arguments for `wp_mail_catcher_mail_success`)
 * `wp_mail_catcher_deletion_intervals` is a filter that should return an array where each key is an amount of time in seconds, and the value is the label. Used to determine when a message has expired and should be deleted
+* `wp_mail_catcher_before_success_log_save` is a filter that is called just before a successful log is saved. It has a single argument that is the transformed log that will be saved - use this to alter the log before it's saved. Returning `false` will stop the log from being saved. Also note that this is fired even when an email has errored, because all logs are initially saved as "successful" before being possibly updated with an error (if applicable). This is because of the way the `wp_mail` and `wp_mail_failed` are implemented in WordPress.
+  * `time` a unix timestamp of when the email was sent
+  * `email_to` the email address(es) that the message was sent to
+  * `subject` the subject line of the message
+  * `message` the contents of the message
+  * `backtrace_segment` an array that shows which file and line the mail was initially triggered from
+* `wp_mail_catcher_before_error_log_save`
+  * `time` a unix timestamp of when the email was sent
+  * `email_to` the email address(es) that the message was sent to
+  * `subject` the subject line of the message
+  * `message` the contents of the message
+  * `backtrace_segment` an array that shows which file and line the mail was initially triggered from
+  * `error` the error that occurred
 
 == Frequently Asked Questions ==
 = Is this really free?  =
@@ -93,6 +106,11 @@ Great! Please leave a note in our (GitHub tracker)
 4. Supports column customisation and pagination
 
 == Changelog ==
+
+= 2.1.8 =
+
+- New: Added new hook `wp_mail_catcher_before_success_log_save`
+- New: Added new hook `wp_mail_catcher_before_error_log_save`
 
 = 2.1.7 =
 
