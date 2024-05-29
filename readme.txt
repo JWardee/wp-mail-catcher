@@ -1,6 +1,6 @@
 === Mail logging - WP Mail Catcher ===
 Contributors: Wardee
-Tags: mail logging, email log, email logger, logging, email logging, mail, crm
+Tags: mail logging, email log, email logger, logging, email logging
 Requires at least: 4.7
 Tested up to: 6.4
 Requires PHP: 7.4
@@ -9,7 +9,7 @@ License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 Donate link: https://paypal.me/jamesmward
 
-Logging your mail will stop you from ever losing your emails again! This fast, lightweight plugin (under 140kb in size!) is also useful for debugging or backing up your messages.
+Stop from ever losing your emails again! This fast, lightweight plugin (under 140kb in size!) is also useful for debugging or backing up your messages
 
 == Description ==
 Logging your mail will stop you from ever losing your emails again! This fast, lightweight plugin (under 140kb in size!) is also useful for debugging or backing up your messages.
