@@ -485,4 +485,119 @@ class TestLogFunctions extends WP_UnitTestCase
             preg_replace('/\s+/', '', $expectedOutput)
         );
     }
+
+    public function testCanAlterSuccessfulLogBeforeSavingViaFilter()
+    {
+        $beforeTo = 'before@test.com';
+        $beforeSubject = 'Before subject';
+
+        $afterTo = 'after@test.com';
+        $afterSubject = 'After subject';
+        $afterTime = 123;
+        $afterBacktrace = 'Hello world';
+        $afterMessage = 'My new message';
+
+        $filterName = GeneralHelper::$actionNameSpace . '_before_success_log_save';
+
+        $func = function ($log) use ($afterTo, $afterSubject, $afterMessage, $afterTime, $afterBacktrace) {
+            $log['email_to'] = $afterTo;
+            $log['subject'] = $afterSubject;
+            $log['message'] = $afterMessage;
+            $log['time'] = $afterTime;
+            $log['backtrace_segment'] = $afterBacktrace;
+            return $log;
+        };
+
+        add_filter($filterName, $func);
+
+        wp_mail($beforeTo, $beforeSubject, 'Hello');
+
+        $emailLog = Logs::getFirst();
+
+        $this->assertEquals($afterTo, $emailLog['email_to']);
+        $this->assertEquals($afterSubject, $emailLog['subject']);
+        $this->assertEquals($afterMessage, $emailLog['message']);
+        $this->assertEquals($afterTime, $emailLog['timestamp']);
+        $this->assertEquals($afterBacktrace, $emailLog['backtrace_segment']);
+
+        remove_filter($filterName, $func);
+    }
+
+    public function testCanStopSuccessfulLogFromSavingViaFilter()
+    {
+        $filterName = GeneralHelper::$actionNameSpace . '_before_success_log_save';
+
+        $func = function ($log) {
+            return false;
+        };
+
+        add_filter($filterName, $func);
+
+        wp_mail('test@test.com', 'Subject', 'Hello');
+
+        $emailLogs = Logs::get();
+        $this->assertCount(0, $emailLogs);
+
+        remove_filter($filterName, $func);
+    }
+
+    public function testCanAlterErroredLogBeforeSavingViaFilter()
+    {
+        // Use invalid email address to trigger an error
+        $beforeTo = 'beforetest.com';
+        $beforeSubject = 'Before subject';
+
+        $afterTo = 'after@test.com';
+        $afterSubject = 'After subject';
+        $afterErrorMessage = 'Something went wrong';
+        $afterMessage = 'My new message';
+        $afterTime = 123;
+        $afterBacktrace = 'Hello world';
+
+        $filterName = GeneralHelper::$actionNameSpace . '_before_error_log_save';
+
+        $func = function ($log) use ($afterTo, $afterSubject, $afterErrorMessage, $afterMessage, $afterTime, $afterBacktrace) {
+            $log['email_to'] = $afterTo;
+            $log['subject'] = $afterSubject;
+            $log['message'] = $afterMessage;
+            $log['error'] = $afterErrorMessage;
+            $log['time'] = $afterTime;
+            $log['backtrace_segment'] = $afterBacktrace;
+            return $log;
+        };
+
+        add_filter($filterName, $func);
+
+        wp_mail($beforeTo, $beforeSubject, 'Hello');
+
+        $emailLog = Logs::getFirst();
+
+        $this->assertEquals($afterTo, $emailLog['email_to']);
+        $this->assertEquals($afterSubject, $emailLog['subject']);
+        $this->assertEquals($afterErrorMessage, $emailLog['error']);
+        $this->assertEquals($afterMessage, $emailLog['message']);
+        $this->assertEquals($afterTime, $emailLog['timestamp']);
+        $this->assertEquals($afterBacktrace, $emailLog['backtrace_segment']);
+
+        remove_filter($filterName, $func);
+    }
+
+    public function testCanStopErroredLogFromSavingViaFilter()
+    {
+        $filterName = GeneralHelper::$actionNameSpace . '_before_error_log_save';
+
+        $func = function ($log) {
+            return false;
+        };
+
+        add_filter($filterName, $func);
+
+        // Use invalid email address to trigger an error
+        wp_mail('testtest.com', 'Subject', 'Hello');
+
+        $emailLogs = Logs::get();
+        $this->assertCount(0, $emailLogs);
+
+        remove_filter($filterName, $func);
+    }
 }

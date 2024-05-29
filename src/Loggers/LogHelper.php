@@ -15,8 +15,8 @@ trait LogHelper
      * Save the mail to the database, override this method if you wish
      * to save the data elsewhere or change how it is saved
      *
-     * @param  array  $args the details of the mail going to be sent
-     * @param $transformFunc($args) called before inserting the db entry to transform the mail into log format
+     * @param array $args the details of the mail going to be sent
+     * @param $transformFunc ($args) called before inserting the db entry to transform the mail into log format
      *
      * @return array must return an array in the same format
      */
@@ -24,7 +24,18 @@ trait LogHelper
     {
         global $wpdb;
 
-        $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, $transformFunc($args));
+        $transformedArgs = $transformFunc($args);
+        $userFilteredArgs = apply_filters(
+            GeneralHelper::$actionNameSpace . '_before_success_log_save',
+            // Only allow certain values to be changed via filters/hooks
+            array_intersect_key($transformedArgs, array_fill_keys(Logs::$whitelistedColumns, null))
+        );
+
+        if ($userFilteredArgs === false) {
+            return [];
+        }
+
+        $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, array_merge($transformedArgs, $userFilteredArgs));
 
         Cache::flush();
 
@@ -53,18 +64,38 @@ trait LogHelper
 
         global $wpdb;
 
+        $log = Logs::getFirst(['post__in' => $this->id]);
+        $log['status'] = 0;
+        $log['error'] = $error;
+        $log['time'] = $log['timestamp'];
+
+        $transformedArgs = apply_filters(
+            GeneralHelper::$actionNameSpace . '_before_error_log_save',
+            // Only allow certain values to be changed via filters/hooks
+            array_intersect_key($log, array_fill_keys(Logs::$whitelistedColumns, null))
+        );
+
+        if ($transformedArgs === false) {
+            // Because of the way wp_mail hook works the log needs to be saved
+            // before appending any error that happened to it. As a result we need
+            // to delete the inital entry from the db rather than just `return`
+            Logs::delete($this->id);
+            return;
+        }
+
+        if (!$transformedArgs) {
+            $transformedArgs = $log;
+        }
+
         $wpdb->update(
             $wpdb->prefix . GeneralHelper::$tableName,
-            [
-                'status' => 0,
-                'error' => $error,
-            ],
+            array_merge($transformedArgs, ['status' => 0]),
             ['id' => $this->id]
         );
 
         Cache::flush();
 
-        do_action(GeneralHelper::$actionNameSpace . '_mail_failed', Logs::getFirst(['post__in' => $this->id]));
+        do_action(GeneralHelper::$actionNameSpace . '_mail_failed', $log);
     }
 
     public function saveIsHtml($contentType)
@@ -94,7 +125,7 @@ trait LogHelper
      * Convert attachment ids or urls into a format to be usable
      * by the logs
      *
-     * @param  array | string  $attachments either array of attachment ids or their urls
+     * @param array | string $attachments either array of attachment ids or their urls
      *
      * @return array [id, url] of attachments
      */
