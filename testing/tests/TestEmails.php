@@ -67,8 +67,6 @@ class TestEmails extends WP_UnitTestCase
     public function testIncorrectTos()
     {
         $this->sendAndAssertMail('testtest.com');
-        print_r(Logs::getFirst());
-        exit;
         $this->assertFalse(Logs::getFirst()['status']);
     }
 

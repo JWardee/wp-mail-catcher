@@ -557,10 +557,10 @@ class TestLogFunctions extends WP_UnitTestCase
         $filterName = GeneralHelper::$actionNameSpace . '_before_error_log_save';
 
         $func = function ($log) use ($afterTo, $afterSubject, $afterErrorMessage, $afterMessage, $afterTime, $afterBacktrace) {
-            $log['error'] = $afterErrorMessage;
             $log['email_to'] = $afterTo;
             $log['subject'] = $afterSubject;
             $log['message'] = $afterMessage;
+            $log['error'] = $afterErrorMessage;
             $log['time'] = $afterTime;
             $log['backtrace_segment'] = $afterBacktrace;
             return $log;

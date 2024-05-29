@@ -67,6 +67,7 @@ trait LogHelper
         $log = Logs::getFirst(['post__in' => $this->id]);
         $log['status'] = 0;
         $log['error'] = $error;
+        $log['time'] = $log['timestamp'];
 
         $transformedArgs = apply_filters(
             GeneralHelper::$actionNameSpace . '_before_error_log_save',
