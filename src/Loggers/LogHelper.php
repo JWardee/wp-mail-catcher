@@ -32,7 +32,7 @@ trait LogHelper
         );
 
         if ($userFilteredArgs === false) {
-            return [];
+            return $args;
         }
 
         $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, array_merge($transformedArgs, $userFilteredArgs));

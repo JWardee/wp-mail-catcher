@@ -600,4 +600,99 @@ class TestLogFunctions extends WP_UnitTestCase
 
         remove_filter($filterName, $func);
     }
+
+    private function getFilterChainFunction(&$wasChainedCalled, $to, $subject, $message)
+    {
+        return function ($args) use (&$wasChainedCalled, $to, $subject, $message) {
+            $wasChainedCalled = true;
+            $this->assertEquals($to, $args['to']);
+            $this->assertEquals($subject, $args['subject']);
+            $this->assertEquals($message, $args['message']);
+            return $args;
+        };
+    }
+
+    /**
+     * Other plugins hook into the `wp_mail` filter AFTER mail catcher, as such
+     * they will rely on the values we return from our function hooked into `wp_mail`.
+     * This test ensures that we correctly return the value so other plugins can make
+     * use of it
+     */
+    public function testCanChainWpMailFiltersWhenLog()
+    {
+        $to = 'test@test.com';
+        $subject = 'Subject';
+        $message = '<strong>Hello</strong>';
+        $wasChainedCalled = false;
+        $successFilterName = GeneralHelper::$actionNameSpace . '_before_success_log_save';
+
+        $func = function ($log) {
+            return $log;
+        };
+
+        $chainedFunc = $this->getFilterChainFunction($wasChainedCalled, $to, $subject, $message);
+
+        add_filter($successFilterName, $func);
+        // Ensure our filter runs AFTER mail catcher
+        add_filter('wp_mail', $chainedFunc, 9999999);
+
+        wp_mail($to, $subject, $message);
+
+        $this->assertTrue($wasChainedCalled);
+
+        remove_filter($successFilterName, $func);
+        remove_filter('wp_mail', $chainedFunc);
+    }
+
+    public function testCanChainWpMailFiltersWhenLogIsStopped()
+    {
+        $to = 'test@test.com';
+        $subject = 'Subject';
+        $message = '<strong>Hello</strong>';
+        $wasChainedCalled = false;
+        $successFilterName = GeneralHelper::$actionNameSpace . '_before_success_log_save';
+
+        $func = function ($log) {
+            return false;
+        };
+
+        $chainedFunc = $this->getFilterChainFunction($wasChainedCalled, $to, $subject, $message);
+
+        add_filter($successFilterName, $func);
+        // Ensure our filter runs AFTER mail catcher
+        add_filter('wp_mail', $chainedFunc, 9999999);
+
+        wp_mail($to, $subject, $message);
+
+        $this->assertTrue($wasChainedCalled);
+
+        remove_filter($successFilterName, $func);
+        remove_filter('wp_mail', $chainedFunc);
+    }
+
+    public function testCanChainWpMailFiltersWhenLogIsErrored()
+    {
+        $to = 'testtest.com';
+        $subject = 'Subject';
+        $message = '<strong>Hello</strong>';
+        $wasChainedCalled = false;
+        $erroredFilterName = GeneralHelper::$actionNameSpace . '_before_error_log_save';
+
+        $func = function ($log) {
+            return false;
+        };
+
+        $chainedFunc = $this->getFilterChainFunction($wasChainedCalled, $to, $subject, $message);
+
+        add_filter($erroredFilterName, $func);
+        // Ensure our filter runs AFTER mail catcher
+        add_filter('wp_mail', $chainedFunc, 9999999);
+
+        wp_mail($to, $subject, $message);
+
+        $this->assertTrue($wasChainedCalled);
+
+        remove_filter($erroredFilterName, $func);
+        remove_filter('wp_mail', $chainedFunc);
+    }
 }
