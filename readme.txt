@@ -4,7 +4,7 @@ Tags: mail logging, email log, email logger, logging, email logging
 Requires at least: 4.7
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 2.1.9
+Stable tag: 2.1.10
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 Donate link: https://paypal.me/jamesmward
@@ -106,6 +106,10 @@ Great! Please leave a note in our (GitHub tracker)
 4. Supports column customisation and pagination
 
 == Changelog ==
+
+= 2.1.10 =
+
+- Security: Fixed XSS vulnerability, reported by Le Ngoc Anh via Patchstack
 
 = 2.1.9 =
 
