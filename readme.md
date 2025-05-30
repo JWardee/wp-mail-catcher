@@ -86,7 +86,7 @@ Backup and save your contact form emails (including Contact Form 7) to your data
 
 ## Developing locally
 1. Download the repo
-2. Install [Docker](https://www.docker.com/) and [Docker compose](https://docs.docker.com/compose/)
+2. Install [Docker](https://www.docker.com/) and [Docker compose](https://docs.docker.com/compose/). If you install [Docker Desktop](https://www.docker.com/products/docker-desktop/) this is handled for you.
 3. Allow entrypoint script to be executable `chmod +x ./entrypoint.sh`
 4. Run `./entrypoint.sh up`
 5. Go to `http://localhost:8080` and configure WordPress
