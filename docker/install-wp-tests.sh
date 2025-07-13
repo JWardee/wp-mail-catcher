@@ -24,6 +24,9 @@ download() {
     fi
 }
 
+# Install SVN
+sudo apt-get install subversion
+
 if [[ $WP_VERSION =~ ^[0-9]+\.[0-9]+$ ]]; then
 	WP_TESTS_TAG="branches/$WP_VERSION"
 elif [[ $WP_VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
