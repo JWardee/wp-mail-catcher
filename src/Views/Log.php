@@ -41,7 +41,7 @@ $logs->prepare_items();
             </div>
         <?php endif; ?>
 
-        <?php if ($logs->totalItems > GeneralHelper::$logLimitBeforeWarning && ! $settings['auto_delete']) : ?>
+        <?php if ($logs->totalItems > GeneralHelper::$logLimitBeforeWarning && !$settings['auto_delete']) : ?>
             <div class="notice notice-warning">
                 <p>
                     <?php
@@ -72,10 +72,10 @@ $logs->prepare_items();
             <?php else : ?>
                 <a href="
                     <?php echo
-                        wp_nonce_url(
-                            '?page=' . GeneralHelper::$adminPageSlug . '&action=export-all',
-                            'bulk-logs'
-                        );
+                    wp_nonce_url(
+                        '?page=' . GeneralHelper::$adminPageSlug . '&action=export-all',
+                        'bulk-logs'
+                    );
                     ?>" class="btn button-secondary">
                     <?php _e('Export all messages', 'WpMailCatcher'); ?>
                 </a>
@@ -115,7 +115,9 @@ $logs->prepare_items();
             instead of the <form> action param
             -->
             <?php foreach ($_GET as $key => $value) : ?>
-                <input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>" />
+                <input type="hidden"
+                       name="<?php echo esc_attr($key); ?>"
+                       value="<?php echo esc_attr($value); ?>" />
             <?php endforeach; ?>
 
             <?php $logs->search_box(__('Search Logs', 'WpMailCatcher'), 'search_id'); ?>
