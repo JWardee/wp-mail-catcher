@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WpMailCatcher 2.1.11\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2025-07-13 12:29+0000\n"
+"POT-Creation-Date: 2026-05-04 12:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Once a month"
 msgstr ""
 
-#: ../../src/GeneralHelper.php:222
+#: ../../src/GeneralHelper.php:233
 #, php-format
 msgctxt "%s = human-readable time difference"
 msgid "%s"
@@ -119,11 +119,11 @@ msgstr ""
 msgid "If you've found this useful - please rate us!"
 msgstr ""
 
-#: ../../src/Views/Log.php:22
+#: ../../src/Views/Log.php:33
 msgid "logs"
 msgstr ""
 
-#: ../../src/Views/Log.php:30
+#: ../../src/Views/Log.php:41
 #, php-format
 msgid ""
 "Your WP Mail Catcher database needs upgrading. <strong>Click <a href=\"%s"
@@ -131,7 +131,7 @@ msgid ""
 "                             to perform the upgrade.</strong>"
 msgstr ""
 
-#: ../../src/Views/Log.php:50
+#: ../../src/Views/Log.php:61
 #, php-format
 msgid ""
 "You have <strong>over %s</strong> messages stored and <a href=\"%s\">auto-"
@@ -141,27 +141,27 @@ msgid ""
 "                             auto-delete or delete some logs."
 msgstr ""
 
-#: ../../src/Views/Log.php:65
+#: ../../src/Views/Log.php:76
 msgid "New Message"
 msgstr ""
 
-#: ../../src/Views/Log.php:70 ../../src/Views/Log.php:80
+#: ../../src/Views/Log.php:81 ../../src/Views/Log.php:91
 msgid "Export all messages"
 msgstr ""
 
-#: ../../src/Views/Log.php:91
+#: ../../src/Views/Log.php:102
 msgid "All"
 msgstr ""
 
-#: ../../src/Views/Log.php:99
+#: ../../src/Views/Log.php:110
 msgid "Successful"
 msgstr ""
 
-#: ../../src/Views/Log.php:107
+#: ../../src/Views/Log.php:118
 msgid "Failed"
 msgstr ""
 
-#: ../../src/Views/Log.php:123
+#: ../../src/Views/Log.php:147
 msgid "Search Logs"
 msgstr ""
 

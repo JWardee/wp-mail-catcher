@@ -114,7 +114,19 @@ $logs->prepare_items();
             WordPress breaks the redirect unless we pass the query params as inputs
             instead of the <form> action param
             -->
-            <?php foreach ($_GET as $key => $value) : ?>
+            <?php
+            foreach (GeneralHelper::$whitelistedRedirectParams as $key) :
+                if (!isset($_GET[$key])) {
+                    continue;
+                }
+
+                $value = $_GET[$key];
+
+                // Skip arrays/objects to avoid malformed hidden inputs.
+                if (!is_scalar($value)) {
+                    continue;
+                }
+                ?>
                 <input type="hidden"
                        name="<?php echo esc_attr($key); ?>"
                        value="<?php echo esc_attr($value); ?>" />

@@ -28,6 +28,15 @@ class GeneralHelper
     public static $reviewLink;
     public static $actionNameSpace;
     public static $htmlEmailHeader = 'content-type: text/html';
+    public static $whitelistedRedirectParams = [
+        'page',
+        'post_status',
+        'orderby',
+        'order',
+        's',
+        'paged',
+        'posts_per_page',
+    ];
 
     public static function setSettings()
     {
@@ -184,12 +193,21 @@ class GeneralHelper
         return [];
     }
 
-    public static function redirectToThisHomeScreen($params = [])
+    public static function getPreservedUrlParams($params = [])
     {
+        $whitelistedParamValues = array_intersect_key($_GET, array_flip(GeneralHelper::$whitelistedRedirectParams));
+        $params = array_merge($whitelistedParamValues, $params);
+
         if (!isset($params['page'])) {
             $params['page'] = GeneralHelper::$adminPageSlug;
         }
 
+        return $params;
+    }
+
+    public static function redirectToThisHomeScreen($params = [])
+    {
+        $params = self::getPreservedUrlParams($params);
         header('Location: ' . GeneralHelper::$adminUrl . 'admin.php?' . http_build_query($params));
         exit;
     }

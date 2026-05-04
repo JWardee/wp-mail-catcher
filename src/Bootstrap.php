@@ -215,7 +215,7 @@ class Bootstrap
                     $_POST['attachment_ids'],
                     $_POST['subject'],
                     $_POST['message'],
-                    $_POST['is_html']
+                    $_POST['is_html'] ?? false
                 );
                 GeneralHelper::redirectToThisHomeScreen();
             }
