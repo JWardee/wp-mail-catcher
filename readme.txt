@@ -107,6 +107,12 @@ Great! Please leave a note in our (GitHub tracker)
 
 == Changelog ==
 
+= 2.1.12 =
+
+- Fix: Bulk actions now work on filtered logs
+- Fix: URL parameters are now preserved across links and redirects
+- Chore: Updated tested WordPress version
+
 = 2.1.11 =
 
 - Chore: Updated tested WordPress version
