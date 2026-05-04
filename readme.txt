@@ -2,7 +2,7 @@
 Contributors: Wardee
 Tags: mail logging, email log, email logger, logging, email logging
 Requires at least: 4.7
-Tested up to: 6.6
+Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 2.1.10
 License: GNU General Public License v3.0
@@ -106,6 +106,16 @@ Great! Please leave a note in our (GitHub tracker)
 4. Supports column customisation and pagination
 
 == Changelog ==
+
+= 2.1.12 =
+
+- Fix: Bulk actions now work on filtered logs
+- Fix: URL parameters are now preserved across links and redirects
+- Chore: Updated tested WordPress version
+
+= 2.1.11 =
+
+- Chore: Updated tested WordPress version
 
 = 2.1.10 =
 
