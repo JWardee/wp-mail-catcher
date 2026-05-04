@@ -133,9 +133,9 @@ class MailAdminTable extends WP_List_Table
     function column_email_to($item): string
     {
         $actions = [
-            'delete' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=delete&id=' . $item['id'], 'bulk-logs') . '">' . __('Delete', 'WpMailCatcher') . '</a>',
-            'resend' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=resend&id=' . $item['id'], 'bulk-logs') . '">' . __('Resend', 'WpMailCatcher') . '</a>',
-            'export' => '<a href="' . wp_nonce_url('?page=' . GeneralHelper::$adminPageSlug . '&action=export&id=' . $item['id'], 'bulk-logs') . '">' . __('Export', 'WpMailCatcher') . '</a>',
+            'delete' => '<a href="' . wp_nonce_url('admin.php?' . http_build_query(GeneralHelper::getPreservedUrlParams(['action' => 'delete', 'id' => $item['id']])), 'bulk-logs') . '">' . __('Delete', 'WpMailCatcher') . '</a>',
+            'resend' => '<a href="' . wp_nonce_url('admin.php?' . http_build_query(GeneralHelper::getPreservedUrlParams(['action' => 'resend', 'id' => $item['id']])), 'bulk-logs') . '">' . __('Resend', 'WpMailCatcher') . '</a>',
+            'export' => '<a href="' . wp_nonce_url('admin.php?' . http_build_query(GeneralHelper::getPreservedUrlParams(['action' => 'export', 'id' => $item['id']])), 'bulk-logs') . '">' . __('Export', 'WpMailCatcher') . '</a>',
             'view' => '<a href="#" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('View', 'WpMailCatcher') . '</a>',
         ];
 
@@ -197,7 +197,7 @@ class MailAdminTable extends WP_List_Table
 
     function prepare_items()
     {
-        $per_page = $this->getLogsPerPage();
+        $perPage = $this->getLogsPerPage();
 
         $columns = $this->get_columns();
         $hidden = $this->get_hidden_columns();
@@ -211,7 +211,7 @@ class MailAdminTable extends WP_List_Table
         $this->items = Logs::get(array_merge([
             'paged' => $this->get_pagenum(),
             'post_status' => $_GET['post_status'] ?? 'any',
-            'posts_per_page' => $per_page,
+            'posts_per_page' => $perPage,
             'column_blacklist' => ['message']
         ], $overrideParams));
 
@@ -219,8 +219,8 @@ class MailAdminTable extends WP_List_Table
 
         $this->set_pagination_args([
             'total_items' => $this->totalItems,
-            'per_page' => $per_page,
-            'total_pages' => Logs::getTotalPages($per_page)
+            'per_page' => $perPage,
+            'total_pages' => Logs::getTotalPages($perPage)
         ]);
     }
 }
