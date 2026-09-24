@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 
     pot: {
       options: {
-        text_domain: _package.name,
+        text_domain: 'wp-mail-catcher',
         dest: _package.lang_po_directory,
         msgid_bugs_address: _package.support_email,
         keywords: [ //WordPress localisation functions
@@ -36,8 +36,8 @@ module.exports = function(grunt) {
     // FIXME: po2mo compile fails on node versions > 10, need to manually generate mo file for now ("Can not create sync-exec directory")
     po2mo: {
       files: {
-        src: _package.lang_po_directory + '/WpMailCatcher-fr_FR.po',
-        dest: _package.lang_po_directory + '/WpMailCatcher-fr_FR.mo',
+        src: _package.lang_po_directory + '/wp-mail-catcher-fr_FR.po',
+        dest: _package.lang_po_directory + '/wp-mail-catcher-fr_FR.mo',
       },
     },
 

@@ -88,12 +88,12 @@ class CronManager
     {
         $schedules['weekly'] = [
             'interval' => 604800,
-            'display' => __('Once Weekly', 'WpMailCatcher')
+            'display' => __('Once Weekly', 'wp-mail-catcher')
         ];
 
         $schedules['monthly'] = [
             'interval' => 2635200,
-            'display' => __('Once a month', 'WpMailCatcher')
+            'display' => __('Once a month', 'wp-mail-catcher')
         ];
 
         return $schedules;

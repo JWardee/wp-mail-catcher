@@ -2,46 +2,61 @@
 
 use WpMailCatcher\GeneralHelper;
 
-if (isset($log)) :
-    $iframeLink = '?page=' . GeneralHelper::$adminPageSlug . '&action=single_mail&id=' . $log['id'];
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+if (isset($wpMailCatcherLog)) :
+    $wpMailCatcherIframeLink = '?page=' . GeneralHelper::$adminPageSlug .
+        '&action=single_mail&id=' . $wpMailCatcherLog['id'];
+    $wpMailCatcherResendLink = '?page=' . GeneralHelper::$adminPageSlug .
+        '&action=resend&id=' . $wpMailCatcherLog['id'];
     ?>
-    <div id="<?php echo $log['id']; ?>" class="modal">
-        <div class="modal-content <?php echo $log['is_html'] ? 'is-html' : 'is-not-html'; ?>">
+    <div id="<?php echo esc_attr($wpMailCatcherLog['id']); ?>" class="modal">
+        <div class="modal-content <?php echo $wpMailCatcherLog['is_html'] ? 'is-html' : 'is-not-html'; ?>">
             <div class="modal-body">
                 <h2 class="nav-tab-wrapper">
-                    <a href="#" class="nav-tab nav-tab-active"><?php _e('Message', 'WpMailCatcher'); ?></a>
-                    <a href="#" class="nav-tab"><?php _e('Detail', 'WpMailCatcher'); ?></a>
-                    <a href="#" class="nav-tab"><?php _e('Debug', 'WpMailCatcher'); ?></a>
+                    <a href="#" class="nav-tab nav-tab-active"><?php esc_html_e('Message', 'wp-mail-catcher'); ?></a>
+                    <a href="#" class="nav-tab"><?php esc_html_e('Detail', 'wp-mail-catcher'); ?></a>
+                    <a href="#" class="nav-tab"><?php esc_html_e('Debug', 'wp-mail-catcher'); ?></a>
                 </h2>
                 <div class="content-container">
                     <div class="content -active">
-                        <iframe class="html-preview" data-src="<?php echo $iframeLink ?>"></iframe>
+                        <iframe class="html-preview"
+                                data-src="<?php echo esc_url($wpMailCatcherIframeLink); ?>"></iframe>
                     </div>
                     <div class="content">
                         <p>
-                            <?php _e('Is HTML email?', 'WpMailCatcher'); ?>
+                            <?php esc_html_e('Is HTML email?', 'wp-mail-catcher'); ?>
                             <strong>
-                                <?php echo $log['is_html'] ? __('Yes', 'WpMailCatcher') : __('No', 'WpMailCatcher'); ?>
+                                <?php
+                                echo $wpMailCatcherLog['is_html']
+                                    ? esc_html__('Yes', 'wp-mail-catcher')
+                                    : esc_html__('No', 'wp-mail-catcher');
+                                ?>
                             </strong>
                         </p>
-                        <?php if (empty($log['attachments'])) : ?>
-                            <p><?php _e('No attachments to show', 'WpMailCatcher'); ?></p>
+                        <?php if (empty($wpMailCatcherLog['attachments'])) : ?>
+                            <p><?php esc_html_e('No attachments to show', 'wp-mail-catcher'); ?></p>
                         <?php else : ?>
-                            <h3><?php _e('Attachments', 'WpMailCatcher'); ?></h3>
+                            <h3><?php esc_html_e('Attachments', 'wp-mail-catcher'); ?></h3>
                             <hr/>
                             <ul>
-                                <?php foreach ($log['attachments'] as $attachment) : ?>
+                                <?php foreach ($wpMailCatcherLog['attachments'] as $wpMailCatcherAttachment) : ?>
                                     <li class="attachment-container">
                                         <?php
-                                        if (isset($attachment['note'])) :
-                                            echo $attachment['note'];
+                                        if (isset($wpMailCatcherAttachment['note'])) :
+                                            echo esc_html($wpMailCatcherAttachment['note']);
                                             continue;
                                         endif;
                                         ?>
 
-                                        <a href="<?php echo $attachment['url'] ?>" target="_blank"
+                                        <a href="<?php echo esc_url($wpMailCatcherAttachment['url']); ?>"
+                                           target="_blank"
                                            class="attachment-item"
-                                           style="background-image: url(<?php echo $attachment['src']; ?>);"></a>
+                                           style="background-image: url(<?php
+                                            echo esc_url($wpMailCatcherAttachment['src']);
+                                            ?>);"></a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -49,50 +64,58 @@ if (isset($log)) :
 
                         <?php
                         if (
-                            !isset($log['additional_headers']) ||
-                            empty(array_filter($log['additional_headers']))
+                            !isset($wpMailCatcherLog['additional_headers']) ||
+                            empty(array_filter($wpMailCatcherLog['additional_headers']))
                         ) :
                             ?>
-                            <p><?php _e('No additional headers to show', 'WpMailCatcher'); ?></p>
+                            <p><?php esc_html_e('No additional headers to show', 'wp-mail-catcher'); ?></p>
                         <?php else : ?>
-                            <h3><?php _e('Additional Headers', 'WpMailCatcher'); ?></h3>
+                            <h3><?php esc_html_e('Additional Headers', 'wp-mail-catcher'); ?></h3>
                             <hr/>
                             <ul>
-                                <?php foreach ($log['additional_headers'] as $additionalHeader) : ?>
-                                    <li><?php echo esc_html($additionalHeader); ?></li>
+                                <?php foreach ($wpMailCatcherLog['additional_headers'] as $wpMailCatcherHeader) : ?>
+                                    <li><?php echo esc_html($wpMailCatcherHeader); ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         <?php endif; ?>
                     </div>
                     <div class="content">
-                        <?php $debug = json_decode($log['backtrace_segment']); ?>
+                        <?php $wpMailCatcherDebug = json_decode($wpMailCatcherLog['backtrace_segment']); ?>
                         <ul>
-                            <li><?php _e('Triggered from:', 'WpMailCatcher'); ?>
-                                <strong><?php echo $debug->file; ?></strong></li>
-                            <li><?php _e('On line:', 'WpMailCatcher'); ?> <strong><?php echo $debug->line; ?></strong>
+                            <li><?php esc_html_e('Triggered from:', 'wp-mail-catcher'); ?>
+                                <strong><?php echo esc_html($wpMailCatcherDebug->file); ?></strong></li>
+                            <li><?php esc_html_e('On line:', 'wp-mail-catcher'); ?>
+                                <strong><?php echo esc_html($wpMailCatcherDebug->line); ?></strong>
                             </li>
-                            <li><?php _e('Sent at:', 'WpMailCatcher'); ?>
-                                <strong><?php echo date(GeneralHelper::$humanReadableDateFormat, $log['timestamp']); ?>
-                                    (<?php echo $log['timestamp']; ?>)</strong></li>
+                            <li><?php esc_html_e('Sent at:', 'wp-mail-catcher'); ?>
+                                <strong>
+                                    <?php
+                                    echo esc_html(
+                                        gmdate(GeneralHelper::$humanReadableDateFormat, $wpMailCatcherLog['timestamp'])
+                                    );
+                                    ?>
+                                    (<?php echo esc_html($wpMailCatcherLog['timestamp']); ?>)
+                                </strong>
+                            </li>
                         </ul>
 
-                        <?php if (!empty($log['error'])) : ?>
-                            <h3 class="subheading"><?php _e('Errors:', 'WpMailCatcher'); ?></h3>
+                        <?php if (!empty($wpMailCatcherLog['error'])) : ?>
+                            <h3 class="subheading"><?php esc_html_e('Errors:', 'wp-mail-catcher'); ?></h3>
                             <hr/>
                             <ul>
-                                <li><?php echo $log['error']; ?></li>
+                                <li><?php echo esc_html($wpMailCatcherLog['error']); ?></li>
                             </ul>
                         <?php endif; ?>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <?php $resendLink = '?page=' . GeneralHelper::$adminPageSlug . '&action=resend&id=' . $log['id']; ?>
-                <a href="<?php echo wp_nonce_url($resendLink, 'modal-resend'); ?>" class="resend-link">
-                    <?php _e('Resend', 'WpMailCatcher'); ?>
+                <a href="<?php echo esc_url(wp_nonce_url($wpMailCatcherResendLink, 'modal-resend')); ?>"
+                   class="resend-link">
+                    <?php esc_html_e('Resend', 'wp-mail-catcher'); ?>
                 </a>
                 <button type="button" class="button-primary dismiss-modal">
-                    <?php _e('Close', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Close', 'wp-mail-catcher'); ?>
                 </button>
             </div>
         </div>

@@ -2,4 +2,8 @@
 
 use WpMailCatcher\GeneralHelper;
 
-echo GeneralHelper::filterHtml($log['message'] ?? '');
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+echo wp_kses(htmlspecialchars_decode($log['message'] ?? ''), GeneralHelper::getAllowedTags());

@@ -124,16 +124,16 @@ jQuery(function ($) {
             return;
         }
 
-        var placeholderValue = '%s';
         var newText = $('.wp-mail-catcher-page [data-text-format]').attr('data-text-format');
         var replaceWith = [
             ($('.wp-mail-catcher-page input[name="posts_per_page"]').val() * ($('.wp-mail-catcher-page input[name="paged"]').val() - 1)) + 1,
             $('.wp-mail-catcher-page input[name="posts_per_page"]').val() * $('.wp-mail-catcher-page input[name="paged"]').val(),
         ];
 
-        for (var i = 0; i < replaceWith.length; i++) {
-            newText = newText.replace(placeholderValue, replaceWith[i]);
-        }
+        // Placeholders are ordered (%1$s, %2$s) so translators can rearrange them
+        newText = newText.replace(/%(\d+)\$s/g, function (match, position) {
+            return replaceWith[position - 1];
+        });
 
         $('.wp-mail-catcher-page [data-text-format]').html(newText);
     }

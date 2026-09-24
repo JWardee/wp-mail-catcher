@@ -4,48 +4,60 @@ namespace WpMailCatcher;
 
 use WpMailCatcher\Models\Settings;
 
-$settings = Settings::get();
-$capabilities = $GLOBALS['wp_roles']->roles['administrator']['capabilities'];
-$cronJobs = CronManager::getInstance()->getTasks();
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+$wpMailCatcherSettings = Settings::get();
+$wpMailCatcherCapabilities = array_keys($GLOBALS['wp_roles']->roles['administrator']['capabilities']);
+$wpMailCatcherAdminSlug = GeneralHelper::$adminPageSlug;
+$wpMailCatcherViewRole = $wpMailCatcherSettings['default_view_role'];
+$wpMailCatcherSettingsRole = $wpMailCatcherSettings['default_settings_role'];
+$wpMailCatcherCronJobs = CronManager::getInstance()->getTasks();
+$wpMailCatcherGetQueryFlag = function ($key) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only flag set by the redirect after a verified action
+    return isset($_GET[$key]) ? sanitize_text_field(wp_unslash($_GET[$key])) : null;
+};
 ?>
 
 <div class="wp-mail-catcher-page">
     <div class="wrap">
-        <?php if (isset($_GET['update_success'])) : ?>
-            <?php if ($_GET['update_success'] == 1) : ?>
+        <?php if ($wpMailCatcherGetQueryFlag('update_success') !== null) : ?>
+            <?php if ($wpMailCatcherGetQueryFlag('update_success') == 1) : ?>
                 <div class="notice notice-success">
                     <p>
-                        <?php _e('Settings were successfully updated!', 'WpMailCatcher'); ?>
+                        <?php esc_html_e('Settings were successfully updated!', 'wp-mail-catcher'); ?>
                     </p>
                 </div>
             <?php else : ?>
                 <div class="notice notice-error">
                     <p>
-                        <?php _e('You didn\'t change any settings', 'WpMailCatcher'); ?>
+                        <?php esc_html_e('You didn\'t change any settings', 'wp-mail-catcher'); ?>
                     </p>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
 
-        <?php if (isset($_GET['trigger-auto-delete-success']) && $_GET['trigger-auto-delete-success'] == 1) : ?>
+        <?php if ($wpMailCatcherGetQueryFlag('trigger-auto-delete-success') == 1) : ?>
             <div class="notice notice-success">
                 <p>
-                    <?php _e('The auto delete was successfully triggered', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('The auto delete was successfully triggered', 'wp-mail-catcher'); ?>
                 </p>
             </div>
         <?php endif; ?>
 
-        <?php if (isset($_GET['trigger-rerun-migration-success']) && $_GET['trigger-rerun-migration-success'] == 1) : ?>
+        <?php if ($wpMailCatcherGetQueryFlag('trigger-rerun-migration-success') == 1) : ?>
             <div class="notice notice-success">
                 <p>
-                    <?php _e('Database migrations were successfully rerun', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Database migrations were successfully rerun', 'wp-mail-catcher'); ?>
                 </p>
             </div>
         <?php endif; ?>
 
-        <h2 class="heading">WP Mail Catcher - <?php _e('settings', 'WpMailCatcher'); ?></h2>
+        <h2 class="heading">WP Mail Catcher - <?php esc_html_e('settings', 'wp-mail-catcher'); ?></h2>
 
-        <form action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&action=update_settings" method="post">
+        <form action="?page=<?php echo esc_attr($wpMailCatcherAdminSlug); ?>&action=update_settings"
+              method="post">
             <?php wp_nonce_field('update_settings'); ?>
 
             <table class="form-table">
@@ -53,17 +65,16 @@ $cronJobs = CronManager::getInstance()->getTasks();
                     <tr>
                         <th scope="row">
                             <label>
-                                <?php _e('User capability needed to see logs', 'WpMailCatcher'); ?>
+                                <?php esc_html_e('User capability needed to see logs', 'wp-mail-catcher'); ?>
                             </label>
                         </th>
                         <td>
                             <label>
                                 <select name="default_view_role">
-                                    <?php foreach ($capabilities as $capability => $value) : ?>
-                                        <option<?php if ($settings['default_view_role'] == $capability) :
-                                            ?> selected<?php
-                                               endif; ?>>
-                                            <?php echo $capability; ?>
+                                    <?php foreach ($wpMailCatcherCapabilities as $wpMailCatcherCap) : ?>
+                                        <option value="<?php echo esc_attr($wpMailCatcherCap); ?>"
+                                            <?php selected($wpMailCatcherViewRole, $wpMailCatcherCap); ?>>
+                                            <?php echo esc_html($wpMailCatcherCap); ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -73,17 +84,16 @@ $cronJobs = CronManager::getInstance()->getTasks();
                     <tr>
                         <th scope="row">
                             <label>
-                                <?php _e('User capability needed to edit settings', 'WpMailCatcher'); ?>
+                                <?php esc_html_e('User capability needed to edit settings', 'wp-mail-catcher'); ?>
                             </label>
                         </th>
                         <td>
                             <label>
                                 <select name="default_settings_role">
-                                    <?php foreach ($capabilities as $capability => $value) : ?>
-                                        <option<?php if ($settings['default_settings_role'] == $capability) :
-                                            ?> selected<?php
-                                               endif; ?>>
-                                            <?php echo $capability; ?>
+                                    <?php foreach ($wpMailCatcherCapabilities as $wpMailCatcherCap) : ?>
+                                        <option value="<?php echo esc_attr($wpMailCatcherCap); ?>"
+                                            <?php selected($wpMailCatcherSettingsRole, $wpMailCatcherCap); ?>>
+                                            <?php echo esc_html($wpMailCatcherCap); ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -93,58 +103,73 @@ $cronJobs = CronManager::getInstance()->getTasks();
                     <tr>
                         <th scope="row">
                             <label for="blogname">
-                                <?php _e('Auto delete logs?', 'WpMailCatcher'); ?>
+                                <?php esc_html_e('Auto delete logs?', 'wp-mail-catcher'); ?>
                             </label>
                         </th>
                         <td>
                             <label>
                                 <input type="radio" name="auto_delete"
-                                       value="false"<?php if (! $settings['auto_delete']) :
-                                            ?> checked<?php
-                                                    endif; ?>>
+                                       value="false"<?php checked(!$wpMailCatcherSettings['auto_delete']); ?>>
                                 <span class="date-time-text date-time-custom-text">
-                                    <?php _e('No', 'WpMailCatcher'); ?>
+                                    <?php esc_html_e('No', 'wp-mail-catcher'); ?>
                                 </span>
                             </label>
                             <fieldset>
                                 <label>
                                     <input type="radio" name="auto_delete"
-                                           value="true"<?php if ($settings['auto_delete']) :
-                                                ?> checked<?php
-                                                       endif; ?>>
+                                           value="true"<?php checked((bool)$wpMailCatcherSettings['auto_delete']); ?>>
                                     <span class="date-time-text date-time-custom-text">
                                         <?php
-                                        $getOptions = function ($timescale) {
-                                            $options = '';
-                                            foreach (ExpiredLogManager::deletionIntervals() as $key => $label) :
-                                                $isSelected = $timescale == $key ? 'selected' : '';
-                                                $options .= '<option value="' . $key . '"' . $isSelected . '>';
-                                                $options .= $label . '</option>';
-                                            endforeach;
-                                            return '<span><select name="timescale">' . $options . '</select></span>';
-                                        };
+                                        $wpMailCatcherTimescaleSelect = '<span><select name="timescale">';
 
-                                        printf(
-                                            __('Yes - delete messages that are over %s old', 'WpMailCatcher'),
-                                            $getOptions($settings['timescale'])
+                                        $wpMailCatcherIntervals = ExpiredLogManager::deletionIntervals();
+
+                                        foreach ($wpMailCatcherIntervals as $wpMailCatcherKey => $wpMailCatcherLabel) :
+                                            $wpMailCatcherTimescaleSelect .= sprintf(
+                                                '<option value="%1$s"%2$s>%3$s</option>',
+                                                esc_attr($wpMailCatcherKey),
+                                                selected($wpMailCatcherSettings['timescale'], $wpMailCatcherKey, false),
+                                                esc_html($wpMailCatcherLabel)
+                                            );
+                                        endforeach;
+
+                                        $wpMailCatcherTimescaleSelect .= '</select></span>';
+
+                                        echo wp_kses(
+                                            sprintf(
+                                                /* translators: %s: dropdown of time periods, e.g. "4 weeks" */
+                                                esc_html__(
+                                                    'Yes - delete messages that are over %s old',
+                                                    'wp-mail-catcher'
+                                                ),
+                                                $wpMailCatcherTimescaleSelect
+                                            ),
+                                            [
+                                                'span' => [],
+                                                'select' => ['name' => []],
+                                                'option' => ['value' => [], 'selected' => []],
+                                            ]
                                         );
                                         ?>
                                     </span>
                                 </label>
-                                <?php if (isset($cronJobs[0])) :
-                                    $href = wp_nonce_url(
-                                        '?page=' . GeneralHelper::$adminPageSlug . '&action=trigger-auto-delete',
-                                        'trigger_auto_delete'
-                                    );
-                                    ?>
+                                <?php if (isset($wpMailCatcherCronJobs[0])) : ?>
                                     <p class="description">
                                         <?php
                                         printf(
-                                            __(
-                                                'Will next run in: %s. <a href="' . $href . '">Trigger now</a>',
-                                                'WpMailCatcher'
+                                            wp_kses(
+                                                /* translators: 1: time until next auto delete, 2: URL */
+                                                __(
+                                                    'Will next run in: %1$s. <a href="%2$s">Trigger now</a>',
+                                                    'wp-mail-catcher'
+                                                ),
+                                                ['a' => ['href' => []]]
                                             ),
-                                            $cronJobs[0]['nextRun']
+                                            esc_html($wpMailCatcherCronJobs[0]['nextRun']),
+                                            esc_url(wp_nonce_url(
+                                                '?page=' . $wpMailCatcherAdminSlug . '&action=trigger-auto-delete',
+                                                'trigger_auto_delete'
+                                            ))
                                         );
                                         ?>
                                     </p>
@@ -155,22 +180,23 @@ $cronJobs = CronManager::getInstance()->getTasks();
                     <tr>
                         <th scope="row">
                             <label for="blogname">
-                                <?php _e('Database version', 'WpMailCatcher'); ?>
+                                <?php esc_html_e('Database version', 'wp-mail-catcher'); ?>
                             </label>
                         </th>
                         <td>
                             <p class="description">
                                 <?php
-                                $href = wp_nonce_url(
-                                    '?page=' . GeneralHelper::$adminPageSlug . '&action=rerun-migrations',
-                                    'rerun_migrations'
-                                );
                                 printf(
-                                    __(
-                                        '%s. <a href="' . $href . '">Rerun migrations</a>',
-                                        'WpMailCatcher'
+                                    wp_kses(
+                                        /* translators: 1: database version number, 2: URL that reruns migrations */
+                                        __('%1$s. <a href="%2$s">Rerun migrations</a>', 'wp-mail-catcher'),
+                                        ['a' => ['href' => []]]
                                     ),
-                                    $settings['db_version']
+                                    esc_html($wpMailCatcherSettings['db_version']),
+                                    esc_url(wp_nonce_url(
+                                        '?page=' . $wpMailCatcherAdminSlug . '&action=rerun-migrations',
+                                        'rerun_migrations'
+                                    ))
                                 );
                                 ?>
                             </p>
@@ -181,7 +207,7 @@ $cronJobs = CronManager::getInstance()->getTasks();
 
             <p class="submit">
                 <button type="submit" class="button button-primary">
-                    <?php _e('Save Changes', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Save Changes', 'wp-mail-catcher'); ?>
                 </button>
             </p>
         </form>

@@ -1,0 +1,308 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the WpMailCatcher package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WpMailCatcher 2.2.0\n"
+"Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
+"POT-Creation-Date: 2026-09-24 21:13+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../src/Bootstrap.php:61 ../../src/Bootstrap.php:114
+#: ../../src/Bootstrap.php:115
+msgid "Settings"
+msgstr ""
+
+#: ../../src/CronManager.php:91
+msgid "Once Weekly"
+msgstr ""
+
+#: ../../src/CronManager.php:96
+msgid "Once a month"
+msgstr ""
+
+#: ../../src/GeneralHelper.php:248
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:75
+msgid "This subject was base64 decoded"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:92
+msgid "This subject was quoted printable decoded"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:117
+msgid "More Info"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:125 ../../src/Views/NewMessageModal.php:35
+msgid "To"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:126 ../../src/Views/NewMessageModal.php:62
+msgid "Subject"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:127 ../../src/Views/NewMessageModal.php:39
+msgid "From"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:128
+msgid "Sent"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:136 ../../src/MailAdminTable.php:177
+msgid "Delete"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:137 ../../src/MailAdminTable.php:178
+#: ../../src/Views/LogModal.php:115
+msgid "Resend"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:138 ../../src/MailAdminTable.php:179
+#: ../../src/Views/ExportWarningDialog.php:95
+msgid "Export"
+msgstr ""
+
+#: ../../src/MailAdminTable.php:139
+msgid "View"
+msgstr ""
+
+#: ../../src/Views/ExportWarningDialog.php:23
+msgid "Warning"
+msgstr ""
+
+#: ../../src/Views/ExportWarningDialog.php:31
+#, php-format
+msgid ""
+"You are trying to export <strong>%1$s</strong> messages when the\n"
+"                                             recommended limit is no more "
+"than <strong>%2$s</strong>, this can cause the\n"
+"                                             server to timeout before the "
+"export is complete, we recommend reducing the\n"
+"                                             amount of messages exported, or "
+"exporting them in batches."
+msgstr ""
+
+#: ../../src/Views/ExportWarningDialog.php:50
+msgid "Number of logs to export"
+msgstr ""
+
+#: ../../src/Views/ExportWarningDialog.php:66
+msgid "Batch number"
+msgstr ""
+
+#: ../../src/Views/ExportWarningDialog.php:78
+#, php-format
+msgid "This will export messages <strong>%1$s-%2$s</strong>"
+msgstr ""
+
+#: ../../src/Views/ExportWarningDialog.php:98
+msgid "Cancel"
+msgstr ""
+
+#: ../../src/Views/Footer.php:13
+msgid "If you've found this useful - please rate us!"
+msgstr ""
+
+#: ../../src/Views/Log.php:28
+msgid "logs"
+msgstr ""
+
+#: ../../src/Views/Log.php:38
+#, php-format
+msgid ""
+"Your WP Mail Catcher database needs upgrading. <strong>Click <a href=\"%s"
+"\">here</a>\n"
+"                                 to perform the upgrade.</strong>"
+msgstr ""
+
+#: ../../src/Views/Log.php:67
+#, php-format
+msgid ""
+"You have <strong>over %1$s</strong> messages stored and <a href=\"%2$s"
+"\">auto-delete is\n"
+"                                 disabled</a>. As a result your database can "
+"become very large, please either allow\n"
+"                                 auto-delete or delete some logs."
+msgstr ""
+
+#: ../../src/Views/Log.php:84
+msgid "New Message"
+msgstr ""
+
+#: ../../src/Views/Log.php:89 ../../src/Views/Log.php:99
+msgid "Export all messages"
+msgstr ""
+
+#: ../../src/Views/Log.php:110
+msgid "All"
+msgstr ""
+
+#: ../../src/Views/Log.php:119
+msgid "Successful"
+msgstr ""
+
+#: ../../src/Views/Log.php:127
+msgid "Failed"
+msgstr ""
+
+#: ../../src/Views/Log.php:143
+msgid "Search Logs"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:19 ../../src/Views/NewMessageModal.php:89
+msgid "Message"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:20
+msgid "Detail"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:21
+msgid "Debug"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:30 ../../src/Views/NewMessageModal.php:59
+msgid "Is HTML email?"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:34
+msgid "Yes"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:35 ../../src/Views/Settings.php:114
+msgid "No"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:40
+msgid "No attachments to show"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:42 ../../src/Views/NewMessageModal.php:70
+msgid "Attachments"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:71
+msgid "No additional headers to show"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:73
+msgid "Additional Headers"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:85
+msgid "Triggered from:"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:87
+msgid "On line:"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:90
+msgid "Sent at:"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:103
+msgid "Errors:"
+msgstr ""
+
+#: ../../src/Views/LogModal.php:118 ../../src/Views/NewMessageModal.php:105
+msgid "Close"
+msgstr ""
+
+#: ../../src/Views/NewMessageModal.php:20
+msgid "Headers"
+msgstr ""
+
+#: ../../src/Views/NewMessageModal.php:36
+msgid "Cc"
+msgstr ""
+
+#: ../../src/Views/NewMessageModal.php:37
+msgid "Bcc"
+msgstr ""
+
+#: ../../src/Views/NewMessageModal.php:42
+msgid "Custom"
+msgstr ""
+
+#: ../../src/Views/NewMessageModal.php:83
+msgid "Add Attachments"
+msgstr ""
+
+#: ../../src/Views/NewMessageModal.php:92
+msgid "My Message"
+msgstr ""
+
+#: ../../src/Views/NewMessageModal.php:102
+msgid "Send Message"
+msgstr ""
+
+#: ../../src/Views/Settings.php:29
+msgid "Settings were successfully updated!"
+msgstr ""
+
+#: ../../src/Views/Settings.php:35
+msgid "You didn't change any settings"
+msgstr ""
+
+#: ../../src/Views/Settings.php:44
+msgid "The auto delete was successfully triggered"
+msgstr ""
+
+#: ../../src/Views/Settings.php:52
+msgid "Database migrations were successfully rerun"
+msgstr ""
+
+#: ../../src/Views/Settings.php:57
+msgid "settings"
+msgstr ""
+
+#: ../../src/Views/Settings.php:68
+msgid "User capability needed to see logs"
+msgstr ""
+
+#: ../../src/Views/Settings.php:87
+msgid "User capability needed to edit settings"
+msgstr ""
+
+#: ../../src/Views/Settings.php:106
+msgid "Auto delete logs?"
+msgstr ""
+
+#: ../../src/Views/Settings.php:142
+#, php-format
+msgid "Yes - delete messages that are over %s old"
+msgstr ""
+
+#: ../../src/Views/Settings.php:163
+#, php-format
+msgid "Will next run in: %1$s. <a href=\"%2$s\">Trigger now</a>"
+msgstr ""
+
+#: ../../src/Views/Settings.php:183
+msgid "Database version"
+msgstr ""
+
+#: ../../src/Views/Settings.php:192
+#, php-format
+msgid "%1$s. <a href=\"%2$s\">Rerun migrations</a>"
+msgstr ""
+
+#: ../../src/Views/Settings.php:210
+msgid "Save Changes"
+msgstr ""

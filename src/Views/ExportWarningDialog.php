@@ -2,33 +2,42 @@
 
 use WpMailCatcher\GeneralHelper;
 
-if (!isset($logs)) {
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+if (!isset($wpMailCatcherLogs)) {
     return;
 }
 ?>
 
 <div id="export-warning-dialog" class="modal">
     <div class="modal-content">
-        <form class="form-horizontal" action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&action=export-all"
+        <form class="form-horizontal"
+              action="?page=<?php echo esc_attr(GeneralHelper::$adminPageSlug); ?>&action=export-all"
               method="POST">
             <div class="modal-body">
                 <div class="content-container">
                     <div class="content -active">
                         <div>
-                            <h2><?php _e('Warning', 'WpMailCatcher'); ?></h2>
+                            <h2><?php esc_html_e('Warning', 'wp-mail-catcher'); ?></h2>
                             <hr/>
                             <p>
                                 <?php
                                 printf(
-                                    __(
-                                        'You are trying to export <strong>%s</strong> messages when the
-                                         recommended limit is no more than <strong>%s</strong>, this can cause the
-                                         server to timeout before the export is complete, we recommend reducing the
-                                         amount of messages exported, or exporting them in batches.',
-                                        'WpMailCatcher'
+                                    wp_kses(
+                                        /* translators: 1: number of messages to export, 2: recommended maximum */
+                                        __(
+                                            'You are trying to export <strong>%1$s</strong> messages when the
+                                             recommended limit is no more than <strong>%2$s</strong>, this can cause the
+                                             server to timeout before the export is complete, we recommend reducing the
+                                             amount of messages exported, or exporting them in batches.',
+                                            'wp-mail-catcher'
+                                        ),
+                                        ['strong' => []]
                                     ),
-                                    $logs->totalItems,
-                                    GeneralHelper::$logLimitBeforeWarning
+                                    esc_html($wpMailCatcherLogs->totalItems),
+                                    esc_html(GeneralHelper::$logLimitBeforeWarning)
                                 );
                                 ?>
                             </p>
@@ -38,13 +47,15 @@ if (!isset($logs)) {
                                 <tr>
                                     <th scope="row">
                                         <label>
-                                            <?php _e('Number of logs to export', 'WpMailCatcher'); ?>
+                                            <?php esc_html_e('Number of logs to export', 'wp-mail-catcher'); ?>
                                         </label>
                                     </th>
                                     <td>
                                         <label>
                                             <input data-update-format name="posts_per_page" type="text"
-                                                   value="<?php echo GeneralHelper::$logLimitBeforeWarning; ?>"
+                                                   value="<?php
+                                                    echo esc_attr(GeneralHelper::$logLimitBeforeWarning);
+                                                    ?>"
                                                    class="field -input"/>
                                         </label>
                                     </td>
@@ -52,7 +63,7 @@ if (!isset($logs)) {
                                 <tr>
                                     <th scope="row">
                                         <label>
-                                            <?php _e('Batch number', 'WpMailCatcher'); ?>
+                                            <?php esc_html_e('Batch number', 'wp-mail-catcher'); ?>
                                         </label>
                                     </th>
                                     <td>
@@ -61,10 +72,13 @@ if (!isset($logs)) {
                                                    class="field -input"/>
                                         </label>
                                         <p class="description"
-                                           data-text-format="<?php _e(
-                                               'This will export messages <strong>%s-%s</strong>',
-                                               'WpMailCatcher'
-                                           ); ?>"></p>
+                                           data-text-format="<?php
+                                            /* translators: 1: first message number, 2: last message number */
+                                            esc_attr_e(
+                                                'This will export messages <strong>%1$s-%2$s</strong>',
+                                                'wp-mail-catcher'
+                                            );
+                                            ?>"></p>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -78,10 +92,10 @@ if (!isset($logs)) {
 
             <div class="modal-footer">
                 <button type="submit" class="button-primary">
-                    <?php _e('Export', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Export', 'wp-mail-catcher'); ?>
                 </button>
                 <button type="button" class="button-secondary dismiss-modal">
-                    <?php _e('Cancel', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Cancel', 'wp-mail-catcher'); ?>
                 </button>
             </div>
         </form>

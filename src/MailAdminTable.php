@@ -54,7 +54,7 @@ class MailAdminTable extends WP_List_Table
             case 'email_from':
                 return esc_html($item[$column_name]);
             default:
-                return print_r($item, true);
+                return '';
         }
     }
 
@@ -72,7 +72,7 @@ class MailAdminTable extends WP_List_Table
             $subjectDecoded = base64_decode($subjectEncoded);
             $subjectDecoded = $this->runHtmlSpecialChars($subjectDecoded);
 
-            return '<span class="asci-help" data-hover-message="' . __("This subject was base64 decoded") . '">
+            return '<span class="asci-help" data-hover-message="' . esc_attr__('This subject was base64 decoded', 'wp-mail-catcher') . '">
                         <a href="' . $this->asciSubjectHelpLink . '" target="_blank">(?)</a>
                         ' . $subjectDecoded . '
                     </span>';
@@ -89,7 +89,7 @@ class MailAdminTable extends WP_List_Table
             $subjectDecoded = base64_decode($subjectEncoded);
             $subjectDecoded = $this->runHtmlSpecialChars($subjectDecoded);
 
-            return '<span class="asci-help" data-hover-message="' . __("This subject was quoted printable decoded") . '">
+            return '<span class="asci-help" data-hover-message="' . esc_attr__('This subject was quoted printable decoded', 'wp-mail-catcher') . '">
                         <a href="' . $this->asciSubjectHelpLink . '" target="_blank">(?)</a>
                         ' . $subjectDecoded . '
                     </span>';
@@ -100,7 +100,7 @@ class MailAdminTable extends WP_List_Table
 
     function column_time($item): string
     {
-        return '<span data-hover-message="' . date(GeneralHelper::$humanReadableDateFormat, $item['timestamp']) . '">' . $item['time'] . '</span>';
+        return '<span data-hover-message="' . esc_attr(gmdate(GeneralHelper::$humanReadableDateFormat, $item['timestamp'])) . '">' . esc_html($item['time']) . '</span>';
     }
 
     function column_cb($item)
@@ -114,7 +114,7 @@ class MailAdminTable extends WP_List_Table
 
     function column_more_info($item): string
     {
-        return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('More Info', 'WpMailCatcher') . '</a>';
+        return '<a href="#" class="button button-secondary" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('More Info', 'wp-mail-catcher') . '</a>';
     }
 
     function get_columns(): array
@@ -122,10 +122,10 @@ class MailAdminTable extends WP_List_Table
         return [
             'cb' => '<input type="checkbox" />',
             'status' => '',
-            'email_to' => __('To', 'WpMailCatcher'),
-            'subject' => __('Subject', 'WpMailCatcher'),
-            'email_from' => __('From', 'WpMailCatcher'),
-            'time' => __('Sent', 'WpMailCatcher'),
+            'email_to' => __('To', 'wp-mail-catcher'),
+            'subject' => __('Subject', 'wp-mail-catcher'),
+            'email_from' => __('From', 'wp-mail-catcher'),
+            'time' => __('Sent', 'wp-mail-catcher'),
             'more_info' => ''
         ];
     }
@@ -133,10 +133,10 @@ class MailAdminTable extends WP_List_Table
     function column_email_to($item): string
     {
         $actions = [
-            'delete' => '<a href="' . wp_nonce_url('admin.php?' . http_build_query(GeneralHelper::getPreservedUrlParams(['action' => 'delete', 'id' => $item['id']])), 'bulk-logs') . '">' . __('Delete', 'WpMailCatcher') . '</a>',
-            'resend' => '<a href="' . wp_nonce_url('admin.php?' . http_build_query(GeneralHelper::getPreservedUrlParams(['action' => 'resend', 'id' => $item['id']])), 'bulk-logs') . '">' . __('Resend', 'WpMailCatcher') . '</a>',
-            'export' => '<a href="' . wp_nonce_url('admin.php?' . http_build_query(GeneralHelper::getPreservedUrlParams(['action' => 'export', 'id' => $item['id']])), 'bulk-logs') . '">' . __('Export', 'WpMailCatcher') . '</a>',
-            'view' => '<a href="#" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('View', 'WpMailCatcher') . '</a>',
+            'delete' => '<a href="' . wp_nonce_url('admin.php?' . http_build_query(GeneralHelper::getPreservedUrlParams(['action' => 'delete', 'id' => $item['id']])), 'bulk-logs') . '">' . __('Delete', 'wp-mail-catcher') . '</a>',
+            'resend' => '<a href="' . wp_nonce_url('admin.php?' . http_build_query(GeneralHelper::getPreservedUrlParams(['action' => 'resend', 'id' => $item['id']])), 'bulk-logs') . '">' . __('Resend', 'wp-mail-catcher') . '</a>',
+            'export' => '<a href="' . wp_nonce_url('admin.php?' . http_build_query(GeneralHelper::getPreservedUrlParams(['action' => 'export', 'id' => $item['id']])), 'bulk-logs') . '">' . __('Export', 'wp-mail-catcher') . '</a>',
+            'view' => '<a href="#" data-toggle="modal" data-target="#' . $item['id'] . '">' . __('View', 'wp-mail-catcher') . '</a>',
         ];
 
         $emailTo = $this->runHtmlSpecialChars($item['email_to']);
@@ -146,7 +146,7 @@ class MailAdminTable extends WP_List_Table
 
     function column_status($item): string
     {
-        return $item['status'] ? '<div class="status-indicator"></div>' : '<div class="-right" data-hover-message="' . $item['error'] . '"><div class="status-indicator -error"></div></div>';
+        return $item['status'] ? '<div class="status-indicator"></div>' : '<div class="-right" data-hover-message="' . esc_attr($item['error']) . '"><div class="status-indicator -error"></div></div>';
     }
 
     function get_hidden_columns()
@@ -174,9 +174,9 @@ class MailAdminTable extends WP_List_Table
     function get_bulk_actions(): array
     {
         return [
-            'delete' => __('Delete', 'WpMailCatcher'),
-            'resend' => __('Resend', 'WpMailCatcher'),
-            'export' => __('Export', 'WpMailCatcher')
+            'delete' => __('Delete', 'wp-mail-catcher'),
+            'resend' => __('Resend', 'wp-mail-catcher'),
+            'export' => __('Export', 'wp-mail-catcher')
         ];
     }
 
@@ -206,14 +206,18 @@ class MailAdminTable extends WP_List_Table
         $this->_column_headers = [$columns, $hidden, $sortable];
         $this->process_bulk_action();
 
-        $overrideParams = array_intersect_key($_REQUEST, Logs::$whitelistedParams);
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only list table filtering, sorting and searching
+        $overrideParams = array_map(function ($value) {
+            return sanitize_text_field(wp_unslash($value));
+        }, array_filter(array_intersect_key($_REQUEST, Logs::$whitelistedParams), 'is_scalar'));
 
         $this->items = Logs::get(array_merge([
             'paged' => $this->get_pagenum(),
-            'post_status' => $_GET['post_status'] ?? 'any',
+            'post_status' => isset($_GET['post_status']) ? sanitize_key(wp_unslash($_GET['post_status'])) : 'any',
             'posts_per_page' => $perPage,
             'column_blacklist' => ['message']
         ], $overrideParams));
+        // phpcs:enable
 
         $this->totalItems = Logs::getTotalAmount();
 

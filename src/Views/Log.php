@@ -4,10 +4,16 @@ namespace WpMailCatcher;
 
 use WpMailCatcher\Models\Settings;
 
-$dbUpgradeManager = DatabaseUpgradeManager::getInstance();
-$settings = Settings::get();
-$logs = MailAdminTable::getInstance();
-$logs->prepare_items();
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+$wpMailCatcherDbUpgradeManager = DatabaseUpgradeManager::getInstance();
+$wpMailCatcherSettings = Settings::get();
+$wpMailCatcherLogs = MailAdminTable::getInstance();
+$wpMailCatcherLogs->prepare_items();
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only filter used to highlight the current view
+$wpMailCatcherPostStatus = isset($_GET['post_status']) ? sanitize_key(wp_unslash($_GET['post_status'])) : 'any';
 ?>
 
 <div class="wp-mail-catcher-page">
@@ -16,44 +22,57 @@ $logs->prepare_items();
     require GeneralHelper::$pluginViewDirectory . '/ExportWarningDialog.php';
     ?>
 
-    <div class="wrap<?php if (count($logs->items) == 0) :
+    <div class="wrap<?php if (count($wpMailCatcherLogs->items) == 0) :
         ?> -empty<?php
                     endif; ?>">
-        <h2 class="heading">WP Mail Catcher - <?php _e('logs', 'WpMailCatcher'); ?></h2>
+        <h2 class="heading">WP Mail Catcher - <?php esc_html_e('logs', 'wp-mail-catcher'); ?></h2>
 
-        <?php if ($dbUpgradeManager->isUpgradeRequired()) : ?>
+        <?php if ($wpMailCatcherDbUpgradeManager->isUpgradeRequired()) : ?>
             <div class="notice notice-warning">
                 <p>
                     <?php
                     printf(
-                        __(
-                            'Your WP Mail Catcher database needs upgrading. <strong>Click <a href="%s">here</a>
-                             to perform the upgrade.</strong>',
-                            'WpMailCatcher'
+                        wp_kses(
+                            /* translators: %s: URL that performs the database upgrade */
+                            __(
+                                'Your WP Mail Catcher database needs upgrading. <strong>Click <a href="%s">here</a>
+                                 to perform the upgrade.</strong>',
+                                'wp-mail-catcher'
+                            ),
+                            ['strong' => [], 'a' => ['href' => []]]
                         ),
-                        wp_nonce_url(
+                        esc_url(wp_nonce_url(
                             '?page=' . GeneralHelper::$adminPageSlug . '&action=upgrade-database',
                             'upgrade-database'
-                        )
+                        ))
                     );
                     ?>
                 </p>
             </div>
         <?php endif; ?>
 
-        <?php if ($logs->totalItems > GeneralHelper::$logLimitBeforeWarning && !$settings['auto_delete']) : ?>
+        <?php
+        if (
+            $wpMailCatcherLogs->totalItems > GeneralHelper::$logLimitBeforeWarning &&
+            !$wpMailCatcherSettings['auto_delete']
+        ) :
+            ?>
             <div class="notice notice-warning">
                 <p>
                     <?php
                     printf(
-                        __(
-                            'You have <strong>over %s</strong> messages stored and <a href="%s">auto-delete is
-                             disabled</a>. As a result your database can become very large, please either allow
-                             auto-delete or delete some logs.',
-                            'WpMailCatcher'
+                        wp_kses(
+                            /* translators: 1: number of stored messages, 2: URL of the settings page */
+                            __(
+                                'You have <strong>over %1$s</strong> messages stored and <a href="%2$s">auto-delete is
+                                 disabled</a>. As a result your database can become very large, please either allow
+                                 auto-delete or delete some logs.',
+                                'wp-mail-catcher'
+                            ),
+                            ['strong' => [], 'a' => ['href' => []]]
                         ),
-                        GeneralHelper::$logLimitBeforeWarning,
-                        '?page=' . GeneralHelper::$settingsPageSlug
+                        esc_html(GeneralHelper::$logLimitBeforeWarning),
+                        esc_url('?page=' . GeneralHelper::$settingsPageSlug)
                     );
                     ?>
                 </p>
@@ -62,49 +81,50 @@ $logs->prepare_items();
 
         <div class="button-container">
             <button class="btn button-primary" data-toggle="modal" data-target="#new-message">
-                <?php _e('New Message', 'WpMailCatcher'); ?>
+                <?php esc_html_e('New Message', 'wp-mail-catcher'); ?>
             </button>
 
-            <?php if ($logs->totalItems > GeneralHelper::$logLimitBeforeWarning) : ?>
+            <?php if ($wpMailCatcherLogs->totalItems > GeneralHelper::$logLimitBeforeWarning) : ?>
                 <button class="btn button-secondary" data-toggle="modal" data-target="#export-warning-dialog">
-                    <?php _e('Export all messages', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Export all messages', 'wp-mail-catcher'); ?>
                 </button>
             <?php else : ?>
                 <a href="
                     <?php echo
-                    wp_nonce_url(
+                    esc_url(wp_nonce_url(
                         '?page=' . GeneralHelper::$adminPageSlug . '&action=export-all',
                         'bulk-logs'
-                    );
+                    ));
                     ?>" class="btn button-secondary">
-                    <?php _e('Export all messages', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Export all messages', 'wp-mail-catcher'); ?>
                 </a>
             <?php endif; ?>
         </div>
 
         <ul class="subsubsub">
             <li>
-                <a href="?page=<?php echo GeneralHelper::$adminPageSlug; ?>"
-                    <?php if (!isset($_GET['post_status']) || $_GET['post_status'] == 'any') :
+                <a href="?page=<?php echo esc_attr(GeneralHelper::$adminPageSlug); ?>"
+                    <?php if ($wpMailCatcherPostStatus == 'any') :
                         ?> class="current"<?php
                     endif; ?>>
-                    <?php _e('All', 'WpMailCatcher'); ?> <span class="count">(<?php echo $logs->totalItems; ?>)</span>
+                    <?php esc_html_e('All', 'wp-mail-catcher'); ?>
+                    <span class="count">(<?php echo esc_html($wpMailCatcherLogs->totalItems); ?>)</span>
                 </a> |
             </li>
             <li>
-                <a href="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&post_status=successful"
-                    <?php if (isset($_GET['post_status']) && $_GET['post_status'] == 'successful') :
+                <a href="?page=<?php echo esc_attr(GeneralHelper::$adminPageSlug); ?>&post_status=successful"
+                    <?php if ($wpMailCatcherPostStatus == 'successful') :
                         ?> class="current"<?php
                     endif; ?>>
-                    <?php _e('Successful', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Successful', 'wp-mail-catcher'); ?>
                 </a> |
             </li>
             <li>
-                <a href="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&post_status=failed"
-                    <?php if (isset($_GET['post_status']) && $_GET['post_status'] == 'failed') :
+                <a href="?page=<?php echo esc_attr(GeneralHelper::$adminPageSlug); ?>&post_status=failed"
+                    <?php if ($wpMailCatcherPostStatus == 'failed') :
                         ?> class="current"<?php
                     endif; ?>>
-                    <?php _e('Failed', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Failed', 'wp-mail-catcher'); ?>
                 </a>
             </li>
         </ul>
@@ -114,35 +134,23 @@ $logs->prepare_items();
             WordPress breaks the redirect unless we pass the query params as inputs
             instead of the <form> action param
             -->
-            <?php
-            foreach (GeneralHelper::$whitelistedRedirectParams as $key) :
-                if (!isset($_GET[$key])) {
-                    continue;
-                }
-
-                $value = $_GET[$key];
-
-                // Skip arrays/objects to avoid malformed hidden inputs.
-                if (!is_scalar($value)) {
-                    continue;
-                }
-                ?>
+            <?php foreach (GeneralHelper::getPreservedUrlParams() as $wpMailCatcherKey => $wpMailCatcherValue) : ?>
                 <input type="hidden"
-                       name="<?php echo esc_attr($key); ?>"
-                       value="<?php echo esc_attr($value); ?>" />
+                       name="<?php echo esc_attr($wpMailCatcherKey); ?>"
+                       value="<?php echo esc_attr($wpMailCatcherValue); ?>" />
             <?php endforeach; ?>
 
-            <?php $logs->search_box(__('Search Logs', 'WpMailCatcher'), 'search_id'); ?>
+            <?php $wpMailCatcherLogs->search_box(__('Search Logs', 'wp-mail-catcher'), 'search_id'); ?>
 
-            <?php $logs->display(); ?>
+            <?php $wpMailCatcherLogs->display(); ?>
         </form>
 
         <?php require GeneralHelper::$pluginViewDirectory . '/Footer.php'; ?>
     </div>
 
     <?php
-    /** $log is used in LogModal.php  */
-    foreach ($logs->items as $log) :
+    /** $wpMailCatcherLog is used in LogModal.php  */
+    foreach ($wpMailCatcherLogs->items as $wpMailCatcherLog) :
         require GeneralHelper::$pluginViewDirectory . '/LogModal.php';
     endforeach;
     ?>

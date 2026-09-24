@@ -1,5 +1,3 @@
-version: "3.9"
-
 volumes:
   wp_mysql_data:
     driver: local

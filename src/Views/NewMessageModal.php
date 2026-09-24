@@ -2,17 +2,22 @@
 
 use WpMailCatcher\GeneralHelper;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 ?>
 
 <div id="new-message" class="modal">
     <div class="modal-content">
-        <form class="form-horizontal" action="?page=<?php echo GeneralHelper::$adminPageSlug; ?>&action=new_mail"
+        <form class="form-horizontal"
+              action="?page=<?php echo esc_attr(GeneralHelper::$adminPageSlug); ?>&action=new_mail"
               method="POST">
             <div class="modal-body">
                 <div class="content-container">
                     <div class="content -active">
                         <div>
-                            <h2><?php _e('Headers', 'WpMailCatcher'); ?></h2>
+                            <h2><?php esc_html_e('Headers', 'wp-mail-catcher'); ?></h2>
                             <hr/>
 
                             <div class="cloneable">
@@ -27,11 +32,15 @@ use WpMailCatcher\GeneralHelper;
 
                                     <label>
                                         <select name="header_keys[]" class="field -select">
-                                            <option value="to"><?php _e('To', 'WpMailCatcher'); ?></option>
-                                            <option value="cc"><?php _e('Cc', 'WpMailCatcher'); ?></option>
-                                            <option value="bcc"><?php _e('Bcc', 'WpMailCatcher'); ?></option>
-                                            <option value="from"><?php _e('From', 'WpMailCatcher'); ?></option>
-                                            <option value="custom"><?php _e('Custom', 'WpMailCatcher'); ?></option>
+                                            <option value="to"><?php esc_html_e('To', 'wp-mail-catcher'); ?></option>
+                                            <option value="cc"><?php esc_html_e('Cc', 'wp-mail-catcher'); ?></option>
+                                            <option value="bcc"><?php esc_html_e('Bcc', 'wp-mail-catcher'); ?></option>
+                                            <option value="from">
+                                                <?php esc_html_e('From', 'wp-mail-catcher'); ?>
+                                            </option>
+                                            <option value="custom">
+                                                <?php esc_html_e('Custom', 'wp-mail-catcher'); ?>
+                                            </option>
                                         </select>
                                     </label>
 
@@ -44,13 +53,13 @@ use WpMailCatcher\GeneralHelper;
                             <label class="is-html-email">
                                 <input
                                     type="checkbox"
-                                    value="<?php echo GeneralHelper::$htmlEmailHeader; ?>"
+                                    value="<?php echo esc_attr(GeneralHelper::$htmlEmailHeader); ?>"
                                     name="header_keys[]"
                                 />
-                                <?php _e('Is HTML email?', 'WpMailCatcher'); ?> </label>
+                                <?php esc_html_e('Is HTML email?', 'wp-mail-catcher'); ?> </label>
                         </div>
                         <div>
-                            <h2><?php _e('Subject', 'WpMailCatcher'); ?></h2>
+                            <h2><?php esc_html_e('Subject', 'wp-mail-catcher'); ?></h2>
                             <hr/>
 
                             <label>
@@ -58,7 +67,7 @@ use WpMailCatcher\GeneralHelper;
                             </label>
                         </div>
                         <div>
-                            <h2><?php _e('Attachments', 'WpMailCatcher'); ?></h2>
+                            <h2><?php esc_html_e('Attachments', 'wp-mail-catcher'); ?></h2>
                             <hr/>
 
                             <div class="attachments-container">
@@ -71,16 +80,16 @@ use WpMailCatcher\GeneralHelper;
 
                                 <div class="attachment-button-container">
                                     <a href="#" class="button-primary" id="add_attachments">
-                                        <?php _e('Add Attachments', 'WpMailCatcher'); ?>
+                                        <?php esc_html_e('Add Attachments', 'wp-mail-catcher'); ?>
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <h2><?php _e('Message', 'WpMailCatcher'); ?></h2>
+                            <h2><?php esc_html_e('Message', 'wp-mail-catcher'); ?></h2>
                             <hr />
 
-                            <?php wp_editor(__('My Message', 'WpMailCatcher'), 'message'); ?>
+                            <?php wp_editor(__('My Message', 'wp-mail-catcher'), 'message'); ?>
                         </div>
                     </div>
                 </div>
@@ -90,10 +99,10 @@ use WpMailCatcher\GeneralHelper;
 
             <div class="modal-footer">
                 <button type="submit" class="button-primary">
-                    <?php _e('Send Message', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Send Message', 'wp-mail-catcher'); ?>
                 </button>
                 <button type="button" class="button-secondary dismiss-modal">
-                    <?php _e('Close', 'WpMailCatcher'); ?>
+                    <?php esc_html_e('Close', 'wp-mail-catcher'); ?>
                 </button>
             </div>
         </form>

@@ -10,7 +10,7 @@ class ExpiredLogManager
     public static function deletionIntervals()
     {
         return apply_filters(
-            GeneralHelper::$actionNameSpace . '_deletion_intervals',
+            'wp_mail_catcher_deletion_intervals',
             Settings::$defaultDeletionIntervals
         );
     }
