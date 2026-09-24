@@ -35,6 +35,7 @@ trait LogHelper
             return $args;
         }
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom table, cache is flushed below
         $wpdb->insert($wpdb->prefix . GeneralHelper::$tableName, array_merge($transformedArgs, $userFilteredArgs));
 
         Cache::flush();
@@ -87,6 +88,7 @@ trait LogHelper
             $transformedArgs = $log;
         }
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Custom table, cache is flushed below
         $wpdb->update(
             $wpdb->prefix . GeneralHelper::$tableName,
             array_merge($transformedArgs, ['status' => 0]),
@@ -107,6 +109,7 @@ trait LogHelper
 
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Custom table, cache is flushed below
         $wpdb->update(
             $wpdb->prefix . GeneralHelper::$tableName,
             [
@@ -145,6 +148,7 @@ trait LogHelper
             $value = str_replace(GeneralHelper::$uploadsFolderInfo['basedir'] . '/', '', $value);
         });
 
+        // phpcs:disable WordPress.Security.NonceVerification.Missing -- Only set when sending via the "New Message" form, verified in Bootstrap::route()
         if (isset($_POST['attachment_ids'])) {
             $attachmentIds = array_map('absint', (array)wp_unslash($_POST['attachment_ids']));
             $attachmentIds = array_values(array_filter($attachmentIds));

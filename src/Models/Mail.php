@@ -130,6 +130,7 @@ class Mail
             fputcsv($out, $v);
         }
 
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Stream to php://output
         fclose($out);
     }
 

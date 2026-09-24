@@ -38,8 +38,6 @@ class Bootstrap
         add_filter('plugin_action_links_wp-mail-catcher/WpMailCatcher.php', [$this, 'extraPluginLinks']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
         add_action('plugins_loaded', function () {
-            load_plugin_textdomain('WpMailCatcher', false, GeneralHelper::$adminPageSlug . '/languages/');
-
             // Fix for db_version falling out of sync in previous versions
             if (in_array(Settings::get('db_version'), ['2.0.1', '2.0.2', '2.0.3', '2.0.4'])) {
                 DatabaseUpgradeManager::getInstance()->doUpgrade(true);
@@ -60,7 +58,7 @@ class Bootstrap
 
         array_unshift(
             $links,
-            '<a href="' . $href . '">' . __('Settings', 'WpMailCatcher') . '</a>'
+            '<a href="' . $href . '">' . __('Settings', 'wp-mail-catcher') . '</a>'
         );
 
         return $links;
@@ -82,12 +80,16 @@ class Bootstrap
         wp_enqueue_style('dashicons');
         wp_enqueue_style(
             'admin_css',
-            GeneralHelper::$pluginAssetsUrl . '/global.min.css?v=' . GeneralHelper::$pluginVersion
+            GeneralHelper::$pluginAssetsUrl . '/global.min.css',
+            [],
+            GeneralHelper::$pluginVersion
         );
         wp_enqueue_script(
             'admin_js',
-            GeneralHelper::$pluginAssetsUrl . '/global.min.js?v=' . GeneralHelper::$pluginVersion,
-            ['jquery']
+            GeneralHelper::$pluginAssetsUrl . '/global.min.js',
+            ['jquery'],
+            GeneralHelper::$pluginVersion,
+            true
         );
         wp_localize_script('admin_js', GeneralHelper::$tableName, [
             'plugin_url' => GeneralHelper::$pluginUrl,
@@ -109,8 +111,8 @@ class Bootstrap
 
         add_submenu_page(
             GeneralHelper::$adminPageSlug,
-            __('Settings', 'WpMailCatcher'),
-            __('Settings', 'WpMailCatcher'),
+            __('Settings', 'wp-mail-catcher'),
+            __('Settings', 'wp-mail-catcher'),
             Settings::get('default_settings_role'),
             GeneralHelper::$settingsPageSlug,
             function () {
@@ -124,32 +126,73 @@ class Bootstrap
 //        $this->screenOptions->newHelpTab($mainPageHook, 'General', '<strong>blah</strong> blah');
     }
 
+    /**
+     * Nonces are verified per action in route() before any value read here is acted upon
+     */
+    private function getRequestString(string $key): string
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if (!isset($_REQUEST[$key]) || !is_scalar($_REQUEST[$key])) {
+            return '';
+        }
+
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        return sanitize_text_field(wp_unslash($_REQUEST[$key]));
+    }
+
+    private function getRequestIds(): array
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if (!isset($_REQUEST['id'])) {
+            return [];
+        }
+
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        return array_values(array_filter(array_map('absint', (array)wp_unslash($_REQUEST['id']))));
+    }
+
+    private function isAction(string $action): bool
+    {
+        return $this->getRequestString('action') === $action || $this->getRequestString('action2') === $action;
+    }
+
+    private function verifyNonce(string ...$actions)
+    {
+        $nonce = $this->getRequestString('_wpnonce');
+
+        foreach ($actions as $action) {
+            if (wp_verify_nonce($nonce, $action)) {
+                return;
+            }
+        }
+
+        wp_die(esc_html(GeneralHelper::$failedNonceMessage));
+    }
+
     public function route()
     {
-        if (!isset($_GET['page']) || $_GET['page'] !== GeneralHelper::$adminPageSlug) {
+        if ($this->getRequestString('page') !== GeneralHelper::$adminPageSlug) {
             return;
         }
 
+        $action = $this->getRequestString('action');
+
         if (current_user_can(Settings::get('default_view_role'))) {
             /** Perform database upgrade */
-            if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'upgrade-database') {
-                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'upgrade-database')) {
-                    wp_die(GeneralHelper::$failedNonceMessage);
-                }
+            if ($action === 'upgrade-database') {
+                $this->verifyNonce('upgrade-database');
 
                 DatabaseUpgradeManager::getInstance()->doUpgrade();
                 GeneralHelper::redirectToThisHomeScreen();
             }
 
             /** Export all messages */
-            if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'export-all') {
-                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
-                    wp_die(GeneralHelper::$failedNonceMessage);
-                }
+            if ($action === 'export-all') {
+                $this->verifyNonce('bulk-logs');
 
                 $args = Logs::getTotalAmount() > GeneralHelper::$logLimitBeforeWarning ? [
-                    'posts_per_page' => $_REQUEST['posts_per_page'],
-                    'paged' => $_REQUEST['paged'],
+                    'posts_per_page' => absint($this->getRequestString('posts_per_page')),
+                    'paged' => max(1, absint($this->getRequestString('paged'))),
                 ] : [
                     'posts_per_page' => -1
                 ];
@@ -161,53 +204,41 @@ class Bootstrap
             }
 
             /** Export message(s) */
-            if (
-                isset($_REQUEST['action']) && $_REQUEST['action'] == 'export' ||
-                isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'export'
-            ) {
-                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
-                    wp_die(GeneralHelper::$failedNonceMessage);
+            if ($this->isAction('export')) {
+                $this->verifyNonce('bulk-logs');
+
+                $ids = $this->getRequestIds();
+
+                if (empty($ids)) {
+                    GeneralHelper::redirectToThisHomeScreen();
                 }
 
-                Mail::export($_REQUEST['id']);
+                Mail::export($ids);
             }
 
             /** Resend message(s) */
-            if (
-                ((isset($_REQUEST['action']) && $_REQUEST['action'] == 'resend') ||
-                (isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'resend')) &&
-                isset($_REQUEST['id']) && !empty($_REQUEST['id'])
-            ) {
-                if (
-                    !wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs') &&
-                    !wp_verify_nonce($_REQUEST['_wpnonce'], 'modal-resend')
-                ) {
-                    wp_die(GeneralHelper::$failedNonceMessage);
-                }
+            if ($this->isAction('resend') && !empty($this->getRequestIds())) {
+                $this->verifyNonce('bulk-logs', 'modal-resend');
 
-                Mail::resend($_REQUEST['id']);
+                Mail::resend($this->getRequestIds());
                 GeneralHelper::redirectToThisHomeScreen();
             }
 
             /** Delete message(s) */
-            if (
-                ((isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete') ||
-                (isset($_REQUEST['action2']) && $_REQUEST['action2'] == 'delete')) &&
-                isset($_REQUEST['id']) && !empty($_REQUEST['id'])
-            ) {
-                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-logs')) {
-                    wp_die(GeneralHelper::$failedNonceMessage);
-                }
+            if ($this->isAction('delete') && !empty($this->getRequestIds())) {
+                $this->verifyNonce('bulk-logs');
 
-                Logs::delete($_REQUEST['id']);
+                Logs::delete($this->getRequestIds());
                 GeneralHelper::redirectToThisHomeScreen();
             }
 
             /** Send mail */
-            if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_mail') {
-                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'new_mail')) {
-                    wp_die(GeneralHelper::$failedNonceMessage);
-                }
+            if ($action === 'new_mail') {
+                check_admin_referer('new_mail');
+
+                // Header values may contain "Name <email>", so sanitizeHeaderValue() strips line breaks instead of tags
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+                $headerValues = isset($_POST['header_values']) ? (array)wp_unslash($_POST['header_values']) : [];
 
                 Mail::add(
                     $_POST['header_keys'],
@@ -220,11 +251,8 @@ class Bootstrap
                 GeneralHelper::redirectToThisHomeScreen();
             }
 
-            if (
-                isset($_REQUEST['action']) && $_REQUEST['action'] == 'single_mail' &&
-                isset($_REQUEST['id']) && !empty($_REQUEST['id'])
-            ) {
-                $log = Logs::get(['post__in' => [$_REQUEST['id']]])[0];
+            if ($action === 'single_mail' && !empty($this->getRequestIds())) {
+                $log = Logs::get(['post__in' => [$this->getRequestIds()[0]]])[0];
                 $view = GeneralHelper::$pluginViewDirectory;
                 $view .= $log['is_html'] ? '/HtmlMessage.php' : '/TextMessage.php';
 
@@ -234,10 +262,8 @@ class Bootstrap
         }
 
         if (current_user_can(Settings::get('default_settings_role'))) {
-            if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'rerun-migrations') {
-                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'rerun_migrations')) {
-                    wp_die(GeneralHelper::$failedNonceMessage);
-                }
+            if ($action === 'rerun-migrations') {
+                $this->verifyNonce('rerun_migrations');
 
                 DatabaseUpgradeManager::getInstance()->doUpgrade(true);
                 GeneralHelper::redirectToThisHomeScreen([
@@ -246,10 +272,8 @@ class Bootstrap
                 ]);
             }
 
-            if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'trigger-auto-delete') {
-                if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'trigger_auto_delete')) {
-                    wp_die(GeneralHelper::$failedNonceMessage);
-                }
+            if ($action === 'trigger-auto-delete') {
+                $this->verifyNonce('trigger_auto_delete');
 
                 ExpiredLogManager::removeExpiredLogs();
                 GeneralHelper::redirectToThisHomeScreen([
@@ -258,23 +282,21 @@ class Bootstrap
                 ]);
             }
 
-            if (!isset($_REQUEST['action']) || $_REQUEST['action'] !== 'update_settings') {
+            if ($action !== 'update_settings') {
                 return;
             }
 
-            if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'update_settings')) {
-                wp_die(GeneralHelper::$failedNonceMessage);
-            }
+            $this->verifyNonce('update_settings');
 
-            $_POST['auto_delete'] = $_POST['auto_delete'] === 'true';
+            $autoDelete = $this->getRequestString('auto_delete') === 'true';
 
             CronManager::getInstance()->clearTasks();
 
             $updateSuccess = Settings::update([
-                'default_view_role' => $_POST['default_view_role'],
-                'default_settings_role' => $_POST['default_settings_role'],
-                'auto_delete' => $_POST['auto_delete'],
-                'timescale' => $_POST['auto_delete'] ? $_POST['timescale'] : null,
+                'default_view_role' => sanitize_key($this->getRequestString('default_view_role')),
+                'default_settings_role' => sanitize_key($this->getRequestString('default_settings_role')),
+                'auto_delete' => $autoDelete,
+                'timescale' => $autoDelete ? absint($this->getRequestString('timescale')) : null,
             ]);
 
             GeneralHelper::redirectToThisHomeScreen([
@@ -336,8 +358,8 @@ class Bootstrap
         self::deactivate();
 
         global $wpdb;
-        $sql = "DROP TABLE IF EXISTS " . $wpdb->prefix . GeneralHelper::$tableName . ";";
-        $wpdb->query($sql);
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Dropping the plugin's own table, the name is not user input
+        $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . GeneralHelper::$tableName);
 
         Settings::uninstallOptions();
     }

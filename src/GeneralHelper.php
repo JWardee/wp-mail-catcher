@@ -40,7 +40,7 @@ class GeneralHelper
 
     public static function setSettings()
     {
-        self::$csvExportFileName = 'WpMailCatcherExport_' . date('d-m-Y_H-i-s') . '.csv';
+        self::$csvExportFileName = 'WpMailCatcherExport_' . gmdate('d-m-Y_H-i-s') . '.csv';
         self::$csvExportLegalColumns = [
             'time',
             'subject',
@@ -141,7 +141,7 @@ class GeneralHelper
         return strtolower($label);
     }
 
-    private static function getAllowedTags()
+    public static function getAllowedTags()
     {
         $tags = wp_kses_allowed_html('post');
         $tags['style'] = [];
@@ -162,29 +162,22 @@ class GeneralHelper
 
         global $wpdb;
 
-        $sql = "SELECT DISTINCT post_id
-                FROM " . $wpdb->prefix . "postmeta
-				WHERE meta_value LIKE %s";
+        $likeValues = array_map(function ($url) use ($wpdb) {
+            return '%' . $wpdb->esc_like($url) . '%';
+        }, array_values((array)$urls));
 
-        if (is_array($urls) && count($urls) > 1) {
-            foreach ($urls as $url) {
-                // Skip first url as it's covered above
-                if ($url === $urls[0]) {
-                    continue;
-                }
+        $likeClauses = implode(' OR ', array_fill(0, count($likeValues), 'meta_value LIKE %s'));
 
-                $sql .= " OR meta_value LIKE %s";
-            }
-        }
-
-        $sql .= " AND meta_key = '_wp_attached_file'";
-
-        $urls = array_map(function ($url) {
-            return '%' . $url . '%';
-        }, $urls);
-
-        $sql = $wpdb->prepare($sql, $urls);
-        $results = $wpdb->get_results($sql, ARRAY_N);
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Only placeholders are interpolated, values are prepared
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT DISTINCT post_id FROM {$wpdb->postmeta}
+                WHERE ({$likeClauses}) AND meta_key = '_wp_attached_file'",
+                $likeValues
+            ),
+            ARRAY_N
+        );
+        // phpcs:enable
 
         if (isset($results[0])) {
             return array_column($results, 0);
@@ -193,9 +186,21 @@ class GeneralHelper
         return [];
     }
 
+    /**
+     * Strips line breaks to prevent header injection while preserving values such as "Name <email@example.com>"
+     */
+    public static function sanitizeHeaderValue($value): string
+    {
+        return trim(str_replace(["\r", "\n"], '', (string)$value));
+    }
+
     public static function getPreservedUrlParams($params = [])
     {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only preserves list table view params (paging, sorting, search)
         $whitelistedParamValues = array_intersect_key($_GET, array_flip(GeneralHelper::$whitelistedRedirectParams));
+        $whitelistedParamValues = array_map(function ($value) {
+            return sanitize_text_field(wp_unslash($value));
+        }, array_filter($whitelistedParamValues, 'is_scalar'));
         $params = array_merge($whitelistedParamValues, $params);
 
         if (!isset($params['page'])) {
@@ -236,10 +241,14 @@ class GeneralHelper
 
     public static function getHumanReadableTime($from, $to, $suffix = ' ago')
     {
-        return sprintf(
-            _x('%s' . $suffix, '%s = human-readable time difference', 'WpMailCatcher'),
-            human_time_diff($from, $to)
-        );
+        $timeDifference = human_time_diff($from, $to);
+
+        if ($suffix === ' ago') {
+            /* translators: %s: human-readable time difference, e.g. "5 mins" */
+            return sprintf(__('%s ago', 'wp-mail-catcher'), $timeDifference);
+        }
+
+        return $timeDifference . $suffix;
     }
 
     /**

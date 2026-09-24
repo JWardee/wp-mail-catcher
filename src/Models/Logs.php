@@ -162,11 +162,13 @@ class Logs
             ]);
         }
 
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom table cached via Cache, columns/order are whitelisted above and values use placeholders
         if (count($placeholderValues)) {
             $sql = $wpdb->prepare($sql, $placeholderValues);
         }
 
         $results = $wpdb->get_results($sql, ARRAY_A);
+        // phpcs:enable
         $results = self::dbResultTransform($results, $args);
 
         if (!isset($args['ignore_cache']) || !$args['ignore_cache']) {
@@ -242,6 +244,7 @@ class Logs
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom table, the name is not user input
         return $wpdb->get_var("SELECT COUNT(*) FROM " . $wpdb->prefix . GeneralHelper::$tableName);
     }
 
