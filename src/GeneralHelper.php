@@ -186,14 +186,6 @@ class GeneralHelper
         return [];
     }
 
-    /**
-     * Strips line breaks to prevent header injection while preserving values such as "Name <email@example.com>"
-     */
-    public static function sanitizeHeaderValue($value): string
-    {
-        return trim(str_replace(["\r", "\n"], '', (string)$value));
-    }
-
     public static function getPreservedUrlParams($params = [])
     {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only preserves list table view params (paging, sorting, search)

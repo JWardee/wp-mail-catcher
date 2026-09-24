@@ -2,9 +2,9 @@
 Contributors: Wardee
 Tags: mail logging, email log, email logger, logging, email logging
 Requires at least: 4.7
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.1.12
+Stable tag: 2.2.0
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 Donate link: https://paypal.me/jamesmward
@@ -107,13 +107,26 @@ Great! Please leave a note in our (GitHub tracker)
 
 == Changelog ==
 
+= 2.2.0 =
+
+- Security: All admin output is now escaped, including log errors, attachment URLs and debug details
+- Security: All request input is now unslashed and sanitized before use
+- Security: Header values sent via "New Message" have line breaks stripped to prevent header injection
+- Security: Plugin files can no longer be accessed directly
+- Fix: Searching logs while filtering by Successful/Failed now returns the correct results
+- Fix: Attachments are now matched correctly when an email has multiple attachments
+- Change: Text domain changed from `WpMailCatcher` to `wp-mail-catcher`, custom translation files will need renaming
+- Change: Some translatable strings now use numbered placeholders and will need re-translating
+- Chore: Resolved WordPress Plugin Check warnings
+- Chore: Updated tested WordPress version
+
 = 2.1.12 =
 
 - Fix: Bulk actions now work on filtered logs
 - Fix: URL parameters are now preserved across links and redirects
 - Chore: Updated tested WordPress version
 
-= 2.1.11 =
+= 2.2.0 =
 
 - Chore: Updated tested WordPress version
 

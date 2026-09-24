@@ -151,6 +151,15 @@ class Bootstrap
         return array_values(array_filter(array_map('absint', (array)wp_unslash($_REQUEST['id']))));
     }
 
+    /**
+     * Returns the unslashed value, callers must sanitize it (e.g. Mail::add())
+     */
+    private function getPostValue(string $key)
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        return isset($_POST[$key]) ? wp_unslash($_POST[$key]) : null;
+    }
+
     private function isAction(string $action): bool
     {
         return $this->getRequestString('action') === $action || $this->getRequestString('action2') === $action;
@@ -236,17 +245,13 @@ class Bootstrap
             if ($action === 'new_mail') {
                 check_admin_referer('new_mail');
 
-                // Header values may contain "Name <email>", so sanitizeHeaderValue() strips line breaks instead of tags
-                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-                $headerValues = isset($_POST['header_values']) ? (array)wp_unslash($_POST['header_values']) : [];
-
                 Mail::add(
-                    $_POST['header_keys'],
-                    $_POST['header_values'],
-                    $_POST['attachment_ids'],
-                    $_POST['subject'],
-                    $_POST['message'],
-                    $_POST['is_html'] ?? false
+                    $this->getPostValue('header_keys'),
+                    $this->getPostValue('header_values'),
+                    $this->getPostValue('attachment_ids'),
+                    $this->getPostValue('subject'),
+                    $this->getPostValue('message'),
+                    !empty($this->getPostValue('is_html'))
                 );
                 GeneralHelper::redirectToThisHomeScreen();
             }
