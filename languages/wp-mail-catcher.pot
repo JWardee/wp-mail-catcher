@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WpMailCatcher 2.2.0\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2026-09-28 13:39+0000\n"
+"POT-Creation-Date: 2026-09-28 14:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Once a month"
 msgstr ""
 
-#: ../../src/GeneralHelper.php:240
+#: ../../src/GeneralHelper.php:229
 #, php-format
 msgid "%s ago"
 msgstr ""
@@ -220,7 +220,7 @@ msgstr ""
 msgid "Errors:"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:118 ../../src/Views/NewMessageModal.php:105
+#: ../../src/Views/LogModal.php:117 ../../src/Views/NewMessageModal.php:105
 msgid "Close"
 msgstr ""
 

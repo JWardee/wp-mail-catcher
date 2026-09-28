@@ -67,7 +67,7 @@ trait LogHelper
 
         $log = Logs::getFirst(['post__in' => $this->id]);
         $log['status'] = 0;
-        $log['error'] = $error;
+        $log['error'] = wp_strip_all_tags($error);
         $log['time'] = $log['timestamp'];
 
         $transformedArgs = apply_filters(
