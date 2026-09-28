@@ -112,8 +112,7 @@ if (isset($wpMailCatcherLog)) :
             <div class="modal-footer">
                 <a href="<?php echo esc_url(wp_nonce_url($wpMailCatcherResendLink, 'modal-resend')); ?>"
                    class="resend-link">
-                    <?php esc_html_e('Resend', 'wp-mail-catcher'); ?>
-                </a>
+                    <?php esc_html_e('Resend', 'wp-mail-catcher'); ?></a>
                 <button type="button" class="button-primary dismiss-modal">
                     <?php esc_html_e('Close', 'wp-mail-catcher'); ?>
                 </button>

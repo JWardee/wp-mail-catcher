@@ -154,7 +154,7 @@ class GeneralHelper
         return wp_kses($value, self::getAllowedTags());
     }
 
-    public static function getAttachmentIdsFromUrl($urls)
+    public static function getAttachmentIdsFromUrl(array $urls)
     {
         if (empty($urls)) {
             return [];
@@ -164,42 +164,31 @@ class GeneralHelper
 
         $likeValues = array_map(function ($url) use ($wpdb) {
             return '%' . $wpdb->esc_like($url) . '%';
-        }, array_values((array)$urls));
+        }, $urls);
 
         $likeClauses = implode(' OR ', array_fill(0, count($likeValues), 'meta_value LIKE %s'));
 
         // phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Only placeholders are interpolated, values are prepared
-        $results = $wpdb->get_results(
+        $attachmentIds = $wpdb->get_col(
             $wpdb->prepare(
                 "SELECT DISTINCT post_id FROM {$wpdb->postmeta}
                 WHERE ({$likeClauses}) AND meta_key = '_wp_attached_file'",
                 $likeValues
-            ),
-            ARRAY_N
+            )
         );
         // phpcs:enable
 
-        if (isset($results[0])) {
-            return array_column($results, 0);
-        }
-
-        return [];
+        return $attachmentIds;
     }
 
     public static function getPreservedUrlParams($params = [])
     {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only preserves list table view params (paging, sorting, search)
-        $whitelistedParamValues = array_intersect_key($_GET, array_flip(GeneralHelper::$whitelistedRedirectParams));
-        $whitelistedParamValues = array_map(function ($value) {
-            return sanitize_text_field(wp_unslash($value));
-        }, array_filter($whitelistedParamValues, 'is_scalar'));
-        $params = array_merge($whitelistedParamValues, $params);
+        $whitelistedParamValues = array_intersect_key($_GET, array_flip(self::$whitelistedRedirectParams));
+        $scalarValues = array_filter($whitelistedParamValues, 'is_scalar');
+        $sanitisedValues = array_map('sanitize_text_field', wp_unslash($scalarValues));
 
-        if (!isset($params['page'])) {
-            $params['page'] = GeneralHelper::$adminPageSlug;
-        }
-
-        return $params;
+        return array_merge(['page' => self::$adminPageSlug], $sanitisedValues, $params);
     }
 
     public static function redirectToThisHomeScreen($params = [])

@@ -1,4 +1,4 @@
-=== Mail logging - WP Mail Catcher ===
+=== Mail logging & Catcher ===
 Contributors: Wardee
 Tags: mail logging, email log, email logger, logging, email logging
 Requires at least: 4.7
@@ -119,6 +119,7 @@ Great! Please leave a note in our (GitHub tracker)
 - Change: Some translatable strings now use numbered placeholders and will need re-translating
 - Chore: Resolved WordPress Plugin Check warnings
 - Chore: Updated tested WordPress version
+- Chore: Removed WP from plugin name
 
 = 2.1.12 =
 

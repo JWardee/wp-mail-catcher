@@ -197,9 +197,6 @@ class Mail
         }
     }
 
-    /**
-     * Keeps the array indexes intact as header keys and values are matched by index
-     */
     private static function sanitizeEach($values, callable $sanitizer): array
     {
         return array_map(function ($value) use ($sanitizer) {

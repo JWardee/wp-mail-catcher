@@ -207,13 +207,13 @@ class MailAdminTable extends WP_List_Table
         $this->process_bulk_action();
 
         // phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only list table filtering, sorting and searching
-        $overrideParams = array_map(function ($value) {
-            return sanitize_text_field(wp_unslash($value));
-        }, array_filter(array_intersect_key($_REQUEST, Logs::$whitelistedParams), 'is_scalar'));
+        $overrideParams = array_map(
+            'sanitize_text_field',
+            wp_unslash(array_filter(array_intersect_key($_REQUEST, Logs::$whitelistedParams), 'is_scalar'))
+        );
 
         $this->items = Logs::get(array_merge([
             'paged' => $this->get_pagenum(),
-            'post_status' => isset($_GET['post_status']) ? sanitize_key(wp_unslash($_GET['post_status'])) : 'any',
             'posts_per_page' => $perPage,
             'column_blacklist' => ['message']
         ], $overrideParams));

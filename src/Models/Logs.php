@@ -133,21 +133,15 @@ class Logs
             );
         }
 
-        if ($args['post_status'] != 'any') {
+        // Unrecognised statuses are treated as 'any' rather than producing an empty WHERE clause
+        if (in_array($args['post_status'], ['successful', 'failed'], true)) {
             if ($whereClause) {
                 $sql .= "AND ";
             } else {
                 $sql .= "WHERE ";
             }
 
-            switch ($args['post_status']) {
-                case ('successful'):
-                    $sql .= "status = 1 ";
-                    break;
-                case ('failed'):
-                    $sql .= "status = 0 ";
-                    break;
-            }
+            $sql .= $args['post_status'] === 'successful' ? "status = 1 " : "status = 0 ";
         }
 
         $order = strtolower($args['order']) === "desc" ? "DESC" : "ASC";

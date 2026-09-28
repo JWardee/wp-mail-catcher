@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Mail logging - WP Mail Catcher
+Plugin Name: Mail logging & Catcher
 Plugin URI: https://wordpress.org/plugins/wp-mail-catcher/
 Text Domain: wp-mail-catcher
 Domain Path: /languages
