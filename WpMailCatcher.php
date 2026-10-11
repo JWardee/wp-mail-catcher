@@ -6,7 +6,7 @@ Text Domain: wp-mail-catcher
 Domain Path: /languages
 Description: Logging your mail will stop you from ever losing your emails again! This fast, lightweight plugin (under 140kb in size!) is also useful for debugging or backing up your messages.
 Author: James Ward
-Version: 2.2.0
+Version: 2.3.0
 Author URI: https://jamesward.io
 Donate link: https://paypal.me/jamesmward
 License: GPLv3

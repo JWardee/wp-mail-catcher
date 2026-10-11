@@ -3,6 +3,7 @@
 namespace WpMailCatcher\Models;
 
 use WpMailCatcher\GeneralHelper;
+use WpMailCatcher\Redactor;
 
 class Logs
 {
@@ -175,6 +176,8 @@ class Logs
     private static function dbResultTransform($results, $args = [])
     {
         foreach ($results as &$result) {
+            // Redact on read as well as on save, so logs saved before redaction existed are covered
+            $result = Redactor::redactLog($result);
             $result['attachment_file_paths'] = [];
 
             if (isset($result['status'])) {

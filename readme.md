@@ -83,6 +83,7 @@ Backup and save your contact form emails (including Contact Form 7) to your data
   * `message` the contents of the message
   * `backtrace_segment` an array that shows which file and line the mail was initially triggered from
   * `error` the error that occurred
+* `wp_mail_catcher_redact` is a filter that is called on the subject and message of a log, both before it's saved and before it's displayed - use this to remove sensitive content (e.g. tokens or links) from the logs. It has two arguments, the content being redacted and the name of the field (`subject` or `message`), and should return the redacted content. By default URLs containing `action=rp` or `key=` (such as password reset links) are replaced with `[redacted]`, this can be turned off in the settings screen. Note that resending a log sends the redacted content
 
 ## Developing locally
 1. Download the repo

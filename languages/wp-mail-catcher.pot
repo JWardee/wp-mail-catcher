@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WpMailCatcher 2.2.0\n"
+"Project-Id-Version: WpMailCatcher 2.3.0\n"
 "Report-Msgid-Bugs-To: wordpress@jamesward.io\n"
-"POT-Creation-Date: 2026-10-11 15:35+0000\n"
+"POT-Creation-Date: 2026-10-11 16:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../src/Bootstrap.php:61 ../../src/Bootstrap.php:114
-#: ../../src/Bootstrap.php:115
+#: ../../src/Bootstrap.php:62 ../../src/Bootstrap.php:115
+#: ../../src/Bootstrap.php:116
 msgid "Settings"
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: ../../src/Views/LogModal.php:35 ../../src/Views/Settings.php:114
+#: ../../src/Views/LogModal.php:35 ../../src/Views/Settings.php:157
 msgid "No"
 msgstr ""
 
@@ -252,57 +252,84 @@ msgstr ""
 msgid "Send Message"
 msgstr ""
 
-#: ../../src/Views/Settings.php:29
+#: ../../src/Views/Settings.php:30
 msgid "Settings were successfully updated!"
 msgstr ""
 
-#: ../../src/Views/Settings.php:35
+#: ../../src/Views/Settings.php:36
 msgid "You didn't change any settings"
 msgstr ""
 
-#: ../../src/Views/Settings.php:44
+#: ../../src/Views/Settings.php:45
 msgid "The auto delete was successfully triggered"
 msgstr ""
 
-#: ../../src/Views/Settings.php:52
+#: ../../src/Views/Settings.php:53
 msgid "Database migrations were successfully rerun"
 msgstr ""
 
-#: ../../src/Views/Settings.php:57
+#: ../../src/Views/Settings.php:58
 msgid "settings"
 msgstr ""
 
-#: ../../src/Views/Settings.php:68
+#: ../../src/Views/Settings.php:69
 msgid "User capability needed to see logs"
 msgstr ""
 
 #: ../../src/Views/Settings.php:87
+msgid "Emails can contain sensitive information, such as password reset links."
+msgstr ""
+
+#: ../../src/Views/Settings.php:91
+msgid "Be careful who you allow to see the logs."
+msgstr ""
+
+#: ../../src/Views/Settings.php:98
 msgid "User capability needed to edit settings"
 msgstr ""
 
-#: ../../src/Views/Settings.php:106
+#: ../../src/Views/Settings.php:117
+msgid "Redaction settings"
+msgstr ""
+
+#: ../../src/Views/Settings.php:124
+msgid "Redact WordPress password reset links"
+msgstr ""
+
+#: ../../src/Views/Settings.php:129
+msgid ""
+"When checked, URLs containing \"action=rp\" or \"key=\" are replaced with "
+"[redacted]."
+msgstr ""
+
+#: ../../src/Views/Settings.php:137
+#, php-format
+msgid "Developers can add their own redactions with the %s filter."
+msgstr ""
+
+#: ../../src/Views/Settings.php:149
 msgid "Auto delete logs?"
 msgstr ""
 
-#: ../../src/Views/Settings.php:142
+#: ../../src/Views/Settings.php:185
 #, php-format
 msgid "Yes - delete messages that are over %s old"
 msgstr ""
 
-#: ../../src/Views/Settings.php:163
+#: ../../src/Views/Settings.php:206
 #, php-format
 msgid "Will next run in: %1$s. <a href=\"%2$s\">Trigger now</a>"
 msgstr ""
 
-#: ../../src/Views/Settings.php:183
+#: ../../src/Views/Settings.php:226
 msgid "Database version"
 msgstr ""
 
-#: ../../src/Views/Settings.php:192
+#: ../../src/Views/Settings.php:235
 #, php-format
 msgid "%1$s. <a href=\"%2$s\">Rerun migrations</a>"
 msgstr ""
 
-#: ../../src/Views/Settings.php:210
+#: ../../src/Views/Settings.php:253
 msgid "Save Changes"
 msgstr ""

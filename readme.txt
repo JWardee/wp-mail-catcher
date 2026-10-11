@@ -4,7 +4,7 @@ Tags: mail logging, email log, email logger, logging, email logging
 Requires at least: 4.7
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.0
+Stable tag: 2.3.0
 License: GNU General Public License v3.0
 License URI: https://raw.githubusercontent.com/JWardee/wp-mail-catcher/master/LICENSE
 Donate link: https://paypal.me/jamesmward
@@ -65,6 +65,7 @@ Immediately find out if your contact form submission was successfully sent.
   * `message` the contents of the message
   * `backtrace_segment` an array that shows which file and line the mail was initially triggered from
   * `error` the error that occurred
+* `wp_mail_catcher_redact` is a filter that is called on the subject and message of a log, both before it's saved and before it's displayed - use this to remove sensitive content (e.g. tokens or links) from the logs. It has two arguments, the content being redacted and the name of the field (`subject` or `message`), and should return the redacted content. By default URLs containing `action=rp` or `key=` (such as password reset links) are replaced with `[redacted]`, this can be turned off in the settings screen. Note that resending a log sends the redacted content
 
 == Frequently Asked Questions ==
 = Is this really free?  =
@@ -106,6 +107,12 @@ Great! Please leave a note in our (GitHub tracker)
 4. Supports column customisation and pagination
 
 == Changelog ==
+
+= 2.3.0 =
+
+- New: New settings option added to automatically redact WordPress password reset links
+- New: Added `wp_mail_catcher_redact` filter to redact the subject and message of logs before they are saved and displayed
+- Security: URLs containing `action=rp` or `key=` (such as password reset links) are now redacted by default, this can be turned off in the settings
 
 = 2.2.0 =
 

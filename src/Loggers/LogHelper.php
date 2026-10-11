@@ -6,6 +6,7 @@ use WpMailCatcher\GeneralHelper;
 use WpMailCatcher\Models\Cache;
 use WpMailCatcher\Models\Logs;
 use WpMailCatcher\Models\Settings;
+use WpMailCatcher\Redactor;
 
 trait LogHelper
 {
@@ -24,7 +25,7 @@ trait LogHelper
     {
         global $wpdb;
 
-        $transformedArgs = $transformFunc($args);
+        $transformedArgs = Redactor::redactLog($transformFunc($args));
         $userFilteredArgs = apply_filters(
             'wp_mail_catcher_before_success_log_save',
             // Only allow certain values to be changed via filters/hooks

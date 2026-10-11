@@ -11,6 +11,7 @@ class Settings
         'default_view_role' => 'manage_options',
         'default_settings_role' => 'manage_options',
         'auto_delete' => true,
+        'redact_sensitive_urls' => true,
         'timescale' => 2419200, // 28 days
         'db_version' => '0',
     ];

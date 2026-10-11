@@ -35,6 +35,7 @@ class Bootstrap
             return $tables;
         });
 
+        add_filter('wp_mail_catcher_redact', [Redactor::class, 'redactSensitiveUrls']);
         add_filter('plugin_action_links_wp-mail-catcher/WpMailCatcher.php', [$this, 'extraPluginLinks']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue']);
         add_action('plugins_loaded', function () {
@@ -302,6 +303,7 @@ class Bootstrap
                 'default_settings_role' => sanitize_key($this->getRequestString('default_settings_role')),
                 'auto_delete' => $autoDelete,
                 'timescale' => $autoDelete ? absint($this->getRequestString('timescale')) : null,
+                'redact_sensitive_urls' => $this->getRequestString('redact_sensitive_urls') === 'true',
             ]);
 
             GeneralHelper::redirectToThisHomeScreen([

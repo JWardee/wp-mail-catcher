@@ -13,6 +13,7 @@ $wpMailCatcherCapabilities = array_keys($GLOBALS['wp_roles']->roles['administrat
 $wpMailCatcherAdminSlug = GeneralHelper::$adminPageSlug;
 $wpMailCatcherViewRole = $wpMailCatcherSettings['default_view_role'];
 $wpMailCatcherSettingsRole = $wpMailCatcherSettings['default_settings_role'];
+$wpMailCatcherRedactUrls = (bool)$wpMailCatcherSettings['redact_sensitive_urls'];
 $wpMailCatcherCronJobs = CronManager::getInstance()->getTasks();
 $wpMailCatcherGetQueryFlag = function ($key) {
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only flag set by the redirect after a verified action
@@ -79,6 +80,16 @@ $wpMailCatcherGetQueryFlag = function ($key) {
                                     <?php endforeach; ?>
                                 </select>
                             </label>
+                            <p class="description">
+                                <span class="dashicons dashicons-warning"></span>
+                                <?php
+                                esc_html_e(
+                                    'Emails can contain sensitive information, such as password reset links.',
+                                    'wp-mail-catcher'
+                                );
+                                ?>
+                                <?php esc_html_e('Be careful who you allow to see the logs.', 'wp-mail-catcher'); ?>
+                            </p>
                         </td>
                     </tr>
                     <tr>
@@ -97,6 +108,20 @@ $wpMailCatcherGetQueryFlag = function ($key) {
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="redact_sensitive_urls">
+                                <?php esc_html_e('Redaction settings', 'wp-mail-catcher'); ?>
+                            </label>
+                        </th>
+                        <td>
+                            <label>
+                                <input type="checkbox" name="redact_sensitive_urls" id="redact_sensitive_urls"
+                                       value="true"<?php checked($wpMailCatcherRedactUrls); ?>>
+                                <?php esc_html_e('Redact WordPress password reset links', 'wp-mail-catcher'); ?>
                             </label>
                         </td>
                     </tr>
